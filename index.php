@@ -132,6 +132,7 @@ else {
             <a href="javascript:void(0)" class="sidebar-main-hide closebtn">&times;</a>
         </div>
         
+        
         <!-- analysis -->
     </div>
     <!-- /main sidebar -->
