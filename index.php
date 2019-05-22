@@ -27,6 +27,7 @@ else {
     <link href="assets/css/layout.css" rel="stylesheet" type="text/css">
     <link href="assets/css/components.css" rel="stylesheet" type="text/css">
     <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css" />
     <!-- /global stylesheets -->
 
     <!-- core js files -->
@@ -56,7 +57,7 @@ else {
     <script src="sample/app.js"></script>
     <script src="sample/loadUI.js"></script>
 </head>
-<body class="navbar-top">
+<body class="navbar-top sidebar-main-hidden">
 <!-- main navbar -->
 <div class="navbar navbar-expand-md navbar-dark bg-indigo fixed-top">
 
@@ -88,7 +89,9 @@ else {
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-left">
-                    <a href="#" id="instant-analysis" class="dropdown-item">Instant Analysis</a>
+                    <a href="#"
+                    class="sidebar-control sidebar-main-hide d-none d-md-block dropdown-item"
+                    data-popup="tooltip-demo" title="Show main" data-placement="bottom" data-container="body" data-trigger="hover">Instant Analysis</a>
                     <a href="#" class="dropdown-item">Site Analysis</a>
                 </div>
             </li>
@@ -123,13 +126,22 @@ else {
 
 <!-- page content -->
 <div class="page-content">
+    <!-- Main sidebar -->
+	  <div class="sidebar sidebar-light sidebar-main sidebar-expand-md">
+        <div class="inline">
+            <a href="javascript:void(0)" class="sidebar-main-hide closebtn">&times;</a>
+        </div>
+        
+        <!-- analysis -->
+    </div>
+    <!-- /main sidebar -->
+
     <div class="content-wrapper">
         <div id="mapDiv"></div>
     </div>
 </div>
 </div>
 <!-- /page-content-->
-
 </body>
 </html>
 <?php
