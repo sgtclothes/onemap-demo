@@ -1,8 +1,168 @@
 div.inline {
     float: right;
+    padding-bottom: 20px;
 }
 
-.closebtn {
+#main {
+    transition: margin-left 0.5s
+}
+
+@media screen and (max-height:450px) {
+    .sidenav {
+        padding-top: 15px
+    }
+    .sidenav a {
+        font-size: 18px
+    }
+}
+
+table,
+td,
+th {
+    border: 1px solid black;
+    margin-bottom: 30px
+}
+
+#resultBuffer {
+    display: none
+}
+
+#resultDriving {
+    display: none
+}
+
+#select-analysis {
+    width: 90%;
+    margin-left: 10px
+}
+
+.select-buffer {
+    width: 90%;
+    margin-left: 10px
+}
+
+#input-distance-div {
+    display: flex;
+    width: 90%;
+    margin-left: 10px
+}
+
+#driving-live {
+    display: none
+}
+
+.input-distance {
+    margin-top: 5px
+}
+
+.select-unit {
+    width: 90%;
+    margin-left: 10px
+}
+
+.select-driving {
+    width: 90%;
+    margin-left: 10px
+}
+
+.select-driving-direction {
+    width: 90%;
+    margin-left: 10px
+}
+
+.button-buffer {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    flex-direction: row;
+    margin-left: 10px;
+    margin-top: 20px
+}
+
+.button-driving {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    flex-direction: row;
+    margin-left: 10px;
+    margin-top: 20px
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px
+}
+
+div.inline {
+    float: right
+}
+
+.sidenav span {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+.sidenav a:hover {
+    color: #f1f1f1
+}
+
+.sidenav #closebtn {
     font-size: 36px;
-    padding-right: 20px;
+}
+
+.drive-button {
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    padding: 15px 15px;
+    color: black;
+    margin-top: 35%;
+    margin-left: 1%;
+    z-index: 1
+}
+
+#query-table {
+    display: none
+}
+
+#info {
+    display: none;
+    color: #444;
+    font-family: "Avenir Next W00", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: 5px;
+    margin: 5px;
+    z-index: 2;
+    width: 120px;
+    text-align: center;
+    border: solid 2px #666;
+    border-radius: 4px;
+    background-color: #fff
+}
+
+.chkLabel {
+    font-size: 12px
 }
