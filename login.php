@@ -4,7 +4,7 @@ if (isset($_POST['login'])) {
 	$email = mysqli_real_escape_string($conn,htmlentities($_POST['email']));
 	$passwordStr = md5($_POST['password']);
 	$password = mysqli_real_escape_string($conn,htmlentities($passwordStr));
-	$check=mysqli_query($conn,"SELECT * FROM users WHERE email='$email' AND password='$password'");
+	$check=mysqli_query($conn,"SELECT * FROM users WHERE email='$email' AND password='$password' AND active = 1");
 	if (mysqli_num_rows($check)>=1) {
 		session_start();
 		$_SESSION['email']=$email;

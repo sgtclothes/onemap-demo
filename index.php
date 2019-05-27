@@ -107,7 +107,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                         <a href="#" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
                         <div class="dropdown-divider"></div>
                         <?php
-                        if ($data['role'] === 'Admin') {
+                        if ($data['role'] == 'Admin' || $data['role'] == 'System Administrator') {
                             echo "<a href=\"admin.php\" class=\"dropdown-item\"><i class=\"icon-cog5\"></i> Admin</a>";
                         }
                         ?>
@@ -124,11 +124,11 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     <div class="page-content">
         <!-- The SideNav Analysis -->
         <div id="mySidenav" class="sidenav">
-            <div class="inline" style="margin-top:-10px">
+            <div class="inline">
                 <a href="javascript:void(0)" id="closebtn">&times;</a>
-            </div>
+            </div>  
             <div id="sidenav-instant">
-                <a href="#" style="padding-top:90px">Instant Analysis</a>
+                <a href="#">Instant Analysis</a>
                 <div class="mySelect">
                     <p style="margin-left:10px; margin-top:10px;">Select Analysis</p>
                     <select id="select-analysis">
@@ -161,7 +161,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                             Pointing
                         </button>
                         <button style="margin-right: 10px;">Save</button>
-                        <button style="margin-right: 10px;">Clear</button>
+                        <button id="remove" style="margin-right: 10px;">Clear</button>
                     </div>
                 </div>
                 <!-- End of Buffer Navigator -->
@@ -200,7 +200,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                             Pointing
                         </button>
                         <button style="margin-right: 10px;">Save</button>
-                        <button style="margin-right: 10px;">Clear</button>
+                        <button id="remove" style="margin-right: 10px;">Clear</button>
                     </div>
                 </div>
             </div>

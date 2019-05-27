@@ -7,7 +7,12 @@
 </div>
 
 <!-- /content page header -->
-
+<?php
+if (isset($_POST['edit'])) {
+    include "update_user.php";
+}
+else {
+?>
 <div class="content">
     <div class="mb-3">
         <h6 class="mb-0 font-weight-semibold">
@@ -31,6 +36,7 @@
                 </div>
 
                 <div class="card-body">
+                    <div class="table-responsive">
                     <table class="table datatable-sorting">
 						<thead>
 							<tr>
@@ -39,24 +45,41 @@
                                 <th>Name</th>
                                 <th>Department</th>
                                 <th>Role</th>
-								<th>Active</th>
+                                <th>Active</th>
+                                <?php 
+                                if ($data['role']=='System Administrator') {
+                                    echo '<th>Action</th>';
+                                }
+                                ?>
 							</tr>
                         </thead>
 						<tbody>
                             <?php 
-                            $query = mysqli_query($conn,"SELECT * FROM users ORDER BY id ASC");
+                            $sql = "SELECT a.email AS email, 
+                            a.name AS name, 
+                            b.department AS department, 
+                            a.role AS role,
+                            a.active AS active
+                            FROM users a
+                            JOIN department b ON a.department=b.id
+                            ORDER BY a.id ASC";
+                            $query = mysqli_query($conn,$sql);
                             $num=1;
-                            while ($data = mysqli_fetch_array($query)) {
+                            while ($user = mysqli_fetch_array($query)) {
                             ?>
 							<tr>
-								<td><?php echo "$num"; ?></td>
-                                <td><?php echo "$data[email]"; ?></td>
-                                <td><?php echo "$data[name]"; ?></td>
-								<td><?php echo "$data[department]"; ?></td>
-								<td><?php echo "$data[role]"; ?></td>
+                                <form action="" method="post">
+								<td>
+                                    <?php echo "$num"; ?>
+                                    <input type=hidden name='id' value="<?php echo $user['id']; ?>">
+                                </td>
+                                <td><?php echo "$user[email]"; ?></td>
+                                <td><?php echo "$user[name]"; ?></td>
+								<td><?php echo "$user[department]"; ?></td>
+								<td><?php echo "$user[role]"; ?></td>
 								<td>
                                     <?php 
-                                    if ($data['active']==1) {
+                                    if ($user['active']==1) {
                                     ?>
                                     <span class="badge badge-success">Active</span>
                                     <?php
@@ -68,6 +91,18 @@
                                     }
                                     ?>
                                 </td>
+                                <?php 
+                                if ($data['role']=='System Administrator') {
+                                    if($user['role']!='System Administrator') {
+                                        echo '<td><button type=submit name=edit class=btn bg-teal-400 btn-icon rounded-round><i class=icon-pen2></i></button></td>';
+                                    }
+                                    else {
+                                        echo '<td></td>';
+                                        
+                                    }
+                                }
+                                ?>
+                                </form>
                             </tr>
                             <?php
                                 $num +=1;
@@ -75,8 +110,24 @@
                             ?>
 						</tbody>
 					</table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<?php
+
+if (isset($_POST['update'])) {
+    $id = $_POST ['id'];
+    $active = $_POST['active'];
+    $update = mysqli_query($conn,"UPDATE users SET active='$active' WHERE id = '$id'");
+    if ($update) {
+        echo "<script>alert('Data succeed to save'); location.href='admin.php';</script>";
+    }
+    else {
+        echo "<script>alert('Data failed to save'); location.href='admin.php';</script>";
+    }
+  }
+}
+?>

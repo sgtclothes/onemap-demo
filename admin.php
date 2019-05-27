@@ -5,9 +5,17 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
 }
 else {
     include 'config/conn.php';
-    $query = mysqli_query($conn,"SELECT * FROM users WHERE email = '$_SESSION[email]'");
+    $sql = "SELECT a.email AS email, 
+                            a.name AS name, 
+                            b.department AS department, 
+                            a.role AS role,
+                            a.active AS active
+                            FROM users a
+                            JOIN department b ON a.department=b.id
+                            WHERE email = '$_SESSION[email]'";
+    $query = mysqli_query($conn,$sql);
     $data = mysqli_fetch_array($query);
-    if ($data['role']==='Admin') {
+    if ($data['role']=='Admin' || $data['role']== 'System Administrator') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +57,7 @@ else {
 
     <style>
         .add-element{
-            margin-left: 61rem;
+            margin-left: 59rem;
             margin-top: -1.7rem;
         }
     </style>
@@ -195,6 +203,12 @@ else {
                             <span>POI</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="admin.php?page=department" class="nav-link">
+                            <i class="icon-office"></i>
+                            <span>Department</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- /main navigation -->
@@ -216,6 +230,14 @@ else {
         
         <?php
             switch ((isset($_GET['page']) ? $_GET['page'] : '')) {
+                case 'department':
+                    include "content/department.php";
+                    break;
+
+                case 'add_department':
+                    include "content/add_department.php";
+                    break;
+
                 case 'poi':
                     include "content/poi.php";
                     break;

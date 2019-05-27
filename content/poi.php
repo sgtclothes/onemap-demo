@@ -39,7 +39,6 @@
                                 <th>Region</th>
                                 <th>Shape</th>
                                 <th>Created by</th>
-                                <th>Active</th>
 							</tr>
                         </thead>
 						<tbody>
@@ -50,7 +49,6 @@
                             a.lon AS lon, 
                             a.region AS region, 
                             a.shape AS shape, 
-                            a.active AS active, 
                             b.name AS name_of_user
                             FROM poi a
                             JOIN users b ON a.created_by=b.id
@@ -68,20 +66,6 @@
                                 <td><?php echo "$data[region]"; ?></td>
                                 <td><?php echo "$data[shape]"; ?></td>
                                 <td><?php echo "$data[name_of_user]"; ?></td>
-								<td>
-                                    <?php 
-                                    if ($data['active']==1) {
-                                    ?>
-                                    <span class="badge badge-success">Active</span>
-                                    <?php
-                                    } 
-                                    else {
-                                    ?>
-                                    <span class="badge badge-secondary">Inactive</span>
-                                    <?php
-                                    }
-                                    ?>
-                                </td>
                             </tr>
                             <?php
                                 $num +=1;
