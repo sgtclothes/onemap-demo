@@ -44,16 +44,20 @@ function boot(GIS) {
     let radius = new GIS.Buffer.Radius(
       map.ObjMap,
       map.ObjMapView,
+      "http://tig.co.id/ags/rest/services/POI/POI_CRP/MapServer/2",
       config.BufferPolySym,
       config.BufferPointSym
     );
   
-    let drivingTimeMode = "off";
+    let drivingTimeMode = false;
+    let convertCSVMode = false;
   
+    let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView);
+
     document
       .querySelector(".pointingBuffer")
       .addEventListener("click", function() {
-        analysisMode = "buffer";
+        radius.Results = [];
         let info = document.getElementById("info");
         info.style.display = "inline-block";
         map.ObjMapView.ui.add(info, "top-right");
@@ -152,15 +156,15 @@ function boot(GIS) {
     document
       .querySelector(".pointingDrive")
       .addEventListener("click", function() {
-        drivingTimeMode = "on";
+        drivingTimeMode = true;
         let info = document.getElementById("info");
         info.style.display = "inline-block";
         map.ObjMapView.ui.add(info, "top-right");
       });
   
     map.ObjMapView.on("click", function(event) {
-      if (drivingTimeMode == "on") {
-        drivingTimeMode = "off";
+      if (drivingTimeMode == true) {
+        drivingTimeMode = !drivingTimeMode;
         let info = document.getElementById("info");
         info.style.display = "none";
         let latitude = map.ObjMapView.toMap({
@@ -238,5 +242,16 @@ function boot(GIS) {
           x.style.display = "none";
         }
       });
+
+      document.getElementById("myModal").addEventListener("click", function() {
+        let x = document.getElementById("dragdrop-modal");
+        if (x.style.display == "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      });
+    
+      convertCSV.setupDropZone();
 }
   

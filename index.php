@@ -88,6 +88,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
 
                     <div class="dropdown-menu dropdown-menu-left">
                         <a id="instant-analysis" href="#" class="sidebar-control sidebar-main-hide d-none d-md-block dropdown-item" data-popup="tooltip-demo" title="Show main" data-placement="bottom" data-container="body" data-trigger="hover">Instant Analysis</a>
+                        <a id="myModal" href="#" class="dropdown-item">Drag and Drop CSV</a>
                         <a href="#" class="dropdown-item">Site Analysis</a>
                     </div>
                 </li>
@@ -219,6 +220,17 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         </div>
     </div>
     <!-- /page-content-->
+    <!-- Modal drag and drop csv -->
+    <div style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4); align-self: center; justify-content: center;" id="dragdrop-modal">
+        <div style="z-index: 2; margin-top: 30%; margin-left:30%; vertical-align: middle; line-height: 100%; font-size: 40; color: white;">
+            <p>Drag your CSV File here</p>
+            <p>File must be a csv format with requirements :</p>
+            <p>1. Using separators like ","(commas), ";"(semicolons), "|"(pipes)</p>
+            <p>2. Should contains string value</p>
+            <p>3. Both header columns and value must have a same length</p>
+        </div>
+    </div>
+    <!-- End of Modal drag and drop csv -->
 </body>
 </html>
 <?php

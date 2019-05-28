@@ -56,7 +56,15 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="col-form-label">Department <span class="text-danger">*</span></label>
-                                <input type="text" name="department" class="form-control" required>
+                                <select data-placeholder="Choose options" multiple="multiple" class="form-control select" name="department[]" required data-fouc>
+                                    <option></option>
+                                    <?php
+                                    $sql=mysqli_query($conn,"SELECT * FROM department");
+                                    while($res=mysqli_fetch_array($sql)){
+                                    echo "<option value='$res[id]'>$res[department]</option>";
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
 
@@ -72,16 +80,23 @@
 </div>
 
 <?php 
+    include 'config/auto_increment.php';
     if (isset($_POST['add'])) {
+        $user_id = generateUserId();
         $name = mysqli_real_escape_string($conn,htmlentities($_POST['name']));
         $email = mysqli_real_escape_string($conn,htmlentities($_POST['email']));
         $role = mysqli_real_escape_string($conn,htmlentities($_POST['role']));
-        $department = mysqli_real_escape_string($conn,htmlentities($_POST['department']));
+        $department = $_POST['department'];
         $passwordStr = md5($_POST['password']);
 	    $password = mysqli_real_escape_string($conn,htmlentities($passwordStr));
-        $add = mysqli_query($conn,"INSERT INTO users VALUES ('','$email','$name','$role', '$password', '$department', 1)");
+        $add = mysqli_query($conn,"INSERT INTO users VALUES ('$user_id','$email','$name','$role', '$password', 1)");
+
+        $count_of_department = count($department);
+        for ($i=0; $i < $count_of_department ; $i++) {
+            $users_department = mysqli_query($conn,"INSERT INTO users_department VALUES ('','$user_id','$department[$i]')");
+        }
       
-        if ($add) {
+        if ($add && $users_department) {
             echo "<script>alert('Data succeed to save'); location.href='admin.php';</script>";
         }
         else {

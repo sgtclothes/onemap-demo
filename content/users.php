@@ -55,13 +55,16 @@ else {
                         </thead>
 						<tbody>
                             <?php 
-                            $sql = "SELECT a.email AS email, 
-                            a.name AS name, 
-                            b.department AS department, 
+                            $sql = "SELECT a.id AS id,
+                            a.email AS email, 
+                            a.name AS name,
+                            GROUP_CONCAT(c.department) AS department, 
                             a.role AS role,
                             a.active AS active
                             FROM users a
-                            JOIN department b ON a.department=b.id
+                            INNER JOIN users_department b ON a.id=b.user_id
+                            INNER JOIN department c ON b.department_id=c.id
+                            GROUP BY b.user_id
                             ORDER BY a.id ASC";
                             $query = mysqli_query($conn,$sql);
                             $num=1;

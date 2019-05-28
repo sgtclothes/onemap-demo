@@ -6,13 +6,16 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
 else {
     include 'config/conn.php';
     $sql = "SELECT a.email AS email, 
-                            a.name AS name, 
-                            b.department AS department, 
-                            a.role AS role,
-                            a.active AS active
-                            FROM users a
-                            JOIN department b ON a.department=b.id
-                            WHERE email = '$_SESSION[email]'";
+                    a.name AS name,
+                    GROUP_CONCAT(c.department) AS department, 
+                    a.role AS role
+                    FROM users a
+                    INNER JOIN users_department b ON a.id=b.user_id
+                    INNER JOIN department c ON b.department_id=c.id
+                    WHERE email = '$_SESSION[email]'
+                    GROUP BY b.user_id
+                    ORDER BY a.id ASC";
+
     $query = mysqli_query($conn,$sql);
     $data = mysqli_fetch_array($query);
     if ($data['role']=='Admin' || $data['role']== 'System Administrator') {
@@ -53,6 +56,8 @@ else {
     <script src="assets/js/plugins/tables/sorting.js"></script>
     <script src="assets/js/plugins/forms/validation/validate.js"></script>
     <script src="assets/js/plugins/forms/form_validation.js"></script>
+	<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
+	<script src="assets/js/plugins/forms/form_select2.js"></script>
     <!-- /themes & template js files -->
 
     <style>
