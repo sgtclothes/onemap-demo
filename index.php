@@ -25,10 +25,11 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     <link href="assets/css/layout.css" rel="stylesheet" type="text/css">
     <link href="assets/css/components.css" rel="stylesheet" type="text/css">
     <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
     <!-- /global stylesheets -->
 
     <!-- core js files -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="assets/js/main/jquery.min.js"></script>
     <script src="assets/js/main/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/loaders/blockui.min.js"></script>
@@ -52,7 +53,13 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     <script src="https://js.arcgis.com/4.11/"></script>
 
     <script type="module" src="lib/lib.js"></script>
-    <script src="sample/boottwo.js"></script>
+    <script type="text/javascript">
+        let host = "<?= $dbhost ?>"
+        let user = "<?= $dbuser ?>"
+        let pass = "<?= $dbpass ?>"
+    </script>
+
+    <script src="sample/boot.js"></script>
 </head>
 
 <body id="main" class="navbar-top sidebar-main-hidden">
@@ -222,7 +229,8 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     <!-- /page-content-->
     <!-- Modal drag and drop csv -->
     <div style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4); align-self: center; justify-content: center;" id="dragdrop-modal">
-        <div style="z-index: 2; margin-top: 30%; margin-left:30%; vertical-align: middle; line-height: 100%; font-size: 40; color: white;">
+        <div id="info-csv" style="z-index: 2; margin-top: 25%; margin-left:30%; vertical-align: middle; line-height: 100%; font-size: 40; color: white;">
+            <p id="closeMyModal" align='right' style="margin-right:50%; cursor: default;">Close[X]</p>
             <p>Drag your CSV File here</p>
             <p>File must be a csv format with requirements :</p>
             <p>1. Using separators like ","(commas), ";"(semicolons), "|"(pipes)</p>
@@ -231,6 +239,35 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         </div>
     </div>
     <!-- End of Modal drag and drop csv -->
+
+    <!-- Confirm Box -->
+    <div id="confirmBox">
+        <div class="message"></div>
+        <button class="yes">Yes</button>
+        <button class="no">No</button>
+    </div>
+    <!-- End of Confirm Box -->
+    <!-- Form Edit POI -->
+    <div id="poi">
+        <form id="form-poi" action="">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="firstname" placeholder="Your name..">
+
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+            <label for="country">Country</label>
+            <select id="country" name="country">
+                <option value="australia">Australia</option>
+                <option value="canada">Canada</option>
+                <option value="usa">USA</option>
+            </select>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <!-- End of Form Edit POI -->
+    
 </body>
 </html>
 <?php
