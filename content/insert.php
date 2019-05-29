@@ -14,3 +14,4 @@ if ($conn->query($sql) === TRUE) {
 } else {
     ConsolePhp::log('failed!');
 }
+$conn->close();

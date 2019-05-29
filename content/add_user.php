@@ -82,7 +82,7 @@
 <?php 
     include 'config/auto_increment.php';
     if (isset($_POST['add'])) {
-        $user_id = generateUserId();
+        $user_id = generateUserId($conn);
         $name = mysqli_real_escape_string($conn,htmlentities($_POST['name']));
         $email = mysqli_real_escape_string($conn,htmlentities($_POST['email']));
         $role = mysqli_real_escape_string($conn,htmlentities($_POST['role']));
