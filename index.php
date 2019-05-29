@@ -57,6 +57,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         let host = "<?= $dbhost ?>"
         let user = "<?= $dbuser ?>"
         let pass = "<?= $dbpass ?>"
+        window.created_by = "<?= $data['id'] ?>"
     </script>
 
     <script src="sample/boot.js"></script>

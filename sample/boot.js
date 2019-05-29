@@ -253,9 +253,10 @@ function boot(GIS) {
       });
     
       convertCSV.setupDropZone();
-
+      
+      //localStorage.clear();
+    
       if (localStorage.data) {
         console.log(JSON.parse(localStorage.data));
       } else return;    
 }
-  

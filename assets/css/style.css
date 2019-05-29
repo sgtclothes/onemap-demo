@@ -135,12 +135,9 @@ div.inline {
 }
 
 .sidenav #closebtn {
-    color: #444;
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px
+    font-size: 20px;
+    position: relative;
+    margin-top: 20px;
 }
 
 .drive-button {
