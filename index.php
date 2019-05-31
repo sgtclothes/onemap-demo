@@ -4,8 +4,8 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     echo "<script>alert('Login Required.'); location.href='login.php';</script>";
 } else {
     include 'config/conn.php';
-    $query = mysqli_query($conn, "SELECT * FROM users WHERE email = '$_SESSION[email]'");
-    $data = mysqli_fetch_array($query);
+    include 'config/data_login.php';
+    $data= data_login($conn,$_SESSION['email']);
     ?>
 <!DOCTYPE html>
 <html lang="en">

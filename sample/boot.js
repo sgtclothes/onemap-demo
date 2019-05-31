@@ -45,6 +45,9 @@ function boot(GIS) {
   
     let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView);
 
+    let poi = new GIS.Buffer.POI(map.ObjMapView);
+    poi.run()
+
     document
       .querySelector(".pointingBuffer")
       .addEventListener("click", function() {
