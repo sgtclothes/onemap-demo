@@ -1,6 +1,6 @@
 <?php
+include '../config/conn.php';
 include '../config/ConsolePhp.php';
-$conn = new mysqli('localhost', 'root', '', 'demo_onemap');
 $type = $_POST['type'];
 $name = $_POST['name'];
 $lat = $_POST['lat'];

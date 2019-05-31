@@ -45,7 +45,66 @@ function boot(GIS) {
   
     let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView);
 
-    let poi = new GIS.Buffer.POI(map.ObjMapView);
+    let fields = [
+      {
+        name: "__OBJECTID",
+        alias: "__OBJECTID",
+        type: "esriFieldTypeOID",
+        editable: true,
+        domain: null
+      },
+      {
+        name: "type",
+        type: "esriFieldTypeString",
+        alias: "Type",
+        editable: true,
+        domain: null
+      },
+      {
+        name: "name",
+        type: "esriFieldTypeString",
+        alias: "Name",
+        editable: true,
+        domain: null
+      },
+      {
+        name: "lat",
+        type: "esriFieldTypeDouble",
+        alias: "Latitude",
+        editable: true,
+        domain: null
+      },
+      {
+        name: "lon",
+        type: "esriFieldTypeDouble",
+        alias: "Longitude",
+        editable: true,
+        domain: null
+      },
+      {
+        name: "region",
+        type: "esriFieldTypeString",
+        alias: "Region",
+        editable: true,
+        domain: null
+      },
+      {
+        name: "shape",
+        type: "esriFieldTypeDouble",
+        alias: "Shape",
+        editable: true,
+        domain: null
+      },
+      {
+        name: "created_by",
+        type: "esriFieldTypeString",
+        alias: "Created by",
+        editable: true,
+        domain: null
+      }
+    ]
+
+    let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
     poi.run()
 
     document
@@ -257,7 +316,7 @@ function boot(GIS) {
     
       convertCSV.setupDropZone();
       
-      //localStorage.clear();
+      localStorage.clear();
     
       if (localStorage.data) {
         console.log(JSON.parse(localStorage.data));

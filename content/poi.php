@@ -53,11 +53,10 @@
                             a.lon AS lon, 
                             a.region AS region, 
                             a.shape AS shape, 
-                            b.name AS name_of_user
+                            b.name AS created_by
                             FROM poi a
                             INNER JOIN users b ON a.created_by=b.id
-                            WHERE created_by IN ($userlist)
-                            ORDER BY a.id DESC";
+                            WHERE a.created_by IN ($userlist)";
                             $query = mysqli_query($conn,$sql);
                             $num=1;
                             while ($data = mysqli_fetch_array($query)) {
@@ -70,7 +69,7 @@
                                 <td><?php echo "$data[lon]"; ?></td>
                                 <td><?php echo "$data[region]"; ?></td>
                                 <td><?php echo "$data[shape]"; ?></td>
-                                <td><?php echo "$data[name_of_user]"; ?></td>
+                                <td><?php echo "$data[created_by]"; ?></td>
                             </tr>
                             <?php
                                 $num +=1;
