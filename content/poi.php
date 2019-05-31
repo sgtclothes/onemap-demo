@@ -28,6 +28,7 @@
                 </div>
 
                 <div class="card-body">
+                    <div class="table-responsive">
                     <table class="table datatable-sorting">
 						<thead>
 							<tr>
@@ -43,6 +44,9 @@
                         </thead>
 						<tbody>
                             <?php 
+                            include 'config/data_login.php';
+                            $data = data_login($conn,$_SESSION['email']);
+                            $userlist = data_user($conn,$data['id']);
                             $sql = "SELECT a.type AS type, 
                             a.name AS name, 
                             a.lat AS lat, 
@@ -51,7 +55,8 @@
                             a.shape AS shape, 
                             b.name AS name_of_user
                             FROM poi a
-                            JOIN users b ON a.created_by=b.id
+                            INNER JOIN users b ON a.created_by=b.id
+                            WHERE created_by IN ($userlist)
                             ORDER BY a.id DESC";
                             $query = mysqli_query($conn,$sql);
                             $num=1;
@@ -73,6 +78,7 @@
                             ?>
 						</tbody>
 					</table>
+                    </div>
                 </div>
             </div>
         </div>
