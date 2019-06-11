@@ -11,7 +11,8 @@ $sql = "SELECT a.type AS type,
         a.lon AS lon, 
         a.region AS region, 
         a.shape AS shape, 
-        b.name AS created_by
+        b.name AS created_by,
+        a.color AS color
         FROM poi a
         INNER JOIN users b ON a.created_by=b.id
         WHERE a.created_by IN ($userlist)";

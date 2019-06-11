@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2019 at 08:21 AM
+-- Generation Time: May 28, 2019 at 11:50 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
 
@@ -64,11 +64,7 @@ CREATE TABLE `poi` (
 --
 
 INSERT INTO `poi` (`id`, `type`, `name`, `lat`, `lon`, `region`, `shape`, `created_by`) VALUES
-(1, 'Minimarket', 'Indomaret', '-5.753', '105.713', 'Where', '0.9292991929', 2),
-(2, 'Restaurant', 'DermagaSeafood', '-6.4084', '107.0969', 'cikarang', '6384723', 2),
-(3, 'Office', 'Colliers Indonesia', '-6.216', '106.8202', 'Jakarta', '6384723', 2),
-(4, 'Hospital', 'Omni Hospital', '-7.156', '106.854', 'Sukabumi', '6384723', 2),
-(9, 'Office', 'Margo City Office', '-6.392', '106.817', 'Depok', '6384723', 1);
+(1, 'Minimarket', 'Indomaret', '6.78232', '-109.12', 'Where', '0.9292991929', 2);
 
 -- --------------------------------------------------------
 
@@ -118,7 +114,8 @@ INSERT INTO `users_department` (`id`, `user_id`, `department_id`) VALUES
 (3, 3, 1),
 (4, 4, 2),
 (5, 4, 3),
-(7, 2, 4),
+(6, 4, 4),
+(7, 2, 5),
 (8, 5, 4),
 (9, 5, 5);
 
@@ -166,7 +163,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `poi`
 --
 ALTER TABLE `poi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `users`
 --

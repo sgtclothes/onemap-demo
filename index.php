@@ -20,20 +20,27 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     <!-- @fetch google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
     <link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="assets/css/icons/material/styles.css">
     <link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="assets/css/limitless.css" rel="stylesheet" type="text/css">
     <link href="assets/css/layout.css" rel="stylesheet" type="text/css">
     <link href="assets/css/components.css" rel="stylesheet" type="text/css">
     <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+    <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" />
     <!-- /global stylesheets -->
 
     <!-- core js files -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="assets/js/main/jquery.min.js"></script>
+    <!-- <script src="assets/js/main/jquery.min.js"></script> -->
     <script src="assets/js/main/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/loaders/blockui.min.js"></script>
     <script src="assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
+
+    <script type="text/javascript" src="http://www.dematte.at/cpn/colors.js"></script>
+    <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
+    <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
+    <script type="text/javascript" src="assets/colors/jsColor.js"></script>
     <!-- /core js files -->
 
     <!-- themes & template js files -->
@@ -47,6 +54,12 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
             height: 100%;
             width: 100%;
             overflow: hidden;
+        }
+        #colors-div {
+            background-color: white;
+            border-radius: 8px;
+            padding: 8px;
+            opacity: 0.92;
         }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">
@@ -223,6 +236,14 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         </div>
         <!-- End of Create Buffer Info -->
 
+        <!-- Setting Colors of POI -->
+        <div id="colors-div" style="display:none;">
+            <p>
+                <input type="text" id="colors" class="input color" value="#B6BD79"/>
+            </p>
+        </div>
+        <!-- End of Setting Colors of POI -->
+
         <div class="content-wrapper">
             <div id="mapDiv"></div>
         </div>
@@ -268,7 +289,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         </form>
     </div>
     <!-- End of Form Edit POI -->
-    
+<script type="text/javascript" src="assets/colors/app.js"></script>
 </body>
 </html>
 <?php

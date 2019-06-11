@@ -42,8 +42,12 @@ function boot(GIS) {
     );
   
     let drivingTimeMode = false;
-  
-    let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView);
+
+    map.ObjMapView.on("pointer-move", function() {
+      let pointColors = ($('#colors').val())
+      let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView, pointColors);
+      convertCSV.setupDropZone();
+    });
 
     let fields = [
       {
@@ -104,8 +108,14 @@ function boot(GIS) {
       }
     ]
 
-    let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
-    poi.run()
+    // let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
+    // poi.run()
+
+    map.ObjMapView.on("pointer-move", function() {
+      let pointColors = ($('#colors').val())
+      let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
+      poi.run(pointColors)
+    });
 
     document
       .querySelector(".pointingBuffer")
@@ -206,6 +216,19 @@ function boot(GIS) {
       driveTime.render(map.ObjMap, map.ObjMapView, config.DriveTimeMarkerSymbol);
     }
   
+    map.ObjMapView.when(function() {
+      let colorsDiv = document.getElementById("colors-div");
+      colorsDiv.style.display = "inline-block";
+
+      let colorsExpand = new ESRI.Expand({
+        expandIconClass: "esri-icon-media",
+        view: map.ObjMapView,
+        content: colorsDiv
+      });
+      
+      map.ObjMapView.ui.add(colorsExpand, config.Position[6])
+    });
+
     document
       .querySelector(".pointingDrive")
       .addEventListener("click", function() {
@@ -313,10 +336,8 @@ function boot(GIS) {
           x.style.display = "none";
         }
       });
-    
-      convertCSV.setupDropZone();
       
-      //localStorage.clear();
+      localStorage.clear();
     
       if (localStorage.data) {
         console.log(JSON.parse(localStorage.data));
