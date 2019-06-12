@@ -43,11 +43,23 @@ function boot(GIS) {
   
     let drivingTimeMode = false;
 
+    // window.pointColors = ""
+
     map.ObjMapView.on("pointer-move", function() {
       let pointColors = ($('#colors').val())
       let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView, pointColors);
       convertCSV.setupDropZone();
     });
+
+    // map.ObjMapView.when(function() {
+    //   let conv = new Promise(function(resolve, reject) {
+    //     move(resolve)
+    //   });
+    //   conv.then(function() {
+    //     let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView, pointColors);
+    //     convertCSV.setupDropZone();
+    //   })
+    // })
 
     let fields = [
       {
@@ -108,15 +120,10 @@ function boot(GIS) {
       }
     ]
 
-    // let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
-    // poi.run()
+    let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
+    poi.run()
 
-    map.ObjMapView.on("pointer-move", function() {
-      let pointColors = ($('#colors').val())
-      let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
-      poi.run(pointColors)
-    });
-
+    
     document
       .querySelector(".pointingBuffer")
       .addEventListener("click", function() {
@@ -221,7 +228,7 @@ function boot(GIS) {
       colorsDiv.style.display = "inline-block";
 
       let colorsExpand = new ESRI.Expand({
-        expandIconClass: "esri-icon-media",
+        expandIconClass: "esri-icon-experimental",
         view: map.ObjMapView,
         content: colorsDiv
       });
@@ -279,7 +286,7 @@ function boot(GIS) {
       document.getElementById("mySidenav").style.width = "0";
       document.getElementById("main").style.marginLeft = "0";
     });
-  
+
     document
       .getElementById("instant-analysis")
       .addEventListener("click", function() {
@@ -287,6 +294,31 @@ function boot(GIS) {
           closeNav();
         } else {
           openNav();
+        }
+      });
+
+    function open_viewer() {
+      document.getElementById("myViewer").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+  
+    function close_viewer() {
+      document.getElementById("myViewer").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  
+    document.getElementById("closeviewer").addEventListener("click", function() {
+      document.getElementById("myViewer").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    });
+
+    document
+      .getElementById("viewer-nav")
+      .addEventListener("click", function() {
+        if (document.getElementById("myViewer").style.width > "0px") {
+          close_viewer();
+        } else {
+          open_viewer();
         }
       });
   

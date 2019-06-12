@@ -1,5 +1,5 @@
 var colors = jsColorPicker('input.color', {
-    customBG: '#000',
+    customBG: '#fff',
     readOnly: true,
     // patch: false,
     init: function(elm, colors) {
