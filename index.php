@@ -28,6 +28,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
     <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" />
+    <link href="assets/js/plugins/tree/tree.css" rel="stylesheet" type="text/css" />
     <!-- /global stylesheets -->
 
     <!-- core js files -->
@@ -41,6 +42,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
     <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
     <script type="text/javascript" src="assets/colors/jsColor.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script>
     <!-- /core js files -->
 
     <!-- themes & template js files -->
@@ -102,6 +104,12 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         <div class="collapse navbar-collapse" id="navbar-mobile">
             <ul class="navbar-nav">
                 <!-- analysis menu item navbar -->
+                <li class="nav-item">
+                    <a id="viewer-nav" href="#" class="navbar-nav-link">
+                        <i class="icon-list-unordered mr-2"></i>Viewer
+                    </a>
+                </li>
+
                 <li class="nav-item dropdown">
                     <a href="#" class="navbar-nav-link dropdown-toggle legitRipple" data-toggle="dropdown">
                         <i class="icon-stats-bars2 mr-2"></i>Analysis
@@ -149,7 +157,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
             <div class="inline">
                 <a href="javascript:void(0)" id="closebtn">&times;</a>
             </div>  
-            <div id="sidenav-instant">
+            <div>
                 <a href="#">Instant Analysis</a>
                 <div class="mySelect">
                     <p style="margin-left:10px; margin-top:10px;">Select Analysis</p>
@@ -229,6 +237,69 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
             <!-- End of Driving Navigator -->
         </div>
         <!-- End of the SideNav Analysis -->
+
+        <!-- SideNav Viewer -->
+        <div id="myViewer" class="sidenav">
+            <div class="inline">
+                <a href="javascript:void(0)" id="closeviewer">&times;</a>
+            </div>  
+            <div>
+                <a style="margin-top: 28px; padding: 18px 8px 8px 80px;" href="#">Viewer</a>
+                <ul class="treeview">
+                    <li>
+                        <input type="checkbox" name="tall" id="tall">
+                        <label for="tall" class="custom-unchecked">Tall Things</label>
+                        
+                        <ul>
+                            <li>
+                                <input type="checkbox" name="tall-1" id="tall-1">
+                                <label for="tall-1" class="custom-unchecked">Buildings</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="tall-2" id="tall-2">
+                                <label for="tall-2" class="custom-unchecked">Giants</label>
+                                <ul>
+                                    <li>
+                                        <input type="checkbox" name="tall-2-1" id="tall-2-1">
+                                        <label for="tall-2-1" class="custom-unchecked">Andre</label>
+                                    </li>
+                                    <li class="last">
+                                        <input type="checkbox" name="tall-2-2" id="tall-2-2">
+                                        <label for="tall-2-2" class="custom-unchecked">Paul Bunyan</label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="last">
+                                <input type="checkbox" name="tall-3" id="tall-3">
+                                <label for="tall-3" class="custom-unchecked">Two sandwiches</label>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="last">
+                        <input type="checkbox" name="short" id="short">
+                        <label for="short" class="custom-unchecked">Short Things</label>
+                        
+                        <ul>
+                            <li>
+                                <input type="checkbox" name="short-1" id="short-1">
+                                <label for="short-1" class="custom-unchecked">Smurfs</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="short-2" id="short-2">
+                                <label for="short-2" class="custom-unchecked">Mushrooms</label>
+                            </li>
+                            <li class="last">
+                                <input type="checkbox" name="short-3" id="short-3">
+                                <label for="short-3" class="custom-unchecked">One Sandwich</label>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- <iframe frameborder="0" height="625px" scrolling="auto" src="demo.html"></iframe> -->
+            </div>
+        </div>
+        <!-- End of the SideNav Viewer -->
+
         <!-- Create Buffer Info -->
         <div id="info">
             <label class="chkLabel">Click on map to buffer</label>
@@ -289,8 +360,8 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         </form>
     </div>
     <!-- End of Form Edit POI -->
-<script type="text/javascript" src="assets/colors/app.js"></script>
 </body>
+<script type="text/javascript" src="assets/colors/app.js"></script>
 </html>
 <?php
 }

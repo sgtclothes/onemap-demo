@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2019 at 09:44 AM
+-- Generation Time: Jun 11, 2019 at 08:21 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
 
@@ -56,24 +56,19 @@ CREATE TABLE `poi` (
   `lon` varchar(50) NOT NULL,
   `region` varchar(50) NOT NULL,
   `shape` varchar(50) NOT NULL,
-  `created_by` int(11) NOT NULL,
-  `color` varchar(15) NOT NULL
+  `created_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `poi`
 --
 
-INSERT INTO `poi` (`id`, `type`, `name`, `lat`, `lon`, `region`, `shape`, `created_by`, `color`) VALUES
-(1, 'Minimarket', 'Indomaret', '-5.753', '105.713', 'Where', '0.9292991929', 2, '#226AB3'),
-(2, 'Restaurant', 'DermagaSeafood', '-6.4084', '107.0969', 'cikarang', '6384723', 2, '#28B121'),
-(3, 'Office', 'Colliers Indonesia', '-6.216', '106.8202', 'Jakarta', '6384723', 2, '#E4FF00'),
-(4, 'Hospital', 'Omni Hospital', '-7.156', '106.854', 'Sukabumi', '6384723', 2, '#226AB3'),
-(9, 'Office', 'Margo City Office', '-6.392', '106.817', 'Depok', '6384723', 1, '#5B6128'),
-(16, 'XX', 'QQ', '-1.329', '113.886', 'Depok', '6384723', 2, '#F30606'),
-(17, 'AA', 'BB', '-1.264', '111.513', 'Kalimantan', '3', 2, '#F30606'),
-(18, 'CC', 'DD', '1.153', '109.975', 'Kalimantan', '3', 2, '#E110D5'),
-(19, 'EE', 'FF', '0.912', '110.897', 'Kalimantan', '3', 2, '#E110D5');
+INSERT INTO `poi` (`id`, `type`, `name`, `lat`, `lon`, `region`, `shape`, `created_by`) VALUES
+(1, 'Minimarket', 'Indomaret', '-5.753', '105.713', 'Where', '0.9292991929', 2),
+(2, 'Restaurant', 'DermagaSeafood', '-6.4084', '107.0969', 'cikarang', '6384723', 2),
+(3, 'Office', 'Colliers Indonesia', '-6.216', '106.8202', 'Jakarta', '6384723', 2),
+(4, 'Hospital', 'Omni Hospital', '-7.156', '106.854', 'Sukabumi', '6384723', 2),
+(9, 'Office', 'Margo City Office', '-6.392', '106.817', 'Depok', '6384723', 1);
 
 -- --------------------------------------------------------
 
@@ -171,7 +166,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `poi`
 --
 ALTER TABLE `poi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `users`
 --
