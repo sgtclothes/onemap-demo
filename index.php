@@ -247,50 +247,27 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                 <a style="margin-top: 28px; padding: 18px 8px 8px 80px;" href="#">Viewer</a>
                 <ul class="treeview">
                     <li>
-                        <input type="checkbox" name="tall" id="tall">
-                        <label for="tall" class="custom-unchecked">Tall Things</label>
+                        <i class="icon-arrow-right32 caret"></i>
+                        <input type="checkbox" name="short" id="short">
+                        <label for="short" class="custom-unchecked">POI</label>
                         
-                        <ul>
-                            <li>
-                                <input type="checkbox" name="tall-1" id="tall-1">
-                                <label for="tall-1" class="custom-unchecked">Buildings</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" name="tall-2" id="tall-2">
-                                <label for="tall-2" class="custom-unchecked">Giants</label>
-                                <ul>
+                        <ul class="nested">
+                            <li class="first">
+                                <i class="icon-arrow-right32 caret"></i>
+                                <input type="checkbox" name="short-1" id="short-1">
+                                <label for="short-1" class="custom-unchecked">ATM</label>
+                                <form name="poi">
+                                <ul class="nested">
                                     <li>
-                                        <input type="checkbox" name="tall-2-1" id="tall-2-1">
-                                        <label for="tall-2-1" class="custom-unchecked">Andre</label>
+                                        <input type="checkbox" value="Bank DKI" name="short-1-1" id="short-1-1">
+                                        <label for="short-1-1" class="custom-unchecked">Bank DKI</label>
                                     </li>
                                     <li class="last">
-                                        <input type="checkbox" name="tall-2-2" id="tall-2-2">
-                                        <label for="tall-2-2" class="custom-unchecked">Paul Bunyan</label>
+                                        <input type="checkbox" value="Bank Mandiri" name="short-1-2" id="short-1-2">
+                                        <label for="short-1-2" class="custom-unchecked">Bank Mandiri</label>
                                     </li>
                                 </ul>
-                            </li>
-                            <li class="last">
-                                <input type="checkbox" name="tall-3" id="tall-3">
-                                <label for="tall-3" class="custom-unchecked">Two sandwiches</label>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="last">
-                        <input type="checkbox" name="short" id="short">
-                        <label for="short" class="custom-unchecked">Short Things</label>
-                        
-                        <ul>
-                            <li>
-                                <input type="checkbox" name="short-1" id="short-1">
-                                <label for="short-1" class="custom-unchecked">Smurfs</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" name="short-2" id="short-2">
-                                <label for="short-2" class="custom-unchecked">Mushrooms</label>
-                            </li>
-                            <li class="last">
-                                <input type="checkbox" name="short-3" id="short-3">
-                                <label for="short-3" class="custom-unchecked">One Sandwich</label>
+                                <form>
                             </li>
                         </ul>
                     </li>
@@ -360,8 +337,19 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         </form>
     </div>
     <!-- End of Form Edit POI -->
-</body>
 <script type="text/javascript" src="assets/colors/app.js"></script>
+</body>
+<script>
+var toggler = document.getElementsByClassName("caret");
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+    toggler[i].addEventListener("click", function(click) {
+        this.parentElement.querySelector(".nested").classList.toggle("active");
+        this.classList.toggle("icon-rotate-90");
+    });
+}
+</script>
 </html>
 <?php
 }
