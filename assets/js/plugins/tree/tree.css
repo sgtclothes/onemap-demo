@@ -9,10 +9,6 @@
   list-style: none;
 }
 
-.treeview li.first {
-  margin-left: -19px;
-}
-
 .treeview li.last {
   background-position: 0 -1766px;
 }

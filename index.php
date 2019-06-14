@@ -248,31 +248,35 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                 <ul class="treeview">
                     <li>
                         <i class="icon-arrow-right32 caret"></i>
-                        <input type="checkbox" name="short" id="short">
-                        <label for="short" class="custom-unchecked">POI</label>
+                        <input type="checkbox" name="tall" id="tall">
+                        <label for="tall" class="custom-unchecked">POI</label>
                         
                         <ul class="nested">
-                            <li class="first">
+                            
+                            <li class="last" style="margin-left: -19px;">
                                 <i class="icon-arrow-right32 caret"></i>
-                                <input type="checkbox" name="short-1" id="short-1">
-                                <label for="short-1" class="custom-unchecked">ATM</label>
-                                <form name="poi">
+                                <input type="checkbox" name="tall-1" id="tall-1">
+                                <label for="tall-1" class="custom-unchecked">ATM</label>
                                 <ul class="nested">
+                                    <form name="atm">
                                     <li>
-                                        <input type="checkbox" value="Bank DKI" name="short-1-1" id="short-1-1">
-                                        <label for="short-1-1" class="custom-unchecked">Bank DKI</label>
+                                        <input type="checkbox" value="Bank DKI" name="tall-1-1" id="tall-1-1">
+                                        <label for="tall-1-1" class="custom-unchecked">Bank DKI</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" value="Bank Mandiri" name="tall-1-2" id="tall-1-2">
+                                        <label for="tall-1-2" class="custom-unchecked">Bank Mandiri</label>
                                     </li>
                                     <li class="last">
-                                        <input type="checkbox" value="Bank Mandiri" name="short-1-2" id="short-1-2">
-                                        <label for="short-1-2" class="custom-unchecked">Bank Mandiri</label>
+                                        <input type="checkbox" value="Bank Sumut" name="tall-1-3" id="tall-1-3">
+                                        <label for="tall-1-3" class="custom-unchecked">Bank Sumut</label>
                                     </li>
+                                    </form>
                                 </ul>
-                                <form>
                             </li>
                         </ul>
                     </li>
                 </ul>
-                <!-- <iframe frameborder="0" height="625px" scrolling="auto" src="demo.html"></iframe> -->
             </div>
         </div>
         <!-- End of the SideNav Viewer -->
