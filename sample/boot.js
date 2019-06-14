@@ -123,7 +123,6 @@ function boot(GIS) {
     let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
     poi.run()
 
-    
     document
       .querySelector(".pointingBuffer")
       .addEventListener("click", function() {
@@ -368,10 +367,67 @@ function boot(GIS) {
           x.style.display = "none";
         }
       });
+
+      // Show & Hide POI from GIS Services
+      let dkiLayer = new GIS.Layer.ServiceLayer(map.ObjMap)
+      dkiLayer.setUrl("http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/16")
+
+      let mandiriLayer = new GIS.Layer.ServiceLayer(map.ObjMap)
+      mandiriLayer.setUrl("http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/27")
+
+      function setStyleLegendClass() {
+        setTimeout(function() {
+          let legendClass = document.getElementsByClassName("esri-legend--stacked")[0]
+          legendClass.setAttribute('style', 'height:130px; overflow-y:hidden')
+          legendClass.setAttribute('id', 'legendId')
+        }, 800);
+       }
+
+      document
+        .getElementById("short")
+        .addEventListener("change", function(){
+          if(this.checked) {
+            dkiLayer.render()
+            mandiriLayer.render()
+            let poiArr = []
+            let i;
+            let poiForm = document.forms.poi
+            for (i = 0; i < poiForm.length; i++) {
+              if (poiForm[i].checked) {
+                poiArr.push(poiForm[i].value);
+              }
+            }
+            let layerInfo = arrayUtils.map(map.ObjMap.layers.items, function(item,index) {
+              return {
+                layer: item,
+                title: poiArr[index]
+              }
+            })
+            let legend = new GIS.Map.Widgets.Legend(map.ObjMapView,layerInfo)
+            legend.setStyle("card", "side-by-side")
+            map.ObjMapView.ui.add(legend.create(), config.Position[2])
+            setStyleLegendClass()
+            window.legend = legend
+          }
+          else {
+            let layer = map.ObjMap.layers.items
+            let i;
+            let poiForm = document.forms.poi
+            for (i = 0; i < poiForm.length; i++) {
+              if (poiForm[i].checked==false) {
+                for (let key in layer) {
+                  map.ObjMap.remove(layer[key])
+                }
+              }
+            }
+            document.getElementById("legendId").remove();
+          }
+      })
+      // End Of Show & Hide POI from GIS Services
       
       localStorage.clear();
     
       if (localStorage.data) {
         console.log(JSON.parse(localStorage.data));
-      } else return;    
+      } else { return };
 }
