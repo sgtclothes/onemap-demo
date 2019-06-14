@@ -64,4 +64,4 @@ $(function() {
         .addClass('custom-indeterminate');
       }
     }
-  });
+});
