@@ -91,13 +91,20 @@ th {
     margin-top: 20px
 }
 
+.panel-right {
+    right: 0;
+}
+
+.panel-left {
+    left: 0;
+}
+
 .sidenav {
     height: 100%;
     width: 0;
     position: fixed;
     z-index: 1;
     top: 0;
-    left: 0;
     background-color: #fff;
     overflow-x: hidden;
     transition: 0.5s;

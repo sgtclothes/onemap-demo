@@ -241,7 +241,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         <!-- End of the SideNav Analysis -->
 
         <!-- SideNav Viewer -->
-        <div id="myViewer" class="sidenav">
+        <div id="myViewer" class="sidenav panel-left">
             <div class="inline">
                 <a href="javascript:void(0)" id="closeviewer">&times;</a>
             </div>  
@@ -260,7 +260,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                                 <input type="checkbox" name="tall-1" id="tall-1">
                                 <label for="tall-1" class="custom-unchecked">ATM</label>
                                 <ul class="nested">
-                                    <form name="atm">
+                                    <form id="atm">
                                     <li>
                                         <input type="checkbox" value="16" name="tall-1-1" id="tall-1-1">
                                         <label for="tall-1-1" class="custom-unchecked">Bank DKI</label>

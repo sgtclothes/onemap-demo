@@ -51,16 +51,6 @@ function boot(GIS) {
       convertCSV.setupDropZone();
     });
 
-    // map.ObjMapView.when(function() {
-    //   let conv = new Promise(function(resolve, reject) {
-    //     move(resolve)
-    //   });
-    //   conv.then(function() {
-    //     let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView, pointColors);
-    //     convertCSV.setupDropZone();
-    //   })
-    // })
-
     let fields = [
       {
         name: "__OBJECTID",
@@ -371,61 +361,93 @@ function boot(GIS) {
       // Show & Hide POI from GIS Services
       let layerServiceArr = JSON.parse(layerDataArr)
 
+      function setLayerInfos(layer){
+        let layerInfo = arrayUtils.map(layer, function(item) {
+          for (let j = 0; j < layerServiceArr.length; j++) {
+            if (item.layerId == layerServiceArr[j].id) {
+              return {
+                layer: item,
+                title: layerServiceArr[j].name
+              }
+            }
+          }
+        })
+        return layerInfo
+      }
+
+      function distinct(layerInfo){
+        let layerInfos = []
+        const map_layer = new Map();
+        for (const item of layerInfo) {
+          if(!map_layer.has(item.title)){
+              map_layer.set(item.title, true);
+              layerInfos.push({
+                  layer: item.layer,
+                  title: item.title
+              });
+          }
+        }
+        return layerInfos
+      }
+
+      function renderPOI(idform){
+        let form = idform.querySelectorAll('input[type="checkbox"]');
+        let layerArr = []
+        let i;
+        for (i = 0; i < form.length; i++) {
+          if (form[i].checked) {
+            layerArr.push(new GIS.Layer.ServiceLayer(map.ObjMap,"http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/"+form[i].value))
+          }
+        }
+        return layerArr
+      }
+
       function setStyleLegendClass() {
         setTimeout(function() {
           let legendClass = document.getElementsByClassName("esri-legend--stacked")[0]
           legendClass.setAttribute('style', 'height:130px; overflow-y:hidden')
           legendClass.setAttribute('id', 'legendId')
         }, 800);
-       }
+      }
+
+      function renderLegend(layerInfos){
+        let legend = new GIS.Map.Widgets.Legend(map.ObjMapView,layerInfos)
+        legend.setStyle("card", "side-by-side")
+        map.ObjMapView.ui.add(legend.create(), config.Position[2])
+        window.legend = legend
+        return window.legend
+      }
 
       function getAllPOI(id) {
         document
         .getElementById(id)
         .addEventListener("change", function(){
           if(this.checked) {
-            let layer = map.ObjMap.layers.items
-            let form = document.forms.atm
-            let valueArr = []
-            let layerArr = []
-            let i;
-            for (i = 0; i < form.length; i++) {
-              if (form[i].checked) {
-                valueArr.push(form[i].value);
-                layerArr.push(new GIS.Layer.ServiceLayer(map.ObjMap,"http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/"+form[i].value))
-              }
-            }
+            let idform = document.getElementById('atm');
+            let layerArr = renderPOI(idform)
             for (let k = 0; k < layerArr.length; k++) {
               layerArr[k].render()
             }
-            let layerInfo = arrayUtils.map(layer, function(item) {
-              for (let j = 0; j < layerServiceArr.length; j++) {
-                if (item.layerId == layerServiceArr[j].id) {
-                  return {
-                    layer: item,
-                    title: layerServiceArr[j].name
-                  }
-                }
-              }
-            })
+            let layer = map.ObjMap.layers.items
+            let layerInfo = setLayerInfos(layer)
+            let layerInfos = distinct(layerInfo)
             if (document.getElementsByClassName("esri-legend--stacked")[0] === undefined) {
-              let legend = new GIS.Map.Widgets.Legend(map.ObjMapView,layerInfo)
-              legend.setStyle("card", "side-by-side")
-              map.ObjMapView.ui.add(legend.create(), config.Position[2])
+              renderLegend(layerInfos)
               setStyleLegendClass()
-              window.legend = legend
             }
             else {
-              for (let l = 0; l < layerInfo.length; l++) {
-                legend.LayerInfos.push(layerInfo[l])
+              legend.LayerInfos.length = 0
+              for (let l = 0; l < layerInfos.length; l++) {
+                legend.LayerInfos.push(layerInfos[l])
               }
               legend.create()
             }
           }
           else {
             let layer = map.ObjMap.layers.items
-            let i;
-            let poiForm = document.forms.atm
+            let i
+            let idform = document.getElementById('atm')
+            let poiForm = idform.querySelectorAll('input[type="checkbox"]');
             for (i = 0; i < poiForm.length; i++) {
               if (poiForm[i].checked==false) {
                 for (let key in layer) {
@@ -443,81 +465,34 @@ function boot(GIS) {
         .getElementById(id)
         .addEventListener("change", function(){
           if(this.checked) {
-            let layer = map.ObjMap.layers.items
-            let form = document.forms.atm
-            let valueArr = []
-            let layerArr = []
-            let i;
-            for (i = 0; i < form.length; i++) {
-              if (form[i].checked) {
-                valueArr.push(form[i].value);
-                layerArr.push(new GIS.Layer.ServiceLayer(map.ObjMap,"http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/"+form[i].value))
-              }
-            }
+            let idform = document.getElementById('atm');
+            let layerArr = renderPOI(idform)
             for (let k = 0; k < layerArr.length; k++) {
               layerArr[k].render()
             }
-            let layerInfo = arrayUtils.map(layer, function(item) {
-              for (let j = 0; j < layerServiceArr.length; j++) {
-                if (item.layerId == layerServiceArr[j].id) {
-                  for (let m = 0; m < valueArr.length; m++) {
-                    if (item.layerId == valueArr[m]) {
-                      return {
-                          layer: item,
-                          title: layerServiceArr[j].name
-                      }
-                    }
-                  }
-                }
-              }
-            })
-            // let layerInfo = arrayUtils.map(layer, function(item) {
-            //   for (let m = 0; m < valueArr.length; m++) {
-            //     if (item.layerId == valueArr[m]) {
-            //       for (let j = 0; j < layerServiceArr.length; j++) {
-            //         if (item.layerId == layerServiceArr[j].id) {
-            //           return {
-            //             layer: item,
-            //             title: layerServiceArr[j].name
-            //           }
-            //         }
-            //       }
-            //     }
-            //   }
-            // })
-            // let layerInfo = arrayUtils.map(layer, function(item) {
-            //   for (let j = 0; j < layerServiceArr.length; j++) {
-            //     if (item.layerId == layerServiceArr[j].id) {
-            //       return {
-            //         layer: item,
-            //         title: layerServiceArr[j].name
-            //       }
-            //     }
-            //   }
-            // })
+            let layer = map.ObjMap.layers.items
+            let layerInfo = setLayerInfos(layer)
+            let layerInfos = distinct(layerInfo)
             if (document.getElementsByClassName("esri-legend--stacked")[0] === undefined) {
-              let legend = new GIS.Map.Widgets.Legend(map.ObjMapView,layerInfo)
-              legend.setStyle("card", "side-by-side")
-              map.ObjMapView.ui.add(legend.create(), config.Position[2])
+              renderLegend(layerInfos)
               setStyleLegendClass()
-              window.legend = legend
             }
             else {
-              let currentIndex = parseInt(layerInfo.length - 1)
-              legend.LayerInfos.push(layerInfo[currentIndex])
+              let currentIndex = parseInt(layerInfos.length - 1)
+              legend.LayerInfos.push(layerInfos[currentIndex])
               legend.create()
             }
           }
           else {
             let layer = map.ObjMap.layers.items
             let i
-            let poiForm = document.forms.atm
+            let idform = document.getElementById('atm')
+            let poiForm = idform.querySelectorAll('input[type="checkbox"]');
             for (i = 0; i < poiForm.length; i++) {
               if (poiForm[i].checked==false) {
                 for (let key in layer) {
                   if (poiForm[i].value == layer[key].layerId ) {
                     map.ObjMap.remove(layer[key])
-                    delete layer[key]
                   }
                 }
               }
