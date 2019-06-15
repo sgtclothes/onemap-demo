@@ -5,6 +5,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
 } else {
     include 'config/conn.php';
     include 'config/data_login.php';
+    include 'content/layer.php';
     $data= data_login($conn,$_SESSION['email']);
     ?>
 <!DOCTYPE html>
@@ -73,6 +74,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         let user = "<?= $dbuser ?>"
         let pass = "<?= $dbpass ?>"
         window.created_by = "<?= $data['id'] ?>"
+        window.layerDataArr = '<?php print json_encode($layer_array) ?>'
     </script>
 
     <script src="sample/boot.js"></script>
@@ -260,15 +262,15 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                                 <ul class="nested">
                                     <form name="atm">
                                     <li>
-                                        <input type="checkbox" value="Bank DKI" name="tall-1-1" id="tall-1-1">
+                                        <input type="checkbox" value="16" name="tall-1-1" id="tall-1-1">
                                         <label for="tall-1-1" class="custom-unchecked">Bank DKI</label>
                                     </li>
                                     <li>
-                                        <input type="checkbox" value="Bank Mandiri" name="tall-1-2" id="tall-1-2">
+                                        <input type="checkbox" value="27" name="tall-1-2" id="tall-1-2">
                                         <label for="tall-1-2" class="custom-unchecked">Bank Mandiri</label>
                                     </li>
                                     <li class="last">
-                                        <input type="checkbox" value="Bank Sumut" name="tall-1-3" id="tall-1-3">
+                                        <input type="checkbox" value="48" name="tall-1-3" id="tall-1-3">
                                         <label for="tall-1-3" class="custom-unchecked">Bank Sumut</label>
                                     </li>
                                     </form>

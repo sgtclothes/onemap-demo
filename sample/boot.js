@@ -369,14 +369,7 @@ function boot(GIS) {
       });
 
       // Show & Hide POI from GIS Services
-      let dkiLayer = new GIS.Layer.ServiceLayer(map.ObjMap)
-      dkiLayer.setUrl("http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/16")
-
-      let mandiriLayer = new GIS.Layer.ServiceLayer(map.ObjMap)
-      mandiriLayer.setUrl("http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/27")
-
-      let sumutLayer = new GIS.Layer.ServiceLayer(map.ObjMap)
-      sumutLayer.setUrl("http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/48")
+      let layerServiceArr = JSON.parse(layerDataArr)
 
       function setStyleLegendClass() {
         setTimeout(function() {
@@ -392,25 +385,32 @@ function boot(GIS) {
         .addEventListener("change", function(){
           if(this.checked) {
             let layer = map.ObjMap.layers.items
-            dkiLayer.render()
-            mandiriLayer.render()
-            sumutLayer.render()
-            let poiArr = []
+            let form = document.forms.atm
+            let valueArr = []
+            let layerArr = []
             let i;
-            let poiForm = document.forms.atm
-            for (i = 0; i < poiForm.length; i++) {
-              if (poiForm[i].checked) {
-                poiArr.push(poiForm[i].value);
+            for (i = 0; i < form.length; i++) {
+              if (form[i].checked) {
+                valueArr.push(form[i].value);
+                layerArr.push(new GIS.Layer.ServiceLayer(map.ObjMap,"http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/"+form[i].value))
               }
             }
-            let layerInfo = arrayUtils.map(layer, function(item,index) {
-              return {
-                layer: item,
-                title: poiArr[index]
+            for (let k = 0; k < layerArr.length; k++) {
+              layerArr[k].render()
+            }
+            let layerInfo = arrayUtils.map(layer, function(item) {
+              for (let j = 0; j < layerServiceArr.length; j++) {
+                if (item.layerId == layerServiceArr[j].id) {
+                  return {
+                    layer: item,
+                    title: layerServiceArr[j].name
+                  }
+                }
               }
             })
             if (document.getElementsByClassName("esri-legend--stacked")[0] === undefined) {
               let legend = new GIS.Map.Widgets.Legend(map.ObjMapView,layerInfo)
+              legend.setStyle("card", "side-by-side")
               map.ObjMapView.ui.add(legend.create(), config.Position[2])
               setStyleLegendClass()
               window.legend = legend
@@ -438,27 +438,64 @@ function boot(GIS) {
         })
       }
 
-      function getPerPOI(id, layerSelected) {
+      function getPerPOI(id) {
         document
         .getElementById(id)
         .addEventListener("change", function(){
           if(this.checked) {
-            layerSelected.render()
             let layer = map.ObjMap.layers.items
-            let poiArr = []
+            let form = document.forms.atm
+            let valueArr = []
+            let layerArr = []
             let i;
-            let poiForm = document.forms.atm
-            for (i = 0; i < poiForm.length; i++) {
-              if (poiForm[i].checked) {
-                poiArr.push(poiForm[i].value);
+            for (i = 0; i < form.length; i++) {
+              if (form[i].checked) {
+                valueArr.push(form[i].value);
+                layerArr.push(new GIS.Layer.ServiceLayer(map.ObjMap,"http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/"+form[i].value))
               }
             }
+            for (let k = 0; k < layerArr.length; k++) {
+              layerArr[k].render()
+            }
             let layerInfo = arrayUtils.map(layer, function(item) {
-              return {
-                layer: item
+              for (let j = 0; j < layerServiceArr.length; j++) {
+                if (item.layerId == layerServiceArr[j].id) {
+                  for (let m = 0; m < valueArr.length; m++) {
+                    if (item.layerId == valueArr[m]) {
+                      return {
+                          layer: item,
+                          title: layerServiceArr[j].name
+                      }
+                    }
+                  }
+                }
               }
             })
-            if (Object.keys(layer).length === 1) {
+            // let layerInfo = arrayUtils.map(layer, function(item) {
+            //   for (let m = 0; m < valueArr.length; m++) {
+            //     if (item.layerId == valueArr[m]) {
+            //       for (let j = 0; j < layerServiceArr.length; j++) {
+            //         if (item.layerId == layerServiceArr[j].id) {
+            //           return {
+            //             layer: item,
+            //             title: layerServiceArr[j].name
+            //           }
+            //         }
+            //       }
+            //     }
+            //   }
+            // })
+            // let layerInfo = arrayUtils.map(layer, function(item) {
+            //   for (let j = 0; j < layerServiceArr.length; j++) {
+            //     if (item.layerId == layerServiceArr[j].id) {
+            //       return {
+            //         layer: item,
+            //         title: layerServiceArr[j].name
+            //       }
+            //     }
+            //   }
+            // })
+            if (document.getElementsByClassName("esri-legend--stacked")[0] === undefined) {
               let legend = new GIS.Map.Widgets.Legend(map.ObjMapView,layerInfo)
               legend.setStyle("card", "side-by-side")
               map.ObjMapView.ui.add(legend.create(), config.Position[2])
@@ -473,30 +510,30 @@ function boot(GIS) {
           }
           else {
             let layer = map.ObjMap.layers.items
-            let key
+            let i
             let poiForm = document.forms.atm
-            map.ObjMapView.when(function () {
-              for (key = 0; key < poiForm.length; key++) {
-                if (poiForm[key].checked==false) {
-                  for (key in layer) {
+            for (i = 0; i < poiForm.length; i++) {
+              if (poiForm[i].checked==false) {
+                for (let key in layer) {
+                  if (poiForm[i].value == layer[key].layerId ) {
                     map.ObjMap.remove(layer[key])
+                    delete layer[key]
                   }
                 }
               }
-            
-              if (Object.keys(layer).length === 0) {
-                document.getElementById("legendId").remove();
-              }
-            })
+            }
+            if (Object.keys(layer).length === 0) {
+              document.getElementById("legendId").remove();
+            }
           }
         })
       }
 
       getAllPOI("tall")
       getAllPOI("tall-1")
-      getPerPOI("tall-1-1", dkiLayer)
-      getPerPOI("tall-1-2", mandiriLayer)
-      getPerPOI("tall-1-3", sumutLayer)
+      getPerPOI("tall-1-1")
+      getPerPOI("tall-1-2")
+      getPerPOI("tall-1-3")
       // End Of Show & Hide POI from GIS Services
       
       localStorage.clear();
