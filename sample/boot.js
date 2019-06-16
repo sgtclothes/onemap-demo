@@ -1,37 +1,72 @@
 function boot(GIS) {
-    //Setting Proxy
-    let esriConfig = new GIS.Proxy.esriConfig();
-    esriConfig.setUrlUtils();
-  
     //Define Config class
     let config = new GIS.Config();
-  
     //Define Map class
     let map = new GIS.Map(config.CenterPoint);
     map.setBasemap('topo-vector')
+    map.addPrintWidget(config.PrintServiceUrl, config.Position[5]);
+    //Setting Proxy
+    //let esriConfig = new GIS.Proxy.esriConfig();
+    //esriConfig.setUrlUtils();
     //Adding Widgets to MapView
     //map.addDirectionsWidget(config.Position[5]);
     //map.addLegendWidget(config.Position[2]);
-    map.addPrintWidget(config.PrintServiceUrl, config.Position[5]);
-    map.addLocateWidget(config.Position[6])
+    map.addLocateWidget(config.Position[5])
+    //map.addTrackingGeolocationWidget(config.Position[5]);
     map.addBasemapGalleryWidget({
-        portal: {
-            url: "https://www.arcgis.com",
-            useVectorBasemaps: true
-        }
+      portal: {
+          url: "https://www.arcgis.com",
+          useVectorBasemaps: true
+      }
     }, config.Position[6])
     //Adding Tasks to MapView
     map.addSearchWidget(config.Position[6]);
-    map.addTrackingGeolocationWidget(config.Position[5]);
-  
     //Map Rendering
     map.render();
-  
+
+    // Create a site
+    map.ObjMapView.when(function() {
+      let createSiteDiv = document.getElementById("create-site-div");
+      createSiteDiv.style.display = "inline-block";
+
+      let createSiteExpand = new ESRI.Expand({
+          expandIconClass: "esri-icon-map-pin",
+          view: map.ObjMapView,
+          content: createSiteDiv
+      });
+      
+      map.ObjMapView.ui.add(createSiteExpand, config.Position[6])
+    });
+
+    document.getElementById("point-the-site").addEventListener("click", function() {
+      let pointTheSiteEnabled = true
+      if (pointTheSiteEnabled) {
+        map.ObjMapView.on("click", function(event) {
+          let latitude = map.ObjMapView.toMap({
+            x: event.x,
+            y: event.y
+          }).latitude.toFixed(3);
+
+          let longitude = map.ObjMapView.toMap({
+            x: event.x,
+            y: event.y
+          }).longitude.toFixed(3);
+
+          document.getElementById('lat-site').value = latitude
+          document.getElementById('lon-site').value = longitude
+          pointTheSiteEnabled = !pointTheSiteEnabled
+        });
+      }
+    })
+    // END of create a site
+
+    // create site analysis
     var btnEmptySelection = document.getElementById('remove');
     btnEmptySelection.onclick = function() {
         map.ObjMapView.graphics.removeAll();
     };
-    
+    // end of create site analysis 
+
     //Define Buffers
     let radius = new GIS.Buffer.Radius(
       map.ObjMap,
@@ -42,76 +77,6 @@ function boot(GIS) {
     );
   
     let drivingTimeMode = false;
-
-    // window.pointColors = ""
-
-    map.ObjMapView.on("pointer-move", function() {
-      let pointColors = ($('#colors').val())
-      let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView, pointColors);
-      convertCSV.setupDropZone();
-    });
-
-    let fields = [
-      {
-        name: "__OBJECTID",
-        alias: "__OBJECTID",
-        type: "esriFieldTypeOID",
-        editable: true,
-        domain: null
-      },
-      {
-        name: "type",
-        type: "esriFieldTypeString",
-        alias: "Type",
-        editable: true,
-        domain: null
-      },
-      {
-        name: "name",
-        type: "esriFieldTypeString",
-        alias: "Name",
-        editable: true,
-        domain: null
-      },
-      {
-        name: "lat",
-        type: "esriFieldTypeDouble",
-        alias: "Latitude",
-        editable: true,
-        domain: null
-      },
-      {
-        name: "lon",
-        type: "esriFieldTypeDouble",
-        alias: "Longitude",
-        editable: true,
-        domain: null
-      },
-      {
-        name: "region",
-        type: "esriFieldTypeString",
-        alias: "Region",
-        editable: true,
-        domain: null
-      },
-      {
-        name: "shape",
-        type: "esriFieldTypeDouble",
-        alias: "Shape",
-        editable: true,
-        domain: null
-      },
-      {
-        name: "created_by",
-        type: "esriFieldTypeString",
-        alias: "Created by",
-        editable: true,
-        domain: null
-      }
-    ]
-
-    let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
-    poi.run()
 
     document
       .querySelector(".pointingBuffer")
@@ -211,19 +176,6 @@ function boot(GIS) {
       });
       driveTime.render(map.ObjMap, map.ObjMapView, config.DriveTimeMarkerSymbol);
     }
-  
-    map.ObjMapView.when(function() {
-      let colorsDiv = document.getElementById("colors-div");
-      colorsDiv.style.display = "inline-block";
-
-      let colorsExpand = new ESRI.Expand({
-        expandIconClass: "esri-icon-experimental",
-        view: map.ObjMapView,
-        content: colorsDiv
-      });
-      
-      map.ObjMapView.ui.add(colorsExpand, config.Position[6])
-    });
 
     document
       .querySelector(".pointingDrive")
@@ -277,8 +229,12 @@ function boot(GIS) {
   
     document.getElementById("closebtn").addEventListener("click", function() {
       document.getElementById("mySidenav").style.width = "0";
-      document.getElementById("main").style.marginLeft = "0";
-      document.getElementById("main").style.marginRight = "0";
+      if (document.getElementById("mySidenav").classList.contains("panel-left")) {
+        document.getElementById("main").style.marginLeft = "0";
+      }
+      else {
+        document.getElementById("main").style.marginRight = "0";
+      }
     });
 
     document
@@ -386,6 +342,95 @@ function boot(GIS) {
         }
       });
 
+      //drag and drop
+      map.ObjMapView.on("pointer-move", function() {
+        let pointColors = ($('#colors').val())
+        let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView, pointColors);
+        convertCSV.setupDropZone();
+      });
+      //end of drag and drop
+
+      // widget color picker and render poi
+      let colorsDiv = document.getElementById("colors-div");
+      let colorsExpand = new ESRI.Expand({
+        expandIconClass: "esri-icon-experimental",
+        view: map.ObjMapView,
+        content: colorsDiv
+      });
+    
+      document.getElementById("color-picker").addEventListener("click", function() {
+        if (colorsDiv.style.display == "none") {
+          map.ObjMapView.ui.add(colorsExpand, config.Position[6])
+          colorsDiv.style.display = "inline-block";
+        } else {
+          colorsDiv.style.display = "none";
+          map.ObjMapView.ui.remove(colorsExpand)
+        }
+      });
+  
+      let fields = [
+        {
+          name: "__OBJECTID",
+          alias: "__OBJECTID",
+          type: "esriFieldTypeOID",
+          editable: true,
+          domain: null
+        },
+        {
+          name: "type",
+          type: "esriFieldTypeString",
+          alias: "Type",
+          editable: true,
+          domain: null
+        },
+        {
+          name: "name",
+          type: "esriFieldTypeString",
+          alias: "Name",
+          editable: true,
+          domain: null
+        },
+        {
+          name: "lat",
+          type: "esriFieldTypeDouble",
+          alias: "Latitude",
+          editable: true,
+          domain: null
+        },
+        {
+          name: "lon",
+          type: "esriFieldTypeDouble",
+          alias: "Longitude",
+          editable: true,
+          domain: null
+        },
+        {
+          name: "region",
+          type: "esriFieldTypeString",
+          alias: "Region",
+          editable: true,
+          domain: null
+        },
+        {
+          name: "shape",
+          type: "esriFieldTypeDouble",
+          alias: "Shape",
+          editable: true,
+          domain: null
+        },
+        {
+          name: "created_by",
+          type: "esriFieldTypeString",
+          alias: "Created by",
+          editable: true,
+          domain: null
+        }
+      ]
+  
+      let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
+      poi.run()
+      // end of widget color picker and render poi
+
       // Show & Hide POI from GIS Services
       let layerServiceArr = JSON.parse(layerDataArr)
 
@@ -433,7 +478,7 @@ function boot(GIS) {
       function setStyleLegendClass() {
         setTimeout(function() {
           let legendClass = document.getElementsByClassName("esri-legend--stacked")[0]
-          legendClass.setAttribute('style', 'height:130px; overflow-y:hidden')
+          legendClass.setAttribute('style', 'background: rgba(255,255,255,0.7); height:130px; overflow-y:hidden')
           legendClass.setAttribute('id', 'legendId')
         }, 800);
       }
@@ -544,7 +589,7 @@ function boot(GIS) {
       getPerPOI("tall-1-3")
       // End Of Show & Hide POI from GIS Services
       
-      localStorage.clear();
+      //localStorage.clear();
     
       if (localStorage.data) {
         console.log(JSON.parse(localStorage.data));

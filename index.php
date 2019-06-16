@@ -280,6 +280,9 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                     </li>
                 </ul>
             </div>
+            <div class="button-buffer">
+                <button type="button" id="color-picker" class="btn btn-primary"><i class="mi-format-color-fill mr-2"></i>Color Picker</button>
+            </div>
         </div>
         <!-- End of the SideNav Viewer -->
 
@@ -297,6 +300,17 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
             </p>
         </div>
         <!-- End of Setting Colors of POI -->
+
+        <!-- Form Create Site --> 
+        <div id="create-site-div" class="card" style="background: rgba(255,255,255,0.5); display:none; width:500px;">
+            <div class="card-header header-elements-inline">
+                <h6 class="card-title">Create a Site</h6>
+            </div>
+            <div class="card-body">
+                <?php include 'content/create_site.php' ?>
+            </div>
+		</div>
+        <!-- End of Form Create Site -->
 
         <div class="content-wrapper">
             <div id="mapDiv"></div>
@@ -355,6 +369,11 @@ for (i = 0; i < toggler.length; i++) {
         this.classList.toggle("icon-rotate-90");
     });
 }
+
+$(".readonly").keydown(function(e){
+    e.preventDefault();
+});
+
 </script>
 </html>
 <?php
