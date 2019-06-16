@@ -264,25 +264,47 @@ function boot(GIS) {
     function openNav() {
       document.getElementById("mySidenav").style.width = "250px";
       document.getElementById("main").style.marginLeft = "250px";
+      document.getElementById("mySidenav").classList.add("panel-left");
+      document.getElementById("main").style.marginRight = "0";
     }
   
     function closeNav() {
       document.getElementById("mySidenav").style.width = "0";
       document.getElementById("main").style.marginLeft = "0";
+      document.getElementById("mySidenav").classList.add("panel-left");
+      document.getElementById("main").style.marginRight = "0";
     }
   
     document.getElementById("closebtn").addEventListener("click", function() {
       document.getElementById("mySidenav").style.width = "0";
       document.getElementById("main").style.marginLeft = "0";
+      document.getElementById("main").style.marginRight = "0";
     });
 
     document
       .getElementById("instant-analysis")
       .addEventListener("click", function() {
-        if (document.getElementById("mySidenav").style.width > "0px") {
-          closeNav();
-        } else {
-          openNav();
+        if (document.getElementById("myViewer").style.width > "0px") {
+          if (document.getElementById("mySidenav").style.width > "0px") {
+            document.getElementById("mySidenav")
+              .classList.add("panel-right");
+            document.getElementById("main").style.marginRight = "0";
+            document.getElementById("mySidenav")
+              .setAttribute('style', 'width:0px;')
+          } else {
+            document.getElementById("mySidenav")
+              .classList.add("panel-right");
+            document.getElementById("main").style.marginRight = "250px";
+            document.getElementById("mySidenav")
+              .setAttribute('style', 'width:250px;')
+          }
+        }
+        else {
+          if (document.getElementById("mySidenav").style.width > "0px") {
+            closeNav();
+          } else {
+            openNav();
+          }
         }
       });
 
@@ -423,12 +445,17 @@ function boot(GIS) {
         .getElementById(id)
         .addEventListener("change", function(){
           if(this.checked) {
+            let layer = map.ObjMap.layers.items
+            if (Object.keys(layer).length > 0) {
+              for (let key in layer) {
+                map.ObjMap.remove(layer[key])
+              }
+            }
             let idform = document.getElementById('atm');
             let layerArr = renderPOI(idform)
             for (let k = 0; k < layerArr.length; k++) {
               layerArr[k].render()
             }
-            let layer = map.ObjMap.layers.items
             let layerInfo = setLayerInfos(layer)
             let layerInfos = distinct(layerInfo)
             if (document.getElementsByClassName("esri-legend--stacked")[0] === undefined) {
