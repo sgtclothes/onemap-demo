@@ -284,23 +284,23 @@ function boot(GIS) {
     document
       .getElementById("instant-analysis")
       .addEventListener("click", function() {
+        let mySidenav = document.getElementById("mySidenav")
         if (document.getElementById("myViewer").style.width > "0px") {
-          if (document.getElementById("mySidenav").style.width > "0px") {
-            document.getElementById("mySidenav")
-              .classList.add("panel-right");
+          if (mySidenav.style.width > "0px") {
+            mySidenav.classList.add("panel-right");
             document.getElementById("main").style.marginRight = "0";
-            document.getElementById("mySidenav")
-              .setAttribute('style', 'width:0px;')
+            mySidenav.setAttribute('style', 'width:0px;')
           } else {
-            document.getElementById("mySidenav")
-              .classList.add("panel-right");
+            mySidenav.classList.add("panel-right");
             document.getElementById("main").style.marginRight = "250px";
-            document.getElementById("mySidenav")
-              .setAttribute('style', 'width:250px;')
+            mySidenav.setAttribute('style', 'width:250px;')
+          }
+          if (mySidenav.classList.contains("panel-left")) {
+            mySidenav.classList.remove("panel-left");
           }
         }
         else {
-          if (document.getElementById("mySidenav").style.width > "0px") {
+          if (mySidenav.style.width > "0px") {
             closeNav();
           } else {
             openNav();
@@ -330,6 +330,12 @@ function boot(GIS) {
           close_viewer();
         } else {
           open_viewer();
+        }
+        if (document.getElementById("mySidenav").classList.contains("panel-left")) {
+          document.getElementById("mySidenav").classList.remove("panel-left");
+          document.getElementById("mySidenav").classList.add("panel-right");
+          document.getElementById("main").style.marginRight = "250px";
+          document.getElementById("mySidenav").setAttribute('style', 'width:250px;')
         }
       });
   
