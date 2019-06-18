@@ -30,7 +30,7 @@ function boot(GIS) {
       createSiteDiv.style.display = "inline-block";
 
       let createSiteExpand = new ESRI.Expand({
-          expandIconClass: "esri-icon-map-pin",
+          expandIconClass: "esri-icon-organization",
           view: map.ObjMapView,
           content: createSiteDiv
       });
@@ -38,30 +38,175 @@ function boot(GIS) {
       map.ObjMapView.ui.add(createSiteExpand, config.Position[6])
     });
 
+    let pointTheSiteEnabled = false
     document.getElementById("point-the-site").addEventListener("click", function() {
-      let pointTheSiteEnabled = true
-      if (pointTheSiteEnabled) {
-        map.ObjMapView.on("click", function(event) {
-          let latitude = map.ObjMapView.toMap({
-            x: event.x,
-            y: event.y
-          }).latitude.toFixed(3);
-
-          let longitude = map.ObjMapView.toMap({
-            x: event.x,
-            y: event.y
-          }).longitude.toFixed(3);
-
-          document.getElementById('lat-site').value = latitude
-          document.getElementById('lon-site').value = longitude
-          pointTheSiteEnabled = !pointTheSiteEnabled
-        });
+      pointTheSiteEnabled = true
+      document.getElementById("mapDiv").setAttribute('style', 'cursor:pointer;')
+      console.log(pointTheSiteEnabled)
+      if(pointTheSiteEnabled==false) {
+        document.getElementById("mapDiv").setAttribute('style', 'cursor:default;')
       }
     })
+
+    map.ObjMapView.on("click", function(event) {
+      if (pointTheSiteEnabled) {
+        pointTheSiteEnabled = !pointTheSiteEnabled
+        document.getElementById("mapDiv").setAttribute('style', 'cursor:pointer;')
+        let latitude = map.ObjMapView.toMap({
+          x: event.x,
+          y: event.y
+        }).latitude.toFixed(3);
+  
+        let longitude = map.ObjMapView.toMap({
+          x: event.x,
+          y: event.y
+        }).longitude.toFixed(3);
+  
+        document.getElementById('lat-site').value = latitude
+        document.getElementById('lon-site').value = longitude
+      }
+      if(pointTheSiteEnabled==false) {
+        document.getElementById("mapDiv").setAttribute('style', 'cursor:default;')
+      }
+    });
     // END of create a site
 
     // create site analysis
-    var btnEmptySelection = document.getElementById('remove');
+    $(document).ready(function () {
+      let counter = 1;
+  
+      $("#adding-btn").on("click", function () {
+          let newRow = $("<div class=cols>");
+          let cols = "<hr style='margin-right: 2px'>";
+  
+          cols += '<div class="form-group row" style="margin-left:10px; margin-top:15px;">'
+          cols += '<label class="col-form-label" style="margin-right:5px;">Latitude</label>'
+          cols += '<input name="latitude" type="text" value="0" class="form-control latitude-form" required readonly style="width:60px; margin-right:5px;">'
+          cols += '<label class="col-form-label" style="margin-right:5px;">Longitude</label>'
+          cols += '<input name="longitude" type="text" value="0" class="form-control longitude-form" required readonly style="width:60px;">'
+          cols += '<button type="button" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon btn-delete ml-2"><i class="icon-cross2"></i></button></div>'
+          cols += '<div style="padding-left: 90px; padding-bottom: 10px;">'
+          cols += '<div class="btn-group ml-1">'
+          cols += '<button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon dropdown-toggle" data-toggle="dropdown">'
+          cols += '<i class="icon-stack3"></i></button>'
+          cols += '<div class="dropdown-menu dropdown-menu-right">'
+          cols += '<a href="#" class="dropdown-item selectbuffer">Buffer</a>'
+          cols += '<a href="#" class="dropdown-item selectdrive">Driving Time</a></div></div>'
+          cols += '<button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon ml-2"><i class="icon-info3"></i></button></div>'
+          cols += '<div class="collapsible">'
+          cols += '<div class="resultBuffer">'
+          cols += '<div class="collapse-container">'
+          cols += '<div class="collapse-head"><h2>Buffer</h2></div>'
+          cols += '<div class="collapse-content">'
+          cols += '<p style="margin-left:10px; margin-top:10px;">Result Type</p>'
+          cols += '<select class="select-buffer"><option value="aggregation">Aggregation</option><option value="segmentation">Segmentation</option></select>'
+          cols += '<p style="margin-left:10px; margin-top:10px;">Distance</p><div id="input-distance-div"><input class="input-distance" type="number" value="1" /></div>'
+          cols += '<div id="input-distance-div"><input class="input-distance" type="number" value="1" /></div><p style="margin-left:10px;margin-top:10px;">Unit</p>'
+          cols += '<select class="select-unit"><option value="meters">Meters</option><option value="kilometers">Kilometers</option></select>'
+          cols += '<div class="button-buffer"><button class="pointingBuffer" style="margin-right: 10px;">Pointing</button><button style="margin-right: 10px;">Save</button><button id="remove" style="margin-right: 10px;">Clear</button></div>'
+          cols += '</div></div></div>'
+          cols += '<div class="resultDriving">'
+          cols += '<div class="collapse-container">'
+          cols += '<div class="collapse-head"><h2>Driving Time</h2></div>'
+          cols += '<div class="collapse-content">'
+          cols += '<p style="margin-left:10px; margin-top:10px;">Driving Data</p>'
+          cols += '<select class="select-driving"><option>Please Select</option><option value="live">Live</option><option value="typical">Typical</option><option value="historical">Historical</option></select>'
+          cols += '<p style="margin-left:10px; margin-top:10px;">Result Type</p>'
+          cols += '<select class="select-buffer"><option value="aggregation">Aggregation</option><option value="segmentation">Segmentation</option></select>'
+          cols += '<div id="driving-live"><p style="margin-left:10px; margin-top:10px;">Distance</p>'
+          cols += '<div id="input-distance-div"><input class="input-distance" type="number" /></div><p style="margin-left:10px; margin-top:10px;">Unit</p>'
+          cols += '<select class="select-unit"><option value="minutes">Minutes</option><option value="hours">Hours</option></select>'
+          cols += '<p style="margin-left:10px; margin-top:10px;">Driving Direction</p>'
+          cols += '<select class="select-driving-direction">'
+          cols += '<option value="toward">Towards Site</option>'
+          cols += '<option value="away">Away from Site</option>'
+          cols += '</select></div>'
+          cols += '<div class="button-driving"><button class="pointingDrive" style="margin-right: 10px;">Pointing</button>'
+          cols += '<button style="margin-right: 10px;">Save</button>'
+          cols += '<button id="remove" style="margin-right: 10px;">Clear</button></div></div></div>'
+          cols += '</div>'
+          cols += '</div>'
+          cols += '</div>'
+  
+          newRow.append(cols);
+          $("div.form-list").append(newRow);
+          counter++;
+      });
+  
+      $("div.form-list").on("click", ".btn-delete", function (event) {
+          $(this).closest("div.cols").remove();
+          counter -= 1
+      });
+  
+    });
+
+    const para = document.querySelector('.form-list');
+
+    para.addEventListener('pointermove', (event) => {
+      let selectDrive = document.getElementsByClassName("selectdrive")
+      let j
+
+      for (j = 0; j < selectDrive.length; j++) {
+        selectDrive[j].addEventListener("click", function() {
+          let resDrive = document.getElementsByClassName("resultDriving");
+          for (let a = 0; a < resDrive.length; a++) {
+            if (resDrive[a].style.display="none") {
+              resDrive[a].style.display = "block";
+            }
+          }
+        });
+      }
+
+      let selectBuffer = document.getElementsByClassName("selectbuffer")
+      let i
+      for (i = 0; i < selectBuffer.length; i++) {
+          selectBuffer[i].addEventListener("click", function() {
+            let resBuff = document.getElementsByClassName("resultBuffer");
+            for (let a = 0; a < resBuff.length; a++) {
+                if (resBuff[a].style.display="none") {
+                  resBuff[a].style.display = "block";
+                }
+            }
+          });
+      }
+    });
+
+    let pointEnabled = false
+    document.getElementById("pointing-btn").addEventListener("click", function() {
+      pointEnabled = true
+      document.getElementById("mapDiv").setAttribute('style', 'cursor:pointer;')
+      if(pointEnabled==false) {
+        document.getElementById("mapDiv").setAttribute('style', 'cursor:default;')
+      }
+    })
+
+    map.ObjMapView.on("click", function(event) {
+      if (pointEnabled) {
+        pointEnabled = !pointEnabled
+        document.getElementById("mapDiv").setAttribute('style', 'cursor:pointer;')
+        let latitude = map.ObjMapView.toMap({
+          x: event.x,
+          y: event.y
+        }).latitude.toFixed(3);
+  
+        let longitude = map.ObjMapView.toMap({
+          x: event.x,
+          y: event.y
+        }).longitude.toFixed(3);
+
+        let latForm = document.getElementsByClassName('latitude-form')
+        let lonForm = document.getElementsByClassName('longitude-form')
+        let current = parseInt(latForm.length - 1)
+        latForm[current].value = latitude
+        let currentt = parseInt(lonForm.length - 1)
+        lonForm[currentt].value = longitude
+      }
+      if(pointEnabled==false) {
+        document.getElementById("mapDiv").setAttribute('style', 'cursor:default;')
+      }
+    });
+
+    let btnEmptySelection = document.getElementById('remove');
     btnEmptySelection.onclick = function() {
         map.ObjMapView.graphics.removeAll();
     };
@@ -214,8 +359,8 @@ function boot(GIS) {
     });
   
     function openNav() {
-      document.getElementById("mySidenav").style.width = "250px";
-      document.getElementById("main").style.marginLeft = "250px";
+      document.getElementById("mySidenav").style.width = "320px";
+      document.getElementById("main").style.marginLeft = "320px";
       document.getElementById("mySidenav").classList.add("panel-left");
       document.getElementById("main").style.marginRight = "0";
     }
@@ -248,8 +393,8 @@ function boot(GIS) {
             mySidenav.setAttribute('style', 'width:0px;')
           } else {
             mySidenav.classList.add("panel-right");
-            document.getElementById("main").style.marginRight = "250px";
-            mySidenav.setAttribute('style', 'width:250px;')
+            document.getElementById("main").style.marginRight = "320px";
+            mySidenav.setAttribute('style', 'width:320px;')
           }
           if (mySidenav.classList.contains("panel-left")) {
             mySidenav.classList.remove("panel-left");
@@ -290,26 +435,8 @@ function boot(GIS) {
         if (document.getElementById("mySidenav").classList.contains("panel-left")) {
           document.getElementById("mySidenav").classList.remove("panel-left");
           document.getElementById("mySidenav").classList.add("panel-right");
-          document.getElementById("main").style.marginRight = "250px";
-          document.getElementById("mySidenav").setAttribute('style', 'width:250px;')
-        }
-      });
-  
-    document
-      .getElementById("select-analysis")
-      .addEventListener("click", function() {
-        let x = document.getElementById("resultBuffer");
-        let z = document.getElementById("resultDriving");
-        let y = document.getElementById("select-analysis");
-        if (y.value == "none") {
-          x.style.display = "none";
-          z.style.display = "none";
-        } else if (y.value == "buffer") {
-          x.style.display = "block";
-          z.style.display = "none";
-        } else if (y.value == "driving") {
-          x.style.display = "none";
-          z.style.display = "block";
+          document.getElementById("main").style.marginRight = "320px";
+          document.getElementById("mySidenav").setAttribute('style', 'width:320px;')
         }
       });
   

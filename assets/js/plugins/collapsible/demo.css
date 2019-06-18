@@ -1,0 +1,31 @@
+/*
+ * COLLAPSIBLE DEMO
+ */
+
+
+.collapse-container {
+  margin-top: 5px;
+  margin-right: 5px;
+  border: 1px solid #ddd;
+}
+
+.collapse-head {
+  background-color: #ddd;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.collapse-head h2 {
+  font-size: 125%;
+  padding: 0;
+  margin: 0;
+}
+
+.collapse-content { padding: 15px; }
+
+.collapse-container.collapse-open { border: 1px solid #007489; }
+
+.collapse-container.collapse-open .collapse-head {
+  background-color: #007489;
+  color: #fff;
+}

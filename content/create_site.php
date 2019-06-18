@@ -2,11 +2,11 @@
     <div class="form-group row">
         <div class="col-md-6">
             <label class="col-form-label">Latitude</label>
-            <input id="lat-site" name="lat" type="text" class="form-control" required class="readonly" readonly>
+            <input id="lat-site" name="lat" type="text" value="0" class="form-control" required readonly>
         </div>
         <div class="col-md-6">
             <label class="col-form-label">Longitude</label>
-            <input id="lon-site" name="lon" type="text" class="form-control" required class="readonly" readonly>
+            <input id="lon-site" name="lon" type="text" value="0" class="form-control" required readonly>
         </div>
         <div class="col-md-6">
             <label class="col-form-label">Name</label>
@@ -28,15 +28,20 @@
     if (isset($_POST['save-site'])) {
         $lat = $_POST['lat'];
         $lon = $_POST['lon'];
-        $name = mysqli_real_escape_string($conn,htmlentities($_POST['name']));
-        $address = mysqli_real_escape_string($conn,htmlentities($_POST['address']));
-        $add = mysqli_query($conn,"INSERT INTO `site` VALUES ('','$lat', '$lon', '$name', '$address', '$data[id]')");
-      
-        if ($add) {
-            echo "<script>alert('Data succeed to save'); location.href='index.php';</script>";
+        if ($lat == 0 || $lon == 0) {
+            echo "<script>alert('Latitude and Longitude is required.'); location.href='index.php';</script>";
         }
         else {
-            echo "<script>alert('Data failed to save'); location.href='index.php';</script>";
+            $name = mysqli_real_escape_string($conn,htmlentities($_POST['name']));
+            $address = mysqli_real_escape_string($conn,htmlentities($_POST['address']));
+            $add = mysqli_query($conn,"INSERT INTO `site` VALUES ('','$lat', '$lon', '$name', '$address', '$data[id]')");
+        
+            if ($add) {
+                echo "<script>alert('Data succeed to save'); location.href='index.php';</script>";
+            }
+            else {
+                echo "<script>alert('Data failed to save'); location.href='index.php';</script>";
+            }
         }
     }
 ?>
