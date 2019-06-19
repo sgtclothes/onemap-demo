@@ -37,7 +37,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
 
     <!-- core js files -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- <script src="assets/js/main/jquery.min.js"></script> -->
+    <script src="assets/js/main/jquery.min.js"></script>
     <script src="assets/js/main/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/loaders/blockui.min.js"></script>
     <script src="assets/js/plugins/ui/perfect_scrollbar.min.js"></script>

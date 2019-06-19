@@ -717,8 +717,5 @@ function boot(GIS) {
       // End Of Show & Hide POI from GIS Services
       
       //localStorage.clear();
-    
-      if (localStorage.data) {
-        console.log(JSON.parse(localStorage.data));
-      } else { return };
+  
 }
