@@ -1,6 +1,6 @@
-Project Name    : onemap-demo
-Members         : Sigit Sasongko, Rizal Hermawan
-Organization    : Locator Logic Solutions
+Project Name    : onemap-demo<br>
+Members         : Sigit Sasongko, Rizal Hermawan<br>
+Organization    : Locator Logic Solutions<br>
 
 Rules : 
 
