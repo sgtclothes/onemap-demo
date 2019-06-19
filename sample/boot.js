@@ -73,8 +73,8 @@ function boot(GIS) {
 
     // create site analysis
     $(document).ready(function () {
-      let counter = 1;
-  
+      var counter = 1;
+
       $("#adding-btn").on("click", function () {
           let newRow = $("<div class=cols>");
           let cols = "<hr style='margin-right: 2px'>";
@@ -169,6 +169,7 @@ function boot(GIS) {
             }
           });
       }
+      
     });
 
     let pointEnabled = false

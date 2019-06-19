@@ -12,7 +12,7 @@
     if(!this || this.lenght < 1) {
       return this;
     }
-
+    
     return createCollapsible(this, params);
 
   };
@@ -21,7 +21,7 @@
   function createCollapsible(obj, params)
   {
     var opts = $.extend({}, $.fn.collapsible.defaults, params);
-
+    
     obj.each(function() {
 
       $(this).find(classSelector(opts.classContainer)).each(function() {

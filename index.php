@@ -31,8 +31,6 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" />
     <link href="assets/js/plugins/tree/tree.css" rel="stylesheet" type="text/css" />
     <link href="assets/js/plugins/collapsible/demo.css" rel="stylesheet" type="text/css" />
-    <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
-    <script src="assets/js/plugins/tables/sorting.js"></script>
     <!-- /global stylesheets -->
 
     <!-- core js files -->
@@ -52,10 +50,6 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     <!-- themes & template js files -->
     <script src="assets/js/layout/default/app.js"></script>
     <script src="assets/js/layout/default/fixed_sidebar_custom_scroll.js"></script>
-    <script src="assets/js/plugins/forms/validation/validate.js"></script>
-    <script src="assets/js/plugins/forms/form_validation.js"></script>
-	<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-	<script src="assets/js/plugins/forms/form_select2.js"></script>
     <!-- /themes & template js files -->
 
     <style>
@@ -76,6 +70,18 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         .form-list {
             margin-left:5px;
             margin-top:5px;
+            overflow-y: auto;
+            overflow-x:hidden;
+            padding-bottom: 50px;
+        }
+        .bottom-input-name {
+            background-color: #fff;
+            width:300px;
+            display:flex;
+            flex-direction:row;
+            position: fixed;
+            bottom:0px;
+            padding-bottom: 8px;
         }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">
@@ -181,7 +187,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                     <button type="button" id="pointing-btn" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon rounded-round ml-2"><i class="icon-pin-alt"></i></button>
                 </div>
                 
-                <div class="form-list" style="overflow-y: auto; overflow-x:hidden;">
+                <div class="form-list">
                     <div class="cols">
                     <div class="form-group row" style="margin-left:10px; margin-top:15px;">
                         <label class="col-form-label" style="margin-right:5px;">Latitude</label>
@@ -287,8 +293,8 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                     </div><!-- batas collapsible head-->
                     </div><!-- batas cols list-->
                 </div>
-                <div style="bottom: 0px; margin-left:10px; margin-top:15px;">
-                <input type="text" style="width:60px;" class="form-control"  placeholder="name">
+                <div class="bottom-input-name">
+                <input type="text" class="form-control" style="margin-left:15px; width:150px" name="name" placeholder="Input Name">
                 <button type="submit" name="add" class="btn btn-primary ml-3">Submit <i class="icon-paperplane ml-2"></i></button>
                 </div>
             </div>
