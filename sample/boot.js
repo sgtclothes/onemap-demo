@@ -85,128 +85,6 @@ function boot(GIS) {
   // END of create a site
 
   // create site analysis
-  $(document).ready(function() {
-    var counter = 1;
-
-    $("#adding-btn").on("click", function() {
-      let newRow = $("<div class=cols>");
-      let cols = "<hr style='margin-right: 2px'>";
-
-      cols +=
-        '<div class="form-group row" style="margin-left:10px; margin-top:15px;">';
-      cols +=
-        '<label class="col-form-label" style="margin-right:5px;">Latitude</label>';
-      cols +=
-        '<input name="latitude" type="text" value="0" class="form-control latitude-form" required readonly style="width:60px; margin-right:5px;">';
-      cols +=
-        '<label class="col-form-label" style="margin-right:5px;">Longitude</label>';
-      cols +=
-        '<input name="longitude" type="text" value="0" class="form-control longitude-form" required readonly style="width:60px;">';
-      cols +=
-        '<button type="button" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon btn-delete ml-2"><i class="icon-cross2"></i></button></div>';
-      cols += '<div style="padding-left: 90px; padding-bottom: 10px;">';
-      cols += '<div class="btn-group ml-1">';
-      cols +=
-        '<button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon dropdown-toggle" data-toggle="dropdown">';
-      cols += '<i class="icon-stack3"></i></button>';
-      cols += '<div class="dropdown-menu dropdown-menu-right">';
-      cols += '<a href="#" class="dropdown-item selectbuffer">Buffer</a>';
-      cols +=
-        '<a href="#" class="dropdown-item selectdrive">Driving Time</a></div></div>';
-      cols +=
-        '<button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon ml-2"><i class="icon-info3"></i></button></div>';
-      cols += '<div class="collapsible">';
-      cols += '<div class="resultBuffer">';
-      cols += '<div class="collapse-container">';
-      cols += '<div class="collapse-head"><h2>Buffer</h2></div>';
-      cols += '<div class="collapse-content">';
-      cols += '<p style="margin-left:10px; margin-top:10px;">Result Type</p>';
-      cols +=
-        '<select class="select-buffer"><option value="aggregation">Aggregation</option><option value="segmentation">Segmentation</option></select>';
-      cols +=
-        '<p style="margin-left:10px; margin-top:10px;">Distance</p><div id="input-distance-div"><input class="input-distance" type="number" value="1" /></div>';
-      cols +=
-        '<div id="input-distance-div"><input class="input-distance" type="number" value="1" /></div><p style="margin-left:10px;margin-top:10px;">Unit</p>';
-      cols +=
-        '<select class="select-unit"><option value="meters">Meters</option><option value="kilometers">Kilometers</option></select>';
-      cols +=
-        '<div class="button-buffer"><button class="pointingBuffer" style="margin-right: 10px;">Pointing</button><button style="margin-right: 10px;">Save</button><button id="remove" style="margin-right: 10px;">Clear</button></div>';
-      cols += "</div></div></div>";
-      cols += '<div class="resultDriving">';
-      cols += '<div class="collapse-container">';
-      cols += '<div class="collapse-head"><h2>Driving Time</h2></div>';
-      cols += '<div class="collapse-content">';
-      cols += '<p style="margin-left:10px; margin-top:10px;">Driving Data</p>';
-      cols +=
-        '<select class="select-driving"><option>Please Select</option><option value="live">Live</option><option value="typical">Typical</option><option value="historical">Historical</option></select>';
-      cols += '<p style="margin-left:10px; margin-top:10px;">Result Type</p>';
-      cols +=
-        '<select class="select-buffer"><option value="aggregation">Aggregation</option><option value="segmentation">Segmentation</option></select>';
-      cols +=
-        '<div id="driving-live"><p style="margin-left:10px; margin-top:10px;">Distance</p>';
-      cols +=
-        '<div id="input-distance-div"><input class="input-distance" type="number" /></div><p style="margin-left:10px; margin-top:10px;">Unit</p>';
-      cols +=
-        '<select class="select-unit"><option value="minutes">Minutes</option><option value="hours">Hours</option></select>';
-      cols +=
-        '<p style="margin-left:10px; margin-top:10px;">Driving Direction</p>';
-      cols += '<select class="select-driving-direction">';
-      cols += '<option value="toward">Towards Site</option>';
-      cols += '<option value="away">Away from Site</option>';
-      cols += "</select></div>";
-      cols +=
-        '<div class="button-driving"><button class="pointingDrive" style="margin-right: 10px;">Pointing</button>';
-      cols += '<button style="margin-right: 10px;">Save</button>';
-      cols +=
-        '<button id="remove" style="margin-right: 10px;">Clear</button></div></div></div>';
-      cols += "</div>";
-      cols += "</div>";
-      cols += "</div>";
-
-      newRow.append(cols);
-      $("div.form-list").append(newRow);
-      counter++;
-    });
-
-    $("div.form-list").on("click", ".btn-delete", function(event) {
-      $(this)
-        .closest("div.cols")
-        .remove();
-      counter -= 1;
-    });
-  });
-
-  const para = document.querySelector(".form-list");
-
-  para.addEventListener("pointermove", event => {
-    let selectDrive = document.getElementsByClassName("selectdrive");
-    let j;
-
-    for (j = 0; j < selectDrive.length; j++) {
-      selectDrive[j].addEventListener("click", function() {
-        let resDrive = document.getElementsByClassName("resultDriving");
-        for (let a = 0; a < resDrive.length; a++) {
-          if ((resDrive[a].style.display = "none")) {
-            resDrive[a].style.display = "block";
-          }
-        }
-      });
-    }
-
-    let selectBuffer = document.getElementsByClassName("selectbuffer");
-    let i;
-    for (i = 0; i < selectBuffer.length; i++) {
-      selectBuffer[i].addEventListener("click", function() {
-        let resBuff = document.getElementsByClassName("resultBuffer");
-        for (let a = 0; a < resBuff.length; a++) {
-          if ((resBuff[a].style.display = "none")) {
-            resBuff[a].style.display = "block";
-          }
-        }
-      });
-    }
-  });
-
   let pointEnabled = false;
   document.getElementById("pointing-btn").addEventListener("click", function() {
     pointEnabled = true;
@@ -248,10 +126,10 @@ function boot(GIS) {
     }
   });
 
-  let btnEmptySelection = document.getElementById("remove");
-  btnEmptySelection.onclick = function() {
-    map.ObjMapView.graphics.removeAll();
-  };
+  // let btnEmptySelection = document.getElementById("remove");
+  // btnEmptySelection.onclick = function() {
+  //   map.ObjMapView.graphics.removeAll();
+  // };
   // end of create site analysis
 
   //Define Buffers
@@ -265,26 +143,26 @@ function boot(GIS) {
 
   let drivingTimeMode = false;
 
-  document
-    .querySelector(".pointingBuffer")
-    .addEventListener("click", function() {
-      radius.Results = [];
-      let info = document.getElementById("info");
-      info.style.display = "inline-block";
-      map.ObjMapView.ui.add(info, "top-right");
-      let inputDistanceLength = document.getElementsByClassName(
-        "input-distance"
-      ).length;
-      let unit = document.getElementsByClassName("select-unit")[0].value;
-      let a = [];
-      for (let i = 0; i < inputDistanceLength; i++) {
-        a.push(document.getElementsByClassName("input-distance")[i].value);
-      }
-      radius.setUnit(unit);
-      radius.setRadius(a);
-      radius.BufferEnabled = true;
-      radius.create();
-    });
+  // document
+  //   .querySelector(".pointingBuffer")
+  //   .addEventListener("click", function() {
+  //     radius.Results = [];
+  //     let info = document.getElementById("info");
+  //     info.style.display = "inline-block";
+  //     map.ObjMapView.ui.add(info, "top-right");
+  //     let inputDistanceLength = document.getElementsByClassName(
+  //       "input-distance"
+  //     ).length;
+  //     let unit = document.getElementsByClassName("select-unit")[0].value;
+  //     let a = [];
+  //     for (let i = 0; i < inputDistanceLength; i++) {
+  //       a.push(document.getElementsByClassName("input-distance")[i].value);
+  //     }
+  //     radius.setUnit(unit);
+  //     radius.setRadius(a);
+  //     radius.BufferEnabled = true;
+  //     radius.create();
+  //   });
 
   // document.querySelector("#basemap").addEventListener("click", function() {
   //   console.log(radius.Results);
@@ -364,14 +242,14 @@ function boot(GIS) {
     driveTime.render(map.ObjMap, map.ObjMapView, config.DriveTimeMarkerSymbol);
   }
 
-  document
-    .querySelector(".pointingDrive")
-    .addEventListener("click", function() {
-      drivingTimeMode = true;
-      let info = document.getElementById("info");
-      info.style.display = "inline-block";
-      map.ObjMapView.ui.add(info, "top-right");
-    });
+  // document
+  //   .querySelector(".pointingDrive")
+  //   .addEventListener("click", function() {
+  //     drivingTimeMode = true;
+  //     let info = document.getElementById("info");
+  //     info.style.display = "inline-block";
+  //     map.ObjMapView.ui.add(info, "top-right");
+  //   });
 
   map.ObjMapView.on("click", function(event) {
     if (drivingTimeMode == true) {
@@ -480,16 +358,16 @@ function boot(GIS) {
     }
   });
 
-  document
-    .querySelector(".select-driving")
-    .addEventListener("click", function() {
-      let x = document.getElementById("driving-live");
-      if (this.value == "live") {
-        x.style.display = "block";
-      } else {
-        x.style.display = "none";
-      }
-    });
+  // document
+  //   .querySelector(".select-driving")
+  //   .addEventListener("click", function() {
+  //     let x = document.getElementById("driving-live");
+  //     if (this.value == "live") {
+  //       x.style.display = "block";
+  //     } else {
+  //       x.style.display = "none";
+  //     }
+  //   });
 
   document.getElementById("myModal").addEventListener("click", function() {
     let x = document.getElementById("dragdrop-modal");

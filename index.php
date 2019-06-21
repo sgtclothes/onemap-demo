@@ -10,7 +10,6 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
     ?>
     <!DOCTYPE html>
     <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,7 +29,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
         <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" />
         <link href="assets/js/plugins/tree/tree.css" rel="stylesheet" type="text/css" />
-        <link href="assets/js/plugins/collapsible/demo.css" rel="stylesheet" type="text/css" />
+        <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
         <!-- /global stylesheets -->
 
         <!-- core js files -->
@@ -70,12 +69,11 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                 width: 50px;
             }
 
-            .form-list {
+            #form-list {
                 margin-left: 5px;
                 margin-top: 5px;
                 overflow-y: auto;
                 overflow-x: hidden;
-                padding-bottom: 50px;
             }
 
             .bottom-input-name {
@@ -83,8 +81,9 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                 width: 300px;
                 display: flex;
                 flex-direction: row;
-                position: fixed;
+                position: sticky;
                 bottom: 0px;
+                padding-top: 10px;
                 padding-bottom: 8px;
             }
         </style>
@@ -191,7 +190,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                         <button type="button" id="pointing-btn" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon rounded-round ml-2"><i class="icon-pin-alt"></i></button>
                     </div>
 
-                    <div class="form-list">
+                    <div id="form-list">
                         <div class="cols">
                             <div class="form-group row" style="margin-left:10px; margin-top:15px;">
                                 <label class="col-form-label" style="margin-right:5px;">Latitude</label>
@@ -212,89 +211,8 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                                 </div>
                                 <button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon ml-2"><i class="icon-info3"></i></button>
                             </div>
-                            <div class="collapsible">
-                                <div class="resultBuffer">
-                                    <div class="collapse-container">
-                                        <div class="collapse-head">
-                                            <h2>Buffer</h2>
-                                        </div>
-                                        <div class="collapse-content">
-                                            <!-- Buffer Navigator -->
-                                            <p style="margin-left:10px; margin-top:10px;">Result Type</p>
-                                            <select class="select-buffer">
-                                                <option value="aggregation">Aggregation</option>
-                                                <option value="segmentation">Segmentation</option>
-                                            </select>
-                                            <p style="margin-left:10px; margin-top:10px;">Distance</p>
-                                            <div id="input-distance-div">
-                                                <input class="input-distance" type="number" value="1" />
-                                            </div>
-                                            <div id="input-distance-div">
-                                                <input class="input-distance" type="number" value="1" />
-                                            </div>
-                                            <p style="margin-left:10px; margin-top:10px;">Unit</p>
-                                            <select class="select-unit">
-                                                <option value="meters">Meters</option>
-                                                <option value="kilometers">Kilometers</option>
-                                            </select>
-                                            <div class="button-buffer">
-                                                <button class="pointingBuffer" style="margin-right: 10px;">
-                                                    Pointing
-                                                </button>
-                                                <button style="margin-right: 10px;">Save</button>
-                                                <button id="remove" style="margin-right: 10px;">Clear</button>
-                                            </div>
-                                            <!-- End of Buffer Navigator -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="resultDriving">
-                                    <div class="collapse-container">
-                                        <div class="collapse-head">
-                                            <h2>Driving Time</h2>
-                                        </div>
-                                        <div class="collapse-content">
-                                            <!-- Driving Navigator -->
-                                            <p style="margin-left:10px; margin-top:10px;">Driving Data</p>
-                                            <select class="select-driving">
-                                                <option>Please Select</option>
-                                                <option value="live">Live</option>
-                                                <option value="typical">Typical</option>
-                                                <option value="historical">Historical</option>
-                                            </select>
-                                            <p style="margin-left:10px; margin-top:10px;">Result Type</p>
-                                            <select class="select-buffer">
-                                                <option value="aggregation">Aggregation</option>
-                                                <option value="segmentation">Segmentation</option>
-                                            </select>
-                                            <div id="driving-live">
-                                                <p style="margin-left:10px; margin-top:10px;">Distance</p>
-                                                <div id="input-distance-div">
-                                                    <input class="input-distance" type="number" />
-                                                </div>
-                                                <p style="margin-left:10px; margin-top:10px;">Unit</p>
-                                                <select class="select-unit">
-                                                    <option value="minutes">Minutes</option>
-                                                    <option value="hours">Hours</option>
-                                                </select>
-                                                <p style="margin-left:10px; margin-top:10px;">Driving Direction</p>
-                                                <select class="select-driving-direction">
-                                                    <option value="toward">Towards Site</option>
-                                                    <option value="away">Away from Site</option>
-                                                </select>
-                                            </div>
-                                            <div class="button-driving">
-                                                <button class="pointingDrive" style="margin-right: 10px;">
-                                                    Pointing
-                                                </button>
-                                                <button style="margin-right: 10px;">Save</button>
-                                                <button id="remove" style="margin-right: 10px;">Clear</button>
-                                            </div>
-                                            <!-- End of Driving Navigator -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!-- batas collapsible head-->
+                            <div class="form-buffer"></div>
+                            <div class="form-drive"></div>
                         </div><!-- batas cols list-->
                     </div>
                     <div class="bottom-input-name">
@@ -427,8 +345,10 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         <!-- End of Form Edit POI -->
         <?php include 'content/data_site.php'; ?>
         <script type="text/javascript" src="assets/colors/app.js"></script>
-        <script type="text/javascript" src="assets/js/plugins/collapsible/demo.js"></script>
         <script type="text/javascript" src="assets/js/plugins/collapsible/collapsible.js"></script>
+        <script type="text/javascript" src="content/template/instant_analysis/form_instant_analysis.js"></script>
+        <script type="text/javascript" src="content/template/instant_analysis/form_add_buffer.js"></script>
+        <script type="text/javascript" src="content/template/instant_analysis/form_add_driving.js"></script>
         <script>
             var toggler = document.getElementsByClassName("caret");
             var i;

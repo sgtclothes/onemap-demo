@@ -1,0 +1,30 @@
+.enhanced .collapsible-collapsed .collapsible-content,
+.collapsible-enhanced.collapsible-collapsed .collapsible-content {
+	display: none;
+}
+
+.collapsible-header,
+.collapsible-content {
+	border: 1px solid #ccc;
+	padding: .7em 35px;
+	font-size: 1em;
+	margin-top: 0;
+	background-color: #fff;
+}
+.collapsible-content {
+	margin-top: 0;
+	border-top-width: 0;
+	padding-top: 1.5em;
+	padding-bottom: 1.5em;
+}
+.collapsible-header {
+	margin-bottom: 0;
+	cursor: pointer;
+	background: url(../../../images/tri-down.png) 10px 50% no-repeat;
+}
+.collapsible-header:focus {
+	background-color: #eee;
+}
+.collapsible-collapsed .collapsible-header {
+	background-image: url(../../../images/tri-right.png);
+}

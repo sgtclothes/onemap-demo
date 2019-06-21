@@ -18,13 +18,9 @@ th {
     margin-bottom: 30px
 }
 
-.resultBuffer {
+/* .resultBuffer {
     display: none
-}
-
-.resultDriving {
-    display: none
-}
+} */
 
 #select-analysis {
     width: 90%;
