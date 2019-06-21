@@ -48,7 +48,6 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
 
         <!-- themes & template js files -->
         <script src="assets/js/layout/default/app.js"></script>
-        <script src="assets/js/layout/default/fixed_sidebar_custom_scroll.js"></script>
         <!-- /themes & template js files -->
 
         <style>
@@ -205,14 +204,14 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                                     </button>
 
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a href="#" class="dropdown-item selectbuffer">Buffer</a>
-                                        <a href="#" class="dropdown-item selectdrive">Driving Time</a>
+                                        <a href="#" class="dropdown-item selectbuffer-0">Buffer</a>
+                                        <a href="#" class="dropdown-item selectdrive-0">Driving Time</a>
                                     </div>
                                 </div>
                                 <button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon ml-2"><i class="icon-info3"></i></button>
                             </div>
-                            <div class="form-buffer"></div>
-                            <div class="form-drive"></div>
+                            <div class="form-buffer-0"></div>
+                            <div class="form-drive-0"></div>
                         </div><!-- batas cols list-->
                     </div>
                     <div class="bottom-input-name">

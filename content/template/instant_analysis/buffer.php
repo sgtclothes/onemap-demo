@@ -37,7 +37,8 @@ $(function(){
     $( document ).trigger( "enhance" );
 });
 
-$(".form-buffer").on("click", ".remove-buffer", function(event) {
+var $bufferClass = $(".remove-buffer").parents().get(2).className
+$('.'+$bufferClass).on("click", ".remove-buffer", function() {
     $(this)
     .closest(".collapsible")
     .remove();

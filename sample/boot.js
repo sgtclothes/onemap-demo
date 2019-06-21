@@ -4,7 +4,7 @@ function boot(GIS) {
   //Define Map class
   let map = new GIS.Map(config.CenterPoint);
   map.setBasemap("topo-vector");
-  map.addPrintWidget(config.PrintServiceUrl, config.Position[5]);
+  
   //Setting Proxy
   //let esriConfig = new GIS.Proxy.esriConfig();
   //esriConfig.setUrlUtils();

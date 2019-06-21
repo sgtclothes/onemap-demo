@@ -1,6 +1,9 @@
 $(document).ready(function() {
-    var counter = 1;
+    let counter = 1;
+    window.counterArr = [0]
     $("#adding-btn").on("click", function() {
+      counterArr.push(counter)
+      counterArr = [...new Set(counterArr)]
       let newRow = $("<div class=cols>");
       let cols = "<hr style='margin-right: 2px'>";
 
@@ -22,13 +25,13 @@ $(document).ready(function() {
         '<button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon dropdown-toggle" data-toggle="dropdown">';
       cols += '<i class="icon-stack3"></i></button>';
       cols += '<div class="dropdown-menu dropdown-menu-right">';
-      cols += '<a href="#" class="dropdown-item selectbuffer">Buffer</a>';
+      cols += '<a href="#" class="dropdown-item selectbuffer-'+counter+'">Buffer</a>';
       cols +=
-        '<a href="#" class="dropdown-item selectdrive">Driving Time</a></div></div>';
+        '<a href="#" class="dropdown-item selectdrive-'+counter+'">Driving Time</a></div></div>';
       cols +=
         '<button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon ml-2"><i class="icon-info3"></i></button></div>';
-      cols += '<div class="form-buffer"></div>'
-      cols += '<div class="form-drive"></div>'
+      cols += '<div class="form-buffer-'+counter+'"></div>'
+      cols += '<div class="form-drive-'+counter+'"></div>'
       cols += "</div>";
 
       newRow.append(cols);
@@ -40,7 +43,6 @@ $(document).ready(function() {
       $(this)
         .closest("div.cols")
         .remove();
-      counter -= 1;
     });
 });
 

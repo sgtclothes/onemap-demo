@@ -50,7 +50,8 @@ $(function(){
     $( document ).trigger( "enhance" );
 });
 
-$(".form-drive").on("click", ".remove-drive", function(event) {
+var $driveClass = $(".remove-drive").parents().get(2).className
+$('.'+$driveClass).on("click", ".remove-drive", function() {
     $(this)
     .closest(".collapsible")
     .remove();
