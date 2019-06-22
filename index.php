@@ -44,7 +44,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
         <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
         <script type="text/javascript" src="assets/colors/jsColor.js"></script>
-        <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script>
+        <!-- <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script> -->
         <!-- /core js files -->
 
         <!-- themes & template js files -->
@@ -155,7 +155,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                     <!-- user menu item navbar -->
                     <li class="nav-item dropdown dropdown-user">
                         <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
-                            <span><?php echo "$data[name]"; ?></span>
+                            <span id="username"><?php echo "$data[name]"; ?></span>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right">
@@ -310,40 +310,8 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                 <div class="inline">
                     <a href="javascript:void(0)" id="closeviewer">&times;</a>
                 </div>
-                <div>
+                <div id="tree-viewer">
                     <a style="margin-top: 28px; padding: 18px 8px 8px 80px;" id="title" href="#">Viewer</a>
-                    <ul class="treeview">
-                        <li>
-                            <i class="icon-arrow-right32 caret"></i>
-                            <input type="checkbox" name="tall" id="tall">
-                            <label for="tall" class="custom-unchecked">POI</label>
-
-                            <ul class="nested">
-
-                                <li class="last" style="margin-left: -19px;">
-                                    <i class="icon-arrow-right32 caret"></i>
-                                    <input type="checkbox" name="tall-1" id="tall-1">
-                                    <label for="tall-1" class="custom-unchecked">ATM</label>
-                                    <ul class="nested">
-                                        <form id="atm">
-                                            <li>
-                                                <input type="checkbox" value="16" name="tall-1-1" id="tall-1-1">
-                                                <label for="tall-1-1" class="custom-unchecked">Bank DKI</label>
-                                            </li>
-                                            <li>
-                                                <input type="checkbox" value="27" name="tall-1-2" id="tall-1-2">
-                                                <label for="tall-1-2" class="custom-unchecked">Bank Mandiri</label>
-                                            </li>
-                                            <li class="last">
-                                                <input type="checkbox" value="48" name="tall-1-3" id="tall-1-3">
-                                                <label for="tall-1-3" class="custom-unchecked">Bank Sumut</label>
-                                            </li>
-                                        </form>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
                 </div>
                 <div class="button-buffer">
                     <button type="button" id="color-picker" class="btn btn-primary"><i class="mi-format-color-fill mr-2"></i>Color Picker</button>

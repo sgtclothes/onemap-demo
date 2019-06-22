@@ -510,15 +510,9 @@ function boot(GIS) {
   });
 
   //drag and drop
-  map.ObjMapView.on("pointer-move", function() {
-    let pointColors = $("#colors").val();
-    let convertCSV = new GIS.Buffer.ConvertCSV(
-      map.ObjMap,
-      map.ObjMapView,
-      pointColors
-    );
-    convertCSV.setupDropZone();
-  });
+  let pointColors = $("#colors").val();
+  let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView);
+  convertCSV.setupDropZone();
   //end of drag and drop
 
   // widget color picker and render poi
@@ -610,11 +604,15 @@ function boot(GIS) {
   ];
 
   let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
-  poi.run();
+  // poi.run();
   // end of widget color picker and render poi
 
   // Show & Hide POI from GIS Services
   let layerServiceArr = JSON.parse(layerDataArr);
+  let storeLocalStorage = new GIS.Buffer.LocalStorage(map.ObjMapView);
+  let viewer = new GIS.Buffer.Viewer(map.ObjMapView, convertCSV);
+  viewer.renderTreeview();
+  viewer.selectItem();
 
   function setLayerInfos(layer) {
     let layerInfo = arrayUtils.map(layer, function(item) {
@@ -677,6 +675,7 @@ function boot(GIS) {
   }
 
   function renderLegend(layerInfos) {
+    console.log(layerInfos);
     let legend = new GIS.Map.Widgets.Legend(map.ObjMapView, layerInfos);
     legend.setStyle("card", "side-by-side");
     map.ObjMapView.ui.add(legend.create(), config.Position[2]);
@@ -773,12 +772,15 @@ function boot(GIS) {
     });
   }
 
-  getAllPOI("tall");
-  getAllPOI("tall-1");
-  getPerPOI("tall-1-1");
-  getPerPOI("tall-1-2");
-  getPerPOI("tall-1-3");
+  console.log(map.ObjMapView)
+
+  // getAllPOI("tall");
+  // getAllPOI("tall-1");
+  // getPerPOI("tall-1-1");
+  // getPerPOI("tall-1-2");
+  // getPerPOI("tall-1-3");
   // End Of Show & Hide POI from GIS Services
 
   //localStorage.clear();
+  // storeLocalStorage.checkData()
 }
