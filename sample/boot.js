@@ -609,6 +609,13 @@ function boot(GIS) {
 
   // Show & Hide POI from GIS Services
   let layerServiceArr = JSON.parse(layerDataArr);
+  let storeDatabase = new GIS.Buffer.Database(
+    "localhost",
+    "root",
+    "",
+    "user_data"
+  );
+
   let storeLocalStorage = new GIS.Buffer.LocalStorage(map.ObjMapView);
   let viewer = new GIS.Buffer.Viewer(map.ObjMapView, convertCSV);
   viewer.renderTreeview();
@@ -772,7 +779,9 @@ function boot(GIS) {
     });
   }
 
-  console.log(map.ObjMapView)
+  storeDatabase.read().then(function(result) {
+    console.log(JSON.parse(result));
+  });
 
   // getAllPOI("tall");
   // getAllPOI("tall-1");

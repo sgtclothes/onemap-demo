@@ -369,10 +369,11 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         <!-- Confirm Box -->
         <div id="confirmBox">
             <div class="message"></div>
-            <button class="yes">Yes</button>
-            <button class="no">No</button>
+            <button id="first" class="first">Use Database</button>
+            <button id="second" class="second">Use Web Storage</button>
         </div>
         <!-- End of Confirm Box -->
+
         <!-- Form Edit POI -->
         <div id="poi">
             <form id="form-poi" action="">
