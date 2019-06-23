@@ -38,15 +38,15 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         <script src="assets/js/main/bootstrap.bundle.min.js"></script>
         <script src="assets/js/plugins/loaders/blockui.min.js"></script>
         <script src="assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
+        <!-- /core js files -->
 
+        <!-- themes & template js files -->
+        <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
         <script type="text/javascript" src="http://www.dematte.at/cpn/colors.js"></script>
         <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
         <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
         <script type="text/javascript" src="assets/colors/jsColor.js"></script>
         <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script>
-        <!-- /core js files -->
-
-        <!-- themes & template js files -->
         <script src="assets/js/layout/default/app.js"></script>
         <!-- /themes & template js files -->
 
@@ -73,6 +73,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                 margin-top: 5px;
                 overflow-y: auto;
                 overflow-x: hidden;
+                min-height:100px;
             }
 
             .bottom-input-name {
@@ -80,10 +81,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                 width: 300px;
                 display: flex;
                 flex-direction: row;
-                position: sticky;
-                bottom: 0px;
-                padding-top: 10px;
-                padding-bottom: 8px;
+                margin-top: 16px;
             }
         </style>
         <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">
@@ -99,6 +97,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
         </script>
 
         <script src="sample/boot.js"></script>
+        <script src="sample/serviceLayer.js"></script>
     </head>
 
     <body id="main" class="navbar-top sidebar-main-hidden">
@@ -183,41 +182,16 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                 <div>
                     <a id="title" href="#" style="padding: 70px 8px 8px 55px;">Instant Analysis</a>
                     <div style="margin-left:52px; margin-bottom: 8px;">
-                        <button type="button" id="adding-btn" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
-                        <button type="button" data-toggle="modal" data-target="#modal_form_vertical" class="btn btn-sm alpha-primary border-primary text-primary-800 btn-icon rounded-round ml-2"><i class="icon-office"></i></button>
-                        <button type="button" class="btn btn-sm alpha-success border-success text-success-800 btn-icon rounded-round ml-2"><i class="icon-folder-open"></i></button>
-                        <button type="button" id="pointing-btn" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon rounded-round ml-2"><i class="icon-pin-alt"></i></button>
-                    </div>
-
-                    <div id="form-list">
-                        <div class="cols">
-                            <div class="form-group row" style="margin-left:10px; margin-top:15px;">
-                                <label class="col-form-label" style="margin-right:5px;">Latitude</label>
-                                <input name="latitude" type="text" value="0" class="form-control latitude-form" required readonly style="width:60px; margin-right:5px;">
-                                <label class="col-form-label" style="margin-right:5px;">Longitude</label>
-                                <input name="longitude" type="text" value="0" class="form-control longitude-form" required readonly style="width:60px;">
-                            </div>
-                            <div style="padding-left: 90px; padding-bottom: 10px;">
-                                <div class="btn-group ml-1">
-                                    <button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon dropdown-toggle" data-toggle="dropdown">
-                                        <i class="icon-stack3"></i>
-                                    </button>
-
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a href="#" class="dropdown-item selectbuffer-0">Buffer</a>
-                                        <a href="#" class="dropdown-item selectdrive-0">Driving Time</a>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon ml-2"><i class="icon-info3"></i></button>
-                            </div>
-                            <div class="form-buffer-0"></div>
-                            <div class="form-drive-0"></div>
-                        </div><!-- batas cols list-->
+                        <button type="button" id="adding-btn" title="Input Latitude & Longitude" data-toggle="modal" data-target="#modal_form_input_point" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
+                        <button type="button" id="add-from-site" title="Add from Site" data-toggle="modal" data-target="#modal_form_vertical" class="btn btn-sm alpha-primary border-primary text-primary-800 btn-icon rounded-round ml-2"><i class="icon-office"></i></button>
+                        <button type="button" title="Add From CSV" class="btn btn-sm alpha-success border-success text-success-800 btn-icon rounded-round ml-2"><i class="icon-folder-open"></i></button>
+                        <button type="button" title="Pointing on the Map" id="pointing-btn" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon rounded-round ml-2"><i class="icon-pin-alt"></i></button>
                     </div>
                     <div class="bottom-input-name">
-                        <input type="text" class="form-control" style="margin-left:15px; width:150px" name="name" placeholder="Input Name">
+                        <input type="text" class="form-control" style="margin-left:15px; width:150px" name="name" placeholder="Name of Analysis">
                         <button type="submit" name="add" class="btn btn-primary ml-3">Submit <i class="icon-paperplane ml-2"></i></button>
                     </div>
+                    <div id="form-list"></div>
                 </div>
             </div>
             <!-- End of the SideNav Analysis -->
@@ -290,6 +264,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
             <div id="create-site-div" class="card" style="background: rgba(255,255,255,0.5); display:none; width:500px;">
                 <div class="card-header header-elements-inline">
                     <h6 class="card-title">Create a Site</h6>
+                    <label style="align:right; margin:-5px;" class="message"></label>
                 </div>
                 <div class="card-body">
                     <?php include 'content/create_site.php' ?>
@@ -342,12 +317,13 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
             </form>
         </div>
         <!-- End of Form Edit POI -->
-        <?php include 'content/data_site.php'; ?>
-        <script type="text/javascript" src="assets/colors/app.js"></script>
+        <?php 
+        include 'content/data_site.php'; 
+        include 'content/input_point.php';
+        ?>
+        <script src="assets/colors/app.js"></script>
         <script type="text/javascript" src="assets/js/plugins/collapsible/collapsible.js"></script>
         <script type="text/javascript" src="content/template/instant_analysis/form_instant_analysis.js"></script>
-        <script type="text/javascript" src="content/template/instant_analysis/form_add_buffer.js"></script>
-        <script type="text/javascript" src="content/template/instant_analysis/form_add_driving.js"></script>
         <script>
             var toggler = document.getElementsByClassName("caret");
             var i;
@@ -360,7 +336,113 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
             }
         </script>
     </body>
-
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $("#form-site").submit(function(e){
+            e.preventDefault();
+            if ($( "#lat-site" ).val() == 0 || $( "#lon-site" ).val() == 0) {
+                let message = 'Latitude and Longitude is required';
+                $(".message").text(message);
+            } else {
+                $.ajax({
+                    url: "content/save_site.php",
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function() {
+                        let message = 'Data was succesfully saved';
+                        $(".message").text(message);
+                        $( "#lat-site" ).val(0);
+                        $( "#lon-site" ).val(0);
+                        $( "#name" ).val('');
+                        $( "#address" ).val('');
+                    },
+                    error: function() {
+                        let message = 'Error';
+                        $(".message").text(message);
+                    },
+                });   
+            }
+        });
+    });
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $("#select-row").click(function(){
+            $("table tbody").find('input[name="get-site"]').each(function(index,value){
+            	if($(this).is(":checked")){
+                    $.addCols()
+                    let $ischecked = $(this)
+                    $.each(window.counterArr, function(index, value){
+                        if ($(".latitude-form-"+value).val() === '') {
+                            $(".latitude-form-"+value).val($ischecked.attr('data-latitude'))
+                            $(".longitude-form-"+value).val($ischecked.attr('data-longitude'))
+                            $("#form-list").delegate('.selectbuffer-'+value, 'click', function() {
+                                $.get("content/template/instant_analysis/buffer.php", function(data){ 
+                                    $(".form-buffer-"+value).append(data)
+                                });
+                            })
+                            $("#form-list").delegate('.selectdrive-'+value, 'click', function() {
+                                $.get("content/template/instant_analysis/driving.php", function(data){ 
+                                $(".form-drive-"+value).append(data)
+                                });
+                            }) 
+                        }
+                    })
+                }
+            });
+        });
+    });
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $("#ok-input").click(function(){
+            let $latitude = parseFloat($("#lat-input").val())
+            let $longitude = parseFloat($("#lon-input").val())
+            let latMessage;
+            let lonMessage;
+            if( typeof $latitude === 'number' && $latitude >= -90 && $latitude <= 90 ) {
+                latMessage = 'Lat Ok';
+            } else {
+                latMessage = 'Latitude must be a number and between -90 to 90';
+                $(".lat-message").text(latMessage);
+            }
+            if( typeof $longitude === 'number' && $longitude >= -180 && $longitude <= 180 ) {
+                lonMessage = 'Lon Ok';
+            } else {
+                lonMessage = 'Longitude must be a number and between -180 to 180';
+                $(".lon-message").text(lonMessage);
+            }
+            if (latMessage == "Lat Ok" && "Lon Ok") {
+                $.addCols()
+                $.each(window.counterArr, function(index, value){
+                    if ($(".latitude-form-"+value).val() === '') {
+                        $(".latitude-form-"+value).val($latitude)
+                        $(".longitude-form-"+value).val($longitude)
+                        $("#form-list").delegate('.selectbuffer-'+value, 'click', function() {
+                            $.get("content/template/instant_analysis/buffer.php", function(data){ 
+                                $(".form-buffer-"+value).append(data)
+                            });
+                        })
+                        $("#form-list").delegate('.selectdrive-'+value, 'click', function() {
+                            $.get("content/template/instant_analysis/driving.php", function(data){ 
+                            $(".form-drive-"+value).append(data)
+                            });
+                        })
+                    }  
+                })
+            }
+        })
+    })
+    </script>
+    <script>
+    $(document).ready(function() {
+        $('#datatable-sorting').dataTable({
+            "bLengthChange": false,
+            "bFilter": true,
+            "pageLength": 5
+        });
+    });
+    </script>
     </html>
 <?php
 }

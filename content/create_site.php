@@ -1,4 +1,4 @@
-<form action="" method="POST">
+<form method="POST" id="form-site">
     <div class="form-group row">
         <div class="col-md-6">
             <label class="col-form-label">Latitude</label>
@@ -10,38 +10,16 @@
         </div>
         <div class="col-md-6">
             <label class="col-form-label">Name</label>
-            <input type="text" name="name" class="form-control" required>
+            <input id="name" type="text" name="name" class="form-control" required>
         </div>
         <div class="col-md-6">
             <label class="col-form-label">Address</label>
-            <textarea rows="3" cols="3" class="form-control" name="address"></textarea>
+            <textarea id="address" rows="3" cols="3" class="form-control" name="address"></textarea>
         </div>
     </div>
 
     <div class="d-flex justify-content-between align-items-center">
         <button type="button" id="point-the-site" class="btn btn-light"><i class="icon-pin-alt ml-2"></i> Pointing</button>
-        <button type="submit" class="btn bg-teal-400" name="save-site">Save Site <i class="icon-paperplane ml-2"></i></button>
+        <button type="submit" id="save-site" class="btn bg-teal-400">Save Site <i class="icon-paperplane ml-2"></i></button>
     </div>
-</form>	
-
-<?php 
-    if (isset($_POST['save-site'])) {
-        $lat = $_POST['lat'];
-        $lon = $_POST['lon'];
-        if ($lat == 0 || $lon == 0) {
-            echo "<script>alert('Latitude and Longitude is required.'); location.href='index.php';</script>";
-        }
-        else {
-            $name = mysqli_real_escape_string($conn,htmlentities($_POST['name']));
-            $address = mysqli_real_escape_string($conn,htmlentities($_POST['address']));
-            $add = mysqli_query($conn,"INSERT INTO `site` VALUES ('','$lat', '$lon', '$name', '$address', '$data[id]')");
-        
-            if ($add) {
-                echo "<script>alert('Data succeed to save'); location.href='index.php';</script>";
-            }
-            else {
-                echo "<script>alert('Data failed to save'); location.href='index.php';</script>";
-            }
-        }
-    }
-?>
+</form>

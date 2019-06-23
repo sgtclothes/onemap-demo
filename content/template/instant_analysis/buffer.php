@@ -9,6 +9,10 @@
             <option value="aggregation">Aggregation</option>
             <option value="segmentation">Segmentation</option>
         </select>
+        <div class="form-group">
+            <label>Show placeholder</label>
+            <input type="text" class="form-control tokenfield" placeholder="Add tag" value="Copy,and,paste" data-fouc>
+        </div>
         <p style="margin-left:10px; margin-top:10px;">Distance</p>
         <div id="input-distance-div">
             <input class="input-distance" type="number" value="1" />

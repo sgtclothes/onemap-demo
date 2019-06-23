@@ -1,7 +1,14 @@
 $(document).ready(function() {
-    let counter = 1;
-    window.counterArr = [0]
-    $("#adding-btn").on("click", function() {
+    let counter = 0;
+    window.counterArr = []
+
+    $("#form-list").on("click", ".btn-delete", function(event) {
+      $(this)
+        .closest("div.cols")
+        .remove();
+    });
+
+    $.fn.addCols = function() {
       counterArr.push(counter)
       counterArr = [...new Set(counterArr)]
       let newRow = $("<div class=cols>");
@@ -10,16 +17,9 @@ $(document).ready(function() {
       cols +=
         '<div class="form-group row" style="margin-left:10px; margin-top:15px;">';
       cols +=
-        '<label class="col-form-label" style="margin-right:5px;">Latitude</label>';
+        '<input name="latitude" type="text" value="" class="form-control latitude-form-'+counter+'" required readonly style="width:68px; margin-right:5px;">';
       cols +=
-        '<input name="latitude" type="text" value="0" class="form-control latitude-form" required readonly style="width:60px; margin-right:5px;">';
-      cols +=
-        '<label class="col-form-label" style="margin-right:5px;">Longitude</label>';
-      cols +=
-        '<input name="longitude" type="text" value="0" class="form-control longitude-form" required readonly style="width:60px;">';
-      cols +=
-        '<button type="button" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon btn-delete ml-2"><i class="icon-cross2"></i></button></div>';
-      cols += '<div style="padding-left: 90px; padding-bottom: 10px;">';
+        '<input name="longitude" type="text" value="" class="form-control longitude-form-'+counter+'" required readonly style="width:68px;">';
       cols += '<div class="btn-group ml-1">';
       cols +=
         '<button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon dropdown-toggle" data-toggle="dropdown">';
@@ -29,7 +29,9 @@ $(document).ready(function() {
       cols +=
         '<a href="#" class="dropdown-item selectdrive-'+counter+'">Driving Time</a></div></div>';
       cols +=
-        '<button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon ml-2"><i class="icon-info3"></i></button></div>';
+        '<button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon ml-2"><i class="icon-info3"></i></button>';
+      cols +=
+        '<button type="button" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon btn-delete ml-2"><i class="icon-cross2"></i></button></div>';
       cols += '<div class="form-buffer-'+counter+'"></div>'
       cols += '<div class="form-drive-'+counter+'"></div>'
       cols += "</div>";
@@ -37,15 +39,10 @@ $(document).ready(function() {
       newRow.append(cols);
       $("#form-list").append(newRow);
       counter++;
-    });
+    }
 
-    $("#form-list").on("click", ".btn-delete", function(event) {
-      $(this)
-        .closest("div.cols")
-        .remove();
-    });
+    jQuery.addCols = function(){ $.fn.addCols() };
 });
-
 // $(document).ready(function() {
 //   $("#adding-btn").on("click", function() {
 //     $.get("content/template/instant_analysis/index.php", function(data){ 
