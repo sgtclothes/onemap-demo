@@ -134,150 +134,12 @@ function boot(GIS) {
   // end of create site analysis
 
   //Define Buffers
-  let radius = new GIS.Buffer.Radius(
-    map.ObjMap,
-    map.ObjMapView,
-    "http://tig.co.id/ags/rest/services/POI/POI_CRP/MapServer/2",
-    config.BufferPolySym,
-    config.BufferPointSym
-  );
-
-  let drivingTimeMode = false;
-
-  // document
-  //   .querySelector(".pointingBuffer")
-  //   .addEventListener("click", function() {
-  //     radius.Results = [];
-  //     let info = document.getElementById("info");
-  //     info.style.display = "inline-block";
-  //     map.ObjMapView.ui.add(info, "top-right");
-  //     let inputDistanceLength = document.getElementsByClassName(
-  //       "input-distance"
-  //     ).length;
-  //     let unit = document.getElementsByClassName("select-unit")[0].value;
-  //     let a = [];
-  //     for (let i = 0; i < inputDistanceLength; i++) {
-  //       a.push(document.getElementsByClassName("input-distance")[i].value);
-  //     }
-  //     radius.setUnit(unit);
-  //     radius.setRadius(a);
-  //     radius.BufferEnabled = true;
-  //     radius.create();
-  //   });
+  bufferRadius(GIS,map,config)
+  driveTime(GIS,map)
 
   // document.querySelector("#basemap").addEventListener("click", function() {
   //   console.log(radius.Results);
   // });
-
-  function driveTime(coordinate) {
-    let driveTime = new GIS.Buffer.DriveTime(
-      coordinate,
-      config.DriveTimeParams,
-      "http://tig.co.id/ags/rest/services/GP/DriveTime32223232/GPServer/DriveTime3",
-      config.DriveTimeFillSymbol
-    );
-    driveTime.createLayer(
-      "https://gis.locatorlogic.com/arcgis/rest/services/BPS/BPS_ONLY_2016/MapServer/722/"
-    );
-
-    let driveTimePromise = new Promise(function(resolve, reject) {
-      driveTime.run(resolve);
-    });
-
-    driveTimePromise.then(function() {
-      let extent =
-        driveTime.ArrayParamsCatchment[0].features[0].geometry.extent;
-      let xmin = extent.xmin;
-      let xmax = extent.xmax;
-      let ymin = extent.ymin;
-      let ymax = extent.ymax;
-      let wkid =
-        driveTime.ArrayParamsCatchment[0].features[0].geometry.spatialReference
-          .wkid;
-      let inputFeatureArr = driveTime.ArrayParamsCatchment;
-
-      let catchmentParams = {
-        f: "json",
-        "env:outSR": 4326,
-        "env:processSR": 4326,
-        Input_Feature: JSON.stringify(inputFeatureArr[0])
-      };
-
-      let catchment = new GIS.Buffer.Catchment();
-
-      let catchmentPromise = new Promise(function(resolve, reject) {
-        catchment.setServiceUrl(
-          "http://tig.co.id/ags/rest/services/GP/v2_catchment/GPServer/catchment_select_table"
-        );
-        catchment.setParams(catchmentParams);
-        catchment.run(resolve);
-      });
-
-      catchmentPromise.then(function() {
-        let query = {
-          f: "json",
-          where: "OBJECT IN (" + catchment.ObjectIDStr[0] + ")",
-          returnGeometry: true,
-          spatialRel: "esriSpatialRelIntersects",
-          maxAllowableOffset: 76,
-          geometry:
-            '{"xmin":' +
-            xmin +
-            ',"ymin":' +
-            ymin +
-            ',"xmax":' +
-            xmax +
-            ', "ymax":' +
-            ymax +
-            ',"spatialReference":{"wkid":' +
-            wkid +
-            "}}",
-          geometryType: driveTime.ArrayParamsCatchment[0].geometryType,
-          inSR: 102100,
-          outFields: "*",
-          outSR: 102100
-        };
-        catchment.setQuery(query);
-      });
-    });
-    driveTime.render(map.ObjMap, map.ObjMapView, config.DriveTimeMarkerSymbol);
-  }
-
-  // document
-  //   .querySelector(".pointingDrive")
-  //   .addEventListener("click", function() {
-  //     drivingTimeMode = true;
-  //     let info = document.getElementById("info");
-  //     info.style.display = "inline-block";
-  //     map.ObjMapView.ui.add(info, "top-right");
-  //   });
-
-  map.ObjMapView.on("click", function(event) {
-    if (drivingTimeMode == true) {
-      drivingTimeMode = !drivingTimeMode;
-      let info = document.getElementById("info");
-      info.style.display = "none";
-      let latitude = map.ObjMapView.toMap({
-        x: event.x,
-        y: event.y
-      }).latitude.toFixed(3);
-
-      let longitude = map.ObjMapView.toMap({
-        x: event.x,
-        y: event.y
-      }).longitude.toFixed(3);
-
-      let DriveTimePoint = {
-        type: "point",
-        longitude: longitude,
-        latitude: latitude
-      };
-
-      driveTime(DriveTimePoint);
-    } else {
-      return;
-    }
-  });
 
   function openNav() {
     document.getElementById("mySidenav").style.width = "320px";
@@ -358,17 +220,6 @@ function boot(GIS) {
         .setAttribute("style", "width:320px;");
     }
   });
-
-  // document
-  //   .querySelector(".select-driving")
-  //   .addEventListener("click", function() {
-  //     let x = document.getElementById("driving-live");
-  //     if (this.value == "live") {
-  //       x.style.display = "block";
-  //     } else {
-  //       x.style.display = "none";
-  //     }
-  //   });
 
   document.getElementById("myModal").addEventListener("click", function() {
     let x = document.getElementById("dragdrop-modal");

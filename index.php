@@ -98,6 +98,8 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
 
         <script src="sample/boot.js"></script>
         <script src="sample/serviceLayer.js"></script>
+        <script src="content/template/instant_analysis/buffers.js"></script>
+        <script src="content/template/instant_analysis/drivetime.js"></script>
     </head>
 
     <body id="main" class="navbar-top sidebar-main-hidden">

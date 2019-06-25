@@ -4,35 +4,31 @@
         <button type="button" class="btn btn-sm bg-transparent alpha-pink text-pink-800 btn-icon remove-buffer ml-2" style="float:right; margin-top:-6px;"><i class="icon-minus-circle2"></i></button>
     </h4>
     <div class="collapsible-content">
-        <p>Result Type</p>
-        <select class="select-buffer">
-            <option value="aggregation">Aggregation</option>
-            <option value="segmentation">Segmentation</option>
-        </select>
         <div class="form-group">
-            <label>Show placeholder</label>
-            <input type="text" class="form-control tokenfield" placeholder="Add tag" value="Copy,and,paste" data-fouc>
+            <label>Result Type</label>
+            <select class="select-buffer form-control">
+                <option value="aggregation">Aggregation</option>
+                <option value="segmentation">Segmentation</option>
+            </select>
         </div>
-        <p style="margin-left:10px; margin-top:10px;">Distance</p>
-        <div id="input-distance-div">
-            <input class="input-distance" type="number" value="1" />
+
+        <div class="form-group">
+            <label>Distance</label>
+            <input type="text" class="distance form-control">
+            <!-- <input type="text" class="form-control" id="tag-input1"> -->
         </div>
-        <div id="input-distance-div">
-            <input class="input-distance" type="number" value="1" />
+
+        <div class="form-group">
+            <label>Unit</label>
+            <select class="select-unit form-control">
+                <option value="meters">Meters</option>
+                <option value="kilometers">Kilometers</option>
+            </select>
         </div>
-        <p style="margin-left:10px; margin-top:10px;">Unit</p>
-        <select class="select-unit">
-            <option value="meters">Meters</option>
-            <option value="kilometers">Kilometers</option>
-        </select>
-        <div class="button-buffer">
-            <button class="pointingBuffer" style="margin-right: 10px;">
-                Pointing
-            </button>
-            <button style="margin-right: 10px;">Save</button>
-            <button id="remove" style="margin-right: 10px;">Clear</button>
+
+        <div class="text-right">
+            <button type="submit" class="btn btn-primary btn-create-buffer">OK</button>
         </div>
-        <!-- End of Buffer Navigator -->
     </div>
 </div>
 <script>
@@ -40,11 +36,6 @@ $(function(){
     // initialize collapsibles:
     $( document ).trigger( "enhance" );
 });
-
-var $bufferClass = $(".remove-buffer").parents().get(2).className
-$('.'+$bufferClass).on("click", ".remove-buffer", function() {
-    $(this)
-    .closest(".collapsible")
-    .remove();
-});
 </script>
+<!-- <link href="assets/js/plugins/tags/style.css" rel="stylesheet" type="text/css" />
+<script src="assets/js/plugins/tags/tags.js"></script> -->

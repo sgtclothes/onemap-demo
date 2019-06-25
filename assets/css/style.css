@@ -23,22 +23,12 @@ th {
 } */
 
 #select-analysis {
-    width: 90%;
+    width: 100%;
     margin-left: 10px
 }
 
-#input-distance-div {
-    display: flex;
-    width: 90%;
-    margin-left: 10px
-}
-
-#driving-live {
+.driving-historical {
     display: none
-}
-
-.input-distance {
-    margin-top: 5px
 }
 
 .input-distance-driving {
@@ -46,40 +36,7 @@ th {
 }
 
 .select-unit {
-    width: 90%;
-    margin-left: 10px
-}
-
-.select-driving {
-    width: 90%;
-    margin-left: 10px
-}
-
-.select-driving-direction {
-    width: 90%;
-    margin-left: 10px
-}
-
-.button-buffer {
-    width: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    flex-direction: row;
-    margin-left: 10px;
-    margin-top: 20px
-}
-
-.button-driving {
-    width: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    flex-direction: row;
-    margin-left: 10px;
-    margin-top: 20px
+    width: 100%;
 }
 
 .panel-right {
@@ -251,6 +208,5 @@ select {
 }
 
 .select-buffer {
-    width: 90%;
-    margin-left: 10px
+    width: 100%;
 }
