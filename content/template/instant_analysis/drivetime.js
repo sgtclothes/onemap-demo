@@ -1,9 +1,7 @@
 function driveTime(GIS,map){
     $(document).ready(function(){
-        var driveTime
-        $("#form-list").on('click',function(){
+        $("#form-list").click(function(){
             $.each(window.counterArr, function(index, value){
-                let Arr = []
                 $(".form-drive-"+value).find('select.select-driving').each(function(){
                     $(this).on("click", function(){
                         if ($(this)[0].value == "historical") {
@@ -13,7 +11,6 @@ function driveTime(GIS,map){
                         }
                     })
                 })
-
                 $(".form-drive-"+value).find('button.btn-create-drive-time').each(function(){
                     $(this).on("click", function(){
                         let latitude = $(".latitude-form-"+value).val()
@@ -38,25 +35,21 @@ function driveTime(GIS,map){
                                 'break_units': unit,
                                 'B_Values': parseInt(distance[i])
                             }
-    
-                            let title = "drive-time-"+value+latitude+longitude+distanceStr
 
-                            driveTime = new GIS.Buffer.DriveTime(
+                            let driveTime = new GIS.Buffer.DriveTime(
                                 DriveTimePoint,
                                 DriveTimeParams,
                                 "http://tig.co.id/ags/rest/services/GP/DriveTime32223232/GPServer/DriveTime3"
                             );
 
-                            console.log(driveTime.Title)
-                            driveTime.setTitle(title)
                             driveTime.createLayer(
                                 "https://gis.locatorlogic.com/arcgis/rest/services/BPS/BPS_ONLY_2016/MapServer/722/"
                             );
-                        
+                            
                             let driveTimePromise = new Promise(function(resolve, reject) {
                                 driveTime.run(resolve);
                             });
-                        
+
                             driveTimePromise.then(function() {
                                 let extent =
                                     driveTime.ArrayParamsCatchment[0].features[0].geometry.extent;
@@ -68,16 +61,16 @@ function driveTime(GIS,map){
                                     driveTime.ArrayParamsCatchment[0].features[0].geometry.spatialReference
                                     .wkid;
                                 let inputFeatureArr = driveTime.ArrayParamsCatchment;
-                        
+                            
                                 let catchmentParams = {
                                     f: "json",
                                     "env:outSR": 4326,
                                     "env:processSR": 4326,
                                     Input_Feature: JSON.stringify(inputFeatureArr[0])
                                 };
-                        
+                            
                                 let catchment = new GIS.Buffer.Catchment();
-                        
+                            
                                 let catchmentPromise = new Promise(function(resolve, reject) {
                                     catchment.setServiceUrl(
                                         "http://tig.co.id/ags/rest/services/GP/v2_catchment/GPServer/catchment_select_table"
@@ -85,7 +78,7 @@ function driveTime(GIS,map){
                                     catchment.setParams(catchmentParams);
                                     catchment.run(resolve);
                                 });
-                        
+                            
                                 catchmentPromise.then(function() {
                                     let query = {
                                         f: "json",
@@ -113,6 +106,7 @@ function driveTime(GIS,map){
                                     catchment.setQuery(query);
                                 });
                             });
+                            
                             driveTime.render(map.ObjMap, map.ObjMapView);
                         }
                     })
