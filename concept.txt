@@ -1,0 +1,11 @@
+Viewer Display :
+
+- Departement
+    - Database
+        - Username_1
+            - POI_1
+            - POI_2
+    - LocalStorage
+        - Username_2
+            - POI_1
+            - POI_2

@@ -1,260 +1,270 @@
 #main {
-    transition: margin-left 0.5s
+  transition: margin-left 0.5s;
 }
 
-@media screen and (max-height:450px) {
-    .sidenav {
-        padding-top: 15px
-    }
-    .sidenav a {
-        font-size: 18px
-    }
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
 }
 
 table,
 td,
 th {
-    border: 1px solid black;
-    margin-bottom: 30px
+  border: 1px solid black;
+  margin-bottom: 30px;
 }
 
 .resultBuffer {
-    display: none
+  display: none;
 }
 
 .resultDriving {
-    display: none
+  display: none;
 }
 
 #select-analysis {
-    width: 90%;
-    margin-left: 10px
+  width: 90%;
+  margin-left: 10px;
 }
 
 #input-distance-div {
-    display: flex;
-    width: 90%;
-    margin-left: 10px
+  display: flex;
+  width: 90%;
+  margin-left: 10px;
 }
 
 #driving-live {
-    display: none
+  display: none;
 }
 
 .input-distance {
-    margin-top: 5px
+  margin-top: 5px;
 }
 
 .input-distance-driving {
-    margin-top: 5px
+  margin-top: 5px;
 }
 
 .select-unit {
-    width: 90%;
-    margin-left: 10px
+  width: 90%;
+  margin-left: 10px;
 }
 
 .select-driving {
-    width: 90%;
-    margin-left: 10px
+  width: 90%;
+  margin-left: 10px;
 }
 
 .select-driving-direction {
-    width: 90%;
-    margin-left: 10px
+  width: 90%;
+  margin-left: 10px;
 }
 
 .button-buffer {
-    width: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    flex-direction: row;
-    margin-left: 10px;
-    margin-top: 20px
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  flex-direction: row;
+  margin-left: 10px;
+  margin-top: 20px;
 }
 
 .button-driving {
-    width: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    flex-direction: row;
-    margin-left: 10px;
-    margin-top: 20px
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  flex-direction: row;
+  margin-left: 10px;
+  margin-top: 20px;
 }
 
 .panel-right {
-    right: 0;
+  right: 0;
 }
 
 .panel-left {
-    left: 0;
+  left: 0;
 }
 
 .sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    background-color: #fff;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 27px
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  background-color: #fff;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 27px;
 }
 
 div.inline {
-    float: right
+  float: right;
 }
 
 .sidenav span {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 20px;
-    color: #818181;
-    display: block;
-    transition: 0.3s
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
 }
 
 .sidenav #title {
-    padding: 0px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    display: inline-block;
-    color: #818181;
-    margin-top: -30px;
-    transition: 0.3s
+  padding: 0px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  display: inline-block;
+  color: #818181;
+  margin-top: -30px;
+  transition: 0.3s;
 }
 
 .sidenav #title:hover {
-    color: #f1f1f1
+  color: #f1f1f1;
 }
 
 .sidenav #closebtn {
-    padding: 0px 8px 8px 32px;
-    font-size: 20px;
-    position: relative;
-    text-decoration: none;
-    display: inline-block;
-    color: #818181;
-    margin-top: 30px;
+  padding: 0px 8px 8px 32px;
+  font-size: 20px;
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  color: #818181;
+  margin-top: 30px;
 }
 
 .sidenav #closeviewer {
-    padding: 0px 8px 8px 32px;
-    font-size: 20px;
-    position: relative;
-    text-decoration: none;
-    display: inline-block;
-    color: #818181;
-    margin-top: 30px;
+  padding: 0px 8px 8px 32px;
+  font-size: 20px;
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  color: #818181;
+  margin-top: 30px;
 }
 
 .drive-button {
-    background-color: rgb(255, 255, 255);
-    position: absolute;
-    padding: 15px 15px;
-    color: black;
-    margin-top: 35%;
-    margin-left: 1%;
-    z-index: 1
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  padding: 15px 15px;
+  color: black;
+  margin-top: 35%;
+  margin-left: 1%;
+  z-index: 1;
 }
 
 #query-table {
-    display: none
+  display: none;
 }
 
 #info {
-    display: none;
-    color: #444;
-    font-family: "Avenir Next W00", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    padding: 5px;
-    margin: 5px;
-    z-index: 2;
-    width: 120px;
-    text-align: center;
-    border: solid 2px #666;
-    border-radius: 4px;
-    background-color: #fff
+  display: none;
+  color: #444;
+  font-family: "Avenir Next W00", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding: 5px;
+  margin: 5px;
+  z-index: 2;
+  width: 120px;
+  text-align: center;
+  border: solid 2px #666;
+  border-radius: 4px;
+  background-color: #fff;
 }
 
 .chkLabel {
-    font-size: 12px
+  font-size: 12px;
 }
 
 #confirmBox {
-    z-index: 3;
-    display: none;
-    background-color: #eee;
-    border-radius: 5px;
-    border: 1px solid #aaa;
-    position: fixed;
-    width: 300px;
-    left: 50%;
-    top: 50%;
-    margin-left: -150px;
-    padding: 6px 8px 8px;
-    box-sizing: border-box;
-    text-align: center
+  z-index: 3;
+  display: none;
+  background-color: #eee;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  position: fixed;
+  width: 300px;
+  left: 50%;
+  top: 50%;
+  margin-left: -150px;
+  padding: 6px 8px 8px;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 #confirmBox button {
-    background-color: #ccc;
-    display: inline-block;
-    border-radius: 3px;
-    border: 1px solid #aaa;
-    padding: 2px;
-    text-align: center;
-    width: 80px;
-    cursor: pointer
+  background-color: #ccc;
+  display: inline-block;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  padding: 2px;
+  text-align: center;
+  width: 80px;
+  cursor: pointer;
 }
 
 #confirmBox button:hover {
-    background-color: #ddd
+  background-color: #ddd;
 }
 
 #confirmBox .message {
-    text-align: left;
-    margin-bottom: 8px
+  text-align: left;
+  margin-bottom: 8px;
 }
 
 #form-poi input[type="text"],
 select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 #form-poi input[type="submit"] {
-    width: 100%;
-    background-color: #4caf50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 #form-poi input[type="submit"]:hover {
-    background-color: #45a049
+  background-color: #45a049;
 }
 
 #poi {
-    display: none;
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px
+  display: none;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
 }
 
 .select-buffer {
-    width: 90%;
-    margin-left: 10px
+  width: 90%;
+  margin-left: 10px;
+}
+ul {
+  padding: 0px;
+  margin-left: 10px;
+  list-style-type: none;
+}
+li {
+  padding: 0px;
+  margin-left: 30px;
+  list-style-type: none;
 }

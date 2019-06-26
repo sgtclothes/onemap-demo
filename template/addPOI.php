@@ -1,4 +1,4 @@
 <li class="li-user-poi">
     <input type="checkbox" class="poi"> 
-    <label for="poi" class="poi"></label>
+    <label for="poi" class="poi">ss</label>
 </li>

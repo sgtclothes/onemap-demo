@@ -780,8 +780,32 @@ function boot(GIS) {
   }
 
   storeDatabase.read().then(function(result) {
-    console.log(JSON.parse(result));
+    if (result !== "[]" && localStorage.length < 1) {
+      let data = JSON.parse(result);
+      for (let i in data) {
+        if (data[i] instanceof Array) {
+          for (let j in data[i]) {
+            if (JSON.parse(data[i][j].color) instanceof Array) {
+              convertCSV.setColor(JSON.parse(data[i][j].color));
+            }
+            convertCSV.setCreatedBy(data[i][j].created_by);
+            delete data[i][j].id;
+            delete data[i][j].color;
+            delete data[i][j].created_by;
+          }
+          convertCSV.processCSVData(
+            storeLocalStorage.getRowofTextArray(data[i]),
+            false
+          );
+        } else {
+          convertCSV.setNameFile(data[i]);
+          console.log(convertCSV.NameFile);
+        }
+      }
+    }
   });
+
+  // storeDatabase.readUser();
 
   // getAllPOI("tall");
   // getAllPOI("tall-1");
