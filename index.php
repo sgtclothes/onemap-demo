@@ -189,11 +189,14 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                         <button type="button" title="Add From CSV" class="btn btn-sm alpha-success border-success text-success-800 btn-icon rounded-round ml-2"><i class="icon-folder-open"></i></button>
                         <button type="button" title="Pointing on the Map" id="pointing-btn" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon rounded-round ml-2"><i class="icon-pin-alt"></i></button>
                     </div>
-                    <div class="bottom-input-name">
-                        <input type="text" class="form-control" style="margin-left:15px; width:150px" name="name" placeholder="Name of Analysis">
-                        <button type="submit" name="add" class="btn btn-primary ml-3">Submit <i class="icon-paperplane ml-2"></i></button>
-                    </div>
-                    <div id="form-list"></div>
+                    <form action="" method="post" id="form-create-analysis">
+                        <div class="bottom-input-name">
+                            <input type="text" class="form-control" style="margin-left:16px; width:150px" id="name_analysis" name="name_analysis" required placeholder="Name of Analysis">
+                            <input type="hidden" id="created_by" name="created_by" value="<?php echo $data['id'] ?>">
+                            <button type="submit" name="add" class="btn btn-primary ml-3">Save Analysis</button>
+                        </div>
+                        <div id="form-list"></div>
+                    </form>
                 </div>
             </div>
             <!-- End of the SideNav Analysis -->
@@ -338,104 +341,10 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
             }
         </script>
     </body>
-    <script type="text/javascript">
-    $(document).ready(function(){
-        $("#form-site").submit(function(e){
-            e.preventDefault();
-            if ($( "#lat-site" ).val() == 0 || $( "#lon-site" ).val() == 0) {
-                let message = 'Latitude and Longitude is required';
-                $(".message").text(message);
-            } else {
-                $.ajax({
-                    url: "content/save_site.php",
-                    type: 'POST',
-                    data: $(this).serialize(),
-                    success: function() {
-                        let message = 'Data was succesfully saved';
-                        $(".message").text(message);
-                        $( "#lat-site" ).val(0);
-                        $( "#lon-site" ).val(0);
-                        $( "#name" ).val('');
-                        $( "#address" ).val('');
-                    },
-                    error: function() {
-                        let message = 'Error';
-                        $(".message").text(message);
-                    },
-                });   
-            }
-        });
-    });
-    </script>
-    <script type="text/javascript">
-    $(document).ready(function(){
-        $("#select-row").click(function(){
-            $("table tbody").find('input[name="get-site"]').each(function(index,value){
-            	if($(this).is(":checked")){
-                    $.addCols()
-                    let $ischecked = $(this)
-                    $.each(window.counterArr, function(index, value){
-                        if ($(".latitude-form-"+value).val() === '') {
-                            $(".latitude-form-"+value).val($ischecked.attr('data-latitude'))
-                            $(".longitude-form-"+value).val($ischecked.attr('data-longitude'))
-                            $("#form-list").delegate('.selectbuffer-'+value, 'click', function() {
-                                $.get("content/template/instant_analysis/buffer.php", function(data){ 
-                                    $(".form-buffer-"+value).append(data)
-                                });
-                            })
-                            $("#form-list").delegate('.selectdrive-'+value, 'click', function() {
-                                $.get("content/template/instant_analysis/driving.php", function(data){ 
-                                $(".form-drive-"+value).append(data)
-                                });
-                            }) 
-                        }
-                    })
-                }
-            });
-        });
-    });
-    </script>
-    <script type="text/javascript">
-    $(document).ready(function(){
-        $("#ok-input").click(function(){
-            let $latitude = parseFloat($("#lat-input").val())
-            let $longitude = parseFloat($("#lon-input").val())
-            let latMessage;
-            let lonMessage;
-            if( typeof $latitude === 'number' && $latitude >= -90 && $latitude <= 90 ) {
-                latMessage = 'Lat Ok';
-            } else {
-                latMessage = 'Latitude must be a number and between -90 to 90';
-                $(".lat-message").text(latMessage);
-            }
-            if( typeof $longitude === 'number' && $longitude >= -180 && $longitude <= 180 ) {
-                lonMessage = 'Lon Ok';
-            } else {
-                lonMessage = 'Longitude must be a number and between -180 to 180';
-                $(".lon-message").text(lonMessage);
-            }
-            if (latMessage == "Lat Ok" && "Lon Ok") {
-                $.addCols()
-                $.each(window.counterArr, function(index, value){
-                    if ($(".latitude-form-"+value).val() === '') {
-                        $(".latitude-form-"+value).val($latitude)
-                        $(".longitude-form-"+value).val($longitude)
-                        $("#form-list").delegate('.selectbuffer-'+value, 'click', function() {
-                            $.get("content/template/instant_analysis/buffer.php", function(data){ 
-                                $(".form-buffer-"+value).append(data)
-                            });
-                        })
-                        $("#form-list").delegate('.selectdrive-'+value, 'click', function() {
-                            $.get("content/template/instant_analysis/driving.php", function(data){ 
-                            $(".form-drive-"+value).append(data)
-                            });
-                        })
-                    }  
-                })
-            }
-        })
-    })
-    </script>
+    <script src="assets/js/create_site.js"></script>
+    <script src="assets/js/add_points_from_site.js"></script>
+    <script src="assets/js/add_points_manual.js"></script>
+    <script src="assets/js/create_analysis.js"></script>
     <script>
     $(document).ready(function() {
         $('#datatable-sorting').dataTable({

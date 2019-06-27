@@ -6,7 +6,7 @@
     <div class="collapsible-content">
         <div class="form-group">
             <label>Result Type</label>
-            <select class="select-buffer form-control">
+            <select class="select-buffer form-control" required>
                 <option value="aggregation">Aggregation</option>
                 <option value="segmentation">Segmentation</option>
             </select>
@@ -14,20 +14,19 @@
 
         <div class="form-group">
             <label>Distance</label>
-            <input type="text" class="distance form-control">
-            <!-- <input type="text" class="form-control" id="tag-input1"> -->
+            <input type="text" class="distance form-control" onkeypress="isInteger(event)" title="Please enter number and comma" required>
         </div>
 
         <div class="form-group">
             <label>Unit</label>
-            <select class="select-unit form-control">
+            <select class="select-unit form-control" required>
                 <option value="meters">Meters</option>
                 <option value="kilometers">Kilometers</option>
             </select>
         </div>
 
         <div class="text-right">
-            <button type="submit" class="btn btn-primary btn-create-buffer">OK</button>
+            <button type="button" class="btn btn-primary btn-create-buffer">OK</button>
         </div>
     </div>
 </div>
@@ -37,5 +36,13 @@ $(function(){
     $( document ).trigger( "enhance" );
 });
 </script>
-<!-- <link href="assets/js/plugins/tags/style.css" rel="stylesheet" type="text/css" />
-<script src="assets/js/plugins/tags/tags.js"></script> -->
+<script>
+$(document).ready(function() {
+    $(".distance").each(function() {
+        $(this).bind("copy paste cut", function(e){
+            e.preventDefault(); //disable cut,copy,paste
+            alert('cut,copy & paste options are disabled !!');
+        });
+    });
+});
+</script>

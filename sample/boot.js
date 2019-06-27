@@ -102,7 +102,7 @@ function boot(GIS) {
             y: event.y
           }).longitude.toFixed(3);
     
-          $.addCols()
+          $.addRows()
           $.each(window.counterArr, function(index, value){
             if ($(".latitude-form-"+value).val() === '') {
               $(".latitude-form-"+value).val(latitude)

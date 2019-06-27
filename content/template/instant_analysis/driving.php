@@ -7,7 +7,7 @@
         <!-- Driving Navigator -->
         <div class="form-group">
             <label>Driving Data</label>
-            <select class="select-driving form-control">
+            <select class="select-driving form-control" required>
                 <option>Please Select</option>
                 <option value="live">Live</option>
                 <option value="typical">Typical</option>
@@ -17,7 +17,7 @@
 
         <div class="form-group">
             <label>Result Type</label>
-            <select class="select-result-type form-control">
+            <select class="select-result-type form-control" required>
                 <option value="aggregation">Aggregation</option>
                 <option value="segmentation">Segmentation</option>
             </select>
@@ -26,12 +26,12 @@
         <div class="driving-historical">
             <div class="form-group">
                 <label>Distance</label>
-                <input type="text" class="distance-time form-control">
+                <input type="text" class="distance-time form-control" onkeypress="isNumber(event)" title="Please enter number and comma" required>
             </div>
 
             <div class="form-group">
                 <label>Unit</label>
-                <select class="select-unit-time form-control">
+                <select class="select-unit-time form-control" required>
                     <option value="minutes">Minutes</option>
                     <option value="hours">Hours</option>
                 </select>
@@ -47,22 +47,24 @@
         </div> -->
 
         <div class="text-right">
-            <button type="submit" class="btn btn-primary btn-create-drive-time">OK</button>
+            <button type="button" class="btn btn-primary btn-create-drive-time">OK</button>
         </div>
         <!-- End of Driving Navigator -->
     </div>
 </div>
-
 <script>
 $(function(){
     // initialize collapsibles:
     $( document ).trigger( "enhance" );
 });
-
-var $driveClass = $(".remove-drive").parents().get(2).className
-$('.'+$driveClass).on("click", ".remove-drive", function() {
-    $(this)
-    .closest(".collapsible")
-    .remove();
+</script>
+<script>
+$(document).ready(function() {
+    $(".distance-time").each(function() {
+        $(this).bind("copy paste cut", function(e){
+            e.preventDefault(); //disable cut,copy,paste
+            alert('cut,copy & paste options are disabled !!');
+        });
+    });
 });
 </script>

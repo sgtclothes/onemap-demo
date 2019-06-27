@@ -12,13 +12,31 @@ function driveTime(GIS,map){
                     })
                 })
                 $(".form-drive-"+value).find('button.btn-create-drive-time').each(function(){
-                    $(this).on("click", function(){
+                    $(this).on("click", function(event){
+                        event.stopImmediatePropagation();
+
                         let latitude = $(".latitude-form-"+value).val()
                         let longitude = $(".longitude-form-"+value).val()
 
                         let distanceStr = $(this).closest(".text-right").prev().children()[0].children[1].value
                         let distance = distanceStr.split(',')
+                        distance = [...new Set(distance)]
+                        for (let d = 0; d < distance.length; d++) {
+                            if (distance[d] == "") {
+                                distance.splice(d,1)
+                            }
+                        }
+                        let distanceString = distance.toString()
                         let unit = $(this).closest(".text-right").prev().children()[1].children[1].value
+
+                        var unitnum
+                        if (unit == "minutes") {
+                            unitnum = 1
+                        } else {
+                            unitnum = 2
+                        }
+
+                        let title = value+latitude+longitude+distanceString+unitnum
 
                         let DriveTimePoint = {
                             type: "point",
@@ -27,6 +45,7 @@ function driveTime(GIS,map){
                         };
 
                         for (let i = 0; i < distance.length; i++) {
+                            
                             let DriveTimeParams = {
                                 'f': 'json',
                                 'env:outSR': 4326,
@@ -37,9 +56,11 @@ function driveTime(GIS,map){
                             }
 
                             let driveTime = new GIS.Buffer.DriveTime(
+                                map.ObjMap,
                                 DriveTimePoint,
                                 DriveTimeParams,
-                                "http://tig.co.id/ags/rest/services/GP/DriveTime32223232/GPServer/DriveTime3"
+                                "http://tig.co.id/ags/rest/services/GP/DriveTime32223232/GPServer/DriveTime3",
+                                title
                             );
 
                             driveTime.createLayer(
@@ -106,19 +127,53 @@ function driveTime(GIS,map){
                                     catchment.setQuery(query);
                                 });
                             });
-                            
-                            driveTime.render(map.ObjMap, map.ObjMapView);
+
+                            driveTime.render(map.ObjMapView);
                         }
+                        $(this).closest(".text-right").prev().find('input[type=text].distance-time').prop('readonly', true)
+                        $(this).closest(".text-right").prev().find('select.select-unit-time').prop('disabled', true)
+                        $(this).closest(".text-right").prev().prev().prev().find('select.select-driving').prop('disabled', true)
                     })
                 })
-                // $(".form-buffer-"+value).find('button.remove-drive').each(function(){
-                //     $(this).on("click", function(){
-                        
-                //         $(this)
-                //         .closest(".collapsible")
-                //         .remove();
-                //     })
-                // })
+                $(".form-drive-"+value).find('button.remove-drive').each(function(){
+                    $(this).on("click", function(){
+                        let latitude = $(".latitude-form-"+value).val()
+                        let longitude = $(".longitude-form-"+value).val()
+
+                        let distanceStr = $(this).closest("h4").next()[0].children[2].children[0].children[1].value
+                        let distance = distanceStr.split(',')
+                        distance = [...new Set(distance)]
+                        for (let d = 0; d < distance.length; d++) {
+                            if (distance[d] == "") {
+                                distance.splice(d,1)
+                            }
+                        }
+                        let distanceString = distance.toString()
+
+                        let unit = $(this).closest("h4").next()[0].children[2].children[1].children[1].value
+
+                        var unitnum
+                        if (unit == "minutes") {
+                            unitnum = 1
+                        } else {
+                            unitnum = 2
+                        }
+
+                        let title = value+latitude+longitude+distanceString+unitnum
+
+                        let graphicslayers = map.ObjMap.layers.items
+
+                        for (let i = 0; i < graphicslayers.length; i++) {
+                            if (graphicslayers[i].title == title) {
+                                map.ObjMap.remove(graphicslayers[i])
+                            }
+                        }
+
+                        $(this)
+                        .closest(".collapsible")
+                        .remove();
+                    })
+                })
             })
         })
     })
