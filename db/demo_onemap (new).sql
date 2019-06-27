@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 19, 2019 at 10:41 AM
+-- Generation Time: Jun 27, 2019 at 06:19 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
 
@@ -19,6 +19,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `demo_onemap`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `analysis`
+--
+
+CREATE TABLE `analysis` (
+  `id` int(11) NOT NULL,
+  `name` varchar(75) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `analysis_points`
+--
+
+CREATE TABLE `analysis_points` (
+  `id` int(11) NOT NULL,
+  `analysis_id` int(11) DEFAULT NULL,
+  `lat` float NOT NULL,
+  `lon` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -116,7 +142,35 @@ CREATE TABLE `site` (
 
 INSERT INTO `site` (`id`, `lat`, `lon`, `name`, `address`, `created_by`) VALUES
 (1, -8.654, 115.219, 'Bar', 'Jalan Denpasar', 2),
-(5, -3.317, 105.047, 'site2', '', 2);
+(5, -3.317, 105.047, 'site2', '', 2),
+(23, -6.883, 107.607, 'site 1', 'bandung', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `spec_buffer_analysis`
+--
+
+CREATE TABLE `spec_buffer_analysis` (
+  `id` int(11) NOT NULL,
+  `analysis_points_id` int(11) DEFAULT NULL,
+  `distance_radius` varchar(50) NOT NULL,
+  `unit` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `spec_drive_time_analysis`
+--
+
+CREATE TABLE `spec_drive_time_analysis` (
+  `id` int(11) NOT NULL,
+  `analysis_points_id` int(11) DEFAULT NULL,
+  `driving_data` varchar(50) NOT NULL,
+  `distance_time` varchar(50) NOT NULL,
+  `unit` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -175,6 +229,20 @@ INSERT INTO `users_department` (`id`, `user_id`, `department_id`) VALUES
 --
 
 --
+-- Indexes for table `analysis`
+--
+ALTER TABLE `analysis`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `created_by` (`created_by`);
+
+--
+-- Indexes for table `analysis_points`
+--
+ALTER TABLE `analysis_points`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `analysis_id` (`analysis_id`);
+
+--
 -- Indexes for table `department`
 --
 ALTER TABLE `department`
@@ -201,6 +269,20 @@ ALTER TABLE `site`
   ADD KEY `created_by` (`created_by`);
 
 --
+-- Indexes for table `spec_buffer_analysis`
+--
+ALTER TABLE `spec_buffer_analysis`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `analysis_points_id` (`analysis_points_id`);
+
+--
+-- Indexes for table `spec_drive_time_analysis`
+--
+ALTER TABLE `spec_drive_time_analysis`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `analysis_points_id` (`analysis_points_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -219,6 +301,16 @@ ALTER TABLE `users_department`
 --
 
 --
+-- AUTO_INCREMENT for table `analysis`
+--
+ALTER TABLE `analysis`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `analysis_points`
+--
+ALTER TABLE `analysis_points`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
@@ -232,7 +324,17 @@ ALTER TABLE `poi`
 -- AUTO_INCREMENT for table `site`
 --
 ALTER TABLE `site`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+--
+-- AUTO_INCREMENT for table `spec_buffer_analysis`
+--
+ALTER TABLE `spec_buffer_analysis`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `spec_drive_time_analysis`
+--
+ALTER TABLE `spec_drive_time_analysis`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -248,6 +350,18 @@ ALTER TABLE `users_department`
 --
 
 --
+-- Constraints for table `analysis`
+--
+ALTER TABLE `analysis`
+  ADD CONSTRAINT `fk_from_user_in_analysis` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `analysis_points`
+--
+ALTER TABLE `analysis_points`
+  ADD CONSTRAINT `fk_from_analysis` FOREIGN KEY (`analysis_id`) REFERENCES `analysis` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
 -- Constraints for table `poi`
 --
 ALTER TABLE `poi`
@@ -258,6 +372,18 @@ ALTER TABLE `poi`
 --
 ALTER TABLE `site`
   ADD CONSTRAINT `fk_from_user` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `spec_buffer_analysis`
+--
+ALTER TABLE `spec_buffer_analysis`
+  ADD CONSTRAINT `fk_from_analysis_points` FOREIGN KEY (`analysis_points_id`) REFERENCES `analysis_points` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `spec_drive_time_analysis`
+--
+ALTER TABLE `spec_drive_time_analysis`
+  ADD CONSTRAINT `fk_from_analysis_points_zoku` FOREIGN KEY (`analysis_points_id`) REFERENCES `analysis_points` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `users_department`

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2019 at 11:50 AM
+-- Generation Time: Jun 19, 2019 at 10:41 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
 
@@ -45,6 +45,26 @@ INSERT INTO `department` (`id`, `department`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `layer`
+--
+
+CREATE TABLE `layer` (
+  `id` int(11) NOT NULL,
+  `name` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `layer`
+--
+
+INSERT INTO `layer` (`id`, `name`) VALUES
+(16, 'Bank DKI'),
+(27, 'Bank Mandiri'),
+(48, 'Bank Sumut');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `poi`
 --
 
@@ -52,19 +72,51 @@ CREATE TABLE `poi` (
   `id` int(11) NOT NULL,
   `type` varchar(35) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `lat` varchar(50) NOT NULL,
-  `lon` varchar(50) NOT NULL,
+  `lat` float NOT NULL,
+  `lon` float NOT NULL,
   `region` varchar(50) NOT NULL,
   `shape` varchar(50) NOT NULL,
-  `created_by` int(11) NOT NULL
+  `created_by` int(11) NOT NULL,
+  `color` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `poi`
 --
 
-INSERT INTO `poi` (`id`, `type`, `name`, `lat`, `lon`, `region`, `shape`, `created_by`) VALUES
-(1, 'Minimarket', 'Indomaret', '6.78232', '-109.12', 'Where', '0.9292991929', 2);
+INSERT INTO `poi` (`id`, `type`, `name`, `lat`, `lon`, `region`, `shape`, `created_by`, `color`) VALUES
+(1, 'Minimarket', 'Indomaret', -5.753, 105.713, 'Where', '0.9292991929', 2, '#226AB3'),
+(2, 'Restaurant', 'DermagaSeafood', -6.4084, 107.097, 'cikarang', '6384723', 2, '#28B121'),
+(3, 'Office', 'Colliers Indonesia', -6.216, 106.82, 'Jakarta', '6384723', 2, '#E4FF00'),
+(4, 'Hospital', 'Omni Hospital', -7.156, 106.854, 'Sukabumi', '6384723', 2, '#226AB3'),
+(9, 'Office', 'Margo City Office', -6.392, 106.817, 'Depok', '6384723', 1, '#5B6128'),
+(16, 'XX', 'QQ', -1.329, 113.886, 'Depok', '6384723', 2, '#F30606'),
+(17, 'AA', 'BB', -1.264, 111.513, 'Kalimantan', '3', 2, '#F30606'),
+(18, 'CC', 'DD', 1.153, 109.975, 'Kalimantan', '3', 2, '#E110D5'),
+(19, 'EE', 'FF', 0.912, 110.897, 'Kalimantan', '3', 2, '#E110D5');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `site`
+--
+
+CREATE TABLE `site` (
+  `id` int(11) NOT NULL,
+  `lat` float NOT NULL,
+  `lon` float NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `address` text NOT NULL,
+  `created_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `site`
+--
+
+INSERT INTO `site` (`id`, `lat`, `lon`, `name`, `address`, `created_by`) VALUES
+(1, -8.654, 115.219, 'Bar', 'Jalan Denpasar', 2),
+(5, -3.317, 105.047, 'site2', '', 2);
 
 -- --------------------------------------------------------
 
@@ -114,8 +166,7 @@ INSERT INTO `users_department` (`id`, `user_id`, `department_id`) VALUES
 (3, 3, 1),
 (4, 4, 2),
 (5, 4, 3),
-(6, 4, 4),
-(7, 2, 5),
+(7, 2, 4),
 (8, 5, 4),
 (9, 5, 5);
 
@@ -130,11 +181,24 @@ ALTER TABLE `department`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `layer`
+--
+ALTER TABLE `layer`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `poi`
 --
 ALTER TABLE `poi`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_user` (`created_by`);
+
+--
+-- Indexes for table `site`
+--
+ALTER TABLE `site`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `created_by` (`created_by`);
 
 --
 -- Indexes for table `users`
@@ -163,7 +227,12 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `poi`
 --
 ALTER TABLE `poi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT for table `site`
+--
+ALTER TABLE `site`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -183,6 +252,12 @@ ALTER TABLE `users_department`
 --
 ALTER TABLE `poi`
   ADD CONSTRAINT `fk_users` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `site`
+--
+ALTER TABLE `site`
+  ADD CONSTRAINT `fk_from_user` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users_department`
