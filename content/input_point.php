@@ -10,19 +10,19 @@
             <div class="card-body">
                 <div class="form-group row">
                     <div class="col-md-6">
-                        <label class="lat-message col-form-label"></label>
+                        <label style="font-size:12px" class="lat-message col-form-label"></label>
                         <label class="col-form-label">Latitude</label>
                         <input id="lat-input" name="lat" type="text" class="form-control" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="lon-message col-form-label"></label>
+                        <label style="font-size:12px" class="lon-message col-form-label"></label>
                         <label class="col-form-label">Longitude</label>
                         <input id="lon-input" name="lon" type="text" class="form-control" required>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center">
-                    <button type="button" id="ok-input" class="btn bg-teal-400" data-dismiss="modal">OK</button>
+                    <button type="button" id="ok-input" class="btn bg-teal-400">OK</button>
                 </div>
             </div>
 		</div>

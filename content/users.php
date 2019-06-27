@@ -47,7 +47,7 @@ else {
                                 <th>Role</th>
                                 <th>Active</th>
                                 <?php 
-                                if ($data['role']=='System Administrator') {
+                                if ($_SESSION['role']=='System Administrator') {
                                     echo '<th>Action</th>';
                                 }
                                 ?>
@@ -95,7 +95,7 @@ else {
                                     ?>
                                 </td>
                                 <?php 
-                                if ($data['role']=='System Administrator') {
+                                if ($_SESSION['role']=='System Administrator') {
                                     if($user['role']!='System Administrator') {
                                         echo '<td><button type=submit name=edit class=btn bg-teal-400 btn-icon rounded-round><i class=icon-pen2></i></button></td>';
                                     }

@@ -17,6 +17,7 @@ $(document).ready(function(){
             $(".lon-message").text(lonMessage);
         }
         if (latMessage == "Lat Ok" && "Lon Ok") {
+            $('#modal_form_input_point').modal('toggle')
             $.addRows()
             $.each(window.counterArr, function(index, value){
                 if ($(".latitude-form-"+value).val() === '') {

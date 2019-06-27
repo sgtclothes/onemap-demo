@@ -1,12 +1,11 @@
 <?php
 session_start();
-if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
+if (!isset($_SESSION['auth'])) {
     echo "<script>alert('Login Required.'); location.href='login.php';</script>";
 } else {
     include 'config/conn.php';
     include 'config/data_login.php';
     include 'content/layer.php';
-    $data = data_login($conn, $_SESSION['email']);
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -92,7 +91,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
             let host = "<?= $dbhost ?>"
             let user = "<?= $dbuser ?>"
             let pass = "<?= $dbpass ?>"
-            window.created_by = "<?= $data['id'] ?>"
+            window.created_by = "<?= $_SESSION['auth']['id'] ?>"
             window.layerDataArr = '<?php print json_encode($layer_array) ?>'
         </script>
 
@@ -154,14 +153,14 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                     <!-- user menu item navbar -->
                     <li class="nav-item dropdown dropdown-user">
                         <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
-                            <span><?php echo "$data[name]"; ?></span>
+                            <span><?php echo "$_SESSION[name]"; ?></span>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="#" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
                             <div class="dropdown-divider"></div>
                             <?php
-                            if ($data['role'] == 'Admin' || $data['role'] == 'System Administrator') {
+                            if ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'System Administrator') {
                                 echo "<a href=\"admin.php\" class=\"dropdown-item\"><i class=\"icon-cog5\"></i> Admin</a>";
                             }
                             ?>

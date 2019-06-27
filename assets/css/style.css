@@ -210,3 +210,16 @@ select {
 .select-buffer {
     width: 100%;
 }
+
+.container-analysis {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction:column;
+}
+
+.scroller-analysis {
+    overflow-x: hidden;
+    overflow-y: auto;
+    flex-grow:1;
+}

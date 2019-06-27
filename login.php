@@ -4,11 +4,27 @@ if (isset($_POST['login'])) {
 	$email = mysqli_real_escape_string($conn,htmlentities($_POST['email']));
 	$passwordStr = md5($_POST['password']);
 	$password = mysqli_real_escape_string($conn,htmlentities($passwordStr));
-	$check=mysqli_query($conn,"SELECT * FROM users WHERE email='$email' AND password='$password' AND active = 1");
-	if (mysqli_num_rows($check)>=1) {
+	$check=mysqli_query(
+		$conn,
+		"SELECT * FROM users WHERE email = '$email' AND password = '$password' AND active = 1"
+	);
+	if (mysqli_num_rows($check)===1) {
 		session_start();
-		$_SESSION['email']=$email;
-		$_SESSION['password']=$password;
+		$userData = mysqli_fetch_array($check);
+		$_SESSION['auth']['id']=$userData['id'];
+		$_SESSION['auth']['email']=$email;
+		$_SESSION['role']=$userData['role'];
+		$_SESSION['name']=$userData['name'];
+		$result_array = array();
+		$resQuery = $conn->query(
+			'SELECT department_id FROM users_department WHERE user_id = ' . $userData['id']
+		);
+		if ($resQuery->num_rows > 0) {
+			while($row = $resQuery->fetch_assoc()) {
+				array_push($result_array, $row['department_id']);
+			}
+		}
+		$_SESSION['departments'] = $result_array;
 		header('location:index.php');
 	}
 	else {

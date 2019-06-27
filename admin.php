@@ -1,24 +1,22 @@
 <?php
 session_start();
-if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
+if (!isset($_SESSION['auth'])) {
     echo "<script>alert('Login Required.'); location.href='login.php';</script>";
 }
 else {
     include 'config/conn.php';
-    $sql = "SELECT a.email AS email, 
-                    a.name AS name,
-                    GROUP_CONCAT(c.department) AS department, 
-                    a.role AS role
-                    FROM users a
-                    INNER JOIN users_department b ON a.id=b.user_id
-                    INNER JOIN department c ON b.department_id=c.id
-                    WHERE email = '$_SESSION[email]'
-                    GROUP BY b.user_id
-                    ORDER BY a.id ASC";
-
-    $query = mysqli_query($conn,$sql);
-    $data = mysqli_fetch_array($query);
-    if ($data['role']=='Admin' || $data['role']== 'System Administrator') {
+    include 'config/ConsolePhp.php';
+    $result_array = array();
+    $resQuery = $conn->query(
+        'SELECT department FROM department where id in ('. implode(',',$_SESSION['departments']).')'
+    );
+    if ($resQuery->num_rows > 0) {
+        while($row = $resQuery->fetch_assoc()) {
+            array_push($result_array, $row['department']);
+        }
+    }
+    $data = implode(',',$result_array);
+    if ($_SESSION['role']=='Admin' || $_SESSION['role']== 'System Administrator') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,7 +118,7 @@ else {
             <!-- user menu item navbar -->
             <li class="nav-item dropdown dropdown-user">
                 <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
-                    <span><?php echo "$data[name]" ?></span>
+                    <span><?php echo "$_SESSION[name]" ?></span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">
@@ -173,9 +171,9 @@ else {
                         </div>
 
                         <div class="media-body">
-                            <div class="media-title font-weight-semibold"><?php echo "$data[name]" ?></div>
+                            <div class="media-title font-weight-semibold"><?php echo "$_SESSION[name]" ?></div>
                             <div class="font-size-xs opacity-50">
-                                <i class="icon-office font-size-sm"></i> &nbsp;<?php echo "$data[department]" ?>
+                                <i class="icon-office font-size-sm"></i> &nbsp;<?php echo "$data" ?>
                             </div>
                         </div>
 

@@ -26,6 +26,7 @@ function bufferRadius(GIS,map){
                         radiusArr.push(radius)
                         $(this).closest(".text-right").prev().prev().find('input[type=text].distance').prop('readonly', true)
                         $(this).closest(".text-right").prev().find('select.select-unit').prop('disabled', true)
+                        console.log(radius.Result)
                     })
                 })
                 $(".form-buffer-"+value).find('button.remove-buffer').each(function(){
