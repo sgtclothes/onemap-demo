@@ -1,7 +1,7 @@
 Viewer Display :
 
 - Departement
-    - Database
+    - Database  
         - Username_1
             - POI_1
             - POI_2
@@ -9,3 +9,10 @@ Viewer Display :
         - Username_2
             - POI_1
             - POI_2
+
+Langkah yang harus dilakukan untuk membuat konsep seperti ini adalah :
+
+1. List departemen diambil terlebih dahulu, dapatkan data dan simpan di variable "department_list"
+2. List username diambil terlebih dahulu bersama dengan created_by nya
+3. Dapatkan data POI nya untuk semua tabel yang tersimpan di database dan lakukan render ke Localstorage saat pertama kali
+4. 

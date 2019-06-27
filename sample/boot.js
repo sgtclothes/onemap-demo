@@ -779,33 +779,71 @@ function boot(GIS) {
     });
   }
 
-  storeDatabase.read().then(function(result) {
-    if (result !== "[]" && localStorage.length < 1) {
+  storeDatabase
+    .readUserAndDepartment()
+    .then(function(result) {
       let data = JSON.parse(result);
-      for (let i in data) {
-        if (data[i] instanceof Array) {
-          for (let j in data[i]) {
-            if (JSON.parse(data[i][j].color) instanceof Array) {
-              convertCSV.setColor(JSON.parse(data[i][j].color));
-            }
-            convertCSV.setCreatedBy(data[i][j].created_by);
-            delete data[i][j].id;
-            delete data[i][j].color;
-            delete data[i][j].created_by;
-          }
-          convertCSV.processCSVData(
-            storeLocalStorage.getRowofTextArray(data[i]),
-            false
-          );
+      let arrData = [];
+      let groupUserDepartment = [];
+      let userIds = [];
+      let usernames = [];
+      let departments = [];
+      let count = 1;
+      for (var i = 0; i < data.length; i++) {
+        if (count % 3 == 0) {
+          arrData.push(data[i]);
+          groupUserDepartment.push(arrData);
+          arrData = [];
         } else {
-          convertCSV.setNameFile(data[i]);
-          console.log(convertCSV.NameFile);
+          arrData.push(data[i]);
+        }
+        count++;
+      }
+      for (let i in groupUserDepartment) {
+        if (userIds.includes(groupUserDepartment[i][0]) == false) {
+          userIds.push(groupUserDepartment[i][0]);
+        }
+        if (usernames.includes(groupUserDepartment[i][1]) == false) {
+          usernames.push(groupUserDepartment[i][1]);
+        }
+        if (departments.includes(groupUserDepartment[i][2]) == false) {
+          departments.push(groupUserDepartment[i][2]);
         }
       }
-    }
-  });
-
-  // storeDatabase.readUser();
+      localStorage.setItem("userIds", JSON.stringify(userIds));
+      localStorage.setItem("usernames", JSON.stringify(usernames));
+    })
+    .then(function() {
+      storeDatabase.read().then(function(result) {
+        if (result !== "[]" && localStorage.length < 3) {
+          let data = JSON.parse(result);
+          console.log(data)
+          for (let i in data) {
+            let tempCreatedBy = [];
+            if (data[i] instanceof Array) {
+              for (let j in data[i]) {
+                if (JSON.parse(data[i][j].color) instanceof Array) {
+                  convertCSV.setColor(JSON.parse(data[i][j].color));
+                }
+                tempCreatedBy.push(data[i][j].created_by);
+                delete data[i][j].id;
+                delete data[i][j].color;
+                delete data[i][j].created_by;
+              }
+              tempCreatedBy = [...new Set(tempCreatedBy)];
+              convertCSV.setCreatedBy(tempCreatedBy);
+              convertCSV.processCSVData(
+                storeLocalStorage.getRowofTextArray(data[i]),
+                false
+              );
+            } else {
+              convertCSV.setNameFile(data[i]);
+              console.log(convertCSV.NameFile);
+            }
+          }
+        }
+      });
+    });
 
   // getAllPOI("tall");
   // getAllPOI("tall-1");
