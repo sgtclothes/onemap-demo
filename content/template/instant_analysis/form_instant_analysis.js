@@ -2,16 +2,10 @@ $(document).ready(function() {
     let counter = 0;
     window.counterArr = []
 
-    $("#form-list").on("click", ".btn-delete", function(event) {
-      $(this)
-        .closest("div.cols")
-        .remove();
-    });
-
     $.fn.addRows = function() {
       counterArr.push(counter)
       counterArr = [...new Set(counterArr)]
-      let newRow = $("<div class=cols>");
+      let newRow = $("<div class=rows>");
       let cols = "<hr style='margin-right: 2px'>";
 
       cols +=
@@ -41,13 +35,13 @@ $(document).ready(function() {
 
       if (counter === 0){
         $.when(
-          $.getScript( "assets/js/form_buffer.js" ),
-          $.getScript( "assets/js/form_drive_time.js" ),
-          $.Deferred(function( deferred ){
-              $( deferred.resolve );
+          $.getScript("assets/js/form_buffer.js"),
+          $.getScript("assets/js/form_drive_time.js"),
+          $.Deferred(function(deferred){
+              $(deferred.resolve);
           })
         ).done(function(){
-            console.log("success")
+            console.log("")
           });
       }
       counter++;
