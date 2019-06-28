@@ -817,31 +817,55 @@ function boot(GIS) {
       storeDatabase.read().then(function(result) {
         if (result !== "[]" && localStorage.length < 3) {
           let data = JSON.parse(result);
-          console.log(data)
+          console.log(data);
           for (let i in data) {
             let tempCreatedBy = [];
+            let tempColor = [];
+            let tempLength = [];
+            let tempData = [];
             if (data[i] instanceof Array) {
               for (let j in data[i]) {
-                if (JSON.parse(data[i][j].color) instanceof Array) {
-                  convertCSV.setColor(JSON.parse(data[i][j].color));
-                }
+                // if (JSON.parse(data[i][j].color) instanceof Array) {
+                //   convertCSV.setColor(JSON.parse(data[i][j].color));
+                // }
+                tempColor.push(data[i][j].color);
                 tempCreatedBy.push(data[i][j].created_by);
                 delete data[i][j].id;
                 delete data[i][j].color;
                 delete data[i][j].created_by;
               }
+              tempLength = storeDatabase.countMultipleElements(tempCreatedBy);
               tempCreatedBy = [...new Set(tempCreatedBy)];
-              convertCSV.setCreatedBy(tempCreatedBy);
-              convertCSV.processCSVData(
-                storeLocalStorage.getRowofTextArray(data[i]),
-                false
-              );
+              tempColor = [...new Set(tempColor)];
+              let length = data[i].length;
+              let count = 0;
+              for (let k = 0; k < length; k++) {
+                for (let j = 0; j < tempLength.length; j++) {
+                  if (count == tempLength[j] - 1) {
+                    convertCSV.setColor(JSON.parse(tempColor[j]));
+                    convertCSV.setCreatedBy(tempCreatedBy[j]);
+                    tempColor.splice(0, 1);
+                    tempCreatedBy.splice(0, 1);
+                    tempData.push(data[i][k]);
+                    convertCSV.processCSVData(
+                      storeLocalStorage.getRowofTextArray(tempData),
+                      false
+                    );
+                    tempData = [];
+                    count = 0;
+                    k = k + 1;
+                  }
+                }
+                tempData.push(data[i][k]);
+                count = count + 1;
+              }
             } else {
               convertCSV.setNameFile(data[i]);
               console.log(convertCSV.NameFile);
             }
           }
         }
+        console.log(JSON.parse(localStorage.getItem("data")));
       });
     });
 
@@ -852,6 +876,7 @@ function boot(GIS) {
   // getPerPOI("tall-1-3");
   // End Of Show & Hide POI from GIS Services
 
-  //localStorage.clear();
-  // storeLocalStorage.checkData()
+  document.getElementById("logout").addEventListener("click", function() {
+    localStorage.clear();
+  });
 }

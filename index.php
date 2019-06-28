@@ -166,7 +166,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                                 echo "<a href=\"admin.php\" class=\"dropdown-item\"><i class=\"icon-cog5\"></i> Admin</a>";
                             }
                             ?>
-                            <a href="logout.php" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
+                            <a id="logout" href="logout.php" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
                         </div>
                     </li>
                     <!-- /user menu item navbar -->
