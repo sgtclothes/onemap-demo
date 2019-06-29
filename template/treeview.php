@@ -1,4 +1,4 @@
-<ul class="treeview-user">
+<ul id="user-storage">
     <li class="user">
         <input type="checkbox" name="master-select-all-poi" class="master-select-all-poi">
         <label for="master-select-all-poi" class="label-user"></label>

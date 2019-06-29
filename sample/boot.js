@@ -825,9 +825,6 @@ function boot(GIS) {
             let tempData = [];
             if (data[i] instanceof Array) {
               for (let j in data[i]) {
-                // if (JSON.parse(data[i][j].color) instanceof Array) {
-                //   convertCSV.setColor(JSON.parse(data[i][j].color));
-                // }
                 tempColor.push(data[i][j].color);
                 tempCreatedBy.push(data[i][j].created_by);
                 delete data[i][j].id;
@@ -861,11 +858,9 @@ function boot(GIS) {
               }
             } else {
               convertCSV.setNameFile(data[i]);
-              console.log(convertCSV.NameFile);
             }
           }
         }
-        console.log(JSON.parse(localStorage.getItem("data")));
       });
     });
 

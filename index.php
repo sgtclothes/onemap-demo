@@ -312,16 +312,23 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) {
                 </div>
                 <div id="tree-viewer">
                     <a style="margin-top: 28px; padding: 18px 8px 8px 80px;" id="title" href="#">Viewer</a>
-                    <li class="tree-database">
-                        <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                        <label for="database-master-select-all-poi" class="label-database">Database</label>
-                        <div id="user-database"></div>
+                    <li class="tree-custom-data">
+                        <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
+                        <label for="custom-data-master-select-all-poi" class="label-custom-data">custom_data_user</label>
+                        <ul id="custom-data-user">
+                            <li class="tree-database">
+                                <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
+                                <label for="database-master-select-all-poi" class="label-database">Database</label>
+                                <div id="user-database"></div>
+                            </li>
+                            <li class="tree-localstorage">
+                                <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
+                                <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
+                                <div id="user-localstorage"></div>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="tree-localstorage">
-                        <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                        <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                        <div id="user-localstorage"></div>
-                    </li>
+
                 </div>
 
                 <div class="button-buffer">
