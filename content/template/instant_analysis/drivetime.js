@@ -64,65 +64,21 @@ function driveTime(GIS,map){
                         });
 
                         driveTimePromise.then(function() {
-                            console.log(driveTime.ArrayParamsCatchment[0])
-                            let extent =
-                                driveTime.ArrayParamsCatchment[0].features[0].geometry.extent;
-                            let xmin = extent.xmin;
-                            let xmax = extent.xmax;
-                            let ymin = extent.ymin;
-                            let ymax = extent.ymax;
-                            let wkid =
-                                driveTime.ArrayParamsCatchment[0].features[0].geometry.spatialReference
-                                .wkid;
-                            let inputFeatureArr = driveTime.ArrayParamsCatchment;
-                        
-                            let catchmentParams = {
-                                f: "json",
-                                "env:outSR": 4326,
-                                "env:processSR": 4326,
-                                Input_Feature: JSON.stringify(inputFeatureArr[0])
-                            };
-                        
+                            let graphicsLayers = driveTime.ArrayParamsCatchment[0].features[0]
+                            let geometry = driveTime.ArrayParamsCatchment[0].features[0].geometry
                             let catchment = new GIS.Buffer.Catchment();
+                            catchment.setGeometry(geometry)
                         
                             let catchmentPromise = new Promise(function(resolve, reject) {
-                                catchment.setServiceUrl(
-                                    "http://tig.co.id/ags/rest/services/GP/v2_catchment/GPServer/catchment_select_table"
-                                );
-                                catchment.setParams(catchmentParams);
-                                catchment.run(resolve);
+                                catchment.setUrlFeaturesLayer("https://gis.locatorlogic.com/arcgis/rest/services/BPS/BPS_ONLY_2016/MapServer/532",resolve)
                             });
                         
                             catchmentPromise.then(function() {
-                                let query = {
-                                    f: "json",
-                                    where: "OBJECT IN (" + catchment.ObjectIDStr[0] + ")",
-                                    returnGeometry: true,
-                                    spatialRel: "esriSpatialRelIntersects",
-                                    maxAllowableOffset: 76,
-                                    geometry:
-                                        '{"xmin":' +
-                                        xmin +
-                                        ',"ymin":' +
-                                        ymin +
-                                        ',"xmax":' +
-                                        xmax +
-                                        ', "ymax":' +
-                                        ymax +
-                                        ',"spatialReference":{"wkid":' +
-                                        wkid +
-                                        "}}",
-                                    geometryType: driveTime.ArrayParamsCatchment[0].geometryType,
-                                    inSR: 102100,
-                                    outFields: "*",
-                                    outSR: 102100
-                                };
-                                catchment.setQuery(query);
+                                catchment.runFeaturesLayer(graphicsLayers)
                             });
                         });
 
                         driveTime.render(map.ObjMapView);
-                        console.log(map.ObjMap.layers.items)
                         $(this).closest(".text-right").prev().find('input[type=number].distance-time').prop('disabled', true)
                         $(this).closest(".text-right").prev().find('select.select-unit-time').prop('disabled', true)
                         $(this).closest(".text-right").prev().prev().find('select.select-driving').prop('disabled', true)
