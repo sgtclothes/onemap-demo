@@ -616,7 +616,10 @@ function boot(GIS) {
     "user_data"
   );
 
-  let storeLocalStorage = new GIS.Buffer.LocalStorage(map.ObjMapView, convertCSV);
+  let storeLocalStorage = new GIS.Buffer.LocalStorage(
+    map.ObjMapView,
+    convertCSV
+  );
   let viewer = new GIS.Buffer.Viewer(map.ObjMapView, convertCSV);
   viewer.renderTreeview();
   viewer.selectItem();
@@ -815,6 +818,7 @@ function boot(GIS) {
     })
     .then(function() {
       storeDatabase.read().then(function(result) {
+        console.log(result);
         if (result !== "[]" && localStorage.length < 3) {
           let data = JSON.parse(result);
           console.log(data);
@@ -857,7 +861,13 @@ function boot(GIS) {
                 count = count + 1;
               }
             } else {
-              convertCSV.setNameFile(data[i]);
+              let s = data[i];
+              let removeCreatedBy = s.slice(0, s.lastIndexOf("_"));
+              let removeStorage = removeCreatedBy.slice(
+                0,
+                removeCreatedBy.lastIndexOf("_")
+              );
+              convertCSV.setNameFile(removeStorage);
             }
           }
         }
