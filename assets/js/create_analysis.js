@@ -1,45 +1,64 @@
 $(document).ready(function(){
     $("#form-create-analysis").submit(function(e){
         e.preventDefault();
-        let nameAnalysis = $('#name_analysis').val()
-        let createdBy = parseInt($('#created_by').val())
+        let name_analysis = $('#name_analysis').val()
+        let created_by = parseInt($('#created_by').val())
         let distance = [];
-        let distanceTime  = []
         let unit = []
-        let unitTime = []
-        let drivingData = []
-        let dataLatitude = []
-        let dataLongitude = []
+        let options = []
+        let latitude = []
+        let longitude = []
         
         $('.distance').each(function(){
-            distance.push($(this).val());
-        });
-        $('.distance-time').each(function(){
-            distanceTime.push($(this).val());
+            let dist = parseFloat($(this).val())
+            distance.push(dist);
         });
         $('.select-unit').each(function(){
             unit.push($(this).val());
+            options.push(0);
+        });
+        $('.distance-time').each(function(){
+            let dist_time = parseFloat($(this).val())
+            distance.push(dist_time);
         });
         $('.select-unit-time').each(function(){
-            unitTime.push($(this).val());
+            unit.push($(this).val());
         });
         $('.select-driving').each(function(){
-            drivingData.push($(this).val());
+            let option = parseInt($(this).val())
+            options.push(option);
         });
 
         $.each(window.counterArr, function(index, value){
-            dataLatitude.push($(".latitude-form-"+value).val())
-            dataLongitude.push($(".longitude-form-"+value).val())
+            latitude.push($(".latitude-form-"+value).val())
+            longitude.push($(".longitude-form-"+value).val())
         })
 
-        console.log({nameAnalysis:nameAnalysis, createdBy:createdBy, dataLatitude:dataLatitude , dataLongitude:dataLongitude, distance:distance, unit:unit, drivingData:drivingData, distanceTime:distanceTime, unitTime:unitTime})
-
+        console.log({name_analysis:name_analysis, created_by:created_by, latitude:latitude , longitude:longitude, distance:distance, unit:unit, options:options})
         $.ajax({
             url: "content/save_analysis.php",
             type: "POST",
-            data: {nameAnalysis:nameAnalysis, createdBy:createdBy, dataLatitude:dataLatitude , dataLongitude:dataLongitude, distance:distance, unit:unit, drivingData:drivingData, distanceTime:distanceTime, unitTime:unitTime},
-            error: function (err){
-                console.log(err)
+            data: {name_analysis:name_analysis, created_by:created_by, latitude:latitude , longitude:longitude, distance:distance, unit:unit, options:options},
+            success: function(response) {
+                console.log(response)
+                $('#name_analysis').val('')
+            },
+            error: function (jqXHR, exception){
+                if (jqXHR.status === 0) {
+                    console.log('Not connect. Verify Network.')
+                } else if (jqXHR.status == 404) {
+                    console.log('Requested page not found. [404]')
+                } else if (jqXHR.status == 500) {
+                    console.log('Internal Server Error [500].')
+                } else if (exception === 'parsererror') {
+                    console.log('Requested JSON parse failed.')
+                } else if (exception === 'timeout') {
+                    console.log('Time out error.')
+                } else if (exception === 'abort') {
+                    console.log('Ajax request aborted.')
+                } else {
+                    console.log('Uncaught Error.' + jqXHR.responseText)
+                }
             }
         });
     })

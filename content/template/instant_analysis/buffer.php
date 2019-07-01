@@ -6,12 +6,12 @@
     <div class="collapsible-content">
         <div class="form-group">
             <label>Distance</label>
-            <input type="number" min='0' step='.01' class="distance form-control" required>
+            <input type="number" min='0' step='.01' class="distance form-control" name="distance" required>
         </div>
 
         <div class="form-group">
             <label>Unit</label>
-            <select class="select-unit form-control" required>
+            <select class="select-unit form-control" required name="unit">
                 <option value="kilometers">Kilometers</option>
                 <option value="miles">Miles</option>
                 <option value="meters">Meters</option>

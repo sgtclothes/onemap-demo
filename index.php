@@ -4,7 +4,6 @@ if (!isset($_SESSION['auth'])) {
     echo "<script>alert('Login Required.'); location.href='login.php';</script>";
 } else {
     include 'config/conn.php';
-    include 'config/data_login.php';
     include 'content/layer.php';
     ?>
     <!DOCTYPE html>
@@ -191,7 +190,7 @@ if (!isset($_SESSION['auth'])) {
                     <form action="" method="post" id="form-create-analysis">
                         <div class="bottom-input-name">
                             <input type="text" class="form-control" style="margin-left:16px; width:150px" id="name_analysis" name="name_analysis" required placeholder="Name of Analysis">
-                            <input type="hidden" id="created_by" name="created_by" value="<?php echo $data['id'] ?>">
+                            <input type="hidden" id="created_by" name="created_by" value="<?php echo $_SESSION['auth']['id'] ?>">
                             <button type="submit" name="add" class="btn btn-primary ml-3">Save Analysis</button>
                         </div>
                         <div id="form-list"></div>

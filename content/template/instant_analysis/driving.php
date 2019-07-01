@@ -7,7 +7,7 @@
         <!-- Driving Navigator -->
         <div class="form-group">
             <label>Driving Data</label>
-            <select class="select-driving form-control" required>
+            <select class="select-driving form-control" required name="options">
                 <option>Please Select</option>
                 <option value=1>Live</option>
                 <option value=2>Typical</option>
@@ -18,12 +18,12 @@
         <div class="driving-historical">
             <div class="form-group">
                 <label>Distance</label>
-                <input type="number" min='0' step='.01' class="distance-time form-control" required>
+                <input type="number" min='0' step='.01' class="distance-time form-control" required name="distance">
             </div>
 
             <div class="form-group">
                 <label>Unit</label>
-                <select class="select-unit-time form-control" required>
+                <select class="select-unit-time form-control" required name="unit">
                     <option value="minutes">Minutes</option>
                     <option value="hours">Hours</option>
                 </select>
