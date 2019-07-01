@@ -450,8 +450,8 @@ function boot(GIS) {
     });
 
   function open_viewer() {
-    document.getElementById("myViewer").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
+    document.getElementById("myViewer").style.width = "300px";
+    document.getElementById("main").style.marginLeft = "300px";
   }
 
   function close_viewer() {

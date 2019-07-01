@@ -22,7 +22,6 @@ $values = array_values($_POST);
 $column_names = implode(" VARCHAR(100), ", $keys);
 $column = implode("`, `", $keys);
 $field = implode("', '", $values);
-echo $field;
 $result = mysqli_query($conn, "SELECT 1 FROM $tableName");
 if ($result !== FALSE) {
     $insert = "INSERT INTO `$tableName` (`" . $column . "`) VALUES ('" . $field . "')";
