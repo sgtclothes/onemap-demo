@@ -616,7 +616,7 @@ function boot(GIS) {
     "user_data"
   );
 
-  let storeLocalStorage = new GIS.Buffer.LocalStorage(map.ObjMapView);
+  let storeLocalStorage = new GIS.Buffer.LocalStorage(map.ObjMapView, convertCSV);
   let viewer = new GIS.Buffer.Viewer(map.ObjMapView, convertCSV);
   viewer.renderTreeview();
   viewer.selectItem();
@@ -861,6 +861,7 @@ function boot(GIS) {
             }
           }
         }
+        console.log(JSON.parse(localStorage.getItem("data")));
       });
     });
 
