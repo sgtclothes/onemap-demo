@@ -9,24 +9,16 @@
             <label>Driving Data</label>
             <select class="select-driving form-control" required>
                 <option>Please Select</option>
-                <option value="live">Live</option>
-                <option value="typical">Typical</option>
-                <option value="historical">Historical</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Result Type</label>
-            <select class="select-result-type form-control" required>
-                <option value="aggregation">Aggregation</option>
-                <option value="segmentation">Segmentation</option>
+                <option value=1>Live</option>
+                <option value=2>Typical</option>
+                <option value=3>Historical</option>
             </select>
         </div>
 
         <div class="driving-historical">
             <div class="form-group">
                 <label>Distance</label>
-                <input type="text" class="distance-time form-control" onkeypress="isNumber(event)" title="Please enter number and comma" required>
+                <input type="number" min='0' step='.01' class="distance-time form-control" required>
             </div>
 
             <div class="form-group">
@@ -56,15 +48,5 @@
 $(function(){
     // initialize collapsibles:
     $( document ).trigger( "enhance" );
-});
-</script>
-<script>
-$(document).ready(function() {
-    $(".distance-time").each(function() {
-        $(this).bind("copy paste cut", function(e){
-            e.preventDefault(); //disable cut,copy,paste
-            alert('cut,copy & paste options are disabled !!');
-        });
-    });
 });
 </script>

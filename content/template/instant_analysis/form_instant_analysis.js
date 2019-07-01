@@ -32,18 +32,6 @@ $(document).ready(function() {
 
       newRow.append(cols);
       $("#form-list").append(newRow);
-
-      if (counter === 0){
-        $.when(
-          $.getScript("assets/js/form_buffer.js"),
-          $.getScript("assets/js/form_drive_time.js"),
-          $.Deferred(function(deferred){
-              $(deferred.resolve);
-          })
-        ).done(function(){
-            console.log("")
-          });
-      }
       counter++;
     }
 

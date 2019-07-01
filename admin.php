@@ -5,7 +5,6 @@ if (!isset($_SESSION['auth'])) {
 }
 else {
     include 'config/conn.php';
-    include 'config/ConsolePhp.php';
     $result_array = array();
     $resQuery = $conn->query(
         'SELECT department FROM department where id in ('. implode(',',$_SESSION['departments']).')'

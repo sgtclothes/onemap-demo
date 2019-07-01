@@ -5,23 +5,16 @@
     </h4>
     <div class="collapsible-content">
         <div class="form-group">
-            <label>Result Type</label>
-            <select class="select-buffer form-control" required>
-                <option value="aggregation">Aggregation</option>
-                <option value="segmentation">Segmentation</option>
-            </select>
-        </div>
-
-        <div class="form-group">
             <label>Distance</label>
-            <input type="text" class="distance form-control" onkeypress="isInteger(event)" title="Please enter number and comma" required>
+            <input type="number" min='0' step='.01' class="distance form-control" required>
         </div>
 
         <div class="form-group">
             <label>Unit</label>
             <select class="select-unit form-control" required>
-                <option value="meters">Meters</option>
                 <option value="kilometers">Kilometers</option>
+                <option value="miles">Miles</option>
+                <option value="meters">Meters</option>
             </select>
         </div>
 
@@ -34,15 +27,5 @@
 $(function(){
     // initialize collapsibles:
     $( document ).trigger( "enhance" );
-});
-</script>
-<script>
-$(document).ready(function() {
-    $(".distance").each(function() {
-        $(this).bind("copy paste cut", function(e){
-            e.preventDefault(); //disable cut,copy,paste
-            alert('cut,copy & paste options are disabled !!');
-        });
-    });
 });
 </script>

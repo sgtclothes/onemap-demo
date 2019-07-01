@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 28, 2019 at 08:58 AM
+-- Generation Time: Jun 27, 2019 at 06:19 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
 
@@ -143,8 +143,7 @@ CREATE TABLE `site` (
 INSERT INTO `site` (`id`, `lat`, `lon`, `name`, `address`, `created_by`) VALUES
 (1, -8.654, 115.219, 'Bar', 'Jalan Denpasar', 2),
 (5, -3.317, 105.047, 'site2', '', 2),
-(23, -6.883, 107.607, 'site 1', 'bandung', 2),
-(25, -2.598, 112.562, 'site night', '', 2);
+(23, -6.883, 107.607, 'site 1', 'bandung', 2);
 
 -- --------------------------------------------------------
 
@@ -155,9 +154,22 @@ INSERT INTO `site` (`id`, `lat`, `lon`, `name`, `address`, `created_by`) VALUES
 CREATE TABLE `spec_buffer_analysis` (
   `id` int(11) NOT NULL,
   `analysis_points_id` int(11) DEFAULT NULL,
-  `distance` float NOT NULL,
-  `unit` varchar(15) NOT NULL,
-  `options` int(1) NOT NULL DEFAULT '0'
+  `distance_radius` varchar(50) NOT NULL,
+  `unit` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `spec_drive_time_analysis`
+--
+
+CREATE TABLE `spec_drive_time_analysis` (
+  `id` int(11) NOT NULL,
+  `analysis_points_id` int(11) DEFAULT NULL,
+  `driving_data` varchar(50) NOT NULL,
+  `distance_time` varchar(50) NOT NULL,
+  `unit` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -264,6 +276,13 @@ ALTER TABLE `spec_buffer_analysis`
   ADD KEY `analysis_points_id` (`analysis_points_id`);
 
 --
+-- Indexes for table `spec_drive_time_analysis`
+--
+ALTER TABLE `spec_drive_time_analysis`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `analysis_points_id` (`analysis_points_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -305,11 +324,16 @@ ALTER TABLE `poi`
 -- AUTO_INCREMENT for table `site`
 --
 ALTER TABLE `site`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `spec_buffer_analysis`
 --
 ALTER TABLE `spec_buffer_analysis`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `spec_drive_time_analysis`
+--
+ALTER TABLE `spec_drive_time_analysis`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
@@ -354,6 +378,12 @@ ALTER TABLE `site`
 --
 ALTER TABLE `spec_buffer_analysis`
   ADD CONSTRAINT `fk_from_analysis_points` FOREIGN KEY (`analysis_points_id`) REFERENCES `analysis_points` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `spec_drive_time_analysis`
+--
+ALTER TABLE `spec_drive_time_analysis`
+  ADD CONSTRAINT `fk_from_analysis_points_zoku` FOREIGN KEY (`analysis_points_id`) REFERENCES `analysis_points` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `users_department`
