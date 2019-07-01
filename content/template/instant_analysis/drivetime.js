@@ -54,7 +54,7 @@ function driveTime(GIS,map){
                         );
 
                         driveTime.createLayer(
-                            "https://gis.locatorlogic.com/arcgis/rest/services/BPS/BPS_ONLY_2016/MapServer/722/",
+                            "http://tig.co.id/ags/rest/services/BPS/BPS_2016_DESA/MapServer/1",
                             distance,
                             unit
                         );
@@ -70,7 +70,7 @@ function driveTime(GIS,map){
                             catchment.setGeometry(geometry)
                         
                             let catchmentPromise = new Promise(function(resolve, reject) {
-                                catchment.setUrlFeaturesLayer("https://gis.locatorlogic.com/arcgis/rest/services/BPS/BPS_ONLY_2016/MapServer/532",resolve)
+                                catchment.setUrlFeaturesLayer("http://tig.co.id/ags/rest/services/BPS/BPS_2016_DESA/MapServer/3",resolve)
                             });
                         
                             catchmentPromise.then(function() {
