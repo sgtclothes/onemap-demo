@@ -236,3 +236,7 @@ li {
   overflow-y: auto;
   flex-grow: 1;
 }
+
+.button-buffer {
+  padding: 18px 8px 8px 80px;
+}

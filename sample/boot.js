@@ -348,6 +348,8 @@ function boot(GIS) {
     }
   ];
 
+  console.log(localStorage.getItem("namefile-database"));
+
   let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
   // poi.run();
   // end of widget color picker and render poi

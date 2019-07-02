@@ -307,6 +307,7 @@ if (!isset($_SESSION['auth'])) {
                 <p>1. Using separators like ","(commas), ";"(semicolons), "|"(pipes)</p>
                 <p>2. Should contains string value</p>
                 <p>3. Both header columns and value must have a same length</p>
+                <p>4. Format file name must not contain a space or it will be automatically replaced by underline</p>
             </div>
         </div>
         <!-- End of Modal drag and drop csv -->
