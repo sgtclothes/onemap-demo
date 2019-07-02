@@ -184,7 +184,7 @@ if (!isset($_SESSION['auth'])) {
                     <div style="margin-left:52px; margin-bottom: 8px;">
                         <button type="button" id="adding-btn" title="Input Latitude & Longitude" data-toggle="modal" data-target="#modal_form_input_point" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
                         <button type="button" id="add-from-site" title="Add from Site" data-toggle="modal" data-target="#modal_form_vertical" class="btn btn-sm alpha-primary border-primary text-primary-800 btn-icon rounded-round ml-2"><i class="icon-office"></i></button>
-                        <button type="button" title="Add From CSV" class="btn btn-sm alpha-success border-success text-success-800 btn-icon rounded-round ml-2"><i class="icon-folder-open"></i></button>
+                        <button type="button" id="add-from-csv" title="Add From CSV" class="btn btn-sm alpha-success border-success text-success-800 btn-icon rounded-round ml-2"><i class="icon-folder-open"></i></button>
                         <button type="button" title="Pointing on the Map" id="pointing-btn" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon rounded-round ml-2"><i class="icon-pin-alt"></i></button>
                     </div>
                     <form action="" method="post" id="form-create-analysis">
@@ -343,6 +343,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/add_points_from_site.js"></script>
     <script src="assets/js/add_points_manual.js"></script>
     <script src="assets/js/create_analysis.js"></script>
+    <script src="assets/js/add_points_from_csv.js"></script>
     <script>
     $(document).ready(function() {
         $('#datatable-sorting').dataTable({
