@@ -8,6 +8,7 @@ if (!isset($_SESSION['auth'])) {
     ?>
     <!DOCTYPE html>
     <html lang="en">
+
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,7 +27,7 @@ if (!isset($_SESSION['auth'])) {
         <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
         <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" />
-        <link href="assets/js/plugins/tree/tree.css" rel="stylesheet" type="text/css" />
+        <!-- <link href="assets/js/plugins/tree/tree.css" rel="stylesheet" type="text/css" /> -->
         <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
         <!-- /global stylesheets -->
 
@@ -44,7 +45,7 @@ if (!isset($_SESSION['auth'])) {
         <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
         <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
         <script type="text/javascript" src="assets/colors/jsColor.js"></script>
-        <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script>
+        <!-- <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script> -->
         <script src="assets/js/layout/default/app.js"></script>
         <!-- /themes & template js files -->
 
@@ -71,7 +72,7 @@ if (!isset($_SESSION['auth'])) {
                 margin-top: 5px;
                 overflow-y: auto;
                 overflow-x: hidden;
-                min-height:100px;
+                min-height: 100px;
             }
 
             .bottom-input-name {
@@ -163,7 +164,7 @@ if (!isset($_SESSION['auth'])) {
                                 echo "<a href=\"admin.php\" class=\"dropdown-item\"><i class=\"icon-cog5\"></i> Admin</a>";
                             }
                             ?>
-                            <a href="logout.php" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
+                            <a id="logout" href="logout.php" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
                         </div>
                     </li>
                     <!-- /user menu item navbar -->
@@ -204,18 +205,18 @@ if (!isset($_SESSION['auth'])) {
                 <div class="inline">
                     <a href="javascript:void(0)" id="closeviewer">&times;</a>
                 </div>
-                <div>
+                <div id="tree-viewer">
                     <a style="margin-top: 28px; padding: 18px 8px 8px 80px;" id="title" href="#">Viewer</a>
                     <ul class="treeview">
                         <li>
-                            <i class="icon-arrow-right32 caret"></i>
+                            <!-- <i class="icon-arrow-right32 caret"></i> -->
                             <input type="checkbox" name="tall" id="tall">
                             <label for="tall" class="custom-unchecked">POI</label>
 
                             <ul class="nested">
 
-                                <li class="last" style="margin-left: -19px;">
-                                    <i class="icon-arrow-right32 caret"></i>
+                                <li class="last">
+                                    <!-- <i class="icon-arrow-right32 caret"></i> -->
                                     <input type="checkbox" name="tall-1" id="tall-1">
                                     <label for="tall-1" class="custom-unchecked">ATM</label>
                                     <ul class="nested">
@@ -237,6 +238,23 @@ if (!isset($_SESSION['auth'])) {
                                 </li>
                             </ul>
                         </li>
+                        <li class="tree-custom-data">
+                            <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
+                            <label for="custom-data-master-select-all-poi" class="label-custom-data">custom_data_user</label>
+                            <ul id="custom-data-user">
+                                <li class="tree-database">
+                                    <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
+                                    <label for="database-master-select-all-poi" class="label-database">Database</label>
+                                    <div id="user-database"></div>
+                                </li>
+                                <li class="tree-localstorage">
+                                    <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
+                                    <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
+                                    <div id="user-localstorage"></div>
+                                </li>
+                            </ul>
+                        </li>
+
                     </ul>
                 </div>
                 <div class="button-buffer">
@@ -296,10 +314,11 @@ if (!isset($_SESSION['auth'])) {
         <!-- Confirm Box -->
         <div id="confirmBox">
             <div class="message"></div>
-            <button class="yes">Yes</button>
-            <button class="no">No</button>
+            <button id="first" class="first">Use Database</button>
+            <button id="second" class="second">Use Web Storage</button>
         </div>
         <!-- End of Confirm Box -->
+
         <!-- Form Edit POI -->
         <div id="poi">
             <form id="form-poi" action="">
@@ -320,8 +339,8 @@ if (!isset($_SESSION['auth'])) {
             </form>
         </div>
         <!-- End of Form Edit POI -->
-        <?php 
-        include 'content/data_site.php'; 
+        <?php
+        include 'content/data_site.php';
         include 'content/input_point.php';
         ?>
         <script src="assets/colors/app.js"></script>
@@ -344,14 +363,15 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/add_points_manual.js"></script>
     <script src="assets/js/create_analysis.js"></script>
     <script>
-    $(document).ready(function() {
-        $('#datatable-sorting').dataTable({
-            "bLengthChange": false,
-            "bFilter": true,
-            "pageLength": 5
+        $(document).ready(function() {
+            $('#datatable-sorting').dataTable({
+                "bLengthChange": false,
+                "bFilter": true,
+                "pageLength": 5
+            });
         });
-    });
     </script>
+
     </html>
 <?php
 }

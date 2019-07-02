@@ -4,7 +4,7 @@ function boot(GIS) {
   //Define Map class
   let map = new GIS.Map(config.CenterPoint);
   map.setBasemap("topo-vector");
-  
+  map.addPrintWidget(config.PrintServiceUrl, config.Position[5]);
   //Setting Proxy
   //let esriConfig = new GIS.Proxy.esriConfig();
   //esriConfig.setUrlUtils();
@@ -49,6 +49,7 @@ function boot(GIS) {
       document
         .getElementById("mapDiv")
         .setAttribute("style", "cursor:pointer;");
+      console.log(pointTheSiteEnabled);
       if (pointTheSiteEnabled == false) {
         document
           .getElementById("mapDiv")
@@ -86,9 +87,9 @@ function boot(GIS) {
   // create site analysis
   let pointEnabled = false;
   $(document).ready(function() {
-    $("#pointing-btn").click(function(){
+    $("#pointing-btn").click(function() {
       pointEnabled = true;
-      $("#mapDiv").attr("style","cursor:pointer;")
+      $("#mapDiv").attr("style", "cursor:pointer;");
       map.ObjMapView.on("click", function(event) {
         if (pointEnabled) {
           pointEnabled = !pointEnabled;
@@ -96,36 +97,50 @@ function boot(GIS) {
             x: event.x,
             y: event.y
           }).latitude.toFixed(3);
-    
+
           let longitude = map.ObjMapView.toMap({
             x: event.x,
             y: event.y
           }).longitude.toFixed(3);
-    
-          $.addRows()
-          $.each(window.counterArr, function(index, value){
-            if ($(".latitude-form-"+value).val() === '') {
-              $(".latitude-form-"+value).val(latitude)
-              $(".longitude-form-"+value).val(longitude)
-              $("#form-list").delegate('.selectbuffer-'+value, 'click', function() {
-                $.get("content/template/instant_analysis/buffer.php", function(data){ 
-                  $(".form-buffer-"+value).append(data)
-                });
-              })
-              $("#form-list").delegate('.selectdrive-'+value, 'click', function() {
-                $.get("content/template/instant_analysis/driving.php", function(data){ 
-                  $(".form-drive-"+value).append(data)
-                });
-              }) 
+
+          $.addRows();
+          $.each(window.counterArr, function(index, value) {
+            if ($(".latitude-form-" + value).val() === "") {
+              $(".latitude-form-" + value).val(latitude);
+              $(".longitude-form-" + value).val(longitude);
+              $("#form-list").delegate(
+                ".selectbuffer-" + value,
+                "click",
+                function() {
+                  $.get(
+                    "content/template/instant_analysis/buffer.php",
+                    function(data) {
+                      $(".form-buffer-" + value).append(data);
+                    }
+                  );
+                }
+              );
+              $("#form-list").delegate(
+                ".selectdrive-" + value,
+                "click",
+                function() {
+                  $.get(
+                    "content/template/instant_analysis/driving.php",
+                    function(data) {
+                      $(".form-drive-" + value).append(data);
+                    }
+                  );
+                }
+              );
             }
-          })
+          });
         }
         if (pointEnabled == false) {
-          $("#mapDiv").attr("style","cursor:default;")
+          $("#mapDiv").attr("style", "cursor:default;");
         }
-      })
-    })
-  })
+      });
+    });
+  });
 
   // let btnEmptySelection = document.getElementById("remove");
   // btnEmptySelection.onclick = function() {
@@ -134,8 +149,8 @@ function boot(GIS) {
   // end of create site analysis
 
   //Define Buffers
-  bufferRadius(GIS,map,config)
-  driveTime(GIS,map)
+  bufferRadius(GIS, map, config);
+  driveTime(GIS, map);
 
   // document.querySelector("#basemap").addEventListener("click", function() {
   //   console.log(radius.Results);
@@ -191,8 +206,8 @@ function boot(GIS) {
     });
 
   function open_viewer() {
-    document.getElementById("myViewer").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
+    document.getElementById("myViewer").style.width = "300px";
+    document.getElementById("main").style.marginLeft = "300px";
   }
 
   function close_viewer() {
@@ -240,15 +255,9 @@ function boot(GIS) {
   });
 
   //drag and drop
-  map.ObjMapView.on("pointer-move", function() {
-    let pointColors = $("#colors").val();
-    let convertCSV = new GIS.Buffer.ConvertCSV(
-      map.ObjMap,
-      map.ObjMapView,
-      pointColors
-    );
-    convertCSV.setupDropZone();
-  });
+  let pointColors = $("#colors").val();
+  let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView);
+  convertCSV.setupDropZone();
   //end of drag and drop
 
   // widget color picker and render poi
@@ -340,10 +349,122 @@ function boot(GIS) {
   ];
 
   let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
-  poi.run();
+  // poi.run();
   // end of widget color picker and render poi
 
-  ServiceLayer(GIS,map,config)
+  // Show & Hide POI from GIS Services
+  let layerServiceArr = JSON.parse(layerDataArr);
+  let storeDatabase = new GIS.Buffer.Database(
+    "localhost",
+    "root",
+    "",
+    "user_data"
+  );
 
-  //localStorage.clear();
+  let storeLocalStorage = new GIS.Buffer.LocalStorage(
+    map.ObjMapView,
+    convertCSV
+  );
+  let viewer = new GIS.Buffer.Viewer(map.ObjMapView, convertCSV);
+  viewer.renderTreeview();
+  viewer.selectItem();
+
+  storeDatabase
+    .readUserAndDepartment()
+    .then(function(result) {
+      let data = JSON.parse(result);
+      let arrData = [];
+      let groupUserDepartment = [];
+      let userIds = [];
+      let usernames = [];
+      let departments = [];
+      let count = 1;
+      for (var i = 0; i < data.length; i++) {
+        if (count % 3 == 0) {
+          arrData.push(data[i]);
+          groupUserDepartment.push(arrData);
+          arrData = [];
+        } else {
+          arrData.push(data[i]);
+        }
+        count++;
+      }
+      for (let i in groupUserDepartment) {
+        if (userIds.includes(groupUserDepartment[i][0]) == false) {
+          userIds.push(groupUserDepartment[i][0]);
+        }
+        if (usernames.includes(groupUserDepartment[i][1]) == false) {
+          usernames.push(groupUserDepartment[i][1]);
+        }
+        if (departments.includes(groupUserDepartment[i][2]) == false) {
+          departments.push(groupUserDepartment[i][2]);
+        }
+      }
+      localStorage.setItem("userIds", JSON.stringify(userIds));
+      localStorage.setItem("usernames", JSON.stringify(usernames));
+    })
+    .then(function() {
+      storeDatabase.read().then(function(result) {
+        console.log(result);
+        if (result !== "[]" && localStorage.length < 3) {
+          let data = JSON.parse(result);
+          console.log(data);
+          for (let i in data) {
+            let tempCreatedBy = [];
+            let tempColor = [];
+            let tempLength = [];
+            let tempData = [];
+            if (data[i] instanceof Array) {
+              for (let j in data[i]) {
+                tempColor.push(data[i][j].color);
+                tempCreatedBy.push(data[i][j].created_by);
+                delete data[i][j].id;
+                delete data[i][j].color;
+                delete data[i][j].created_by;
+              }
+              tempLength = storeDatabase.countMultipleElements(tempCreatedBy);
+              tempCreatedBy = [...new Set(tempCreatedBy)];
+              tempColor = [...new Set(tempColor)];
+              let length = data[i].length;
+              let count = 0;
+              for (let k = 0; k < length; k++) {
+                for (let j = 0; j < tempLength.length; j++) {
+                  if (count == tempLength[j] - 1) {
+                    convertCSV.setColor(JSON.parse(tempColor[j]));
+                    convertCSV.setCreatedBy(tempCreatedBy[j]);
+                    tempColor.splice(0, 1);
+                    tempCreatedBy.splice(0, 1);
+                    tempData.push(data[i][k]);
+                    convertCSV.processCSVData(
+                      storeLocalStorage.getRowofTextArray(tempData),
+                      false
+                    );
+                    tempData = [];
+                    count = 0;
+                    k = k + 1;
+                  }
+                }
+                tempData.push(data[i][k]);
+                count = count + 1;
+              }
+            } else {
+              let s = data[i];
+              let removeCreatedBy = s.slice(0, s.lastIndexOf("_"));
+              let removeStorage = removeCreatedBy.slice(
+                0,
+                removeCreatedBy.lastIndexOf("_")
+              );
+              convertCSV.setNameFile(removeStorage);
+            }
+          }
+        }
+        console.log(JSON.parse(localStorage.getItem("data")));
+      });
+    });
+
+  ServiceLayer(GIS, map, config);
+
+  document.getElementById("logout").addEventListener("click", function() {
+    localStorage.clear();
+  });
 }

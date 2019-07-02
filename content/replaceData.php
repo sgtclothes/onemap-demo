@@ -1,6 +1,6 @@
 <?php
+session_start();
 include '../config/connData.php';
-include '../config/ConsolePhp.php';
 function debug_to_console($data)
 {
     $output = $data;
@@ -11,6 +11,11 @@ function debug_to_console($data)
 }
 
 $tableName = $_POST['tableName'];
+
+$drop = "DROP TABLE $tableName";
+$conn->query($drop);
+
+array_pop($_POST);
 array_pop($_POST);
 $keys = array_keys($_POST);
 $values = array_values($_POST);
