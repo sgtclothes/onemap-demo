@@ -180,7 +180,7 @@ if (!isset($_SESSION['auth'])) {
                     <a href="javascript:void(0)" id="closebtn">&times;</a>
                 </div>
                 <div>
-                    <a id="title" href="#" style="padding: 70px 8px 8px 55px;">Instant Analysis</a>
+                    <p class="title" style="padding: 70px 8px 0px 88px;">Instant Analysis</p>
                     <div style="margin-left:52px; margin-bottom: 8px;">
                         <button type="button" id="adding-btn" title="Input Latitude & Longitude" data-toggle="modal" data-target="#modal_form_input_point" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
                         <button type="button" id="add-from-site" title="Add from Site" data-toggle="modal" data-target="#modal_form_vertical" class="btn btn-sm alpha-primary border-primary text-primary-800 btn-icon rounded-round ml-2"><i class="icon-office"></i></button>
@@ -205,7 +205,7 @@ if (!isset($_SESSION['auth'])) {
                     <a href="javascript:void(0)" id="closeviewer">&times;</a>
                 </div>
                 <div>
-                    <a style="margin-top: 28px; padding: 18px 8px 8px 80px;" id="title" href="#">Viewer</a>
+                    <p style="margin-top: 28px; padding: 18px 8px 0px 90px;" class="title">Viewer</p>
                     <ul class="treeview">
                         <li>
                             <i class="icon-arrow-right32 caret"></i>
@@ -239,10 +239,7 @@ if (!isset($_SESSION['auth'])) {
                         </li>
                     </ul>
                 </div>
-                <div class="button-buffer">
-                    <button type="button" id="color-picker" class="btn btn-primary"><i class="mi-format-color-fill mr-2"></i>Color Picker</button>
-                </div>
-                <div class="button-buffer">
+                <div class="button-drag-csv">
                     <button type="button" id="drag-csv" class="btn btn-primary"><i class="mi-arrow-drop-down-circle"></i>Drag CSV</button>
                 </div>
             </div>
