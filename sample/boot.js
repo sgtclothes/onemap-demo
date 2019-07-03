@@ -240,34 +240,36 @@ function boot(GIS) {
   });
 
   //drag and drop
-  map.ObjMapView.on("pointer-move", function() {
-    let pointColors = $("#colors").val();
-    let convertCSV = new GIS.Buffer.ConvertCSV(
-      map.ObjMap,
-      map.ObjMapView,
-      pointColors
-    );
-    convertCSV.setupDropZone();
-  });
+  $(document).ready(function() {
+    $("#drag-csv").click(function(){
+      var pointColors = '#'+Math.floor(Math.random()*16777215).toString(16)
+      let convertCSV = new GIS.Buffer.ConvertCSV(
+        map.ObjMap,
+        map.ObjMapView,
+        pointColors
+      );
+      convertCSV.setupDropZone();
+    })
+  })
   //end of drag and drop
 
   // widget color picker and render poi
-  let colorsDiv = document.getElementById("colors-div");
-  let colorsExpand = new ESRI.Expand({
-    expandIconClass: "esri-icon-experimental",
-    view: map.ObjMapView,
-    content: colorsDiv
-  });
+  // let colorsDiv = document.getElementById("colors-div");
+  // let colorsExpand = new ESRI.Expand({
+  //   expandIconClass: "esri-icon-experimental",
+  //   view: map.ObjMapView,
+  //   content: colorsDiv
+  // });
 
-  document.getElementById("color-picker").addEventListener("click", function() {
-    if (colorsDiv.style.display == "none") {
-      map.ObjMapView.ui.add(colorsExpand, config.Position[6]);
-      colorsDiv.style.display = "inline-block";
-    } else {
-      colorsDiv.style.display = "none";
-      map.ObjMapView.ui.remove(colorsExpand);
-    }
-  });
+  // document.getElementById("color-picker").addEventListener("click", function() {
+  //   if (colorsDiv.style.display == "none") {
+  //     map.ObjMapView.ui.add(colorsExpand, config.Position[6]);
+  //     colorsDiv.style.display = "inline-block";
+  //   } else {
+  //     colorsDiv.style.display = "none";
+  //     map.ObjMapView.ui.remove(colorsExpand);
+  //   }
+  // });
 
   document.getElementById("drag-csv").addEventListener("click", function() {
     let x = document.getElementById("dragdrop-modal");
