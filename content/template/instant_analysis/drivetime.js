@@ -57,7 +57,11 @@ function driveTime(GIS,map){
                             distance,
                             unit
                         );
-                        
+
+                        map.ObjMapView.popup.dockEnabled= true
+                        map.ObjMapView.popup.dockOptions.breakpoint = false
+                        map.ObjMapView.popup.dockOptions.position = 'bottom-right'
+
                         let driveTimePromise = new Promise(function(resolve, reject) {
                             driveTime.run(resolve);
                         });
@@ -65,9 +69,6 @@ function driveTime(GIS,map){
                         driveTimePromise.then(function() {
                             let graphicsLayers = driveTime.ArrayParamsCatchment[0].features[0]
                             let inputFeatureArr = driveTime.ArrayParamsCatchment;
-                            inputFeatureArr[0].spatialReference.wkid = 102100
-                            inputFeatureArr[0].spatialReference.latestWkid = 3857
-
                             let catchmentParams = {
                                 f: "json",
                                 "env:outSR": 4326,

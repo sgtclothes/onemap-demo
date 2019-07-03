@@ -17,36 +17,13 @@ function bufferRadius(GIS,map){
                         radius.setUnit(unit);
                         radius.setRadius(distance);
 
-                        let radiusPromise = new Promise(function(resolve, reject) {
-                            radius.create(resolve);
-                        });
+                        map.ObjMapView.popup.dockEnabled= true
+                        map.ObjMapView.popup.dockOptions.breakpoint = false
+                        map.ObjMapView.popup.dockOptions.position = 'bottom-right'
 
-                        radiusPromise.then(function() {
-                            let inputFeature = radius.ParamsCatchment;
-                            let graphicsLayers = radius.CircleGraphic[0]
-                            inputFeature.spatialReference.wkid = 102100
-                            inputFeature.spatialReference.latestWkid = 3857
-                            let catchmentParams = {
-                                f: "json",
-                                "env:outSR": 4326,
-                                "env:processSR": 4326,
-                                Input_Feature: JSON.stringify(inputFeature)
-                            };
-                            
-                            let catchment = new GIS.Buffer.Catchment();
-
-                            let catchmentPromise = new Promise(function(resolve, reject) {
-                                catchment.setServiceUrl(
-                                    "http://tig.co.id/ags/rest/services/GP/v2_catchment/GPServer/catchment_select_table"
-                                );
-                                catchment.setParams(catchmentParams,resolve);
-                            });
-
-                            catchmentPromise.then(function() {
-                                catchment.run(graphicsLayers);
-                            });
-                        })    
-                        radiusArr.push(radius)
+                        radius.create();
+                        radiusArr.push(radius);
+                        
                         $(this).closest(".text-right").prev().prev().find('input[type=number].distance').prop('disabled', true)
                         $(this).closest(".text-right").prev().find('select.select-unit').prop('disabled', true)
                         $(this).prop('disabled', true)
