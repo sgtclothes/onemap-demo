@@ -84,7 +84,7 @@ function boot(GIS) {
   });
   // END of create a site
 
-  // create site analysis
+  // create instant analysis
   let pointEnabled = false;
   $(document).ready(function() {
     $("#pointing-btn").click(function() {
@@ -142,11 +142,7 @@ function boot(GIS) {
     });
   });
 
-  // let btnEmptySelection = document.getElementById("remove");
-  // btnEmptySelection.onclick = function() {
-  //   map.ObjMapView.graphics.removeAll();
-  // };
-  // end of create site analysis
+  // end of create instant analysis
 
   //Define Buffers
   bufferRadius(GIS, map, config);
@@ -255,28 +251,36 @@ function boot(GIS) {
   });
 
   //drag and drop
-  let pointColors = $("#colors").val();
-  let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView);
-  convertCSV.setupDropZone();
+  $(document).ready(function() {
+    $("#drag-csv").click(function(){
+      var pointColors = '#'+Math.floor(Math.random()*16777215).toString(16)
+      let convertCSV = new GIS.Buffer.ConvertCSV(
+        map.ObjMap,
+        map.ObjMapView,
+        pointColors
+      );
+      convertCSV.setupDropZone();
+    })
+  })
   //end of drag and drop
 
   // widget color picker and render poi
-  let colorsDiv = document.getElementById("colors-div");
-  let colorsExpand = new ESRI.Expand({
-    expandIconClass: "esri-icon-experimental",
-    view: map.ObjMapView,
-    content: colorsDiv
-  });
+  // let colorsDiv = document.getElementById("colors-div");
+  // let colorsExpand = new ESRI.Expand({
+  //   expandIconClass: "esri-icon-experimental",
+  //   view: map.ObjMapView,
+  //   content: colorsDiv
+  // });
 
-  document.getElementById("color-picker").addEventListener("click", function() {
-    if (colorsDiv.style.display == "none") {
-      map.ObjMapView.ui.add(colorsExpand, config.Position[6]);
-      colorsDiv.style.display = "inline-block";
-    } else {
-      colorsDiv.style.display = "none";
-      map.ObjMapView.ui.remove(colorsExpand);
-    }
-  });
+  // document.getElementById("color-picker").addEventListener("click", function() {
+  //   if (colorsDiv.style.display == "none") {
+  //     map.ObjMapView.ui.add(colorsExpand, config.Position[6]);
+  //     colorsDiv.style.display = "inline-block";
+  //   } else {
+  //     colorsDiv.style.display = "none";
+  //     map.ObjMapView.ui.remove(colorsExpand);
+  //   }
+  // });
 
   document.getElementById("drag-csv").addEventListener("click", function() {
     let x = document.getElementById("dragdrop-modal");

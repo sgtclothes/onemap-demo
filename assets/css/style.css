@@ -72,18 +72,14 @@ div.inline {
   transition: 0.3s;
 }
 
-.sidenav #title {
-  padding: 0px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  display: inline-block;
-  color: #818181;
-  margin-top: -30px;
-  transition: 0.3s;
-}
-
-.sidenav #title:hover {
-  color: #f1f1f1;
+.sidenav .title {
+    padding: 0px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-block;
+    color: #818181;
+    margin-top: -30px;
+    transition: 0.3s;
 }
 
 .sidenav #closebtn {
@@ -232,11 +228,18 @@ li {
 }
 
 .scroller-analysis {
-  overflow-x: hidden;
-  overflow-y: auto;
-  flex-grow: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    flex-grow:1;
 }
 
-.button-buffer {
-  padding: 18px 8px 8px 80px;
+.button-drag-csv {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    flex-direction: row;
+    margin-left: 10px;
+    margin-top: 20px
 }

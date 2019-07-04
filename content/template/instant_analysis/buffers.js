@@ -4,7 +4,8 @@ function bufferRadius(GIS,map){
         $("#form-list").click(function(){
             $.each(window.counterArr, function(index, value){
                 $(".form-buffer-"+value).find('button.btn-create-buffer').each(function(){
-                    $(this).on("click", function(){
+                    $(this).on("click", function(event){
+                        event.stopImmediatePropagation();
                         let radius = new GIS.Buffer.Radius(
                             map.ObjMap,
                             map.ObjMapView,
@@ -15,11 +16,18 @@ function bufferRadius(GIS,map){
                         let unit = $(this).closest(".text-right").prev().children()[1].value
                         radius.setUnit(unit);
                         radius.setRadius(distance);
-                        radius.create()
-                        radiusArr.push(radius)
+
+                        map.ObjMapView.popup.dockEnabled= true
+                        map.ObjMapView.popup.dockOptions.breakpoint = false
+                        map.ObjMapView.popup.dockOptions.position = 'bottom-right'
+
+                        radius.create();
+                        radiusArr.push(radius);
+                        
                         $(this).closest(".text-right").prev().prev().find('input[type=number].distance').prop('disabled', true)
                         $(this).closest(".text-right").prev().find('select.select-unit').prop('disabled', true)
                         $(this).prop('disabled', true)
+                    
                     })
                 })
                 $(".form-buffer-"+value).find('button.remove-buffer').each(function(){

@@ -53,28 +53,40 @@ function driveTime(GIS,map){
                             title
                         );
 
-                        driveTime.createLayer(
-                            "http://tig.co.id/ags/rest/services/BPS/BPS_2016_DESA/MapServer/1",
+                        driveTime.setDistance(
                             distance,
                             unit
                         );
-                        
+
+                        map.ObjMapView.popup.dockEnabled= true
+                        map.ObjMapView.popup.dockOptions.breakpoint = false
+                        map.ObjMapView.popup.dockOptions.position = 'bottom-right'
+
                         let driveTimePromise = new Promise(function(resolve, reject) {
                             driveTime.run(resolve);
                         });
 
                         driveTimePromise.then(function() {
                             let graphicsLayers = driveTime.ArrayParamsCatchment[0].features[0]
-                            let geometry = driveTime.ArrayParamsCatchment[0].features[0].geometry
+                            let inputFeatureArr = driveTime.ArrayParamsCatchment;
+                            let catchmentParams = {
+                                f: "json",
+                                "env:outSR": 4326,
+                                "env:processSR": 4326,
+                                Input_Feature: JSON.stringify(inputFeatureArr[0])
+                            };
+                            
                             let catchment = new GIS.Buffer.Catchment();
-                            catchment.setGeometry(geometry)
-                        
+
                             let catchmentPromise = new Promise(function(resolve, reject) {
-                                catchment.setUrlFeaturesLayer("http://tig.co.id/ags/rest/services/BPS/BPS_2016_DESA/MapServer/3",resolve)
+                                catchment.setServiceUrl(
+                                    "http://tig.co.id/ags/rest/services/GP/v2_catchment/GPServer/catchment_select_table"
+                                );
+                                catchment.setParams(catchmentParams,resolve);
                             });
-                        
+
                             catchmentPromise.then(function() {
-                                catchment.runFeaturesLayer(graphicsLayers)
+                                catchment.run(graphicsLayers);
                             });
                         });
 
