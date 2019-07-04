@@ -251,17 +251,13 @@ function boot(GIS) {
   });
 
   //drag and drop
-  $(document).ready(function() {
-    $("#drag-csv").click(function(){
-      var pointColors = '#'+Math.floor(Math.random()*16777215).toString(16)
-      let convertCSV = new GIS.Buffer.ConvertCSV(
-        map.ObjMap,
-        map.ObjMapView,
-        pointColors
-      );
-      convertCSV.setupDropZone();
-    })
-  })
+  var pointColors = '#'+Math.floor(Math.random()*16777215).toString(16)
+  let convertCSV = new GIS.Buffer.ConvertCSV(
+    map.ObjMap,
+    map.ObjMapView,
+    pointColors
+  );
+  convertCSV.setupDropZone();
   //end of drag and drop
 
   // widget color picker and render poi

@@ -206,7 +206,7 @@ if (!isset($_SESSION['auth'])) {
                     <a href="javascript:void(0)" id="closeviewer">&times;</a>
                 </div>
                 <div id="tree-viewer">
-                    <p style="margin-top: 28px; padding: 18px 8px 0px 90px;" class="title">Viewer</p>
+                    <p style="margin-top: 28px; padding: 28px 8px 0px 90px;" class="title">Viewer</p>
                     <ul class="treeview">
                         <li>
                             <!-- <i class="icon-arrow-right32 caret"></i> -->
