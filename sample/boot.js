@@ -83,7 +83,7 @@ function boot(GIS) {
   });
   // END of create a site
 
-  // create site analysis
+  // create instant analysis
   let pointEnabled = false;
   $(document).ready(function() {
     $("#pointing-btn").click(function(){
@@ -127,11 +127,7 @@ function boot(GIS) {
     })
   })
 
-  // let btnEmptySelection = document.getElementById("remove");
-  // btnEmptySelection.onclick = function() {
-  //   map.ObjMapView.graphics.removeAll();
-  // };
-  // end of create site analysis
+  // end of create instant analysis
 
   //Define Buffers
   bufferRadius(GIS,map,config)

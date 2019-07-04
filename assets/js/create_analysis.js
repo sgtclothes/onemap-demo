@@ -34,7 +34,6 @@ $(document).ready(function(){
             longitude.push($(".longitude-form-"+value).val())
         })
 
-        console.log({name_analysis:name_analysis, created_by:created_by, latitude:latitude , longitude:longitude, distance:distance, unit:unit, options:options})
         $.ajax({
             url: "content/save_analysis.php",
             type: "POST",
