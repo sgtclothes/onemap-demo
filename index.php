@@ -26,7 +26,7 @@ if (!isset($_SESSION['auth'])) {
         <link href="assets/css/components.css" rel="stylesheet" type="text/css">
         <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
-        <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" />
+        <!-- <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" /> -->
         <!-- <link href="assets/js/plugins/tree/tree.css" rel="stylesheet" type="text/css" /> -->
         <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
         <!-- /global stylesheets -->
@@ -41,10 +41,10 @@ if (!isset($_SESSION['auth'])) {
 
         <!-- themes & template js files -->
         <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
-        <script type="text/javascript" src="http://www.dematte.at/cpn/colors.js"></script>
+        <!-- <script type="text/javascript" src="http://www.dematte.at/cpn/colors.js"></script>
         <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
         <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
-        <script type="text/javascript" src="assets/colors/jsColor.js"></script>
+        <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
         <!-- <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script> -->
         <script src="assets/js/layout/default/app.js"></script>
         <!-- /themes & template js files -->
@@ -341,7 +341,7 @@ if (!isset($_SESSION['auth'])) {
         include 'content/data_site.php';
         include 'content/input_point.php';
         ?>
-        <script src="assets/colors/app.js"></script>
+        <!-- <script src="assets/colors/app.js"></script> -->
         <script type="text/javascript" src="assets/js/plugins/collapsible/collapsible.js"></script>
         <script type="text/javascript" src="content/template/instant_analysis/form_instant_analysis.js"></script>
         <script>
