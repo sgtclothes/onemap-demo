@@ -59,7 +59,6 @@ function driveTime(GIS,map){
                         );
 
                         map.ObjMapView.popup.dockEnabled= true
-                        map.ObjMapView.popup.dockOptions.breakpoint = false
                         map.ObjMapView.popup.dockOptions.position = 'bottom-right'
 
                         let driveTimePromise = new Promise(function(resolve, reject) {
