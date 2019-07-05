@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 05, 2019 at 09:34 PM
+-- Generation Time: Jul 05, 2019 at 10:37 PM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
 
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `analysis` (
   `id` int(8) NOT NULL,
-  `name` varchar(75) NOT NULL,
+  `name` varchar(75) CHARACTER SET latin1 NOT NULL,
   `created_by` int(4) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `analysis`
@@ -56,7 +56,7 @@ CREATE TABLE `analysis_points` (
   `lon` float NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `analysis_points`
@@ -79,10 +79,10 @@ INSERT INTO `analysis_points` (`id`, `analysis_id`, `lat`, `lon`, `created_at`, 
 
 CREATE TABLE `department` (
   `id` int(2) NOT NULL,
-  `department` varchar(50) NOT NULL,
+  `department` varchar(50) CHARACTER SET latin1 NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `department`
@@ -103,10 +103,10 @@ INSERT INTO `department` (`id`, `department`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `layer` (
   `id` int(3) NOT NULL,
-  `name` varchar(40) NOT NULL,
+  `name` varchar(40) CHARACTER SET latin1 NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `layer`
@@ -127,12 +127,12 @@ CREATE TABLE `site` (
   `id` int(8) NOT NULL,
   `lat` float NOT NULL,
   `lon` float NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `address` text NOT NULL,
+  `name` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `address` text CHARACTER SET latin1 NOT NULL,
   `created_by` int(4) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `site`
@@ -154,11 +154,11 @@ CREATE TABLE `spec_buffer_analysis` (
   `id` int(8) NOT NULL,
   `analysis_points_id` int(8) DEFAULT NULL,
   `distance` float NOT NULL,
-  `unit` varchar(15) NOT NULL,
+  `unit` varchar(15) CHARACTER SET latin1 NOT NULL,
   `options` int(1) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `spec_buffer_analysis`
@@ -183,14 +183,14 @@ INSERT INTO `spec_buffer_analysis` (`id`, `analysis_points_id`, `distance`, `uni
 
 CREATE TABLE `users` (
   `id` int(4) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `role` enum('System Administrator','Admin','User') NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `email` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `name` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `role` enum('System Administrator','Admin','User') CHARACTER SET latin1 NOT NULL,
+  `password` varchar(255) CHARACTER SET latin1 NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
@@ -215,7 +215,7 @@ CREATE TABLE `users_department` (
   `department_id` int(2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users_department`
@@ -279,7 +279,9 @@ ALTER TABLE `spec_buffer_analysis`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email_2` (`email`),
+  ADD KEY `email` (`email`);
 
 --
 -- Indexes for table `users_department`
@@ -297,12 +299,12 @@ ALTER TABLE `users_department`
 -- AUTO_INCREMENT for table `analysis`
 --
 ALTER TABLE `analysis`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `analysis_points`
 --
 ALTER TABLE `analysis_points`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `department`
 --
@@ -322,7 +324,7 @@ ALTER TABLE `spec_buffer_analysis`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `users_department`
 --
