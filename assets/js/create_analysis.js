@@ -1,6 +1,7 @@
 $(document).ready(function(){
     $("#form-create-analysis").submit(function(e){
         e.preventDefault();
+        let $form = $(this)
         let name_analysis = $('#name_analysis').val()
         let created_by = parseInt($('#created_by').val())
         let distance = [];
@@ -8,7 +9,8 @@ $(document).ready(function(){
         let options = []
         let latitude = []
         let longitude = []
-        
+        let valueArr = []
+
         $('.distance').each(function(){
             let dist = parseFloat($(this).val())
             distance.push(dist);
@@ -32,6 +34,7 @@ $(document).ready(function(){
         $.each(window.counterArr, function(index, value){
             latitude.push($(".latitude-form-"+value).val())
             longitude.push($(".longitude-form-"+value).val())
+            valueArr.push(value)
         })
 
         $.ajax({
@@ -41,6 +44,9 @@ $(document).ready(function(){
             success: function(response) {
                 console.log(response)
                 $('#name_analysis').val('')
+                $('div.rows').each(function(){
+                    $(this).remove()
+                });
             },
             error: function (jqXHR, exception){
                 if (jqXHR.status === 0) {

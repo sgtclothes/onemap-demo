@@ -5,15 +5,6 @@ function bufferRadius(GIS,map){
                 $(".form-buffer-"+value).find('button.btn-create-buffer').each(function(){
                     $(this).on("click", function(event){
                         event.stopImmediatePropagation();
-                        let latitude = $(".latitude-form-"+value).val()
-                        let longitude = $(".longitude-form-"+value).val()
-
-                        let radius = new GIS.Buffer.Radius(
-                            map.ObjMap,
-                            map.ObjMapView,
-                            latitude,
-                            longitude
-                        );
                         let distance = parseFloat($(this).closest(".text-right").prev().prev().children()[1].value)
                         let unit = $(this).closest(".text-right").prev().children()[1].value
 
@@ -26,19 +17,42 @@ function bufferRadius(GIS,map){
                         else {
                             unitnum = 5
                         }
-
+                        
+                        let latitude = $(".latitude-form-"+value).val()
+                        let longitude = $(".longitude-form-"+value).val()
                         let title = value+latitude+longitude+distance+unitnum
-                        radius.setTitle(title)
-                        radius.setUnit(unit);
-                        radius.setRadius(distance);
+                        let graphicslayers = map.ObjMap.layers.items
+                        let validate
 
-                        map.ObjMapView.popup.dockEnabled= true
-                        map.ObjMapView.popup.dockOptions.position = 'bottom-right'
+                        for (let i = 0; i < graphicslayers.length; i++) {
+                            if (graphicslayers[i].title === title) {
+                                validate = true
+                            }
+                        }
+                        
+                        if (validate) {
+                            alert('Buffer radius with that distance and unit already exists');
+                        }
+                        else {
+                            let radius = new GIS.Buffer.Radius(
+                                map.ObjMap,
+                                map.ObjMapView,
+                                latitude,
+                                longitude
+                            );
+                            radius.setTitle(title)
+                            radius.setUnit(unit);
+                            radius.setRadius(distance);
 
-                        radius.create();
-                        $(this).closest(".text-right").prev().prev().find('input[type=number].distance').prop('disabled', true)
-                        $(this).closest(".text-right").prev().find('select.select-unit').prop('disabled', true)
-                        $(this).prop('disabled', true)
+                            map.ObjMapView.popup.dockEnabled= true
+                            map.ObjMapView.popup.dockOptions.breakpoint = false
+                            map.ObjMapView.popup.dockOptions.position = 'bottom-right'
+                            radius.create();
+
+                            $(this).closest(".text-right").prev().prev().find('input[type=number].distance').prop('disabled', true)
+                            $(this).closest(".text-right").prev().find('select.select-unit').prop('disabled', true)
+                            $(this).prop('disabled', true)
+                        }
                     })
                 })
                 $(".form-buffer-"+value).find('button.remove-buffer').each(function(){
@@ -63,6 +77,7 @@ function bufferRadius(GIS,map){
                         let graphicslayers = map.ObjMap.layers.items
                         for (let i = 0; i < graphicslayers.length; i++) {
                             if (graphicslayers[i].title === title) {
+                                // console.log(graphicslayers[i].title.substring(0, 5))
                                 map.ObjMap.remove(graphicslayers[i])
                             }
                         }

@@ -40,7 +40,7 @@ function boot(GIS) {
 
     map.ObjMapView.ui.add(createSiteExpand, config.Position[6]);
   });
-
+  
   let pointTheSiteEnabled = false;
   document
     .getElementById("point-the-site")
@@ -147,7 +147,6 @@ function boot(GIS) {
   //Define Buffers
   bufferRadius(GIS, map, config);
   driveTime(GIS, map);
-
   // document.querySelector("#basemap").addEventListener("click", function() {
   //   console.log(radius.Results);
   // });

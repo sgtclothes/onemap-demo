@@ -1,7 +1,6 @@
 <?php 
 include '../config/conn.php';
 include '../config/auto_increment.php';
-include '../config/ConsolePhp.php';
 
 $analysis_pk = autoIncrement($conn, 'analysis');
 $name_analysis = mysqli_real_escape_string($conn,$_POST['name_analysis']);
@@ -24,5 +23,3 @@ if(isset($_POST["latitude"])){
         }
     }
 }
-
-ConsolePhp::log("Error:", mysqli_error($conn));
