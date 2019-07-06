@@ -66,12 +66,12 @@ function boot(GIS) {
       let latitude = map.ObjMapView.toMap({
         x: event.x,
         y: event.y
-      }).latitude.toFixed(3);
+      }).latitude.toFixed(7);
 
       let longitude = map.ObjMapView.toMap({
         x: event.x,
         y: event.y
-      }).longitude.toFixed(3);
+      }).longitude.toFixed(7);
 
       document.getElementById("lat-site").value = latitude;
       document.getElementById("lon-site").value = longitude;
@@ -96,12 +96,15 @@ function boot(GIS) {
           let latitude = map.ObjMapView.toMap({
             x: event.x,
             y: event.y
-          }).latitude.toFixed(3);
+          }).latitude.toFixed(7);
 
           let longitude = map.ObjMapView.toMap({
             x: event.x,
             y: event.y
-          }).longitude.toFixed(3);
+          }).longitude.toFixed(7);
+
+          let pointing = new GIS.Buffer.Pointing(map.ObjMapView,latitude,longitude)
+          pointing.render()
 
           $.addRows();
           $.each(window.counterArr, function(index, value) {
@@ -141,7 +144,9 @@ function boot(GIS) {
       });
     });
   });
-
+  createMarker(GIS,map)
+  createMarkerFromSite(GIS,map)
+  createMarkerFromCSV(GIS,map)
   // end of create instant analysis
 
   //Define Buffers

@@ -92,7 +92,8 @@ function bufferRadius(GIS,map){
         // delete all buffers and drive time per rows
         $("#form-list").on("click", ".btn-delete", function() {
             var graphicslayers = map.ObjMap.layers.items
-            if (graphicslayers.length > 0) {
+            var graphics = map.ObjMapView.graphics.items
+            if (graphicslayers.length > 0 || graphics.length > 0) {
                 //lat & lon input
                 let getValue = $(this).closest('.form-group.row').next().next()[0].className
                 let valueArr = getValue.split('-')
@@ -160,6 +161,14 @@ function bufferRadius(GIS,map){
                         if (graphicslayers[i].title == title[t]) {
                             map.ObjMap.remove(graphicslayers[i])
                         }
+                    }
+                }
+
+                // delete point marker
+                let id = latitude.toString()+longitude.toString()
+                for (let a = 0; a < graphics.length; a++) {
+                    if (graphics[a].attributes.id == id) {
+                        map.ObjMapView.graphics.remove(graphics[a])
                     }
                 }
             }
