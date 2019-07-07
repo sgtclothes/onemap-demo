@@ -244,6 +244,29 @@ if (!isset($_SESSION['auth'])) {
                                         </form>
                                     </ul>
                                 </li>
+
+                                <li class="last">
+                                    <!-- <i class="icon-arrow-right32 caret"></i> -->
+                                    <input type="checkbox" name="tall-2" id="tall-2">
+                                    <label for="tall-2" class="custom-unchecked">APOTEK</label>
+                                    <ul class="nested">
+                                        <form id="apotek">
+                                            <li>
+                                                <input type="checkbox" value="4" name="tall-2-1" id="tall-2-1">
+                                                <label for="tall-2-1" class="custom-unchecked">Apotek K24</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" value="5" name="tall-2-2" id="tall-2-2">
+                                                <label for="tall-1-2" class="custom-unchecked">Apotek Kimia Farma</label>
+                                            </li>
+                                            <li class="last">
+                                                <input type="checkbox" value="7" name="tall-2-3" id="tall-2-3">
+                                                <label for="tall-2-3" class="custom-unchecked">Apotek Watsons</label>
+                                            </li>
+                                        </form>
+                                    </ul>
+                                </li>
+
                             </ul>
                         </li>
                         <li style="margin-left:20px;" class="tree-custom-data">
