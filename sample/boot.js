@@ -144,9 +144,9 @@ function boot(GIS) {
       });
     });
   });
-  createMarker(GIS,map)
-  createMarkerFromSite(GIS,map)
-  createMarkerFromCSV(GIS,map)
+  // createMarker(GIS,map)
+  // createMarkerFromSite(GIS,map)
+  // createMarkerFromCSV(GIS,map)
   // end of create instant analysis
 
   //Define Buffers

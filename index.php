@@ -206,11 +206,7 @@ if (!isset($_SESSION['auth'])) {
                     <a href="javascript:void(0)" id="closeviewer">&times;</a>
                 </div>
                 <div id="tree-viewer">
-<<<<<<< HEAD
-                    <a style="margin-top: 28px; padding: 18px 8px 8px 80px; margin-left:20px" id="title" href="#">Viewer</a>
-=======
                     <p style="margin-top: 28px; padding: 28px 8px 0px 90px;" class="title">Viewer</p>
->>>>>>> 4f6fd89c0be165a9f53039dc1fe0b329d3a199ab
                     <ul class="treeview">
                         <li>
                             <ul style="display: flex; align-items: center; justify-content: center; margin-top:10px;">
@@ -267,12 +263,6 @@ if (!isset($_SESSION['auth'])) {
 
                     </ul>
                 </div>
-<<<<<<< HEAD
-=======
-                <div class="button-drag-csv">
-                    <button type="button" id="drag-csv" class="btn btn-primary"><i class="mi-arrow-drop-down-circle"></i>Drag CSV</button>
-                </div>
->>>>>>> 4f6fd89c0be165a9f53039dc1fe0b329d3a199ab
             </div>
             <!-- End of the SideNav Viewer -->
 
