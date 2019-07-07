@@ -42,9 +42,9 @@ if (!isset($_SESSION['auth'])) {
         <!-- themes & template js files -->
         <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
         <!-- <script type="text/javascript" src="http://www.dematte.at/cpn/colors.js"></script>
-        <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
-        <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
-        <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
+            <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
+            <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
+            <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
         <!-- <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script> -->
         <script src="assets/js/layout/default/app.js"></script>
         <script src="https://unpkg.com/imask"></script>
@@ -207,7 +207,9 @@ if (!isset($_SESSION['auth'])) {
                     <a href="javascript:void(0)" id="closeviewer">&times;</a>
                 </div>
                 <div id="tree-viewer">
-                    <p style="margin-top: 28px; padding: 28px 8px 0px 90px;" class="title">Viewer</p>
+                    <div>
+                        <p style="margin-left:30px; margin-top: 28px; padding: 28px 8px 0px 90px;" class="title">Viewer</p>
+                    </div>
                     <ul class="treeview">
                         <li>
                             <ul style="display: flex; align-items: center; justify-content: center; margin-top:10px;">
@@ -215,8 +217,7 @@ if (!isset($_SESSION['auth'])) {
                                     </i> Search Property</button>
                             </ul>
                         </li>
-                        <li>
-                            <!-- <i class="icon-arrow-right32 caret"></i> -->
+                        <li style="margin-left:20px;">
                             <input type="checkbox" name="tall" id="tall">
                             <label for="tall" class="custom-unchecked">POI</label>
 
@@ -245,7 +246,7 @@ if (!isset($_SESSION['auth'])) {
                                 </li>
                             </ul>
                         </li>
-                        <li class="tree-custom-data">
+                        <li style="margin-left:20px;" class="tree-custom-data">
                             <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
                             <label for="custom-data-master-select-all-poi" class="label-custom-data">Custom_Data_User</label>
                             <ul id="custom-data-user">
