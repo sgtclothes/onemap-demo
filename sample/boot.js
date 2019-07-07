@@ -35,7 +35,8 @@ function boot(GIS) {
     let createSiteExpand = new ESRI.Expand({
       expandIconClass: "esri-icon-organization",
       view: map.ObjMapView,
-      content: createSiteDiv
+      content: createSiteDiv,
+      expanded: false
     });
 
     map.ObjMapView.ui.add(createSiteExpand, config.Position[6]);
@@ -49,10 +50,15 @@ function boot(GIS) {
       document
         .getElementById("mapDiv")
         .setAttribute("style", "cursor:pointer;");
+
+      document
+        .getElementById("create-site-div")
+        .setAttribute("style", "background: rgba(255, 255, 255, 0.8) none repeat scroll 0% 0%; display:none; width: 500px;");
+
       if (pointTheSiteEnabled == false) {
         document
           .getElementById("mapDiv")
-          .setAttribute("style", "cursor:default;");
+          .setAttribute("style", "cursor:default;"); 
       }
     });
 
@@ -74,6 +80,9 @@ function boot(GIS) {
 
       document.getElementById("lat-site").value = latitude;
       document.getElementById("lon-site").value = longitude;
+      document
+        .getElementById("create-site-div")
+        .setAttribute("style", "background: rgba(255, 255, 255, 0.8) none repeat scroll 0% 0%; display:inline-block; width: 500px;"); 
     }
     if (pointTheSiteEnabled == false) {
       document
@@ -155,6 +164,8 @@ function boot(GIS) {
   //   console.log(radius.Results);
   // });
 
+  // sidebar/sidenav
+  // jika viewer dan instant dua2nya dibuka maka lalu klik site , viewer ditutup
   function openNav() {
     document.getElementById("mySidenav").style.width = "320px";
     document.getElementById("main").style.marginLeft = "320px";
@@ -223,7 +234,6 @@ function boot(GIS) {
     $(".esri-ui-top-right")
       .children("#drag-csv")
       .remove();
-    console.log("close");
   });
 
   function dragCSVButton() {
@@ -236,23 +246,66 @@ function boot(GIS) {
 
   document.getElementById("viewer-nav").addEventListener("click", function() {
     if (document.getElementById("myViewer").style.width > "0px") {
-      console.log("close");
       $(".esri-ui-top-right")
         .children("#drag-csv")
         .remove();
       close_viewer();
-    } else {
+    } 
+    else if (document.getElementById("mySiteAnalysis").style.width > "0px") {
+      document.getElementById("mySiteAnalysis").style.width = "0";
       open_viewer();
     }
-    if (document.getElementById("mySidenav").classList.contains("panel-left")) {
-      document.getElementById("mySidenav").classList.remove("panel-left");
-      document.getElementById("mySidenav").classList.add("panel-right");
-      document.getElementById("main").style.marginRight = "320px";
-      document
-        .getElementById("mySidenav")
-        .setAttribute("style", "width:320px;");
+    else {
+      open_viewer();
+    }
+    if ($("#mySidenav").hasClass("panel-left")) {
+      $("#mySidenav").removeClass("panel-left");
+      $("#mySidenav").addClass("panel-right");
+      $("#main").css('margin-right','320px');
+      $("#mySidenav").css('width','320px');
     }
   });
+
+  var siteAnalysis = document.getElementById("mySiteAnalysis")
+  function open_site_analysis() {
+    siteAnalysis.style.width = "320px";
+    document.getElementById("main").style.marginLeft = "320px";
+  }
+
+  function close_site_analysis() {
+    siteAnalysis.style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+  }
+
+  document.getElementById("closeSiteAnalysis").addEventListener("click", function() {
+    document.getElementById("mySiteAnalysis").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+  });
+
+  document.getElementById("site-analysis").addEventListener("click", function() {
+    let viewer = document.getElementById("myViewer");
+    if (viewer.style.width > "0px") {
+      $(".esri-ui-top-right")
+        .children("#drag-csv")
+        .remove();
+      close_viewer();
+      open_site_analysis();
+    } 
+    else if (siteAnalysis.style.width > "0px") {
+      close_site_analysis()
+    }
+    else {
+      open_site_analysis();
+    }
+    if ($("#mySidenav").hasClass("panel-left")) {
+      $("#mySidenav").removeClass("panel-left");
+      $("#mySidenav").addClass("panel-right");
+      $("#main").css('margin-right','320px');
+      $("#mySidenav").css('width','320px');
+  }
+  });
+
+  //end of sidebar/sidenav
 
   document.getElementById("myModal").addEventListener("click", function() {
     let x = document.getElementById("dragdrop-modal");

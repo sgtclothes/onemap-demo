@@ -5,9 +5,8 @@ function bufferRadius(GIS,map){
                 $(".form-buffer-"+value).find('button.btn-create-buffer').each(function(){
                     $(this).on("click", function(event){
                         event.stopImmediatePropagation();
-                        let distance = parseFloat($(this).closest(".text-right").prev().prev().children()[1].value)
+                        let distance = $(this).closest(".text-right").prev().prev().children()[1].value
                         let unit = $(this).closest(".text-right").prev().children()[1].value
-
                         var unitnum
                         if (unit == "kilometers") {
                             unitnum = 3
@@ -60,7 +59,7 @@ function bufferRadius(GIS,map){
                         let latitude = $(".latitude-form-"+value).val()
                         let longitude = $(".longitude-form-"+value).val()
 
-                        let distance =  parseFloat($(this).closest("h4").next()[0].children[0].children[1].value)
+                        let distance =  $(this).closest("h4").next()[0].children[0].children[1].value
                         let unit =  $(this).closest("h4").next()[0].children[1].children[1].value
                         var unitnum
                         if (unit == "kilometers") {
@@ -106,7 +105,7 @@ function bufferRadius(GIS,map){
                 let unit = []
     
                 $(this).closest("div.rows").find(".distance").each(function(){
-                    let dis = parseFloat($(this).val())
+                    let dis = $(this).val()
                     distance.push(dis)
                 })
                 $(this).closest("div.rows").find(".select-unit").each(function(){
@@ -139,7 +138,7 @@ function bufferRadius(GIS,map){
                 let unitTime = []
 
                 $(this).closest("div.rows").find(".distance-time").each(function(){
-                    let disTime = parseFloat($(this).val())
+                    let disTime = $(this).val()
                     distanceTime.push(disTime);
                 })
                 $(this).closest("div.rows").find(".select-unit-time").each(function(){

@@ -6,7 +6,7 @@
     <div class="collapsible-content">
         <div class="form-group">
             <label>Distance</label>
-            <input type="text" class="number-mask form-control" name="distance" required>
+            <input type="text" class="distance number-mask form-control" name="distance" required>
         </div>
 
         <div class="form-group">
@@ -33,15 +33,14 @@ var numberMaskClass = document.getElementsByClassName('number-mask');
 var a;
 
 for (a = 0; a < numberMaskClass.length; a++) {
-    numberMaskClass[a].addEventListener("click", function(click) {
-        var numberMask = IMask(
-            numberMaskClass[a],
-            {
-                mask: Number,
-                min: 0,
-                max: 1000,
-                thousandsSeparator: ' '
-            });
-    });
+    var numberMask = IMask(numberMaskClass[a],
+        {
+            mask: Number,
+            min: 0,
+            max: 999,
+            radix: '.',
+            thousandsSeparator: ' '
+        }
+    );
 }
 </script>

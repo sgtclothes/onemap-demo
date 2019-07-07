@@ -140,9 +140,9 @@ if (!isset($_SESSION['auth'])) {
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-left">
-                            <a id="instant-analysis" href="#" class="sidebar-control sidebar-main-hide d-none d-md-block dropdown-item" data-popup="tooltip-demo" title="Show main" data-placement="bottom" data-container="body" data-trigger="hover">Instant Analysis</a>
+                            <a id="instant-analysis" href="#" class="dropdown-item">Instant Analysis</a>
                             <a style="display:none;" id="myModal" href="#" class="dropdown-item">Drag and Drop CSV</a>
-                            <a href="#" class="dropdown-item">Site Analysis</a>
+                            <a id="site-analysis" href="#" class="dropdown-item">Site Analysis</a>
                         </div>
                     </li>
                     <!-- /analysis menu item navbar -->
@@ -268,6 +268,17 @@ if (!isset($_SESSION['auth'])) {
             </div>
             <!-- End of the SideNav Viewer -->
 
+            <!-- SideNav Site Instant Analysis -->
+            <div id="mySiteAnalysis" class="sidenav panel-left">
+                <div class="inline">
+                    <a href="javascript:void(0)" id="closeSiteAnalysis">&times;</a>
+                </div>
+                <div>
+                    <p style="margin-top: 28px; padding: 28px 8px 0px 90px;" class="title">Site Analysis</p>
+                </div>
+            </div>
+            <!-- End of the SideNav Site Instant Analysis -->
+
             <!-- Create Buffer Info -->
             <div id="info">
                 <label class="chkLabel">Click on map to buffer</label>
@@ -284,7 +295,7 @@ if (!isset($_SESSION['auth'])) {
             <!-- End of Setting Colors of POI -->
 
             <!-- Form Create Site -->
-            <div id="create-site-div" class="card" style="background: rgba(255,255,255,0.5); display:none; width:500px;">
+            <div id="create-site-div" class="card" style="background: rgba(255,255,255,0.8); display:none; width:500px;">
                 <div class="card-header header-elements-inline">
                     <h6 class="card-title">Create a Site</h6>
                     <label style="align:right; margin:-5px;" class="message"></label>

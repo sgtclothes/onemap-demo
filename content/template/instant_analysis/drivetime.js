@@ -14,7 +14,7 @@ function driveTime(GIS,map){
                 $(".form-drive-"+value).find('button.btn-create-drive-time').each(function(){
                     $(this).on("click", function(event){
                         event.stopImmediatePropagation();
-                        let distance = parseFloat($(this).closest(".text-right").prev().children()[0].children[1].value)
+                        let distance = $(this).closest(".text-right").prev().children()[0].children[1].value
                         let unit = $(this).closest(".text-right").prev().children()[1].children[1].value
 
                         var unitnum
@@ -113,7 +113,7 @@ function driveTime(GIS,map){
                         let latitude = $(".latitude-form-"+value).val()
                         let longitude = $(".longitude-form-"+value).val()
 
-                        let distance = parseFloat($(this).closest("h4").next()[0].children[1].children[0].children[1].value)
+                        let distance = $(this).closest("h4").next()[0].children[1].children[0].children[1].value
 
                         let unit = $(this).closest("h4").next()[0].children[1].children[1].children[1].value
                         var unitnum
