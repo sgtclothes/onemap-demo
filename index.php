@@ -209,6 +209,12 @@ if (!isset($_SESSION['auth'])) {
                     <p style="margin-top: 28px; padding: 28px 8px 0px 90px;" class="title">Viewer</p>
                     <ul class="treeview">
                         <li>
+                            <ul style="display: flex; align-items: center; justify-content: center; margin-top:10px;">
+                                <button style="margin-bottom: 10px; margin-right:10px; width:270px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_form_filter"><i class="mi-search">
+                                    </i> Search Property</button>
+                            </ul>
+                        </li>
+                        <li>
                             <!-- <i class="icon-arrow-right32 caret"></i> -->
                             <input type="checkbox" name="tall" id="tall">
                             <label for="tall" class="custom-unchecked">POI</label>
@@ -240,7 +246,7 @@ if (!isset($_SESSION['auth'])) {
                         </li>
                         <li class="tree-custom-data">
                             <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                            <label for="custom-data-master-select-all-poi" class="label-custom-data">custom_data_user</label>
+                            <label for="custom-data-master-select-all-poi" class="label-custom-data">Custom_Data_User</label>
                             <ul id="custom-data-user">
                                 <li class="tree-database">
                                     <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
@@ -256,9 +262,6 @@ if (!isset($_SESSION['auth'])) {
                         </li>
 
                     </ul>
-                </div>
-                <div class="button-drag-csv">
-                    <button type="button" id="drag-csv" class="btn btn-primary"><i class="mi-arrow-drop-down-circle"></i>Drag CSV</button>
                 </div>
             </div>
             <!-- End of the SideNav Viewer -->
@@ -338,6 +341,8 @@ if (!isset($_SESSION['auth'])) {
         </div>
         <!-- End of Form Edit POI -->
         <?php
+        include 'content/filterData.php';
+        include 'content/editPOI.php';
         include 'content/data_site.php';
         include 'content/input_point.php';
         ?>
