@@ -50,7 +50,7 @@ $longitude = $_POST['longitude'];
                         $x=0;
                         $point_array = array();
                         while($x < count($latpoint)){
-                            $point = "<input type='checkbox' name='get-point-csv' data-latitude='$latpoint[$x]' data-longitude='$lonpoint[$x]'>";
+                            $point = "<input type='checkbox' name='get-csv$j' data-latitude$j='$latpoint[$x]' data-longitude$j='$lonpoint[$x]'>";
                             array_push($point_array,$point);
                             $x++;
                         }
@@ -62,7 +62,7 @@ $longitude = $_POST['longitude'];
                             }
                             $rows .= "</tr>";
                         }
-                        $table = "<div class='table-responsive'><table id='datatable-csv$tab' class='table datatable-sorting'><thead><tr>$columns</tr></thead><tbody>$rows</tbody></table><button type='button' id='select-row' class='btn bg-teal-400' data-dismiss='modal'>Select</button></div>";
+                        $table = "<div class='table-responsive'><table id='datatable-csv$tab' class='table datatable-sorting'><thead><tr>$columns</tr></thead><tbody>$rows</tbody></table><button type='button' id='select-row-csv$j' class='btn bg-teal-400'>Select</button></div>";
 
                         echo "<div class='tab-pane fade $active' id='basic-tab$tab'>$table</div>";
                     }
@@ -76,7 +76,7 @@ $longitude = $_POST['longitude'];
 <?php
     for($z = 0; $z<count($fields); $z++){
         $tab = $z+1;
-        echo "<script>$(document).ready(function() {
-        $('#datatable-csv$tab').dataTable({'bLengthChange': false,'bFilter': true,'pageLength': 5});});</script>";
+        echo "<script>$.fn.dataTable.ext.errMode = 'none'; $(document).ready(function() {
+        $('#datatable-csv$tab').dataTable({'bLengthChange': false,'bFilter': true,'pageLength': 4});});</script>";
     }
 ?>

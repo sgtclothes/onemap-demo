@@ -360,7 +360,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/add_points_from_site.js"></script>
     <script src="assets/js/add_points_manual.js"></script>
     <script src="assets/js/create_analysis.js"></script>
-    <script src="assets/js/add_points_from_csv.js"></script>
+    <script src="assets/js/from_list_csv.js"></script>
     <script>
         $(document).ready(function() {
             $('#datatable-sorting').dataTable({

@@ -7,11 +7,15 @@ function createMarkerFromCSV(GIS,map){
             let latitude = []
             let longitude = []
             getData = JSON.parse(getData)
-
+    
+            if (getData === null) {
+                alert('You must upload CSV first.');
+            }
+    
             function isFloat(n){
                 return Number(n) === n && n % 1 !== 0;
             }
-
+    
             for (let i = 0; i < getData.length; i++) {
                 let getKey = getData[i][0].attributes
                 fields.push(Object.keys(getKey))
@@ -39,13 +43,14 @@ function createMarkerFromCSV(GIS,map){
                 latitude.push(latArr)
                 longitude.push(lonArr)
             }
-
+    
             $.ajax({
                 url: "content/form_list_csv.php",
                 type: "POST",
                 data: {fields:fields, values:values, latitude:latitude, longitude:longitude},
                 success: function(data) {
                     $('body').append(data)
+                    $.fn.addLatAndLon()
                     $('#modal_form_csv').modal('show');
                 },
                 error: function (jqXHR, exception){
@@ -66,36 +71,52 @@ function createMarkerFromCSV(GIS,map){
                     }
                 }
             });
-            // if (getData === null) {
-            //     alert('You must upload CSV first.');
-            // }
-            // $.each(getData, function(key, value){
-            //     let getAttribute = value
-            //     $.each(getAttribute, function(key, value){
-            //         let latitude = value.attributes.lat
-            //         let longitude = value.attributes.lon
-            //         let pointing = new GIS.Buffer.Pointing(map.ObjMapView,latitude,longitude)
-            //         pointing.render()
-                    
-            //         $.addRows()
-            //         $.each(window.counterArr, function(index, value){
-            //             if ($(".latitude-form-"+value).val() === '') {
-            //                 $(".latitude-form-"+value).val(latitude)
-            //                 $(".longitude-form-"+value).val(longitude)
-            //                 $("#form-list").delegate('.selectbuffer-'+value, 'click', function() {
-            //                     $.get("content/template/instant_analysis/buffer.php", function(data){ 
-            //                         $(".form-buffer-"+value).append(data)
-            //                     });
-            //                 })
-            //                 $("#form-list").delegate('.selectdrive-'+value, 'click', function() {
-            //                     $.get("content/template/instant_analysis/driving.php", function(data){ 
-            //                         $(".form-drive-"+value).append(data)
-            //                     });
-            //                 })
-            //             }
-            //         })
-            //     })
-            // })
         })
+        $.fn.addLatAndLon = function() {
+            let getData = localStorage.getItem("data");
+            let fields = []
+            getData = JSON.parse(getData)
+            for (let i = 0; i < getData.length; i++) {
+                let getKey = getData[i][0].attributes
+                fields.push(Object.keys(getKey))
+            }
+
+            $.each(fields,function(key,value){
+                $("#select-row-csv"+key).click(function(event){
+                    $('#modal_form_csv').modal('toggle');
+                    event.stopImmediatePropagation();
+                    $("table tbody").find('input[name="get-csv'+key+'"]').each(function(index,value){
+                        if($(this).is(":checked")){
+                            $.addRows()
+                            let $ischecked = $(this)
+                            $.each(window.counterArr, function(index, value){
+                                if ($(".latitude-form-"+value).val() === '') {
+                                    $(".latitude-form-"+value).val($ischecked.attr('data-latitude'+key))
+                                    $(".longitude-form-"+value).val($ischecked.attr('data-longitude'+key))
+                                    
+                                    let pointing = new GIS.Buffer.Pointing(
+                                        map.ObjMapView,
+                                        $ischecked.attr('data-latitude'+key),
+                                        $ischecked.attr('data-longitude'+key)
+                                    )
+                                    pointing.render()
+            
+                                    $("#form-list").delegate('.selectbuffer-'+value, 'click', function() {
+                                        $.get("content/template/instant_analysis/buffer.php", function(data){ 
+                                            $(".form-buffer-"+value).append(data)
+                                        });
+                                    })
+                                    $("#form-list").delegate('.selectdrive-'+value, 'click', function() {
+                                        $.get("content/template/instant_analysis/driving.php", function(data){ 
+                                            $(".form-drive-"+value).append(data)
+                                        });
+                                    }) 
+                                }
+                            })
+                        }
+                    });
+                });
+            })
+        }
     })
 }
