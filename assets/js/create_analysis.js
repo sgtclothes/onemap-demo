@@ -42,11 +42,32 @@ $(document).ready(function(){
             type: "POST",
             data: {name_analysis:name_analysis, created_by:created_by, latitude:latitude , longitude:longitude, distance:distance, unit:unit, options:options},
             success: function() {
-                $('#name_analysis').val('')
+                let name = $('#name_analysis').val()
                 $('div.rows').each(function(){
                     $(this).remove()
                 });
-                $.fn.loadSideNavSiteAnalysis()
+                let viewer = document.getElementById("myViewer");
+                if (viewer.style.width > "0px") {
+                    $(".esri-ui-top-right")
+                        .children("#drag-csv")
+                        .remove();
+                    $("#myViewer").css('width','0px');
+                    $("#main").css('margin-left','0px');
+                    $("#mySiteAnalysis").css('width','300px');
+                    $("#main").css('margin-left','300px');
+                } 
+                if ($("#mySidenav").hasClass("panel-left")) {
+                    $("#mySidenav").removeClass("panel-left");
+                    $("#mySidenav").addClass("panel-right");
+                    $("#main").css('margin-right','320px');
+                    $("#mySidenav").css('width','320px');
+                    $("#mySiteAnalysis").css('width','320px');
+                }
+                let newTD = '<tr><td><input type=checkbox name=get-site data-latitude= data-longitude=></td>';
+                newTD += '<td>'+name+'</td></tr>';
+
+                $("#load-data-site-analysis").prepend(newTD);
+                $('#name_analysis').val('')
             },
             error: function (jqXHR, exception){
                 if (jqXHR.status === 0) {
@@ -67,23 +88,4 @@ $(document).ready(function(){
             }
         });
     })
-    $.fn.loadSideNavSiteAnalysis = function(){
-        let viewer = document.getElementById("myViewer");
-        if (viewer.style.width > "0px") {
-            $(".esri-ui-top-right")
-                .children("#drag-csv")
-                .remove();
-            $("#myViewer").css('width','0px');
-            $("#main").css('margin-left','0px');
-            $("#mySiteAnalysis").css('width','300px');
-            $("#main").css('margin-left','300px');
-        } 
-        if ($("#mySidenav").hasClass("panel-left")) {
-            $("#mySidenav").removeClass("panel-left");
-            $("#mySidenav").addClass("panel-right");
-            $("#main").css('margin-right','320px');
-            $("#mySidenav").css('width','320px');
-            $("#mySiteAnalysis").css('width','320px');
-        }
-    }
 })

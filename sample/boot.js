@@ -258,11 +258,13 @@ function boot(GIS) {
     else {
       open_viewer();
     }
-    if ($("#mySidenav").hasClass("panel-left")) {
-      $("#mySidenav").removeClass("panel-left");
-      $("#mySidenav").addClass("panel-right");
-      $("#main").css('margin-right','320px');
-      $("#mySidenav").css('width','320px');
+    if (document.getElementById("mySidenav").classList.contains("panel-left")) {
+      document.getElementById("mySidenav").classList.remove("panel-left");
+      document.getElementById("mySidenav").classList.add("panel-right");
+      document.getElementById("main").style.marginRight = "320px";
+      document
+        .getElementById("mySidenav")
+        .setAttribute("style", "width:320px;");
     }
   });
 
