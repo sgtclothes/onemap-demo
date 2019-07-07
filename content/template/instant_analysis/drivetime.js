@@ -68,7 +68,6 @@ function driveTime(GIS,map){
                                 unit
                             );
 
-                            map.ObjMapView.popup.dockEnabled= true
                             map.ObjMapView.popup.dockOptions.breakpoint = false
                             map.ObjMapView.popup.dockOptions.position = 'bottom-right'
 

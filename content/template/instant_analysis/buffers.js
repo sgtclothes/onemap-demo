@@ -43,7 +43,6 @@ function bufferRadius(GIS,map){
                             radius.setUnit(unit);
                             radius.setRadius(distance);
 
-                            map.ObjMapView.popup.dockEnabled= true
                             map.ObjMapView.popup.dockOptions.breakpoint = false
                             map.ObjMapView.popup.dockOptions.position = 'bottom-right'
                             radius.create();
