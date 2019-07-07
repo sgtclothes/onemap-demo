@@ -165,7 +165,6 @@ function boot(GIS) {
   // });
 
   // sidebar/sidenav
-  // jika viewer dan instant dua2nya dibuka maka lalu klik site , viewer ditutup
   function openNav() {
     document.getElementById("mySidenav").style.width = "320px";
     document.getElementById("main").style.marginLeft = "320px";
