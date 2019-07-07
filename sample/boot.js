@@ -206,6 +206,9 @@ function boot(GIS) {
     });
 
   function open_viewer() {
+    setTimeout(function() {
+      map.addWidget(dragCSVButton(), config.Position[6]);
+    }, 1000);
     document.getElementById("myViewer").style.width = "300px";
     document.getElementById("main").style.marginLeft = "300px";
   }
@@ -218,10 +221,26 @@ function boot(GIS) {
   document.getElementById("closeviewer").addEventListener("click", function() {
     document.getElementById("myViewer").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
+    $(".esri-ui-top-right")
+      .children("#drag-csv")
+      .remove();
+    console.log("close");
   });
+
+  function dragCSVButton() {
+    let button = document.createElement("BUTTON");
+    button.setAttribute("id", "drag-csv");
+    button.setAttribute("class", "btn btn-primary");
+    button.innerHTML = "Drag CSV";
+    return button;
+  }
 
   document.getElementById("viewer-nav").addEventListener("click", function() {
     if (document.getElementById("myViewer").style.width > "0px") {
+      console.log("close");
+      $(".esri-ui-top-right")
+        .children("#drag-csv")
+        .remove();
       close_viewer();
     } else {
       open_viewer();
@@ -268,17 +287,17 @@ function boot(GIS) {
     content: colorsDiv
   });
 
-  document.getElementById("color-picker").addEventListener("click", function() {
-    if (colorsDiv.style.display == "none") {
-      map.ObjMapView.ui.add(colorsExpand, config.Position[6]);
-      colorsDiv.style.display = "inline-block";
-    } else {
-      colorsDiv.style.display = "none";
-      map.ObjMapView.ui.remove(colorsExpand);
-    }
-  });
+  // document.getElementById("color-picker").addEventListener("click", function() {
+  //   if (colorsDiv.style.display == "none") {
+  //     map.ObjMapView.ui.add(colorsExpand, config.Position[6]);
+  //     colorsDiv.style.display = "inline-block";
+  //   } else {
+  //     colorsDiv.style.display = "none";
+  //     map.ObjMapView.ui.remove(colorsExpand);
+  //   }
+  // });
 
-  document.getElementById("drag-csv").addEventListener("click", function() {
+  $(document).delegate("#drag-csv", "click", function() {
     let x = document.getElementById("dragdrop-modal");
     let infocsv = document.getElementById("info-csv");
     if (x.style.display == "none") {
@@ -370,6 +389,7 @@ function boot(GIS) {
   let viewer = new GIS.Buffer.Viewer(map.ObjMapView, convertCSV);
   viewer.renderTreeview();
   viewer.selectItem();
+  viewer.filterData();
 
   storeDatabase
     .readUserAndDepartment()
@@ -444,6 +464,7 @@ function boot(GIS) {
                     tempData = [];
                     count = 0;
                     k = k + 1;
+                    map.ObjMapView.graphics.items = [];
                   }
                 }
                 tempData.push(data[i][k]);
