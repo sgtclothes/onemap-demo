@@ -19,17 +19,9 @@
                             <th>Address</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="load-data-site">
                         <?php 
-                        $sql = "SELECT a.lat AS lat,
-                        a.lon AS lon, 
-                        a.name AS `name`,
-                        a.address AS `address`,
-                        b.name AS created_by
-                        FROM `site` a
-                        INNER JOIN users b
-                        ON a.created_by=b.id
-                        ORDER BY a.id ASC";
+                        $sql = "SELECT * FROM `site` ORDER BY created_at DESC";
                         $query = mysqli_query($conn,$sql);
                         $num=1;
                         if (!$query) {

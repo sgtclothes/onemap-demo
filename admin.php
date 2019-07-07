@@ -199,12 +199,12 @@ else {
                             <span>Users</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="admin.php?page=poi" class="nav-link">
                             <i class="icon-location4"></i>
                             <span>POI</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a href="admin.php?page=department" class="nav-link">
                             <i class="icon-office"></i>
@@ -240,9 +240,9 @@ else {
                     include "content/add_department.php";
                     break;
 
-                case 'poi':
-                    include "content/poi.php";
-                    break;
+                // case 'poi':
+                //     include "content/poi.php";
+                //     break;
                 
                 case 'add_user':
                     include "content/add_user.php";
