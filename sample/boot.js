@@ -49,7 +49,6 @@ function boot(GIS) {
       document
         .getElementById("mapDiv")
         .setAttribute("style", "cursor:pointer;");
-      console.log(pointTheSiteEnabled);
       if (pointTheSiteEnabled == false) {
         document
           .getElementById("mapDiv")

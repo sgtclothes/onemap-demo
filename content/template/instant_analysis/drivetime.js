@@ -101,7 +101,7 @@ function driveTime(GIS,map){
                             });
 
                             driveTime.render(map.ObjMapView);
-                            $(this).closest(".text-right").prev().find('input[type=number].distance-time').prop('disabled', true)
+                            $(this).closest(".text-right").prev().find('input[type=text].distance-time').prop('disabled', true)
                             $(this).closest(".text-right").prev().find('select.select-unit-time').prop('disabled', true)
                             $(this).closest(".text-right").prev().prev().find('select.select-driving').prop('disabled', true)
                             $(this).prop('disabled', true)

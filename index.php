@@ -47,6 +47,7 @@ if (!isset($_SESSION['auth'])) {
         <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
         <!-- <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script> -->
         <script src="assets/js/layout/default/app.js"></script>
+        <script src="https://unpkg.com/imask"></script>
         <!-- /themes & template js files -->
 
         <style>
@@ -140,7 +141,7 @@ if (!isset($_SESSION['auth'])) {
 
                         <div class="dropdown-menu dropdown-menu-left">
                             <a id="instant-analysis" href="#" class="sidebar-control sidebar-main-hide d-none d-md-block dropdown-item" data-popup="tooltip-demo" title="Show main" data-placement="bottom" data-container="body" data-trigger="hover">Instant Analysis</a>
-                            <a id="myModal" href="#" class="dropdown-item">Drag and Drop CSV</a>
+                            <a style="display:none;" id="myModal" href="#" class="dropdown-item">Drag and Drop CSV</a>
                             <a href="#" class="dropdown-item">Site Analysis</a>
                         </div>
                     </li>

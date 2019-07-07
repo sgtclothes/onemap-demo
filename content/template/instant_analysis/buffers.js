@@ -49,7 +49,7 @@ function bufferRadius(GIS,map){
                             map.ObjMapView.popup.dockOptions.position = 'bottom-right'
                             radius.create();
 
-                            $(this).closest(".text-right").prev().prev().find('input[type=number].distance').prop('disabled', true)
+                            $(this).closest(".text-right").prev().prev().find('input[type=text].distance').prop('disabled', true)
                             $(this).closest(".text-right").prev().find('select.select-unit').prop('disabled', true)
                             $(this).prop('disabled', true)
                         }
