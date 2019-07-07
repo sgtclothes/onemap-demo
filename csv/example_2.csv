@@ -1,5 +1,5 @@
 type,name,lat,lon,region,shape
-Minimarket,Ramen Daisuki,-2.779,111.029,Depok,6384723
-AA,BB,-3.656,115.05,Kalimantan,3
-CC,DD,-1.132,116.896,Kalimantan,3
-EE,FF,0.45,112.765,Kalimantan,3
+Resto,Ramen Daisuki,-2.779,111.029,Depok,6384723
+Minimarket,Hypermart,-3.656,115.05,Kalimantan,212121
+-,SPBU Mini,-1.132,116.896,Kalimantan,532421
+SMP,SMP Negeri 4,0.45,112.765,Kalimantan,13213

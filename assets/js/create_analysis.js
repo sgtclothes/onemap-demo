@@ -41,12 +41,12 @@ $(document).ready(function(){
             url: "content/save_analysis.php",
             type: "POST",
             data: {name_analysis:name_analysis, created_by:created_by, latitude:latitude , longitude:longitude, distance:distance, unit:unit, options:options},
-            success: function(response) {
-                console.log(response)
+            success: function() {
                 $('#name_analysis').val('')
                 $('div.rows').each(function(){
                     $(this).remove()
                 });
+                $.fn.loadSideNavSiteAnalysis()
             },
             error: function (jqXHR, exception){
                 if (jqXHR.status === 0) {
@@ -67,4 +67,23 @@ $(document).ready(function(){
             }
         });
     })
+    $.fn.loadSideNavSiteAnalysis = function(){
+        let viewer = document.getElementById("myViewer");
+        if (viewer.style.width > "0px") {
+            $(".esri-ui-top-right")
+                .children("#drag-csv")
+                .remove();
+            $("#myViewer").css('width','0px');
+            $("#main").css('margin-left','0px');
+            $("#mySiteAnalysis").css('width','300px');
+            $("#main").css('margin-left','300px');
+        } 
+        if ($("#mySidenav").hasClass("panel-left")) {
+            $("#mySidenav").removeClass("panel-left");
+            $("#mySidenav").addClass("panel-right");
+            $("#main").css('margin-right','320px');
+            $("#mySidenav").css('width','320px');
+            $("#mySiteAnalysis").css('width','320px');
+        }
+    }
 })

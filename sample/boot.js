@@ -258,20 +258,18 @@ function boot(GIS) {
     else {
       open_viewer();
     }
-    if (document.getElementById("mySidenav").classList.contains("panel-left")) {
-      document.getElementById("mySidenav").classList.remove("panel-left");
-      document.getElementById("mySidenav").classList.add("panel-right");
-      document.getElementById("main").style.marginRight = "320px";
-      document
-        .getElementById("mySidenav")
-        .setAttribute("style", "width:320px;");
+    if ($("#mySidenav").hasClass("panel-left")) {
+      $("#mySidenav").removeClass("panel-left");
+      $("#mySidenav").addClass("panel-right");
+      $("#main").css('margin-right','320px');
+      $("#mySidenav").css('width','320px');
     }
   });
 
   var siteAnalysis = document.getElementById("mySiteAnalysis")
   function open_site_analysis() {
-    siteAnalysis.style.width = "300px";
-    document.getElementById("main").style.marginLeft = "300px";
+    siteAnalysis.style.width = "320px";
+    document.getElementById("main").style.marginLeft = "320px";
   }
 
   function close_site_analysis() {
@@ -299,14 +297,12 @@ function boot(GIS) {
     else {
       open_site_analysis();
     }
-    if (document.getElementById("mySidenav").classList.contains("panel-left")) {
-      document.getElementById("mySidenav").classList.remove("panel-left");
-      document.getElementById("mySidenav").classList.add("panel-right");
-      document.getElementById("main").style.marginRight = "320px";
-      document
-        .getElementById("mySidenav")
-        .setAttribute("style", "width:320px;");
-    }
+    if ($("#mySidenav").hasClass("panel-left")) {
+      $("#mySidenav").removeClass("panel-left");
+      $("#mySidenav").addClass("panel-right");
+      $("#main").css('margin-right','320px');
+      $("#mySidenav").css('width','320px');
+  }
   });
 
   //end of sidebar/sidenav
