@@ -40,7 +40,7 @@ function boot(GIS) {
 
     map.ObjMapView.ui.add(createSiteExpand, config.Position[6]);
   });
-
+  
   let pointTheSiteEnabled = false;
   document
     .getElementById("point-the-site")
@@ -66,12 +66,12 @@ function boot(GIS) {
       let latitude = map.ObjMapView.toMap({
         x: event.x,
         y: event.y
-      }).latitude.toFixed(3);
+      }).latitude.toFixed(7);
 
       let longitude = map.ObjMapView.toMap({
         x: event.x,
         y: event.y
-      }).longitude.toFixed(3);
+      }).longitude.toFixed(7);
 
       document.getElementById("lat-site").value = latitude;
       document.getElementById("lon-site").value = longitude;
@@ -84,7 +84,7 @@ function boot(GIS) {
   });
   // END of create a site
 
-  // create site analysis
+  // create instant analysis
   let pointEnabled = false;
   $(document).ready(function() {
     $("#pointing-btn").click(function() {
@@ -96,12 +96,15 @@ function boot(GIS) {
           let latitude = map.ObjMapView.toMap({
             x: event.x,
             y: event.y
-          }).latitude.toFixed(3);
+          }).latitude.toFixed(7);
 
           let longitude = map.ObjMapView.toMap({
             x: event.x,
             y: event.y
-          }).longitude.toFixed(3);
+          }).longitude.toFixed(7);
+
+          let pointing = new GIS.Buffer.Pointing(map.ObjMapView,latitude,longitude)
+          pointing.render()
 
           $.addRows();
           $.each(window.counterArr, function(index, value) {
@@ -141,17 +144,14 @@ function boot(GIS) {
       });
     });
   });
-
-  // let btnEmptySelection = document.getElementById("remove");
-  // btnEmptySelection.onclick = function() {
-  //   map.ObjMapView.graphics.removeAll();
-  // };
-  // end of create site analysis
+  createMarker(GIS,map)
+  createMarkerFromSite(GIS,map)
+  createMarkerFromCSV(GIS,map)
+  // end of create instant analysis
 
   //Define Buffers
   bufferRadius(GIS, map, config);
   driveTime(GIS, map);
-
   // document.querySelector("#basemap").addEventListener("click", function() {
   //   console.log(radius.Results);
   // });
@@ -274,18 +274,22 @@ function boot(GIS) {
   });
 
   //drag and drop
-  let pointColors = $("#colors").val();
-  let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView);
+  var pointColors = '#'+Math.floor(Math.random()*16777215).toString(16)
+  let convertCSV = new GIS.Buffer.ConvertCSV(
+    map.ObjMap,
+    map.ObjMapView,
+    pointColors
+  );
   convertCSV.setupDropZone();
   //end of drag and drop
 
   // widget color picker and render poi
-  let colorsDiv = document.getElementById("colors-div");
-  let colorsExpand = new ESRI.Expand({
-    expandIconClass: "esri-icon-experimental",
-    view: map.ObjMapView,
-    content: colorsDiv
-  });
+  // let colorsDiv = document.getElementById("colors-div");
+  // let colorsExpand = new ESRI.Expand({
+  //   expandIconClass: "esri-icon-experimental",
+  //   view: map.ObjMapView,
+  //   content: colorsDiv
+  // });
 
   // document.getElementById("color-picker").addEventListener("click", function() {
   //   if (colorsDiv.style.display == "none") {

@@ -124,7 +124,7 @@ else {
 if (isset($_POST['update'])) {
     $id = $_POST ['id'];
     $active = $_POST['active'];
-    $update = mysqli_query($conn,"UPDATE users SET active='$active' WHERE id = '$id'");
+    $update = mysqli_query($conn,"UPDATE users SET active='$active', updated_at = NOW() WHERE id = '$id'");
     if ($update) {
         echo "<script>alert('Data succeed to save'); location.href='admin.php';</script>";
     }

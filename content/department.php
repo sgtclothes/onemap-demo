@@ -59,7 +59,9 @@ else {
                                     <input type=hidden name='id' value="<?php echo $depart['id']; ?>">
                                 </td>
 								<td><?php echo "$depart[department]"; ?></td>
-                                <td><button type=submit name=edit class=btn bg-teal-400 btn-icon rounded-round><i class=icon-pen2></i></button></td>
+                                <td><button type=submit name=edit class=btn bg-teal-400 btn-icon rounded-round><i class=icon-pen2></i></button>
+                                <button type=submit name=del class=btn bg-teal-400 btn-icon rounded-round onclick="return confirm('Are you sure to delete this data?');"><i class=icon-cancel-circle2></i></button>
+                                </td>
                                 </form>
                             </tr>
                             <?php
@@ -79,7 +81,7 @@ else {
 if (isset($_POST['update'])) {
     $id = $_POST ['id'];
     $department = $_POST['department'];
-    $update = mysqli_query($conn,"UPDATE department SET department='$department' WHERE id = '$id'");
+    $update = mysqli_query($conn,"UPDATE department SET department='$department', updated_at = NOW() WHERE id = '$id'");
     if ($update) {
         echo "<script>alert('Data succeed to save'); location.href='admin.php?page=department';</script>";
     }
@@ -87,5 +89,14 @@ if (isset($_POST['update'])) {
         echo "<script>alert('Data failed to save'); location.href='admin.php?page=department';</script>";
     }
   }
+}
+
+if (isset($_POST['del'])) {
+    $id = $_POST['id'];
+
+    $hasil = mysqli_query($conn,"delete from department where id='$id'");
+    if($hasil){
+        echo "<script>alert('Data has been deleted successfully'); location.href='';</script>";
+    }
 }
 ?>
