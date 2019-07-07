@@ -18,7 +18,7 @@
         <div class="driving-historical">
             <div class="form-group">
                 <label>Distance</label>
-                <input type="number" min='0' step='.01' class="distance-time form-control" required name="distance">
+                <input type="text" class="distance-time number-mask-time form-control" required name="distance">
             </div>
 
             <div class="form-group">
@@ -49,4 +49,19 @@ $(function(){
     // initialize collapsibles:
     $( document ).trigger( "enhance" );
 });
+
+var numberMaskTimeClass = document.getElementsByClassName('number-mask-time');
+var aa;
+
+for (aa = 0; aa < numberMaskTimeClass.length; aa++) {
+    var numberMask = IMask(numberMaskTimeClass[aa],
+        {
+            mask: Number,
+            scale: 0,
+            min: 0,
+            max: 999,
+            thousandsSeparator: ' '
+        }
+    );
+}
 </script>
