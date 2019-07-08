@@ -159,14 +159,12 @@ function ServiceLayer(GIS, map, config) {
     });
   }
 
-  getAllPOI("tall", "atm");
-  getAllPOI("tall-1", "atm");
-  getPerPOI("tall-1-1", "atm");
-  getPerPOI("tall-1-2", "atm");
-  getPerPOI("tall-1-3", "atm");
-  getAllPOI("tall-2", "apotek");
-  getPerPOI("tall-2-1", "apotek");
-  getPerPOI("tall-2-2", "apotek");
-  getPerPOI("tall-2-3", "apotek");
+  getAllPOI("tall-1", "all-poi");
+  getPerPOI("tall-1-1", "all-poi");
+  getPerPOI("tall-1-2", "all-poi");
+  getPerPOI("tall-1-3", "all-poi");
+  getPerPOI("tall-1-4", "all-poi");
+  getPerPOI("tall-1-5", "all-poi");
+  getPerPOI("tall-1-6", "all-poi");
   // End Of Show & Hide POI from GIS Services
 }
