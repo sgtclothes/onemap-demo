@@ -1,13 +1,12 @@
 function createMarkerFromCSV(GIS,map){
     $(document).ready(function(){
-        $("#add-from-csv").click(function(){
+        $("#add-from-csv").on('click', function() {
             let getData = localStorage.getItem("data");
             let fields = []
             let values = []
             let latitude = []
             let longitude = []
             getData = JSON.parse(getData)
-    
             if (getData === null) {
                 alert('You must upload CSV first.');
             }
@@ -49,6 +48,9 @@ function createMarkerFromCSV(GIS,map){
                 type: "POST",
                 data: {fields:fields, values:values, latitude:latitude, longitude:longitude},
                 success: function(data) {
+                    $('body').find('#modal_form_csv').each(function(){
+                        $(this).remove()
+                    })
                     $('body').append(data)
                     $.fn.addLatAndLon()
                     $('#modal_form_csv').modal('show');

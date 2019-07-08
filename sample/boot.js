@@ -11,7 +11,7 @@ function boot(GIS) {
   //Adding Widgets to MapView
   //map.addDirectionsWidget(config.Position[5]);
   //map.addLegendWidget(config.Position[2]);
-  map.addMeasurementWidget(config.Position[1]);
+  //map.addMeasurementWidget();
   map.addLocateWidget(config.Position[5]);
   //map.addTrackingGeolocationWidget(config.Position[5]);
   map.addBasemapGalleryWidget(
@@ -28,7 +28,29 @@ function boot(GIS) {
   map.addSearchWidget(config.Position[6]);
   //Map Rendering
   map.render();
+  //Add Measurement to Map
+  // let measureBar = document.getElementById("topbar");
+  // measureBar.style.display = "block";
+  // map.ObjMapView.ui.add("topbar", config.Position[1]);
+  // document
+  //   .getElementById("distanceButton")
+  //   .addEventListener("click", function() {
+  //     map.setMeasurementActiveWidget(null);
+  //     if (!this.classList.contains("active")) {
+  //       map.setMeasurementActiveWidget("distance");
+  //     } else {
+  //       map.setMeasurementActiveWidget(null);
+  //     }
+  //   });
 
+  // document.getElementById("areaButton").addEventListener("click", function() {
+  //   map.setMeasurementActiveWidget(null);
+  //   if (!this.classList.contains("active")) {
+  //     map.setMeasurementActiveWidget("area");
+  //   } else {
+  //     map.setMeasurementActiveWidget(null);
+  //   }
+  // });
   // Create a site
   map.ObjMapView.when(function() {
     let createSiteDiv = document.getElementById("create-site-div");

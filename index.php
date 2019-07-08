@@ -351,6 +351,23 @@ if (!isset($_SESSION['auth'])) {
             </div>
             <!-- End of Setting Colors of POI -->
 
+            <!-- Top bar for measurement -->
+            <div id="topbar">
+            <button
+                class="action-button esri-icon-minus"
+                id="distanceButton"
+                type="button"
+                title="Measure distance between two or more points"
+            ></button>
+            <button
+                class="action-button esri-icon-polygon"
+                id="areaButton"
+                type="button"
+                title="Measure area"
+            ></button>
+            </div>
+            <!-- End of Top bar for measurement -->
+
             <!-- Form Create Site -->
             <div id="create-site-div" class="card" style="background: rgba(255,255,255,0.8); display:none; width:500px;">
                 <div class="card-header header-elements-inline">
