@@ -158,7 +158,6 @@ function ServiceLayer(GIS, map, config) {
       }
     });
   }
-
   getAllPOI("tall", "atm");
   getAllPOI("tall-1", "atm");
   getPerPOI("tall-1-1", "atm");

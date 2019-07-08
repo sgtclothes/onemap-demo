@@ -5,6 +5,7 @@ if (!isset($_SESSION['auth'])) {
 } else {
     include 'config/conn.php';
     include 'content/layer.php';
+    include 'config/ConsolePhp.php';
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -223,7 +224,7 @@ if (!isset($_SESSION['auth'])) {
                             </ul>
                         </li>
                         <li style="margin-left:20px;">
-                            <input type="checkbox" name="tall" id="tall">
+                            <input type="checkbox" name="tall" id="tall" value="[16,27,48,4,5,7]">
                             <label for="tall" class="custom-unchecked">POI</label>
 
                             <ul class="nested">
