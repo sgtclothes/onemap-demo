@@ -43,9 +43,9 @@ if (!isset($_SESSION['auth'])) {
         <!-- themes & template js files -->
         <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
         <!-- <script type="text/javascript" src="http://www.dematte.at/cpn/colors.js"></script>
-            <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
-            <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
-            <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
+                    <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
+                    <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
+                    <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
         <!-- <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script> -->
         <script src="assets/js/layout/default/app.js"></script>
         <script src="https://unpkg.com/imask"></script>
@@ -224,55 +224,35 @@ if (!isset($_SESSION['auth'])) {
                             </ul>
                         </li>
                         <li style="margin-left:20px;">
-                            <input type="checkbox" name="tall" id="tall" value="[16,27,48,4,5,7]">
-                            <label for="tall" class="custom-unchecked">POI</label>
-
+                            <input type="checkbox" name="tall-1" id="tall-1">
+                            <label for="tall-1" class="custom-unchecked">POI</label>
                             <ul class="nested">
-
-                                <li class="last">
-                                    <!-- <i class="icon-arrow-right32 caret"></i> -->
-                                    <input type="checkbox" name="tall-1" id="tall-1">
-                                    <label for="tall-1" class="custom-unchecked">ATM</label>
-                                    <ul class="nested">
-                                        <form id="atm">
-                                            <li>
-                                                <input type="checkbox" value="16" name="tall-1-1" id="tall-1-1">
-                                                <label for="tall-1-1" class="custom-unchecked">Bank DKI</label>
-                                            </li>
-                                            <li>
-                                                <input type="checkbox" value="27" name="tall-1-2" id="tall-1-2">
-                                                <label for="tall-1-2" class="custom-unchecked">Bank Mandiri</label>
-                                            </li>
-                                            <li class="last">
-                                                <input type="checkbox" value="48" name="tall-1-3" id="tall-1-3">
-                                                <label for="tall-1-3" class="custom-unchecked">Bank Sumut</label>
-                                            </li>
-                                        </form>
-                                    </ul>
-                                </li>
-
-                                <li class="last">
-                                    <!-- <i class="icon-arrow-right32 caret"></i> -->
-                                    <input type="checkbox" name="tall-2" id="tall-2">
-                                    <label for="tall-2" class="custom-unchecked">APOTEK</label>
-                                    <ul class="nested">
-                                        <form id="apotek">
-                                            <li>
-                                                <input type="checkbox" value="4" name="tall-2-1" id="tall-2-1">
-                                                <label for="tall-2-1" class="custom-unchecked">Apotek K24</label>
-                                            </li>
-                                            <li>
-                                                <input type="checkbox" value="5" name="tall-2-2" id="tall-2-2">
-                                                <label for="tall-1-2" class="custom-unchecked">Apotek Kimia Farma</label>
-                                            </li>
-                                            <li class="last">
-                                                <input type="checkbox" value="7" name="tall-2-3" id="tall-2-3">
-                                                <label for="tall-2-3" class="custom-unchecked">Apotek Watsons</label>
-                                            </li>
-                                        </form>
-                                    </ul>
-                                </li>
-
+                                <form id="all-poi">
+                                    <li>
+                                        <input type="checkbox" value="16" name="tall-1-1" id="tall-1-1">
+                                        <label for="tall-1-1" class="custom-unchecked">Bank DKI</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" value="27" name="tall-1-2" id="tall-1-2">
+                                        <label for="tall-1-2" class="custom-unchecked">Bank Mandiri</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" value="48" name="tall-1-3" id="tall-1-3">
+                                        <label for="tall-1-3" class="custom-unchecked">Bank Sumut</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" value="4" name="tall-1-4" id="tall-1-4">
+                                        <label for="tall-1-4" class="custom-unchecked">Apotek K24</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" value="5" name="tall-1-5" id="tall-1-5">
+                                        <label for="tall-1-5" class="custom-unchecked">Apotek Kimia Farma</label>
+                                    </li>
+                                    <li class="last">
+                                        <input type="checkbox" value="7" name="tall-1-6" id="tall-1-6">
+                                        <label for="tall-1-6" class="custom-unchecked">Apotek Watsons</label>
+                                    </li>
+                                </form>
                             </ul>
                         </li>
                         <li style="margin-left:20px;" class="tree-custom-data">
