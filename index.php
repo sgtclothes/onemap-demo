@@ -43,9 +43,9 @@ if (!isset($_SESSION['auth'])) {
         <!-- themes & template js files -->
         <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
         <!-- <script type="text/javascript" src="http://www.dematte.at/cpn/colors.js"></script>
-                    <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
-                    <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
-                    <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
+                                                                    <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
+                                                                    <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
+                                                                    <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
         <!-- <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script> -->
         <script src="assets/js/layout/default/app.js"></script>
         <script src="https://unpkg.com/imask"></script>
@@ -87,7 +87,7 @@ if (!isset($_SESSION['auth'])) {
 
             .tbl {
                 padding-left: 8px;
-                padding-right:8px;
+                padding-right: 8px;
             }
         </style>
         <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">
@@ -239,31 +239,51 @@ if (!isset($_SESSION['auth'])) {
                 </div>
                 <div id="tree-viewer">
                     <div>
-                        <p style="margin-left:30px; margin-top: 20px; padding: 20px 8px 0px 90px;" class="title"></p>
+                        <p style="margin-left:30px; margin-top: 28px; padding: 28px 8px 0px 90px;" class="title"></p>
                     </div>
                     <ul class="treeview">
-                    <li>
-                            <ul style="display: flex; align-items: center; justify-content: center; margin-top:10px;">
-                                <button style="border-radius: 12px; margin-bottom: 10px; margin-right:10px; width:270px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_form_filter"><i class="mi-search">
-                                    </i> Search Property</button>
-                            </ul>
-                        </li> 
-                        <li style="margin-left:20px;" class="tree-custom-data">
-                            <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                            <label for="custom-data-master-select-all-poi" class="label-custom-data">Colliers_Properties</label>
-                            <ul id="custom-data-user">
-                                <li class="tree-database">
-                                    <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                                    <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                    <div id="user-database"></div>
-                                </li>
-                                <li class="tree-localstorage">
-                                    <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                                    <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                    <div id="user-localstorage"></div>
-                                </li>
-                            </ul>
+                        <li id="filter-menu">
+                            <table style="border:none">
+                                <tr style="border:none">
+                                    <td style="border:none">Type</td>
+                                    <td style="border:none">
+                                        <select style="height:26px; padding: 0px; width:120px; margin:0px; margin-left:5px;" name="type-property" id="type-property">
+                                            <option value="office">Office</option>
+                                            <option value="apartment">Apartment</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr style="border:none">
+                                    <td style="border:none">Status</td>
+                                    <td style="border:none">
+                                        <select style="height:26px; padding: 0px; width:120px; margin:0px; margin-left:5px;" name="status-property" id="status-property">
+                                            <option value="for-sale">For Sale</option>
+                                            <option value="for-rent">For Rent</option>
+                                            <option value="sold">Sold</option>
+                                            <option value="rented">Rented</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr style="border:none">
+                                    <td style="border:none">Building Area (m<sup>2</sup>)</td>
+                                    <td style="border:none"><input style="width:120px; margin-left:5px;" type="text"></td>
+                                </tr>
+                                <tr style="border:none">
+                                    <td style="border:none">Land Area (m<sup>2</sup>)</td>
+                                    <td style="border:none"><input style="width:120px; margin-left:5px;" type="text"></td>
+                                </tr>
+                                <tr style="border:none">
+                                    <td style="border:none">Price</td>
+                                    <td style="border:none"><input style="width:120px; margin-left:5px;" type="text"></td>
+                                </tr>
+                            </table>
                         </li>
+                        <!-- <li>
+                                                                            <ul style="display: flex; align-items: center; justify-content: center; margin-top:10px;">
+                                                                                <button style="margin-bottom: 10px; margin-right:10px; width:270px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_form_filter"><i class="mi-search">
+                                                                                    </i> Search Property</button>
+                                                                            </ul>
+                                                                        </li> -->
                         <li style="margin-left:20px;">
                             <input type="checkbox" name="tall-1" id="tall-1">
                             <label for="tall-1" class="custom-unchecked">POI</label>
@@ -310,7 +330,7 @@ if (!isset($_SESSION['auth'])) {
                 <div>
                     <p style="margin-top: 20px; padding: 20px 8px 0px 90px;" class="title"></p>
                     <div class="table-responsive tbl">
-                    <?php include 'content/site_analysis.php'; ?>
+                        <?php include 'content/site_analysis.php'; ?>
                     </div>
                 </div>
             </div>
@@ -426,7 +446,7 @@ if (!isset($_SESSION['auth'])) {
             $('#datatable-site').dataTable({
                 "bLengthChange": false,
                 "bFilter": true,
-                "bInfo" : false,
+                "bInfo": false,
                 "paging": false,
             });
         });

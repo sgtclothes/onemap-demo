@@ -1,4 +1,4 @@
 type,name,lat,lon,location,building_area,land_area,status
-Minimarketq,Indomaret,-6.09572,120.504089,Selayar,100,110,rent
+Minimarket,Indomaret,-6.095720,120.504089,Selayar,100,110,rent
 Minimarket,Alfamart,-6.307923,107.172089,Cikarang,200,210,sold
-Minimarket,Giant,-5.42921,119.445427,Takalar,200,210,sold
+Minimarket,Giant,-5.429210,119.445427,Takalar,200,210,sold
