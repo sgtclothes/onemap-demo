@@ -83,6 +83,11 @@ if (!isset($_SESSION['auth'])) {
                 flex-direction: row;
                 margin-top: 16px;
             }
+
+            .tbl {
+                padding-left: 8px;
+                padding-right:8px;
+            }
         </style>
         <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">
         <script src="https://js.arcgis.com/4.11/"></script>
@@ -278,6 +283,9 @@ if (!isset($_SESSION['auth'])) {
                 </div>
                 <div>
                     <p style="margin-top: 28px; padding: 28px 8px 0px 90px;" class="title">Site Analysis</p>
+                    <div class="table-responsive tbl">
+                    <?php include 'content/site_analysis.php'; ?>
+                    </div>
                 </div>
             </div>
             <!-- End of the SideNav Site Instant Analysis -->
@@ -388,6 +396,12 @@ if (!isset($_SESSION['auth'])) {
                 "bLengthChange": false,
                 "bFilter": true,
                 "pageLength": 5
+            });
+            $('#datatable-site').dataTable({
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo" : false,
+                "paging": false,
             });
         });
     </script>
