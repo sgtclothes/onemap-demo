@@ -63,7 +63,7 @@ $(document).ready(function(){
                     $("#mySidenav").css('width','320px');
                     $("#mySiteAnalysis").css('width','320px');
                 }
-                let newTD = '<tr><td><input type=checkbox name=get-site data-latitude='+JSON.stringify(latitude)+' data-longitude='+JSON.stringify(longitude)+'></td>';
+                let newTD = '<tr><td><input type=radio name=get-site data-latitude='+JSON.stringify(latitude)+' data-longitude='+JSON.stringify(longitude)+'></td>';
                 newTD += '<td>'+name+'</td></tr>';
 
                 $("#load-data-site-analysis").prepend(newTD);

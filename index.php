@@ -136,7 +136,7 @@ if (!isset($_SESSION['auth'])) {
                     <!-- analysis menu item navbar -->
                     <li class="nav-item">
                         <a id="viewer-nav" href="#" class="navbar-nav-link">
-                            <i class="icon-list-unordered mr-2"></i>Viewer
+                            <i class="icon-list-unordered mr-2"></i>Layers
                         </a>
                     </li>
 
@@ -188,7 +188,7 @@ if (!isset($_SESSION['auth'])) {
                     <a href="javascript:void(0)" id="closebtn">&times;</a>
                 </div>
                 <div>
-                    <p class="title" style="padding: 70px 8px 0px 88px;">Instant Analysis</p>
+                    <p class="title" style="padding: 70px 8px 0px 88px;"></p>
                     <div style="margin-left:52px; margin-bottom: 8px;">
                         <button type="button" id="adding-btn" title="Input Latitude & Longitude" data-toggle="modal" data-target="#modal_form_input_point" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
                         <button type="button" id="add-from-site" title="Add from Site" data-toggle="modal" data-target="#modal_form_vertical" class="btn btn-sm alpha-primary border-primary text-primary-800 btn-icon rounded-round ml-2"><i class="icon-office"></i></button>
@@ -207,6 +207,31 @@ if (!isset($_SESSION['auth'])) {
             </div>
             <!-- End of the SideNav Analysis -->
 
+            <!-- The SideNav Analysis -->
+            <!-- <div id="myEditSiteAnalysis" class="sidenav panel-right">
+                <div class="inline">
+                    <a href="javascript:void(0)" id="closebtn">&times;</a>
+                </div>
+                <div>
+                    <p class="title" style="padding: 70px 8px 0px 88px;">Form Update Site Analysis</p>
+                    <div style="margin-left:52px; margin-bottom: 8px;">
+                        <button type="button" id="adding-btn" title="Input Latitude & Longitude" data-toggle="modal" data-target="#modal_form_input_point" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
+                        <button type="button" id="add-from-site" title="Add from Site" data-toggle="modal" data-target="#modal_form_vertical" class="btn btn-sm alpha-primary border-primary text-primary-800 btn-icon rounded-round ml-2"><i class="icon-office"></i></button>
+                        <button type="button" id="add-from-csv" title="Add From CSV" class="btn btn-sm alpha-success border-success text-success-800 btn-icon rounded-round ml-2"><i class="icon-folder-open"></i></button>
+                        <button type="button" title="Pointing on the Map" id="pointing-btn" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon rounded-round ml-2"><i class="icon-pin-alt"></i></button>
+                    </div>
+                    <form action="" method="post" id="form-create-analysis">
+                        <div class="bottom-input-name">
+                            <input type="text" class="form-control" style="margin-left:16px; width:150px" id="name_analysis" name="name_analysis" required placeholder="Name of Analysis">
+                            <input type="hidden" id="created_by" name="created_by" value="<?php echo $_SESSION['auth']['id'] ?>">
+                            <button type="submit" name="add" class="btn btn-primary ml-3">Save Analysis</button>
+                        </div>
+                        <div id="form-list"></div>
+                    </form>
+                </div>
+            </div> -->
+            <!-- End of the SideNav Analysis -->
+
             <!-- SideNav Viewer -->
             <div id="myViewer" class="sidenav panel-left">
                 <div class="inline">
@@ -214,13 +239,29 @@ if (!isset($_SESSION['auth'])) {
                 </div>
                 <div id="tree-viewer">
                     <div>
-                        <p style="margin-left:30px; margin-top: 28px; padding: 28px 8px 0px 90px;" class="title">Viewer</p>
+                        <p style="margin-left:30px; margin-top: 20px; padding: 20px 8px 0px 90px;" class="title"></p>
                     </div>
                     <ul class="treeview">
-                        <li>
+                    <li>
                             <ul style="display: flex; align-items: center; justify-content: center; margin-top:10px;">
-                                <button style="margin-bottom: 10px; margin-right:10px; width:270px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_form_filter"><i class="mi-search">
+                                <button style="border-radius: 12px; margin-bottom: 10px; margin-right:10px; width:270px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_form_filter"><i class="mi-search">
                                     </i> Search Property</button>
+                            </ul>
+                        </li> 
+                        <li style="margin-left:20px;" class="tree-custom-data">
+                            <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
+                            <label for="custom-data-master-select-all-poi" class="label-custom-data">Colliers_Properties</label>
+                            <ul id="custom-data-user">
+                                <li class="tree-database">
+                                    <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
+                                    <label for="database-master-select-all-poi" class="label-database">Database</label>
+                                    <div id="user-database"></div>
+                                </li>
+                                <li class="tree-localstorage">
+                                    <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
+                                    <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
+                                    <div id="user-localstorage"></div>
+                                </li>
                             </ul>
                         </li>
                         <li style="margin-left:20px;">
@@ -255,23 +296,7 @@ if (!isset($_SESSION['auth'])) {
                                 </form>
                             </ul>
                         </li>
-                        <li style="margin-left:20px;" class="tree-custom-data">
-                            <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                            <label for="custom-data-master-select-all-poi" class="label-custom-data">Custom_Data_User</label>
-                            <ul id="custom-data-user">
-                                <li class="tree-database">
-                                    <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                                    <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                    <div id="user-database"></div>
-                                </li>
-                                <li class="tree-localstorage">
-                                    <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                                    <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                    <div id="user-localstorage"></div>
-                                </li>
-                            </ul>
-                        </li>
-
+                       
                     </ul>
                 </div>
             </div>
@@ -283,7 +308,7 @@ if (!isset($_SESSION['auth'])) {
                     <a href="javascript:void(0)" id="closeSiteAnalysis">&times;</a>
                 </div>
                 <div>
-                    <p style="margin-top: 28px; padding: 28px 8px 0px 90px;" class="title">Site Analysis</p>
+                    <p style="margin-top: 20px; padding: 20px 8px 0px 90px;" class="title"></p>
                     <div class="table-responsive tbl">
                     <?php include 'content/site_analysis.php'; ?>
                     </div>

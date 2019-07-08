@@ -25,7 +25,7 @@
         ?>
         <tr>
             <td>
-                <input type='checkbox' name='get-site' data-latitude='<?php echo $latitude; ?>' data-longitude='<?php echo $longitude; ?>'>
+                <input type='radio' name='get-point' data-latitude='<?php echo $latitude; ?>' data-longitude='<?php echo $longitude; ?>'>
             </td>
             <td><?php echo "$site_anly[name]"; ?></td>
         </tr>

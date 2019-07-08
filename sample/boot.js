@@ -11,6 +11,7 @@ function boot(GIS) {
   //Adding Widgets to MapView
   //map.addDirectionsWidget(config.Position[5]);
   //map.addLegendWidget(config.Position[2]);
+  map.addMeasurementWidget(config.Position[1]);
   map.addLocateWidget(config.Position[5]);
   //map.addTrackingGeolocationWidget(config.Position[5]);
   map.addBasemapGalleryWidget(
@@ -22,6 +23,7 @@ function boot(GIS) {
     },
     config.Position[6]
   );
+ 
   //Adding Tasks to MapView
   map.addSearchWidget(config.Position[6]);
   //Map Rendering
@@ -334,6 +336,67 @@ function boot(GIS) {
     pointColors
   );
   convertCSV.setupDropZone();
+  var pointThisAction = {
+    title: "Pointing",
+    id: "point-this",
+    className: "esri-icon-map-pin"
+  };
+  delete map.ObjMapView.popup.actions.items[0]
+  map.ObjMapView.popup.actions.push(pointThisAction);
+  map.ObjMapView.popup.on("trigger-action", ({ action }) => {
+    if (action.id === "point-this") {
+      var S = map.ObjMapView.popup.title;
+      if (S.includes("Buffer") ===false || S.includes("Driving") ===false) {
+        function isFloat(n){
+          return Number(n) === n && n % 1 !== 0;
+        }
+        let attr = map.ObjMapView.popup.selectedFeature.attributes
+        var lat
+        var lon
+        for(let key in attr) {
+          if (isFloat(attr[key])) {
+            if(typeof attr[key] === 'number' && attr[key] >= -90 && attr[key] <= 90 ) {
+                lat = attr[key]
+            }
+            else if (typeof attr[key] === 'number' && attr[key] >= -180 && attr[key] <= 180 ) {
+                lon = attr[key]
+            }
+          }
+        }
+        $.addRows();
+        $.each(window.counterArr, function(index, value) {
+          if ($(".latitude-form-" + value).val() === "") {
+            $(".latitude-form-" + value).val(lat);
+            $(".longitude-form-" + value).val(lon);
+            $("#form-list").delegate(
+              ".selectbuffer-" + value,
+              "click",
+              function() {
+                $.get(
+                  "content/template/instant_analysis/buffer.php",
+                  function(data) {
+                    $(".form-buffer-" + value).append(data);
+                  }
+                );
+              }
+            );
+            $("#form-list").delegate(
+              ".selectdrive-" + value,
+              "click",
+              function() {
+                $.get(
+                  "content/template/instant_analysis/driving.php",
+                  function(data) {
+                    $(".form-drive-" + value).append(data);
+                  }
+                );
+              }
+            );
+          }
+        });
+      }
+    }
+  })
   //end of drag and drop
 
   // widget color picker and render poi
