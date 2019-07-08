@@ -5,6 +5,7 @@ if (!isset($_SESSION['auth'])) {
 } else {
     include 'config/conn.php';
     include 'content/layer.php';
+    include 'config/ConsolePhp.php';
     ?>
     <!DOCTYPE html>
     <html lang="en">
