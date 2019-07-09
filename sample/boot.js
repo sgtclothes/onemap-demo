@@ -65,7 +65,7 @@ function boot(GIS) {
 
     map.ObjMapView.ui.add(createSiteExpand, config.Position[6]);
   });
-  
+
   let pointTheSiteEnabled = false;
   document
     .getElementById("point-the-site")
@@ -77,12 +77,15 @@ function boot(GIS) {
 
       document
         .getElementById("create-site-div")
-        .setAttribute("style", "background: rgba(255, 255, 255, 0.8) none repeat scroll 0% 0%; display:none; width: 500px;");
+        .setAttribute(
+          "style",
+          "background: rgba(255, 255, 255, 0.8) none repeat scroll 0% 0%; display:none; width: 500px;"
+        );
 
       if (pointTheSiteEnabled == false) {
         document
           .getElementById("mapDiv")
-          .setAttribute("style", "cursor:default;"); 
+          .setAttribute("style", "cursor:default;");
       }
     });
 
@@ -106,7 +109,10 @@ function boot(GIS) {
       document.getElementById("lon-site").value = longitude;
       document
         .getElementById("create-site-div")
-        .setAttribute("style", "background: rgba(255, 255, 255, 0.8) none repeat scroll 0% 0%; display:inline-block; width: 500px;"); 
+        .setAttribute(
+          "style",
+          "background: rgba(255, 255, 255, 0.8) none repeat scroll 0% 0%; display:inline-block; width: 500px;"
+        );
     }
     if (pointTheSiteEnabled == false) {
       document
@@ -135,8 +141,12 @@ function boot(GIS) {
             y: event.y
           }).longitude.toFixed(7);
 
-          let pointing = new GIS.Buffer.Pointing(map.ObjMapView,latitude,longitude)
-          pointing.render()
+          let pointing = new GIS.Buffer.Pointing(
+            map.ObjMapView,
+            latitude,
+            longitude
+          );
+          pointing.render();
 
           $.addRows();
           $.each(window.counterArr, function(index, value) {
@@ -203,8 +213,8 @@ function boot(GIS) {
 
   // sidebar/sidenav
   function openNav() {
-    document.getElementById("mySidenav").style.width = "320px";
-    document.getElementById("main").style.marginLeft = "320px";
+    document.getElementById("mySidenav").style.width = "350px";
+    document.getElementById("main").style.marginLeft = "350px";
     document.getElementById("mySidenav").classList.add("panel-left");
     document.getElementById("main").style.marginRight = "0";
   }
@@ -255,8 +265,8 @@ function boot(GIS) {
     setTimeout(function() {
       map.addWidget(dragCSVButton(), config.Position[6]);
     }, 1000);
-    document.getElementById("myViewer").style.width = "300px";
-    document.getElementById("main").style.marginLeft = "300px";
+    document.getElementById("myViewer").style.width = "350px";
+    document.getElementById("main").style.marginLeft = "350px";
   }
 
   function close_viewer() {
@@ -286,12 +296,10 @@ function boot(GIS) {
         .children("#drag-csv")
         .remove();
       close_viewer();
-    } 
-    else if (document.getElementById("mySiteAnalysis").style.width > "0px") {
+    } else if (document.getElementById("mySiteAnalysis").style.width > "0px") {
       document.getElementById("mySiteAnalysis").style.width = "0";
       open_viewer();
-    }
-    else {
+    } else {
       open_viewer();
     }
     if (document.getElementById("mySidenav").classList.contains("panel-left")) {
@@ -304,7 +312,7 @@ function boot(GIS) {
     }
   });
 
-  var siteAnalysis = document.getElementById("mySiteAnalysis")
+  var siteAnalysis = document.getElementById("mySiteAnalysis");
   function open_site_analysis() {
     siteAnalysis.style.width = "320px";
     document.getElementById("main").style.marginLeft = "320px";
@@ -315,33 +323,35 @@ function boot(GIS) {
     document.getElementById("main").style.marginLeft = "0";
   }
 
-  document.getElementById("closeSiteAnalysis").addEventListener("click", function() {
-    document.getElementById("mySiteAnalysis").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-  });
+  document
+    .getElementById("closeSiteAnalysis")
+    .addEventListener("click", function() {
+      document.getElementById("mySiteAnalysis").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    });
 
-  document.getElementById("site-analysis").addEventListener("click", function() {
-    let viewer = document.getElementById("myViewer");
-    if (viewer.style.width > "0px") {
-      $(".esri-ui-top-right")
-        .children("#drag-csv")
-        .remove();
-      close_viewer();
-      open_site_analysis();
-    } 
-    else if (siteAnalysis.style.width > "0px") {
-      close_site_analysis()
-    }
-    else {
-      open_site_analysis();
-    }
-    if ($("#mySidenav").hasClass("panel-left")) {
-      $("#mySidenav").removeClass("panel-left");
-      $("#mySidenav").addClass("panel-right");
-      $("#main").css('margin-right','320px');
-      $("#mySidenav").css('width','320px');
-  }
-  });
+  document
+    .getElementById("site-analysis")
+    .addEventListener("click", function() {
+      let viewer = document.getElementById("myViewer");
+      if (viewer.style.width > "0px") {
+        $(".esri-ui-top-right")
+          .children("#drag-csv")
+          .remove();
+        close_viewer();
+        open_site_analysis();
+      } else if (siteAnalysis.style.width > "0px") {
+        close_site_analysis();
+      } else {
+        open_site_analysis();
+      }
+      if ($("#mySidenav").hasClass("panel-left")) {
+        $("#mySidenav").removeClass("panel-left");
+        $("#mySidenav").addClass("panel-right");
+        $("#main").css("margin-right", "320px");
+        $("#mySidenav").css("width", "320px");
+      }
+    });
 
   //end of sidebar/sidenav
 
@@ -364,7 +374,7 @@ function boot(GIS) {
   });
 
   //drag and drop
-  var pointColors = '#'+Math.floor(Math.random()*16777215).toString(16)
+  var pointColors = "#" + Math.floor(Math.random() * 16777215).toString(16);
   let convertCSV = new GIS.Buffer.ConvertCSV(
     map.ObjMap,
     map.ObjMapView,
@@ -640,7 +650,92 @@ function boot(GIS) {
       });
     });
 
-  ServiceLayer(GIS, map, config);
+  ServiceLayerPOI(GIS, map, config);
+  ServiceLayerInfrastructure(GIS, map, config);
+  ServiceLayerDemographic(GIS, map, config);
+
+  $(document).delegate("#select-filter", "change", function() {
+    let val = $("#select-filter").val();
+    let selected = JSON.parse(localStorage.getItem("selectFilter"));
+    if (selected == undefined) {
+      selected = [];
+    }
+    if (val == "type") {
+      $("#type-filter").show();
+      if (!selected.includes("type")) {
+        selected.push("type");
+      }
+    } else if (val == "status") {
+      $("#status-filter").show();
+      if (!selected.includes("status")) {
+        selected.push("status");
+      }
+    } else if (val == "price") {
+      $("#price-filter").show();
+      if (!selected.includes("price")) {
+        selected.push("price");
+      }
+    } else if (val == "building_area") {
+      $("#building-area-filter").show();
+      if (!selected.includes("building_area")) {
+        selected.push("building_area");
+      }
+    } else if (val == "land_area") {
+      $("#land-area-filter").show();
+      if (!selected.includes("land_area")) {
+        selected.push("land_area");
+      }
+    }
+
+    if (selected.length > 0) {
+      $("#button-filter").show();
+    }
+    localStorage.setItem("selectFilter", JSON.stringify(selected));
+    console.log(JSON.parse(localStorage.getItem("selectFilter")));
+  });
+
+  $(document).delegate(".mi-remove-circle", "click", function() {
+    let selected = JSON.parse(localStorage.getItem("selectFilter"));
+    let val = $(this)
+      .parents("tr")
+      .attr("value");
+    let index = selected.indexOf(val);
+    console.log(index);
+    selected.splice(index, 1);
+    localStorage.setItem("selectFilter", JSON.stringify(selected));
+    $(this)
+      .parents("tr")
+      .hide();
+    if (selected.length < 1) {
+      $("#select-filter")
+        .val("")
+        .change();
+      $("#button-filter").hide();
+    }
+    console.log(JSON.parse(localStorage.getItem("selectFilter")));
+  });
+
+  $(document).delegate(".i-tree", "click", function() {
+    $(this)
+      .siblings("ul")
+      .find("li")
+      .toggle();
+    $(this)
+      .siblings("div")
+      .children()
+      .find("li")
+      .toggle();
+  });
+
+  $(document).delegate(".i-tree-layers", "click", function() {
+    $(this)
+      .siblings("ul")
+      .toggle();
+  });
+
+  $(document).delegate("#button-filter","click",function() {
+    viewer.simpleFilterData()
+  })
 
   document.getElementById("logout").addEventListener("click", function() {
     localStorage.clear();

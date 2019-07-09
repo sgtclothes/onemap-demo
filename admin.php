@@ -70,7 +70,7 @@ else {
 
     <!-- navbar for product-brand -->
     <div class="navbar-brand py-0">
-        <a href="admin.php" class="d-flex h-100">
+        <a href="index.php" class="d-flex h-100">
             <img class="img-fluid my-auto h-auto" src="assets/images/icons/lls-brand.png" alt="">
         </a>
     </div>
