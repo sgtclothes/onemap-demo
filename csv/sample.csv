@@ -1,4 +1,7 @@
-type,name,lat,lon,location,building_area,land_area,status
-Minimarket,Indomaret,-6.095720,120.504089,Selayar,100,110,rent
-Minimarket,Alfamart,-6.307923,107.172089,Cikarang,200,210,sold
-Minimarket,Giant,-5.429210,119.445427,Takalar,200,210,sold
+type,name,lat,lon,location,building_area,land_area,status,price
+office,Colliers,-6.095720,120.504089,Selayar,100,110,rented,90000000
+apartment,Meikarta,-6.307923,107.172089,Cikarang,200,210,sold,100000000
+land,Tanah Surga,-5.429210,119.445427,Takalar,200,210,sold,250000000
+apartment,Citra,-6.917464,107.619125,Bandung,100,110,for-sale,90000000
+apartment,Meikarta,3.595196,98.672226,Medan,200,210,for-rent,100000000
+land,Tanah Kuasa,-6.238270,106.975571,Bekasi,200,210,sold,210000000

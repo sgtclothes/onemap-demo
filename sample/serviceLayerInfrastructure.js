@@ -1,4 +1,4 @@
-function ServiceLayer(GIS, map, config) {
+function ServiceLayerInfrastructure(GIS, map, config) {
   // Show & Hide POI from GIS Services
   let layerServiceArr = JSON.parse(layerDataArr);
 
@@ -31,7 +31,7 @@ function ServiceLayer(GIS, map, config) {
     return layerInfos;
   }
 
-  function renderPOI(idform) {
+  function renderInfrastructure(idform) {
     let form = idform.querySelectorAll('input[type="checkbox"]');
     let layerArr = [];
     let i;
@@ -40,7 +40,7 @@ function ServiceLayer(GIS, map, config) {
         layerArr.push(
           new GIS.Layer.ServiceLayer(
             map.ObjMap,
-            "http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/" +
+            "http://tig.co.id/ags/rest/services/BPS/BPS_SES/MapServer/" +
               form[i].value
           )
         );
@@ -70,7 +70,7 @@ function ServiceLayer(GIS, map, config) {
     return window.legend;
   }
 
-  function getAllPOI(id, form) {
+  function getAllInfrastructure(id, form) {
     document.getElementById(id).addEventListener("change", function() {
       if (this.checked) {
         let layer = map.ObjMap.layers.items;
@@ -80,7 +80,7 @@ function ServiceLayer(GIS, map, config) {
           }
         }
         let idform = document.getElementById(form);
-        let layerArr = renderPOI(idform);
+        let layerArr = renderInfrastructure(idform);
         for (let k = 0; k < layerArr.length; k++) {
           layerArr[k].render();
         }
@@ -116,11 +116,11 @@ function ServiceLayer(GIS, map, config) {
     });
   }
 
-  function getPerPOI(id, form) {
+  function getPerInfrastructure(id, form) {
     document.getElementById(id).addEventListener("change", function() {
       if (this.checked) {
         let idform = document.getElementById(form);
-        let layerArr = renderPOI(idform);
+        let layerArr = renderInfrastructure(idform);
         for (let k = 0; k < layerArr.length; k++) {
           layerArr[k].render();
         }
@@ -159,12 +159,8 @@ function ServiceLayer(GIS, map, config) {
     });
   }
 
-  getAllPOI("tall-1", "all-poi");
-  getPerPOI("tall-1-1", "all-poi");
-  getPerPOI("tall-1-2", "all-poi");
-  getPerPOI("tall-1-3", "all-poi");
-  getPerPOI("tall-1-4", "all-poi");
-  getPerPOI("tall-1-5", "all-poi");
-  getPerPOI("tall-1-6", "all-poi");
+  getAllInfrastructure("tall-2", "all-infrastructure");
+  getPerInfrastructure("tall-2-1", "all-infrastructure");
+  getPerInfrastructure("tall-2-2", "all-infrastructure");
   // End Of Show & Hide POI from GIS Services
 }
