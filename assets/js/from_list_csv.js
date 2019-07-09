@@ -113,6 +113,18 @@ function createMarkerFromCSV(GIS,map){
                                             $(".form-drive-"+value).append(data)
                                         });
                                     }) 
+                                    $("#form-list").delegate(
+                                        ".selectdrive-distance-" + value,
+                                        "click",
+                                        function() {
+                                          $.get(
+                                            "content/template/instant_analysis/driving_distance.php",
+                                            function(data) {
+                                              $(".form-drive-distance-" + value).append(data);
+                                            }
+                                          );
+                                        }
+                                      );
                                 }
                             })
                         }

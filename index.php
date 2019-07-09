@@ -5,7 +5,7 @@ if (!isset($_SESSION['auth'])) {
 } else {
     include 'config/conn.php';
     include 'content/layer.php';
-    include 'config/ConsolePhp.php';
+    include 'content/analysis/analysis_id.php';
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -43,9 +43,9 @@ if (!isset($_SESSION['auth'])) {
         <!-- themes & template js files -->
         <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
         <!-- <script type="text/javascript" src="http://www.dematte.at/cpn/colors.js"></script>
-                                                                    <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
-                                                                    <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
-                                                                    <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
+        <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
+        <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
+        <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
         <!-- <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script> -->
         <script src="assets/js/layout/default/app.js"></script>
         <script src="https://unpkg.com/imask"></script>
@@ -100,12 +100,14 @@ if (!isset($_SESSION['auth'])) {
             let pass = "<?= $dbpass ?>"
             window.created_by = "<?= $_SESSION['auth']['id'] ?>"
             window.layerDataArr = '<?php print json_encode($layer_array) ?>'
+            window.analysis_id = '<?php print json_encode($an_id_array) ?>'
         </script>
 
         <script src="sample/boot.js"></script>
         <script src="sample/serviceLayer.js"></script>
         <script src="content/template/instant_analysis/buffers.js"></script>
         <script src="content/template/instant_analysis/drivetime.js"></script>
+        <script src="content/template/instant_analysis/drivetime_distance.js"></script>
     </head>
 
     <body id="main" class="navbar-top sidebar-main-hidden">
@@ -115,7 +117,7 @@ if (!isset($_SESSION['auth'])) {
             <!-- navbar for product-brand -->
             <div class="navbar-brand py-0">
                 <a href="index.php" class="d-flex h-100">
-                    <img class="img-fluid my-auto h-auto" src="assets/images/icons/lls-brand.png" alt="">
+                    <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/logo.png" alt="">
                 </a>
             </div>
             <!-- /navbar for product brand -->
@@ -201,7 +203,7 @@ if (!isset($_SESSION['auth'])) {
                             <input type="hidden" id="created_by" name="created_by" value="<?php echo $_SESSION['auth']['id'] ?>">
                             <button type="submit" name="add" class="btn btn-primary ml-3">Save Analysis</button>
                         </div>
-                        <div id="form-list"></div>
+                        <div style="min-height:240px" id="form-list"></div>
                     </form>
                 </div>
             </div>
@@ -279,11 +281,11 @@ if (!isset($_SESSION['auth'])) {
                             </table>
                         </li>
                         <!-- <li>
-                                                                            <ul style="display: flex; align-items: center; justify-content: center; margin-top:10px;">
-                                                                                <button style="margin-bottom: 10px; margin-right:10px; width:270px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_form_filter"><i class="mi-search">
-                                                                                    </i> Search Property</button>
-                                                                            </ul>
-                                                                        </li> -->
+                                <ul style="display: flex; align-items: center; justify-content: center; margin-top:10px;">
+                                    <button style="margin-bottom: 10px; margin-right:10px; width:270px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_form_filter"><i class="mi-search">
+                                        </i> Search Property</button>
+                                </ul>
+                            </li> -->
                         <li style="margin-left:20px;">
                             <input type="checkbox" name="tall-1" id="tall-1">
                             <label for="tall-1" class="custom-unchecked">POI</label>
@@ -328,7 +330,8 @@ if (!isset($_SESSION['auth'])) {
                     <a href="javascript:void(0)" id="closeSiteAnalysis">&times;</a>
                 </div>
                 <div>
-                    <p style="margin-top: 20px; padding: 20px 8px 0px 90px;" class="title"></p>
+                    <p style="margin-top: 20px; padding: 20px 8px 0px 90px;" class="title">
+                    </p>
                     <div class="table-responsive tbl">
                         <?php include 'content/site_analysis.php'; ?>
                     </div>
@@ -432,6 +435,7 @@ if (!isset($_SESSION['auth'])) {
         include 'content/editPOI.php';
         include 'content/data_site.php';
         include 'content/input_point.php';
+        include 'content/analysis/form_poi.php';
         ?>
         <!-- <script src="assets/colors/app.js"></script> -->
         <script type="text/javascript" src="assets/js/plugins/collapsible/collapsible.js"></script>
@@ -453,6 +457,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/add_points_manual.js"></script>
     <script src="assets/js/create_analysis.js"></script>
     <script src="assets/js/from_list_csv.js"></script>
+    <script src="assets/js/analysis_poi.js"></script>
     <script>
         $(document).ready(function() {
             $('#datatable-sorting').dataTable({
