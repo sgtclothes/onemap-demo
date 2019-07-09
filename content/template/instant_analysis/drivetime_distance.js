@@ -2,17 +2,16 @@ function driveTime(GIS,map){
     $(document).ready(function(){
         $("#form-list").click(function(){
             $.each(window.counterArr, function(index, value){
-                $(".form-drive-distance-"+value).find('select.select-driving').each(function(){
+                $(".form-drive-distance-"+value).find('select.select-driving-distance').each(function(){
                     $(this).on("click", function(){
                         if ($(this)[0].value == 3) {
-                            console.log($(this))
                             $(this).closest(".form-group").next().css("display","block")
                         } else {
                             $(this).closest(".form-group").next().css("display","none")
                         }
                     })
                 })
-                $(".form-drive-distance-"+value).find('button.btn-create-drive-time').each(function(){
+                $(".form-drive-distance-"+value).find('button.btn-create-drive-time-distance').each(function(){
                     $(this).on("click", function(event){
                         event.stopImmediatePropagation();
                         let distance = $(this).closest(".text-right").prev().children()[0].children[1].value
@@ -104,9 +103,9 @@ function driveTime(GIS,map){
                             });
 
                             driveTime.render(map.ObjMapView);
-                            $(this).closest(".text-right").prev().find('input[type=text].distance-time').prop('disabled', true)
-                            $(this).closest(".text-right").prev().find('select.select-unit-time').prop('disabled', true)
-                            $(this).closest(".text-right").prev().prev().find('select.select-driving').prop('disabled', true)
+                            $(this).closest(".text-right").prev().find('input[type=text].distance-time-distance').prop('disabled', true)
+                            $(this).closest(".text-right").prev().find('select.select-unit-time-distance').prop('disabled', true)
+                            $(this).closest(".text-right").prev().prev().find('select.select-driving-distance').prop('disabled', true)
                             $(this).prop('disabled', true)
                         }
                     })
@@ -120,10 +119,13 @@ function driveTime(GIS,map){
 
                         let unit = $(this).closest("h4").next()[0].children[1].children[1].children[1].value
                         var unitnum
-                        if (unit == "minutes") {
-                            unitnum = 1
-                        } else {
-                            unitnum = 2
+                        if (unit == "kilometers") {
+                            unitnum = 6
+                        } else if (unit == "miles") {
+                            unitnum = 7
+                        } 
+                        else {
+                            unitnum = 8
                         }
 
                         let title = value+latitude+longitude+distance+unitnum
