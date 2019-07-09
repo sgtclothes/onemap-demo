@@ -4,6 +4,7 @@ function driveTime(GIS,map){
             $.each(window.counterArr, function(index, value){
                 $(".form-drive-"+value).find('select.select-driving').each(function(){
                     $(this).on("click", function(){
+                        console.log("clicked")
                         console.log($(this))
                         if ($(this)[0].value == 3) {
                             $(this).closest(".form-group").next().css("display","block")
