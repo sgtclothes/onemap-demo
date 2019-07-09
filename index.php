@@ -205,7 +205,7 @@ if (!isset($_SESSION['auth'])) {
                             <input type="hidden" id="created_by" name="created_by" value="<?php echo $_SESSION['auth']['id'] ?>">
                             <button type="submit" name="add" class="btn btn-primary ml-3">Save Analysis</button>
                         </div>
-                        <div style="min-height:240px" id="form-list"></div>
+                        <div style="min-height:200px" id="form-list"></div>
                     </form>
                 </div>
             </div>
