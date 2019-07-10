@@ -89,14 +89,13 @@
         $department = $_POST['department'];
         $passwordStr = md5($_POST['password']);
 	    $password = mysqli_real_escape_string($conn,htmlentities($passwordStr));
-        $add = mysqli_query($conn,"INSERT INTO users VALUES ('$user_id','$email','$name','$role', '$password', 1)");
+        $add = mysqli_query($conn,"INSERT INTO users VALUES ('$user_id','$email','$name','$role', '$password', 1, NOW(), NULL)");
 
-        $count_of_department = count($department);
-        for ($i=0; $i < $count_of_department ; $i++) {
-            $users_department = mysqli_query($conn,"INSERT INTO users_department VALUES ('','$user_id','$department[$i]')");
-        }
-      
-        if ($add && $users_department) {
+        if ($add) {
+            $count_of_department = count($department);
+            for ($i=0; $i < $count_of_department ; $i++) {
+                $users_department = mysqli_query($conn,"INSERT INTO users_department VALUES ('','$user_id','$department[$i]', NOW(), NULL)");
+            }
             echo "<script>alert('Data succeed to save'); location.href='admin.php';</script>";
         }
         else {

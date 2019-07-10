@@ -11,6 +11,7 @@ function boot(GIS) {
   //Adding Widgets to MapView
   //map.addDirectionsWidget(config.Position[5]);
   //map.addLegendWidget(config.Position[2]);
+  map.addMeasurementWidget();
   map.addLocateWidget(config.Position[5]);
   //map.addTrackingGeolocationWidget(config.Position[5]);
   map.addBasemapGalleryWidget(
@@ -22,11 +23,34 @@ function boot(GIS) {
     },
     config.Position[6]
   );
+ 
   //Adding Tasks to MapView
   map.addSearchWidget(config.Position[6]);
   //Map Rendering
   map.render();
+  //Add Measurement to Map
+  let measureBar = document.getElementById("topbar");
+  measureBar.style.display = "block";
+  map.ObjMapView.ui.add("topbar", config.Position[1]);
+  document
+    .getElementById("distanceButton")
+    .addEventListener("click", function() {
+      map.setMeasurementActiveWidget(null);
+      if (!this.classList.contains("active")) {
+        map.setMeasurementActiveWidget("distance");
+      } else {
+        map.setMeasurementActiveWidget(null);
+      }
+    });
 
+  document.getElementById("areaButton").addEventListener("click", function() {
+    map.setMeasurementActiveWidget(null);
+    if (!this.classList.contains("active")) {
+      map.setMeasurementActiveWidget("area");
+    } else {
+      map.setMeasurementActiveWidget(null);
+    }
+  });
   // Create a site
   map.ObjMapView.when(function() {
     let createSiteDiv = document.getElementById("create-site-div");
@@ -35,7 +59,8 @@ function boot(GIS) {
     let createSiteExpand = new ESRI.Expand({
       expandIconClass: "esri-icon-organization",
       view: map.ObjMapView,
-      content: createSiteDiv
+      content: createSiteDiv,
+      expanded: false
     });
 
     map.ObjMapView.ui.add(createSiteExpand, config.Position[6]);
@@ -49,7 +74,14 @@ function boot(GIS) {
       document
         .getElementById("mapDiv")
         .setAttribute("style", "cursor:pointer;");
-      console.log(pointTheSiteEnabled);
+
+      document
+        .getElementById("create-site-div")
+        .setAttribute(
+          "style",
+          "background: rgba(255, 255, 255, 0.8) none repeat scroll 0% 0%; display:none; width: 500px;"
+        );
+
       if (pointTheSiteEnabled == false) {
         document
           .getElementById("mapDiv")
@@ -66,15 +98,21 @@ function boot(GIS) {
       let latitude = map.ObjMapView.toMap({
         x: event.x,
         y: event.y
-      }).latitude.toFixed(3);
+      }).latitude.toFixed(7);
 
       let longitude = map.ObjMapView.toMap({
         x: event.x,
         y: event.y
-      }).longitude.toFixed(3);
+      }).longitude.toFixed(7);
 
       document.getElementById("lat-site").value = latitude;
       document.getElementById("lon-site").value = longitude;
+      document
+        .getElementById("create-site-div")
+        .setAttribute(
+          "style",
+          "background: rgba(255, 255, 255, 0.8) none repeat scroll 0% 0%; display:inline-block; width: 500px;"
+        );
     }
     if (pointTheSiteEnabled == false) {
       document
@@ -84,325 +122,100 @@ function boot(GIS) {
   });
   // END of create a site
 
-  // create site analysis
-  $(document).ready(function() {
-    var counter = 1;
-
-    $("#adding-btn").on("click", function() {
-      let newRow = $("<div class=cols>");
-      let cols = "<hr style='margin-right: 2px'>";
-
-      cols +=
-        '<div class="form-group row" style="margin-left:10px; margin-top:15px;">';
-      cols +=
-        '<label class="col-form-label" style="margin-right:5px;">Latitude</label>';
-      cols +=
-        '<input name="latitude" type="text" value="0" class="form-control latitude-form" required readonly style="width:60px; margin-right:5px;">';
-      cols +=
-        '<label class="col-form-label" style="margin-right:5px;">Longitude</label>';
-      cols +=
-        '<input name="longitude" type="text" value="0" class="form-control longitude-form" required readonly style="width:60px;">';
-      cols +=
-        '<button type="button" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon btn-delete ml-2"><i class="icon-cross2"></i></button></div>';
-      cols += '<div style="padding-left: 90px; padding-bottom: 10px;">';
-      cols += '<div class="btn-group ml-1">';
-      cols +=
-        '<button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon dropdown-toggle" data-toggle="dropdown">';
-      cols += '<i class="icon-stack3"></i></button>';
-      cols += '<div class="dropdown-menu dropdown-menu-right">';
-      cols += '<a href="#" class="dropdown-item selectbuffer">Buffer</a>';
-      cols +=
-        '<a href="#" class="dropdown-item selectdrive">Driving Time</a></div></div>';
-      cols +=
-        '<button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon ml-2"><i class="icon-info3"></i></button></div>';
-      cols += '<div class="collapsible">';
-      cols += '<div class="resultBuffer">';
-      cols += '<div class="collapse-container">';
-      cols += '<div class="collapse-head"><h2>Buffer</h2></div>';
-      cols += '<div class="collapse-content">';
-      cols += '<p style="margin-left:10px; margin-top:10px;">Result Type</p>';
-      cols +=
-        '<select class="select-buffer"><option value="aggregation">Aggregation</option><option value="segmentation">Segmentation</option></select>';
-      cols +=
-        '<p style="margin-left:10px; margin-top:10px;">Distance</p><div id="input-distance-div"><input class="input-distance" type="number" value="1" /></div>';
-      cols +=
-        '<div id="input-distance-div"><input class="input-distance" type="number" value="1" /></div><p style="margin-left:10px;margin-top:10px;">Unit</p>';
-      cols +=
-        '<select class="select-unit"><option value="meters">Meters</option><option value="kilometers">Kilometers</option></select>';
-      cols +=
-        '<div class="button-buffer"><button class="pointingBuffer" style="margin-right: 10px;">Pointing</button><button style="margin-right: 10px;">Save</button><button id="remove" style="margin-right: 10px;">Clear</button></div>';
-      cols += "</div></div></div>";
-      cols += '<div class="resultDriving">';
-      cols += '<div class="collapse-container">';
-      cols += '<div class="collapse-head"><h2>Driving Time</h2></div>';
-      cols += '<div class="collapse-content">';
-      cols += '<p style="margin-left:10px; margin-top:10px;">Driving Data</p>';
-      cols +=
-        '<select class="select-driving"><option>Please Select</option><option value="live">Live</option><option value="typical">Typical</option><option value="historical">Historical</option></select>';
-      cols += '<p style="margin-left:10px; margin-top:10px;">Result Type</p>';
-      cols +=
-        '<select class="select-buffer"><option value="aggregation">Aggregation</option><option value="segmentation">Segmentation</option></select>';
-      cols +=
-        '<div id="driving-live"><p style="margin-left:10px; margin-top:10px;">Distance</p>';
-      cols +=
-        '<div id="input-distance-div"><input class="input-distance" type="number" /></div><p style="margin-left:10px; margin-top:10px;">Unit</p>';
-      cols +=
-        '<select class="select-unit"><option value="minutes">Minutes</option><option value="hours">Hours</option></select>';
-      cols +=
-        '<p style="margin-left:10px; margin-top:10px;">Driving Direction</p>';
-      cols += '<select class="select-driving-direction">';
-      cols += '<option value="toward">Towards Site</option>';
-      cols += '<option value="away">Away from Site</option>';
-      cols += "</select></div>";
-      cols +=
-        '<div class="button-driving"><button class="pointingDrive" style="margin-right: 10px;">Pointing</button>';
-      cols += '<button style="margin-right: 10px;">Save</button>';
-      cols +=
-        '<button id="remove" style="margin-right: 10px;">Clear</button></div></div></div>';
-      cols += "</div>";
-      cols += "</div>";
-      cols += "</div>";
-
-      newRow.append(cols);
-      $("div.form-list").append(newRow);
-      counter++;
-    });
-
-    $("div.form-list").on("click", ".btn-delete", function(event) {
-      $(this)
-        .closest("div.cols")
-        .remove();
-      counter -= 1;
-    });
-  });
-
-  const para = document.querySelector(".form-list");
-
-  para.addEventListener("pointermove", event => {
-    let selectDrive = document.getElementsByClassName("selectdrive");
-    let j;
-
-    for (j = 0; j < selectDrive.length; j++) {
-      selectDrive[j].addEventListener("click", function() {
-        let resDrive = document.getElementsByClassName("resultDriving");
-        for (let a = 0; a < resDrive.length; a++) {
-          if ((resDrive[a].style.display = "none")) {
-            resDrive[a].style.display = "block";
-          }
-        }
-      });
-    }
-
-    let selectBuffer = document.getElementsByClassName("selectbuffer");
-    let i;
-    for (i = 0; i < selectBuffer.length; i++) {
-      selectBuffer[i].addEventListener("click", function() {
-        let resBuff = document.getElementsByClassName("resultBuffer");
-        for (let a = 0; a < resBuff.length; a++) {
-          if ((resBuff[a].style.display = "none")) {
-            resBuff[a].style.display = "block";
-          }
-        }
-      });
-    }
-  });
-
+  // create instant analysis
   let pointEnabled = false;
-  document.getElementById("pointing-btn").addEventListener("click", function() {
-    pointEnabled = true;
-    document.getElementById("mapDiv").setAttribute("style", "cursor:pointer;");
-    if (pointEnabled == false) {
-      document
-        .getElementById("mapDiv")
-        .setAttribute("style", "cursor:default;");
-    }
+  $(document).ready(function() {
+    $("#pointing-btn").click(function() {
+      pointEnabled = true;
+      $("#mapDiv").attr("style", "cursor:pointer;");
+      map.ObjMapView.on("click", function(event) {
+        if (pointEnabled) {
+          pointEnabled = !pointEnabled;
+          let latitude = map.ObjMapView.toMap({
+            x: event.x,
+            y: event.y
+          }).latitude.toFixed(7);
+
+          let longitude = map.ObjMapView.toMap({
+            x: event.x,
+            y: event.y
+          }).longitude.toFixed(7);
+
+          let pointing = new GIS.Buffer.Pointing(
+            map.ObjMapView,
+            latitude,
+            longitude
+          );
+          pointing.render();
+
+          $.addRows();
+          $.each(window.counterArr, function(index, value) {
+            if ($(".latitude-form-" + value).val() === "") {
+              $(".latitude-form-" + value).val(latitude);
+              $(".longitude-form-" + value).val(longitude);
+              $("#form-list").delegate(
+                ".selectbuffer-" + value,
+                "click",
+                function() {
+                  $.get(
+                    "content/template/instant_analysis/buffer.php",
+                    function(data) {
+                      $(".form-buffer-" + value).append(data);
+                    }
+                  );
+                }
+              );
+              $("#form-list").delegate(
+                ".selectdrive-" + value,
+                "click",
+                function() {
+                  $.get(
+                    "content/template/instant_analysis/driving.php",
+                    function(data) {
+                      $(".form-drive-" + value).append(data);
+                    }
+                  );
+                }
+              );
+              $("#form-list").delegate(
+                ".selectdrive-distance-" + value,
+                "click",
+                function() {
+                  $.get(
+                    "content/template/instant_analysis/driving_distance.php",
+                    function(data) {
+                      $(".form-drive-distance-" + value).append(data);
+                    }
+                  );
+                }
+              );
+            }
+          });
+        }
+        if (pointEnabled == false) {
+          $("#mapDiv").attr("style", "cursor:default;");
+        }
+      });
+    });
   });
-
-  map.ObjMapView.on("click", function(event) {
-    if (pointEnabled) {
-      pointEnabled = !pointEnabled;
-      document
-        .getElementById("mapDiv")
-        .setAttribute("style", "cursor:pointer;");
-      let latitude = map.ObjMapView.toMap({
-        x: event.x,
-        y: event.y
-      }).latitude.toFixed(3);
-
-      let longitude = map.ObjMapView.toMap({
-        x: event.x,
-        y: event.y
-      }).longitude.toFixed(3);
-
-      let latForm = document.getElementsByClassName("latitude-form");
-      let lonForm = document.getElementsByClassName("longitude-form");
-      let current = parseInt(latForm.length - 1);
-      latForm[current].value = latitude;
-      let currentt = parseInt(lonForm.length - 1);
-      lonForm[currentt].value = longitude;
-    }
-    if (pointEnabled == false) {
-      document
-        .getElementById("mapDiv")
-        .setAttribute("style", "cursor:default;");
-    }
-  });
-
-  let btnEmptySelection = document.getElementById("remove");
-  btnEmptySelection.onclick = function() {
-    map.ObjMapView.graphics.removeAll();
-  };
-  // end of create site analysis
+  createMarker(GIS,map)
+  createMarkerFromSite(GIS,map)
+  createMarkerFromCSV(GIS,map)
+  analysispoi(GIS,map)
+  // end of create instant analysis
 
   //Define Buffers
-  let radius = new GIS.Buffer.Radius(
-    map.ObjMap,
-    map.ObjMapView,
-    "http://tig.co.id/ags/rest/services/POI/POI_CRP/MapServer/2",
-    config.BufferPolySym,
-    config.BufferPointSym
-  );
-
-  let drivingTimeMode = false;
-
-  document
-    .querySelector(".pointingBuffer")
-    .addEventListener("click", function() {
-      radius.Results = [];
-      let info = document.getElementById("info");
-      info.style.display = "inline-block";
-      map.ObjMapView.ui.add(info, "top-right");
-      let inputDistanceLength = document.getElementsByClassName(
-        "input-distance"
-      ).length;
-      let unit = document.getElementsByClassName("select-unit")[0].value;
-      let a = [];
-      for (let i = 0; i < inputDistanceLength; i++) {
-        a.push(document.getElementsByClassName("input-distance")[i].value);
-      }
-      radius.setUnit(unit);
-      radius.setRadius(a);
-      radius.BufferEnabled = true;
-      radius.create();
-    });
-
+  bufferRadius(GIS, map, config);
+  driveTime(GIS, map);
+  driveTimeDistance(GIS, map);
   // document.querySelector("#basemap").addEventListener("click", function() {
   //   console.log(radius.Results);
   // });
 
-  function driveTime(coordinate) {
-    let driveTime = new GIS.Buffer.DriveTime(
-      coordinate,
-      config.DriveTimeParams,
-      "http://tig.co.id/ags/rest/services/GP/DriveTime32223232/GPServer/DriveTime3",
-      config.DriveTimeFillSymbol
-    );
-    driveTime.createLayer(
-      "https://gis.locatorlogic.com/arcgis/rest/services/BPS/BPS_ONLY_2016/MapServer/722/"
-    );
-
-    let driveTimePromise = new Promise(function(resolve, reject) {
-      driveTime.run(resolve);
-    });
-
-    driveTimePromise.then(function() {
-      let extent =
-        driveTime.ArrayParamsCatchment[0].features[0].geometry.extent;
-      let xmin = extent.xmin;
-      let xmax = extent.xmax;
-      let ymin = extent.ymin;
-      let ymax = extent.ymax;
-      let wkid =
-        driveTime.ArrayParamsCatchment[0].features[0].geometry.spatialReference
-          .wkid;
-      let inputFeatureArr = driveTime.ArrayParamsCatchment;
-
-      let catchmentParams = {
-        f: "json",
-        "env:outSR": 4326,
-        "env:processSR": 4326,
-        Input_Feature: JSON.stringify(inputFeatureArr[0])
-      };
-
-      let catchment = new GIS.Buffer.Catchment();
-
-      let catchmentPromise = new Promise(function(resolve, reject) {
-        catchment.setServiceUrl(
-          "http://tig.co.id/ags/rest/services/GP/v2_catchment/GPServer/catchment_select_table"
-        );
-        catchment.setParams(catchmentParams);
-        catchment.run(resolve);
-      });
-
-      catchmentPromise.then(function() {
-        let query = {
-          f: "json",
-          where: "OBJECT IN (" + catchment.ObjectIDStr[0] + ")",
-          returnGeometry: true,
-          spatialRel: "esriSpatialRelIntersects",
-          maxAllowableOffset: 76,
-          geometry:
-            '{"xmin":' +
-            xmin +
-            ',"ymin":' +
-            ymin +
-            ',"xmax":' +
-            xmax +
-            ', "ymax":' +
-            ymax +
-            ',"spatialReference":{"wkid":' +
-            wkid +
-            "}}",
-          geometryType: driveTime.ArrayParamsCatchment[0].geometryType,
-          inSR: 102100,
-          outFields: "*",
-          outSR: 102100
-        };
-        catchment.setQuery(query);
-      });
-    });
-    driveTime.render(map.ObjMap, map.ObjMapView, config.DriveTimeMarkerSymbol);
-  }
-
-  document
-    .querySelector(".pointingDrive")
-    .addEventListener("click", function() {
-      drivingTimeMode = true;
-      let info = document.getElementById("info");
-      info.style.display = "inline-block";
-      map.ObjMapView.ui.add(info, "top-right");
-    });
-
-  map.ObjMapView.on("click", function(event) {
-    if (drivingTimeMode == true) {
-      drivingTimeMode = !drivingTimeMode;
-      let info = document.getElementById("info");
-      info.style.display = "none";
-      let latitude = map.ObjMapView.toMap({
-        x: event.x,
-        y: event.y
-      }).latitude.toFixed(3);
-
-      let longitude = map.ObjMapView.toMap({
-        x: event.x,
-        y: event.y
-      }).longitude.toFixed(3);
-
-      let DriveTimePoint = {
-        type: "point",
-        longitude: longitude,
-        latitude: latitude
-      };
-
-      driveTime(DriveTimePoint);
-    } else {
-      return;
-    }
-  });
-
+  // sidebar/sidenav
   function openNav() {
-    document.getElementById("mySidenav").style.width = "320px";
-    document.getElementById("main").style.marginLeft = "320px";
+    document.getElementById("mySidenav").style.width = "350px";
+    document.getElementById("main").style.marginLeft = "350px";
     document.getElementById("mySidenav").classList.add("panel-left");
     document.getElementById("main").style.marginRight = "0";
   }
@@ -450,8 +263,11 @@ function boot(GIS) {
     });
 
   function open_viewer() {
-    document.getElementById("myViewer").style.width = "300px";
-    document.getElementById("main").style.marginLeft = "300px";
+    setTimeout(function() {
+      map.addWidget(dragCSVButton(), config.Position[6]);
+    }, 1000);
+    document.getElementById("myViewer").style.width = "350px";
+    document.getElementById("main").style.marginLeft = "350px";
   }
 
   function close_viewer() {
@@ -462,11 +278,28 @@ function boot(GIS) {
   document.getElementById("closeviewer").addEventListener("click", function() {
     document.getElementById("myViewer").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
+    $(".esri-ui-top-right")
+      .children("#drag-csv")
+      .remove();
   });
+
+  function dragCSVButton() {
+    let button = document.createElement("BUTTON");
+    button.setAttribute("id", "drag-csv");
+    button.setAttribute("class", "btn btn-primary");
+    button.innerHTML = "Drag CSV";
+    return button;
+  }
 
   document.getElementById("viewer-nav").addEventListener("click", function() {
     if (document.getElementById("myViewer").style.width > "0px") {
+      $(".esri-ui-top-right")
+        .children("#drag-csv")
+        .remove();
       close_viewer();
+    } else if (document.getElementById("mySiteAnalysis").style.width > "0px") {
+      document.getElementById("mySiteAnalysis").style.width = "0";
+      open_viewer();
     } else {
       open_viewer();
     }
@@ -480,16 +313,48 @@ function boot(GIS) {
     }
   });
 
+  var siteAnalysis = document.getElementById("mySiteAnalysis");
+  function open_site_analysis() {
+    siteAnalysis.style.width = "320px";
+    document.getElementById("main").style.marginLeft = "320px";
+  }
+
+  function close_site_analysis() {
+    siteAnalysis.style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+  }
+
   document
-    .querySelector(".select-driving")
+    .getElementById("closeSiteAnalysis")
     .addEventListener("click", function() {
-      let x = document.getElementById("driving-live");
-      if (this.value == "live") {
-        x.style.display = "block";
+      document.getElementById("mySiteAnalysis").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    });
+
+  document
+    .getElementById("site-analysis")
+    .addEventListener("click", function() {
+      let viewer = document.getElementById("myViewer");
+      if (viewer.style.width > "0px") {
+        $(".esri-ui-top-right")
+          .children("#drag-csv")
+          .remove();
+        close_viewer();
+        open_site_analysis();
+      } else if (siteAnalysis.style.width > "0px") {
+        close_site_analysis();
       } else {
-        x.style.display = "none";
+        open_site_analysis();
+      }
+      if ($("#mySidenav").hasClass("panel-left")) {
+        $("#mySidenav").removeClass("panel-left");
+        $("#mySidenav").addClass("panel-right");
+        $("#main").css("margin-right", "320px");
+        $("#mySidenav").css("width", "320px");
       }
     });
+
+  //end of sidebar/sidenav
 
   document.getElementById("myModal").addEventListener("click", function() {
     let x = document.getElementById("dragdrop-modal");
@@ -510,30 +375,95 @@ function boot(GIS) {
   });
 
   //drag and drop
-  let pointColors = $("#colors").val();
-  let convertCSV = new GIS.Buffer.ConvertCSV(map.ObjMap, map.ObjMapView);
+  var pointColors = "#" + Math.floor(Math.random() * 16777215).toString(16);
+  let convertCSV = new GIS.Buffer.ConvertCSV(
+    map.ObjMap,
+    map.ObjMapView,
+    pointColors
+  );
   convertCSV.setupDropZone();
+  var pointThisAction = {
+    title: "Pointing",
+    id: "point-this",
+    className: "esri-icon-map-pin"
+  };
+  delete map.ObjMapView.popup.actions.items[0]
+  map.ObjMapView.popup.actions.push(pointThisAction);
+  map.ObjMapView.popup.on("trigger-action", ({ action }) => {
+    if (action.id === "point-this") {
+      var S = map.ObjMapView.popup.title;
+      if (S.includes("Buffer") ===false || S.includes("Driving") ===false) {
+        function isFloat(n){
+          return Number(n) === n && n % 1 !== 0;
+        }
+        let attr = map.ObjMapView.popup.selectedFeature.attributes
+        var lat
+        var lon
+        for(let key in attr) {
+          if (isFloat(attr[key])) {
+            if(typeof attr[key] === 'number' && attr[key] >= -90 && attr[key] <= 90 ) {
+                lat = attr[key]
+            }
+            else if (typeof attr[key] === 'number' && attr[key] >= -180 && attr[key] <= 180 ) {
+                lon = attr[key]
+            }
+          }
+        }
+        $.addRows();
+        $.each(window.counterArr, function(index, value) {
+          if ($(".latitude-form-" + value).val() === "") {
+            $(".latitude-form-" + value).val(lat);
+            $(".longitude-form-" + value).val(lon);
+            $("#form-list").delegate(
+              ".selectbuffer-" + value,
+              "click",
+              function() {
+                $.get(
+                  "content/template/instant_analysis/buffer.php",
+                  function(data) {
+                    $(".form-buffer-" + value).append(data);
+                  }
+                );
+              }
+            );
+            $("#form-list").delegate(
+              ".selectdrive-" + value,
+              "click",
+              function() {
+                $.get(
+                  "content/template/instant_analysis/driving.php",
+                  function(data) {
+                    $(".form-drive-" + value).append(data);
+                  }
+                );
+              }
+            );
+          }
+        });
+      }
+    }
+  })
   //end of drag and drop
 
   // widget color picker and render poi
-  let colorsDiv = document.getElementById("colors-div");
-  let colorsExpand = new ESRI.Expand({
-    expandIconClass: "esri-icon-experimental",
-    view: map.ObjMapView,
-    content: colorsDiv
-  });
+  // let colorsDiv = document.getElementById("colors-div");
+  // let colorsExpand = new ESRI.Expand({
+  //   expandIconClass: "esri-icon-experimental",
+  //   view: map.ObjMapView,
+  //   content: colorsDiv
+  // });
 
-  document.getElementById("color-picker").addEventListener("click", function() {
-    if (colorsDiv.style.display == "none") {
-      map.ObjMapView.ui.add(colorsExpand, config.Position[6]);
-      colorsDiv.style.display = "inline-block";
-    } else {
-      colorsDiv.style.display = "none";
-      map.ObjMapView.ui.remove(colorsExpand);
-    }
-  });
+  // document.getElementById("color-picker").addEventListener("click", function() {
+  //   if (colorsDiv.style.display == "none") {
+  //     map.ObjMapView.ui.add(colorsExpand, config.Position[6]);
+  //     colorsDiv.style.display = "inline-block";
+  //   } else {
+  //     colorsDiv.style.display = "none";
+  //     map.ObjMapView.ui.remove(colorsExpand);
+  //   }
+  // });
 
-  document.getElementById("drag-csv").addEventListener("click", function() {
+  $(document).delegate("#drag-csv", "click", function() {
     let x = document.getElementById("dragdrop-modal");
     let infocsv = document.getElementById("info-csv");
     if (x.style.display == "none") {
@@ -603,6 +533,8 @@ function boot(GIS) {
     }
   ];
 
+  console.log(localStorage.getItem("namefile-database"));
+
   let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
   // poi.run();
   // end of widget color picker and render poi
@@ -623,164 +555,7 @@ function boot(GIS) {
   let viewer = new GIS.Buffer.Viewer(map.ObjMapView, convertCSV);
   viewer.renderTreeview();
   viewer.selectItem();
-
-  function setLayerInfos(layer) {
-    let layerInfo = arrayUtils.map(layer, function(item) {
-      for (let j = 0; j < layerServiceArr.length; j++) {
-        if (item.layerId == layerServiceArr[j].id) {
-          return {
-            layer: item,
-            title: layerServiceArr[j].name
-          };
-        }
-      }
-    });
-    return layerInfo;
-  }
-
-  function distinct(layerInfo) {
-    let layerInfos = [];
-    const map_layer = new Map();
-    for (const item of layerInfo) {
-      if (!map_layer.has(item.title)) {
-        map_layer.set(item.title, true);
-        layerInfos.push({
-          layer: item.layer,
-          title: item.title
-        });
-      }
-    }
-    return layerInfos;
-  }
-
-  function renderPOI(idform) {
-    let form = idform.querySelectorAll('input[type="checkbox"]');
-    let layerArr = [];
-    let i;
-    for (i = 0; i < form.length; i++) {
-      if (form[i].checked) {
-        layerArr.push(
-          new GIS.Layer.ServiceLayer(
-            map.ObjMap,
-            "http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/" +
-              form[i].value
-          )
-        );
-      }
-    }
-    return layerArr;
-  }
-
-  function setStyleLegendClass() {
-    setTimeout(function() {
-      let legendClass = document.getElementsByClassName(
-        "esri-legend--stacked"
-      )[0];
-      legendClass.setAttribute(
-        "style",
-        "background: rgba(255,255,255,0.7); height:130px; overflow-y:hidden"
-      );
-      legendClass.setAttribute("id", "legendId");
-    }, 800);
-  }
-
-  function renderLegend(layerInfos) {
-    console.log(layerInfos);
-    let legend = new GIS.Map.Widgets.Legend(map.ObjMapView, layerInfos);
-    legend.setStyle("card", "side-by-side");
-    map.ObjMapView.ui.add(legend.create(), config.Position[2]);
-    window.legend = legend;
-    return window.legend;
-  }
-
-  function getAllPOI(id) {
-    document.getElementById(id).addEventListener("change", function() {
-      if (this.checked) {
-        let layer = map.ObjMap.layers.items;
-        if (Object.keys(layer).length > 0) {
-          for (let key in layer) {
-            map.ObjMap.remove(layer[key]);
-          }
-        }
-        let idform = document.getElementById("atm");
-        let layerArr = renderPOI(idform);
-        for (let k = 0; k < layerArr.length; k++) {
-          layerArr[k].render();
-        }
-        let layerInfo = setLayerInfos(layer);
-        let layerInfos = distinct(layerInfo);
-        if (
-          document.getElementsByClassName("esri-legend--stacked")[0] ===
-          undefined
-        ) {
-          renderLegend(layerInfos);
-          setStyleLegendClass();
-        } else {
-          legend.LayerInfos.length = 0;
-          for (let l = 0; l < layerInfos.length; l++) {
-            legend.LayerInfos.push(layerInfos[l]);
-          }
-          legend.create();
-        }
-      } else {
-        let layer = map.ObjMap.layers.items;
-        let i;
-        let idform = document.getElementById("atm");
-        let poiForm = idform.querySelectorAll('input[type="checkbox"]');
-        for (i = 0; i < poiForm.length; i++) {
-          if (poiForm[i].checked == false) {
-            for (let key in layer) {
-              map.ObjMap.remove(layer[key]);
-            }
-          }
-        }
-        document.getElementById("legendId").remove();
-      }
-    });
-  }
-
-  function getPerPOI(id) {
-    document.getElementById(id).addEventListener("change", function() {
-      if (this.checked) {
-        let idform = document.getElementById("atm");
-        let layerArr = renderPOI(idform);
-        for (let k = 0; k < layerArr.length; k++) {
-          layerArr[k].render();
-        }
-        let layer = map.ObjMap.layers.items;
-        let layerInfo = setLayerInfos(layer);
-        let layerInfos = distinct(layerInfo);
-        if (
-          document.getElementsByClassName("esri-legend--stacked")[0] ===
-          undefined
-        ) {
-          renderLegend(layerInfos);
-          setStyleLegendClass();
-        } else {
-          let currentIndex = parseInt(layerInfos.length - 1);
-          legend.LayerInfos.push(layerInfos[currentIndex]);
-          legend.create();
-        }
-      } else {
-        let layer = map.ObjMap.layers.items;
-        let i;
-        let idform = document.getElementById("atm");
-        let poiForm = idform.querySelectorAll('input[type="checkbox"]');
-        for (i = 0; i < poiForm.length; i++) {
-          if (poiForm[i].checked == false) {
-            for (let key in layer) {
-              if (poiForm[i].value == layer[key].layerId) {
-                map.ObjMap.remove(layer[key]);
-              }
-            }
-          }
-        }
-        if (Object.keys(layer).length === 0) {
-          document.getElementById("legendId").remove();
-        }
-      }
-    });
-  }
+  viewer.filterData();
 
   storeDatabase
     .readUserAndDepartment()
@@ -855,6 +630,7 @@ function boot(GIS) {
                     tempData = [];
                     count = 0;
                     k = k + 1;
+                    map.ObjMapView.graphics.items = [];
                   }
                 }
                 tempData.push(data[i][k]);
@@ -875,12 +651,92 @@ function boot(GIS) {
       });
     });
 
-  // getAllPOI("tall");
-  // getAllPOI("tall-1");
-  // getPerPOI("tall-1-1");
-  // getPerPOI("tall-1-2");
-  // getPerPOI("tall-1-3");
-  // End Of Show & Hide POI from GIS Services
+  ServiceLayerPOI(GIS, map, config);
+  ServiceLayerInfrastructure(GIS, map, config);
+  ServiceLayerDemographic(GIS, map, config);
+
+  $(document).delegate("#select-filter", "change", function() {
+    let val = $("#select-filter").val();
+    let selected = JSON.parse(localStorage.getItem("selectFilter"));
+    if (selected == undefined) {
+      selected = [];
+    }
+    if (val == "type") {
+      $("#type-filter").show();
+      if (!selected.includes("type")) {
+        selected.push("type");
+      }
+    } else if (val == "status") {
+      $("#status-filter").show();
+      if (!selected.includes("status")) {
+        selected.push("status");
+      }
+    } else if (val == "price") {
+      $("#price-filter").show();
+      if (!selected.includes("price")) {
+        selected.push("price");
+      }
+    } else if (val == "building_area") {
+      $("#building-area-filter").show();
+      if (!selected.includes("building_area")) {
+        selected.push("building_area");
+      }
+    } else if (val == "land_area") {
+      $("#land-area-filter").show();
+      if (!selected.includes("land_area")) {
+        selected.push("land_area");
+      }
+    }
+
+    if (selected.length > 0) {
+      $("#button-filter").show();
+    }
+    localStorage.setItem("selectFilter", JSON.stringify(selected));
+    console.log(JSON.parse(localStorage.getItem("selectFilter")));
+  });
+
+  $(document).delegate(".mi-remove-circle", "click", function() {
+    let selected = JSON.parse(localStorage.getItem("selectFilter"));
+    let val = $(this)
+      .parents("tr")
+      .attr("value");
+    let index = selected.indexOf(val);
+    console.log(index);
+    selected.splice(index, 1);
+    localStorage.setItem("selectFilter", JSON.stringify(selected));
+    $(this)
+      .parents("tr")
+      .hide();
+    if (selected.length < 1) {
+      $("#select-filter")
+        .val("")
+        .change();
+      $("#button-filter").hide();
+    }
+    console.log(JSON.parse(localStorage.getItem("selectFilter")));
+  });
+
+  $(document).delegate(".i-tree", "click", function() {
+    $(this)
+      .siblings("ul")
+      .find("li")
+      .toggle();
+    $(this)
+      .siblings("div")
+      .children()
+      .find("li")
+      .toggle();
+  });
+
+  $(document).delegate(".i-tree-layers", "click", function() {
+    $(this)
+      .siblings("ul")
+      .toggle();
+  });
+
+  $(document).delegate("#button-filter","click",function() {
+    viewer.simpleFilterData()
+  })
 
   document.getElementById("logout").addEventListener("click", function() {
     localStorage.clear();

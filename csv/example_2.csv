@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 type,name,lat,lon,region
 Restaurant,Ramen Daisuki,-2.779,111.029,Depok
 AA,BB,-3.656,115.05,Kalimantan
 CC,DD,-1.132,116.896,Kalimantan
 EE,FF,0.45,112.765,Kalimantan
+=======
+type,name,lat,lon,region,shape
+Resto,Ramen Daisuki,-2.779,111.029,Depok,6384723
+Minimarket,Hypermart,-3.656,115.05,Kalimantan,212121
+-,SPBU Mini,-1.132,116.896,Kalimantan,532421
+SMP,SMP Negeri 4,0.45,112.765,Kalimantan,13213
+>>>>>>> master

@@ -9,7 +9,7 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                <table class="table">
+                <table id="datatable-sorting" class="table datatable-sorting">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -17,20 +17,11 @@
                             <th>Longitude</th>
                             <th>Name</th>
                             <th>Address</th>
-                            <th>Created By</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="load-data-site">
                         <?php 
-                        $sql = "SELECT a.lat AS lat,
-                        a.lon AS lon, 
-                        a.name AS `name`,
-                        a.address AS `address`,
-                        b.name AS created_by
-                        FROM `site` a
-                        INNER JOIN users b
-                        ON a.created_by=b.id
-                        ORDER BY a.id ASC";
+                        $sql = "SELECT * FROM `site` ORDER BY created_at DESC";
                         $query = mysqli_query($conn,$sql);
                         $num=1;
                         if (!$query) {
@@ -39,40 +30,24 @@
                         }
                         while ($site = mysqli_fetch_array($query)) {
                         ?>
-                        <tr id="get-site" data-latitude=<?php echo $site['lat']; ?> data-longitude="<?php echo $site['lon']; ?>">
-                            <form action="" method="post">
+                        <tr>
                             <td>
-                                <?php echo "$num"; ?>
-                                <input type=hidden name='id' value="<?php echo $site['id']; ?>">
+                                <input type='checkbox' name='get-site' data-latitude=<?php echo $site['lat']; ?> data-longitude="<?php echo $site['lon']; ?>">
                             </td>
                             <td><?php echo "$site[lat]"; ?></td>
                             <td><?php echo "$site[lon]"; ?></td>
                             <td><?php echo "$site[name]"; ?></td>
                             <td><?php echo "$site[address]"; ?></td>
-                            <td><?php echo "$site[created_by]"; ?></td>
-                            </form>
                         </tr>
                         <?php
-                            $num +=1;
                         }
                         ?>
                     </tbody>
                 </table>
+                <button type="button" id="select-row" class="btn bg-teal-400" data-dismiss="modal">Select</button>
                 </div>
             </div>
 		</div>
 	</div>
 </div>
 <!-- /vertical form modal -->
-<script type="text/javascript">
-$(document).ready(function(){
-	$(document).on('click', '#get-site', function (e) {
-        let latForm = document.getElementsByClassName('latitude-form')
-        let lonForm = document.getElementsByClassName('longitude-form')
-        let current = parseInt(latForm.length - 1)
-        latForm[current].value = $(this).attr('data-latitude');
-        let currentt = parseInt(lonForm.length - 1)
-        lonForm[currentt].value = $(this).attr('data-longitude')
-	});	
-});
-</script>

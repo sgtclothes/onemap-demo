@@ -15,4 +15,8 @@ $tableName = $_POST['tableName'];
 $drop = "DROP TABLE $tableName";
 $conn->query($drop);
 
+<<<<<<< HEAD
 echo $tableName;
+=======
+echo $tableName;
+>>>>>>> master

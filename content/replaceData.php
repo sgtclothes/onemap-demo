@@ -37,6 +37,7 @@ if ($result !== FALSE) {
     $conn->close();
 }
 
+<<<<<<< HEAD
 $_POST = array();
 
 
@@ -58,3 +59,6 @@ $_POST = array();
 // $dbdata = rtrim($dbdata, ", ");
 // $dbdata .= "]";
 // echo $dbdata;
+=======
+$_POST = array();
+>>>>>>> master

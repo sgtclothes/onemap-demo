@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 coba,name,lat,lon,region,shape
 DDD,QQ,-1.329,113.886,Depok,6384723
 AA,BB,-1.264,111.513,Kalimantan,3
+=======
+type,name,lat,lon,region,shape
+Café,CafeIndo,-1.329,113.886,-,6384723
+Ruko,Ruko,-1.264,111.513,-,21212
+>>>>>>> master

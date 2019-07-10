@@ -32,4 +32,8 @@ if ($result !== FALSE) {
     $conn->close();
 }
 
+<<<<<<< HEAD
 $_POST = array();
+=======
+$_POST = array();
+>>>>>>> master

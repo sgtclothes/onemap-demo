@@ -54,7 +54,7 @@
 <?php 
     if (isset($_POST['add'])) {
         $department = mysqli_real_escape_string($conn,htmlentities($_POST['department']));
-        $add = mysqli_query($conn,"INSERT INTO department VALUES ('','$department')");
+        $add = mysqli_query($conn,"INSERT INTO department VALUES ('','$department', NOW(), NULL)");
       
         if ($add) {
             echo "<script>alert('Data succeed to save'); location.href='admin.php?page=department';</script>";

@@ -45,18 +45,23 @@
 						<tbody>
                             <?php 
                             include 'config/data_login.php';
-                            $data = data_login($conn,$_SESSION['email']);
-                            $userlist = data_user($conn,$data['id']);
-                            $sql = "SELECT a.type AS type, 
+                            $sql = 'SELECT a.type AS type, 
                             a.name AS name, 
                             a.lat AS lat, 
                             a.lon AS lon, 
                             a.region AS region, 
-                            a.shape AS shape, 
-                            b.name AS created_by
+                            a.shape AS shape,
+                            b.name AS created_by,
+                            a.color AS color
                             FROM poi a
-                            INNER JOIN users b ON a.created_by=b.id
-                            WHERE a.created_by IN ($userlist)";
+                            INNER JOIN (
+                                select id,name from users 
+                                where 
+                                id in (
+                                    select user_id from users_department 
+                                    where department_id in ('. implode(',',$_SESSION['departments']).')
+                                )
+                            ) b ON a.created_by=b.id';
                             $query = mysqli_query($conn,$sql);
                             $num=1;
                             while ($data = mysqli_fetch_array($query)) {
