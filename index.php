@@ -573,8 +573,8 @@ if (!isset($_SESSION['auth'])) {
         </div>
         <!-- End of Form Edit POI -->
         <?php
-        include 'content/filterData.php';
-        include 'content/editPOI.php';
+        include 'content/advance_filter_data.php';
+        include 'content/edit_poi.php';
         include 'content/data_site.php';
         include 'content/input_point.php';
         include 'content/analysis/form_poi.php';

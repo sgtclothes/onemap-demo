@@ -37,28 +37,4 @@ if ($result !== FALSE) {
     $conn->close();
 }
 
-<<<<<<< HEAD
 $_POST = array();
-
-
-// while ($table = mysqli_fetch_assoc($query_tables)) {
-//     $read = "SELECT * FROM " . $table['TABLE_NAME'];
-//     if ($query = mysqli_query($conn, $read)) {
-//         $data = '"' . $table['TABLE_NAME'] . '"' . ",[{";
-//         while ($row = mysqli_fetch_assoc($query)) {
-//             foreach ($row as $key => $val) {
-//                 $data .= '"' . $key . '":"' . $val . '",';
-//             }
-//             $data = rtrim($data, ", ");
-//             $data .= "},{";
-//         }
-//         $data = rtrim($data, ",{ ");
-//         $dbdata .= $data . "],";
-//     }
-// }
-// $dbdata = rtrim($dbdata, ", ");
-// $dbdata .= "]";
-// echo $dbdata;
-=======
-$_POST = array();
->>>>>>> master

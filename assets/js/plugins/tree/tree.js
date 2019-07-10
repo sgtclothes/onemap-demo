@@ -74,10 +74,5 @@ $(document).delegate('input[type="checkbox"]', "change", function() {
         .removeClass("custom-checked custom-unchecked custom-indeterminate")
         .addClass("custom-indeterminate");
     }
-<<<<<<< HEAD
-  }
-});
-=======
 });
 // created by rizal hermawan
->>>>>>> master

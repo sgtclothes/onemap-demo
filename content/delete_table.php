@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../config/connData.php';
+include '../config/conn_user_data.php';
 function debug_to_console($data)
 {
     $output = $data;
@@ -10,13 +10,9 @@ function debug_to_console($data)
     echo $output;
 }
 
-$tableName = $_POST['tableName'];
+$table_name = $_POST['table_name'];
 
-$drop = "DROP TABLE $tableName";
+$drop = "DROP TABLE $table_name";
 $conn->query($drop);
 
-<<<<<<< HEAD
-echo $tableName;
-=======
-echo $tableName;
->>>>>>> master
+echo $table_name;
