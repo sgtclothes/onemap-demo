@@ -104,10 +104,10 @@ if (!isset($_SESSION['auth'])) {
             window.analysis_id = '<?php print json_encode($an_id_array) ?>'
         </script>
 
+        <script src="sample/boot.js"></script>
         <script src="content/template/instant_analysis/buffers.js"></script>
         <script src="content/template/instant_analysis/drivetime_distance.js"></script>
         <script src="content/template/instant_analysis/drivetime.js"></script>
-        <script src="sample/boot.js"></script>
         <script src="sample/serviceLayerPOI.js"></script>
         <script src="sample/serviceLayerInfrastructure.js"></script>
         <script src="sample/serviceLayerDemographic.js"></script>
