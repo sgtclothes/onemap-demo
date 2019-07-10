@@ -207,6 +207,7 @@ function boot(GIS) {
   //Define Buffers
   bufferRadius(GIS, map, config);
   driveTime(GIS, map);
+  driveTimeDistance(GIS, map);
   // document.querySelector("#basemap").addEventListener("click", function() {
   //   console.log(radius.Results);
   // });

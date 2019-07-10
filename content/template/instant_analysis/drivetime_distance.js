@@ -1,4 +1,4 @@
-function driveTime(GIS,map){
+function driveTimeDistance(GIS,map){
     $(document).ready(function(){
         $("#form-list").click(function(){
             $.each(window.counterArr, function(index, value){

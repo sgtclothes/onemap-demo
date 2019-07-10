@@ -162,6 +162,38 @@ function bufferRadius(GIS,map){
                     }
                 }
 
+                // driving distance
+                let distance2  = []
+                let unit2 = []
+
+                $(this).closest("div.rows").find(".distance-time-distance").each(function(){
+                    let dis2 = $(this).val()
+                    distance2.push(dis2);
+                })
+                $(this).closest("div.rows").find(".select-unit-time-distance").each(function(){
+                    if ($(this).val() == "kilometers") {
+                        unit2.push(6)
+                    } else if ($(this).val() == "miles") {
+                        unit2.push(7)
+                    } else {
+                        unit2.push(8)
+                    }
+                })
+
+                let title2 = []
+
+                for (let rr = 0; rr < unit2.length; rr++) {
+                    title2.push(value+latitude+longitude+distance2[rr]+unit2[rr])
+                }
+
+                for (let n = 0; n < title2.length; n++) {
+                    for (let q = 0; q < graphicslayers.length; q++) {
+                        if (graphicslayers[q].title == title2[q]) {
+                            map.ObjMap.remove(graphicslayers[q])
+                        }
+                    }
+                }
+
                 // delete point marker
                 let id = latitude.toString()+longitude.toString()
                 for (let a = 0; a < graphics.length; a++) {

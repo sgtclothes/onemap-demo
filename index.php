@@ -75,6 +75,7 @@ if (!isset($_SESSION['auth'])) {
                 overflow-y: auto;
                 overflow-x: hidden;
                 min-height: 100px;
+                min-height:200px
             }
 
             .bottom-input-name {
@@ -103,13 +104,13 @@ if (!isset($_SESSION['auth'])) {
             window.analysis_id = '<?php print json_encode($an_id_array) ?>'
         </script>
 
+        <script src="content/template/instant_analysis/buffers.js"></script>
+        <script src="content/template/instant_analysis/drivetime_distance.js"></script>
+        <script src="content/template/instant_analysis/drivetime.js"></script>
         <script src="sample/boot.js"></script>
         <script src="sample/serviceLayerPOI.js"></script>
         <script src="sample/serviceLayerInfrastructure.js"></script>
         <script src="sample/serviceLayerDemographic.js"></script>
-        <script src="content/template/instant_analysis/buffers.js"></script>
-        <script src="content/template/instant_analysis/drivetime.js"></script>
-        <script src="content/template/instant_analysis/drivetime_distance.js"></script>
     </head>
 
     <body id="main" class="navbar-top sidebar-main-hidden">
@@ -205,7 +206,7 @@ if (!isset($_SESSION['auth'])) {
                             <input type="hidden" id="created_by" name="created_by" value="<?php echo $_SESSION['auth']['id'] ?>">
                             <button type="submit" name="add" class="btn btn-primary ml-3">Save Analysis</button>
                         </div>
-                        <div style="min-height:200px" id="form-list"></div>
+                        <div id="form-list"></div>
                     </form>
                 </div>
             </div>
