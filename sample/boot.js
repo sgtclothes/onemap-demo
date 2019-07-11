@@ -584,14 +584,13 @@ function boot(GIS) {
           departments.push(groupUserDepartment[i][2]);
         }
       }
-      console.log(userIds)
-      console.log(usernames)
-      console.log(departments)
+      localStorage.setItem("groupUserDepartment", JSON.stringify(groupUserDepartment));
       localStorage.setItem("userIds", JSON.stringify(userIds));
       localStorage.setItem("usernames", JSON.stringify(usernames));
       localStorage.setItem("departments", JSON.stringify(departments));
     })
     .then(function() {
+      showCurrentDepartment(JSON.parse(localStorage.getItem("groupUserDepartment")))
       storeDatabase.read().then(function(result) {
         console.log(result);
         if (result !== "[]" && localStorage.length < 3) {
@@ -733,9 +732,6 @@ function boot(GIS) {
       return date;
     }
   });
-
-  console.log(JSON.parse(localStorage.getItem("usernames")))
-  console.log(JSON.parse(localStorage.getItem("departments")))
 
   document.getElementById("logout").addEventListener("click", function() {
     localStorage.clear();

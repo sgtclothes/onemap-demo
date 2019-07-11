@@ -389,7 +389,7 @@ if (!isset($_SESSION['auth'])) {
                             <input type="checkbox" name="colliers-custom-data-master-select-all-poi" class="colliers-custom-data-master-select-all-poi">
                             <label for="colliers-custom-data-master-select-all-poi" class="label-custom-data">Colliers Properties</label>
                             <ul id="colliers-custom-data-user">
-                                <li style="margin-left:20px; display:none" class="tree-custom-data">
+                                <li style="margin-left:20px; display:none" class="tree-custom-data-locatorlogic" value="Locator Logic">
                                     <i style="margin-top:-5px;" class="mi-keyboard-arrow-right i-tree"></i>
                                     <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
                                     <label for="custom-data-master-select-all-poi" class="label-custom-data">Locator Logic</label>
@@ -398,17 +398,17 @@ if (!isset($_SESSION['auth'])) {
                                             <i style="margin-top:-5px;" class="mi-keyboard-arrow-right i-tree"></i>
                                             <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
                                             <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                            <div id="user-database"></div>
+                                            <div id="locatorlogic-user-database"></div>
                                         </li>
                                         <li class="tree-localstorage" style="display:none">
                                             <i style="margin-top:-5px;" class="mi-keyboard-arrow-right i-tree"></i>
                                             <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
                                             <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                            <div id="user-localstorage"></div>
+                                            <div id="locatorlogic-user-localstorage"></div>
                                         </li>
                                     </ul>
                                 </li>
-                                <li style="margin-left:20px; display:none" class="tree-custom-data">
+                                <li style="margin-left:20px; display:none" class="tree-custom-data-residential" value="Residential">
                                     <i style="margin-top:-5px;" class="mi-keyboard-arrow-right i-tree"></i>
                                     <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
                                     <label for="custom-data-master-select-all-poi" class="label-custom-data">Residential</label>
@@ -427,7 +427,7 @@ if (!isset($_SESSION['auth'])) {
                                         </li>
                                     </ul>
                                 </li>
-                                <li style="margin-left:20px; display:none" class="tree-custom-data">
+                                <li style="margin-left:20px; display:none" class="tree-custom-data-office" value="Office">
                                     <i style="margin-top:-5px;" class="mi-keyboard-arrow-right i-tree"></i>
                                     <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
                                     <label for="custom-data-master-select-all-poi" class="label-custom-data">Office</label>
@@ -443,6 +443,44 @@ if (!isset($_SESSION['auth'])) {
                                             <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
                                             <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
                                             <div id="office-user-localstorage"></div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li style="margin-left:20px; display:none" class="tree-custom-data-industrial" value="Industrial">
+                                    <i style="margin-top:-5px;" class="mi-keyboard-arrow-right i-tree"></i>
+                                    <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
+                                    <label for="custom-data-master-select-all-poi" class="label-custom-data">Industrial</label>
+                                    <ul id="custom-data-user">
+                                        <li class="tree-database" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-keyboard-arrow-right i-tree"></i>
+                                            <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
+                                            <label for="database-master-select-all-poi" class="label-database">Database</label>
+                                            <div id="industrial-user-database"></div>
+                                        </li>
+                                        <li class="tree-localstorage" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-keyboard-arrow-right i-tree"></i>
+                                            <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
+                                            <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
+                                            <div id="industrial-user-localstorage"></div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li style="margin-left:20px; display:none" class="tree-custom-data-investment" value="Investment">
+                                    <i style="margin-top:-5px;" class="mi-keyboard-arrow-right i-tree"></i>
+                                    <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
+                                    <label for="custom-data-master-select-all-poi" class="label-custom-data">Investment & Advisory</label>
+                                    <ul id="custom-data-user">
+                                        <li class="tree-database" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-keyboard-arrow-right i-tree"></i>
+                                            <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
+                                            <label for="database-master-select-all-poi" class="label-database">Database</label>
+                                            <div id="investment-user-database"></div>
+                                        </li>
+                                        <li class="tree-localstorage" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-keyboard-arrow-right i-tree"></i>
+                                            <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
+                                            <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
+                                            <div id="investment-user-localstorage"></div>
                                         </li>
                                     </ul>
                                 </li>
@@ -657,6 +695,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/from_list_csv.js"></script>
     <script src="assets/js/analysis_poi.js"></script>
     <script src="assets/js/submitFilter.js"></script>
+    <script src="assets/js/showCurrentDepartment.js"></script>
     <script>
         $(document).ready(function() {
             $('#datatable-sorting').dataTable({
