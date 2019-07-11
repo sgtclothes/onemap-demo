@@ -73,13 +73,13 @@ div.inline {
 }
 
 .sidenav .title {
-    padding: 0px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 16px;
-    display: inline-block;
-    color: #818181;
-    margin-top: -30px;
-    transition: 0.3s;
+  padding: 0px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 16px;
+  display: inline-block;
+  color: #818181;
+  margin-top: -30px;
+  transition: 0.3s;
 }
 
 .sidenav #closebtn {
@@ -237,20 +237,20 @@ li {
 }
 
 .scroller-analysis {
-    overflow-x: hidden;
-    overflow-y: auto;
-    flex-grow:1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
 .button-drag-csv {
-    width: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    flex-direction: row;
-    margin-left: 10px;
-    margin-top: 20px
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  flex-direction: row;
+  margin-left: 10px;
+  margin-top: 20px;
 }
 
 #topbar {
@@ -270,7 +270,8 @@ li {
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
 }
 
-button.action-button:hover, .action-button:focus {
+button.action-button:hover,
+.action-button:focus {
   background: #0079c1;
   color: #e4e4e4;
 }
@@ -278,4 +279,86 @@ button.action-button:hover, .action-button:focus {
 button.active {
   background: #0079c1;
   color: #e4e4e4;
+}
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button-filter {
+  background-color: #383b39;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+/* The popup form - hidden by default */
+.form-popup-filter {
+  display: none;
+  position: fixed;
+  left: 330px;
+  top: 98px;
+  border: 1px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container-filter {
+  max-width: 500px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* Full-width input fields */
+.form-container-filter input[type="text"],
+.form-container input[type="password"] {
+  width: 100%;
+  border: 1px solid;
+}
+
+/* When the inputs get focus, do something */
+.form-container-filter input[type="text"]:focus,
+.form-container input[type="password"]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container-filter .btn {
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container-filter .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container-filter .btn:hover,
+.open-button:hover {
+  opacity: 1;
+}
+
+.ui-datepicker {
+  padding: 0.2em 0.2em 0;
+  width: 200px;
+}
+
+.ui-datepicker-month {
+  padding: 0px;
+}
+
+.ui-datepicker-year {
+  padding: 0px;
+}
+
+.ui-datepicker-next, .ui-datepicker-prev {
+  display: none;
 }

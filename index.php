@@ -29,6 +29,7 @@ if (!isset($_SESSION['auth'])) {
         <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
         <!-- <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" /> -->
         <!-- <link href="assets/js/plugins/tree/tree.css" rel="stylesheet" type="text/css" /> -->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
         <!-- /global stylesheets -->
 
@@ -38,14 +39,15 @@ if (!isset($_SESSION['auth'])) {
         <script src="assets/js/main/bootstrap.bundle.min.js"></script>
         <script src="assets/js/plugins/loaders/blockui.min.js"></script>
         <script src="assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <!-- /core js files -->
 
         <!-- themes & template js files -->
         <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
         <!-- <script type="text/javascript" src="http://www.dematte.at/cpn/colors.js"></script>
-                <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
-                <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
-                <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
+                                                                                                                                                        <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
+                                                                                                                                                        <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
+                                                                                                                                                        <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
         <!-- <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script> -->
         <script src="assets/js/layout/default/app.js"></script>
         <script src="https://unpkg.com/imask"></script>
@@ -75,7 +77,7 @@ if (!isset($_SESSION['auth'])) {
                 overflow-y: auto;
                 overflow-x: hidden;
                 min-height: 100px;
-                min-height:200px
+                min-height: 200px
             }
 
             .bottom-input-name {
@@ -214,27 +216,27 @@ if (!isset($_SESSION['auth'])) {
 
             <!-- The SideNav Analysis -->
             <!-- <div id="myEditSiteAnalysis" class="sidenav panel-right">
-                        <div class="inline">
-                            <a href="javascript:void(0)" id="closebtn">&times;</a>
-                        </div>
-                        <div>
-                            <p class="title" style="padding: 70px 8px 0px 88px;">Form Update Site Analysis</p>
-                            <div style="margin-left:52px; margin-bottom: 8px;">
-                                <button type="button" id="adding-btn" title="Input Latitude & Longitude" data-toggle="modal" data-target="#modal_form_input_point" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
-                                <button type="button" id="add-from-site" title="Add from Site" data-toggle="modal" data-target="#modal_form_vertical" class="btn btn-sm alpha-primary border-primary text-primary-800 btn-icon rounded-round ml-2"><i class="icon-office"></i></button>
-                                <button type="button" id="add-from-csv" title="Add From CSV" class="btn btn-sm alpha-success border-success text-success-800 btn-icon rounded-round ml-2"><i class="icon-folder-open"></i></button>
-                                <button type="button" title="Pointing on the Map" id="pointing-btn" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon rounded-round ml-2"><i class="icon-pin-alt"></i></button>
-                            </div>
-                            <form action="" method="post" id="form-create-analysis">
-                                <div class="bottom-input-name">
-                                    <input type="text" class="form-control" style="margin-left:16px; width:150px" id="name_analysis" name="name_analysis" required placeholder="Name of Analysis">
-                                    <input type="hidden" id="created_by" name="created_by" value="<?php echo $_SESSION['auth']['id'] ?>">
-                                    <button type="submit" name="add" class="btn btn-primary ml-3">Save Analysis</button>
-                                </div>
-                                <div id="form-list"></div>
-                            </form>
-                        </div>
-                    </div> -->
+                                                                                                                                                                <div class="inline">
+                                                                                                                                                                    <a href="javascript:void(0)" id="closebtn">&times;</a>
+                                                                                                                                                                </div>
+                                                                                                                                                                <div>
+                                                                                                                                                                    <p class="title" style="padding: 70px 8px 0px 88px;">Form Update Site Analysis</p>
+                                                                                                                                                                    <div style="margin-left:52px; margin-bottom: 8px;">
+                                                                                                                                                                        <button type="button" id="adding-btn" title="Input Latitude & Longitude" data-toggle="modal" data-target="#modal_form_input_point" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
+                                                                                                                                                                        <button type="button" id="add-from-site" title="Add from Site" data-toggle="modal" data-target="#modal_form_vertical" class="btn btn-sm alpha-primary border-primary text-primary-800 btn-icon rounded-round ml-2"><i class="icon-office"></i></button>
+                                                                                                                                                                        <button type="button" id="add-from-csv" title="Add From CSV" class="btn btn-sm alpha-success border-success text-success-800 btn-icon rounded-round ml-2"><i class="icon-folder-open"></i></button>
+                                                                                                                                                                        <button type="button" title="Pointing on the Map" id="pointing-btn" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon rounded-round ml-2"><i class="icon-pin-alt"></i></button>
+                                                                                                                                                                    </div>
+                                                                                                                                                                    <form action="" method="post" id="form-create-analysis">
+                                                                                                                                                                        <div class="bottom-input-name">
+                                                                                                                                                                            <input type="text" class="form-control" style="margin-left:16px; width:150px" id="name_analysis" name="name_analysis" required placeholder="Name of Analysis">
+                                                                                                                                                                            <input type="hidden" id="created_by" name="created_by" value="<?php echo $_SESSION['auth']['id'] ?>">
+                                                                                                                                                                            <button type="submit" name="add" class="btn btn-primary ml-3">Save Analysis</button>
+                                                                                                                                                                        </div>
+                                                                                                                                                                        <div id="form-list"></div>
+                                                                                                                                                                    </form>
+                                                                                                                                                                </div>
+                                                                                                                                                            </div> -->
             <!-- End of the SideNav Analysis -->
 
             <!-- SideNav Viewer -->
@@ -247,87 +249,141 @@ if (!isset($_SESSION['auth'])) {
                         <p style="margin-left:30px; margin-top: 28px; padding: 28px 8px 0px 90px;" class="title"></p>
                     </div>
                     <ul class="treeview">
-                        <div style="width:270px; margin-bottom:20px;">
-                            <li>
-                                <select style="width:270px; height:26px; padding: 0px;" name="select-filter" id="select-filter">
-                                    <option value="" disabled selected>Find Property</option>
-                                    <option value="type">Type</option>
-                                    <option value="status">Status</option>
-                                    <option value="building_area">Building Area</option>
-                                    <option value="land_area">Land Area</option>
-                                    <option value="price">Price</option>
-                                </select>
-                            </li>
-                            <li style="margin-left:20px" id="filter-menu">
-                                <table style="border:none">
-                                    <tr style="display:none" style="border:none" id="type-filter" value="type">
-                                        <td style="border:none; width:110px;">Type</td>
-                                        <td style="border:none">
-                                            <select style="height:26px; padding: 0px; width:100px; margin:0px; margin-left:5px;" class="select-filters" name="type" id="type-property">
-                                                <option value="" disabled selected>Select Option</option>
-                                                <option value="office">Office</option>
-                                                <option value="apartment">Apartment</option>
-                                                <option value="residential">Residential</option>
-                                                <option value="land">Land</option>
-                                                <option value="others">Others</option>
-                                            </select>
-                                        </td>
-                                        <td style="border:none">
-                                            <i style="color:red;" class="mi-remove-circle">
-                                            </i>
-                                        </td>
-                                    </tr>
-                                    <tr style="display:none" style="border:none" id="status-filter" value="status">
-                                        <td style="border:none; width:110px;">Status</td>
-                                        <td style="border:none">
-                                            <select style="height:26px; padding: 0px; width:100px; margin:0px; margin-left:5px;" class="select-filters" name="status-property" id="status-property">
-                                                <option value="" disabled selected>Select Option</option>
-                                                <option value="for-sale">For Sale</option>
-                                                <option value="for-rent">For Rent</option>
-                                                <option value="sold">Sold</option>
-                                                <option value="rented">Rented</option>
-                                            </select>
-                                        </td>
-                                        <td style="border:none">
-                                            <i style="color:red;" class="mi-remove-circle">
-                                            </i>
-                                        </td>
-                                    </tr>
-                                    <tr style="display:none" style="border:none" id="building-area-filter" value="building_area">
-                                        <td style="border:none">Building Area (m<sup>2</sup>)</td>
-                                        <td style="border:none"><input style="width:100px; margin-left:5px;" type="text" class="input-filter"></td>
-                                        <td style="border:none">
-                                            <i style="color:red;" class="mi-remove-circle">
-                                            </i>
-                                        </td>
-                                    </tr>
-                                    <tr style="display:none" style="border:none" id="land-area-filter" value="land_area">
-                                        <td style="border:none">Land Area (m<sup>2</sup>)</td>
-                                        <td style="border:none"><input style="width:100px; margin-left:5px;" type="text" class="input-filter"></td>
-                                        <td style="border:none">
-                                            <i style="color:red;" class="mi-remove-circle">
-                                            </i>
-                                        </td>
-                                    </tr>
-                                    <tr style="display:none" style="border:none" id="price-filter" value="price">
-                                        <td style="border:none; width:110px;">Price</td>
-                                        <td style="border:none"><input style="width:100px; margin-left:5px;" type="text" class="input-filter"></td>
-                                        <td style="border:none">
-                                            <i style="color:red;" class="mi-remove-circle">
-                                            </i>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </li>
-                            <li>
-                                <button style="display:none; margin-bottom: 10px; margin-top:-20px; width:270px;" type="button" class="btn btn-primary" id="button-filter"><i class="mi-search">
-                                    </i> Find</button>
-                            </li>
-                            <li>
-                                <button style="display:none; margin-bottom: 10px; margin-top:-20px; width:270px; display:none;" type="button" class="btn btn-danger" id="button-clear-search">
-                                    </i> Clear Filter</button>
-                            </li>
-                        </div>
+                        <li>
+                            <button class="open-button-filter" id="button-form-filter"><i class="mi-search">
+                                </i> Find Property</button>
+
+                            <div class="form-popup-filter" id="form-filter">
+                                <form class="form-container-filter">
+                                    <table style="border:none">
+                                        <tr style="border:none" id="type-filter" value="type">
+                                            <td style="border:none; width:110px; padding-right:30px;">Type</td>
+                                            <td style="border:none">
+                                                <select style="height:26px; padding: 0px; width:195px; margin:0px; margin-left:5px;" class="select-filters" name="type" id="type-property">
+                                                    <option value="" selected>--Select Type--</option>
+                                                    <option value="office">Office</option>
+                                                    <option value="apartment">Apartment</option>
+                                                    <option value="shopping-mall">Shopping Mall</option>
+                                                    <option value="hotel">Hotel</option>
+                                                    <option value="ruko">Ruko</option>
+                                                    <option value="land">Land</option>
+                                                    <option value="others">Others</option>
+                                                </select>
+                                            </td>
+                                            <td style="border:none">
+                                            </td>
+                                        </tr>
+                                        <tr style="border:none" id="status-filter" value="status">
+                                            <td style="border:none; width:110px; padding-right:30px;">Status</td>
+                                            <td style="border:none">
+                                                <select style="height:26px; padding: 0px; width:195px; margin:0px; margin-left:5px;" class="select-filters" name="status-property" id="status-property">
+                                                    <option value="" selected>--Select Status--</option>
+                                                    <option value="for-sale">For Sale</option>
+                                                    <option value="for-rent">For Rent</option>
+                                                    <option value="sold">Sold</option>
+                                                    <option value="rented">Rented</option>
+                                                </select>
+                                            </td>
+                                            <td style="border:none">
+                                            </td>
+                                        </tr>
+                                        <tr style="border:none" id="building-area-filter" value="building_area">
+                                            <td style="border:none; width:110px; padding-right:30px;">Building Area</td>
+                                            <td style="border:none;">
+                                                <select style="height:26px; padding: 0px; width:120px; margin-left:5px;" name="operator-ba" id="operator-ba">
+                                                    <option value="==">equals</option>
+                                                    <option value="<">less than</option>
+                                                    <option value=">">greater than</option>
+                                                    <option value="<=">less than or equals</option>
+                                                    <option value=">=">greater than or equals</option>
+                                                    <option value="between">between</option>
+                                                </select>
+                                                <select style="height:26px; padding: 0px; width:70px;" name="unit-ba" id="unit-ba">
+                                                    <option value="square-meters">m&sup2;</option>
+                                                </select>
+                                                <input style="width:100px; height:26px; margin-left:5px;" type="text" class="input-filter" id="input-ba">
+                                            </td>
+                                        </tr>
+                                        <!-- Hidden -->
+                                        <tr style="border:none; display:none" id="building-area-filter-between" value="building_area">
+                                            <td style="border:none; width:110px; padding-right:30px;"></td>
+                                            <td style="border:none; padding-left:161px;">
+                                                <label style="height:26px; padding: 0px; margin-left:5px;">Until : </label>
+                                                <input style="width:100px; height:26px; margin-left:5px;" type="text" class="input-filter" id="input-ba-between">
+                                            </td>
+                                        </tr>
+                                        <!-- Hidden -->
+                                        <tr style="border:none" id="land-area-filter" value="land_area">
+                                            <td style="border:none; padding-right:30px;">Land Area</td>
+                                            <td style="border:none;">
+                                                <select style="height:26px; padding: 0px;width:120px; margin-left:5px;" name="operator-la" id="operator-la">
+                                                    <option value="==">equals</option>
+                                                    <option value="<">less than</option>
+                                                    <option value=">">greater than</option>
+                                                    <option value="<=">less than or equals</option>
+                                                    <option value=">=">greater than or equals</option>
+                                                    <option value="between">between</option>
+                                                </select>
+                                                <select style="height:26px; padding: 0px; width:70px; margin:0px;" name="unit-la" id="unit-la">
+                                                    <option value="meters">m&sup2;</option>
+                                                </select>
+                                                <input style="width:100px; height:26px; margin-left:5px;" type="text" class="input-filter" id="input-la">
+                                            </td>
+                                        </tr>
+                                        <!-- Hidden -->
+                                        <tr style="border:none; display:none" id="land-area-filter-between" value="building_area">
+                                            <td style="border:none; width:110px; padding-right:30px;"></td>
+                                            <td style="border:none; padding-left:161px;">
+                                                <label style="height:26px; padding: 0px; margin-left:5px;">Until : </label>
+                                                <input style="width:100px; height:26px; margin-left:5px;" type="text" class="input-filter" id="input-la-between">
+                                            </td>
+                                        </tr>
+                                        <!-- Hidden -->
+                                        <tr style="border:none" id="price-filter" value="price">
+                                            <td style="border:none; padding-right:30px;">Price</td>
+                                            <td style="border:none;">
+                                                <select style="height:26px; padding: 0px; width:120px; margin-left:5px;" name="operator-price" id="operator-price">
+                                                    <option value="==">equals</option>
+                                                    <option value="<">less than</option>
+                                                    <option value=">">greater than</option>
+                                                    <option value="<=">less than or equals</option>
+                                                    <option value=">=">greater than or equals</option>
+                                                    <option value="between">between</option>
+                                                </select>
+                                                <select style="height:26px; padding: 0px; width:70px; margin:0px;" name="unit-price" id="unit-price">
+                                                    <option value="rupiahs">Rp</option>
+                                                    <option value="dollars">$</option>
+                                                </select>
+                                                <input style="width:100px; height:26px; margin-left:5px;" type="text" class="input-filter" id="input-price">
+                                            </td>
+                                        </tr>
+                                        <!-- Hidden -->
+                                        <tr style="border:none; display:none" id="price-filter-between" value="building_area">
+                                            <td style="border:none; width:110px; padding-right:30px;"></td>
+                                            <td style="border:none; padding-left:161px;">
+                                                <label style="height:26px; padding: 0px; margin-left:5px;">Until : </label>
+                                                <input style="width:100px; height:26px; margin-left:5px;" type="text" class="input-filter" id="input-price-between">
+                                            </td>
+                                        </tr>
+                                        <!-- Hidden -->
+                                        <tr style="border:none" id="date-filter" value="date">
+                                            <td style="border:none; padding-right:30px; padding-bottom:12px;">Time Period</td>
+                                            <td style="border:none;">
+                                                <label style="height:26px; padding: 0px; margin-left:5px;">From : </label>
+                                                <input style="width:100px; height:26px; margin-left:5px;" type="text" class="input-filter-date" id="input-date-from">
+                                                <label style="height:26px; padding: 0px; margin-left:22px;">To : </label>
+                                                <input style="width:100px; height:26px; margin-left:5px;" type="text" class="input-filter-date" id="input-date-to">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <button style="margin-bottom: 10px; margin-top:-20px; width:270px; margin-left:90px;" type="button" class="btn btn-primary" id="button-filter"><i class="mi-search">
+                                        </i> Find</button>
+
+                                </form>
+                            </div>
+
+                        </li>
+
                         <li>
                             <i style="margin-top:-5px;" class="mi-keyboard-arrow-right i-tree"></i>
                             <input type="checkbox" name="colliers-custom-data-master-select-all-poi" class="colliers-custom-data-master-select-all-poi">
@@ -600,6 +656,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/create_analysis.js"></script>
     <script src="assets/js/from_list_csv.js"></script>
     <script src="assets/js/analysis_poi.js"></script>
+    <script src="assets/js/submitFilter.js"></script>
     <script>
         $(document).ready(function() {
             $('#datatable-sorting').dataTable({

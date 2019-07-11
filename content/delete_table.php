@@ -10,7 +10,7 @@ function debug_to_console($data)
     echo $output;
 }
 
-$table_name = $_POST['table_name'];
+$table_name = $_POST['tableName'];
 
 $drop = "DROP TABLE $table_name";
 $conn->query($drop);

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../config/connData.php';
+include '../config/conn_user_data.php';
 function debug_to_console($data)
 {
     $output = $data;

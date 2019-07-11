@@ -1,20 +1,13 @@
 function boot(GIS) {
-  //Define Config class
-  let config = new GIS.Config();
-  //Define Map class
-  let map = new GIS.Map(config.CenterPoint);
-  map.setBasemap("topo-vector");
-  map.addPrintWidget(config.PrintServiceUrl, config.Position[5]);
-  //Setting Proxy
-  //let esriConfig = new GIS.Proxy.esriConfig();
-  //esriConfig.setUrlUtils();
-  //Adding Widgets to MapView
-  //map.addDirectionsWidget(config.Position[5]);
-  //map.addLegendWidget(config.Position[2]);
-  map.addMeasurementWidget();
-  map.addLocateWidget(config.Position[5]);
-  //map.addTrackingGeolocationWidget(config.Position[5]);
+  let config = new GIS.Config(); //Define Config class
+  let map = new GIS.Map(config.CenterPoint); //Define Map class
+  map.setBasemap("topo-vector"); //Set basemap to Topo Vector
+  map.addPrintWidget(config.PrintServiceUrl, config.Position[5]); //Adding print widget
+  map.addMeasurementWidget(); //Adding measurement widget
+  map.addLocateWidget(config.Position[5]); //Adding locate widget
+  map.addSearchWidget(config.Position[6]); //Adding task search to map
   map.addBasemapGalleryWidget(
+    //Adding basemap gallery widget
     {
       portal: {
         url: "https://www.arcgis.com",
@@ -23,11 +16,8 @@ function boot(GIS) {
     },
     config.Position[6]
   );
- 
-  //Adding Tasks to MapView
-  map.addSearchWidget(config.Position[6]);
-  //Map Rendering
-  map.render();
+  map.render(); //Map rendering
+
   //Add Measurement to Map
   let measureBar = document.getElementById("topbar");
   measureBar.style.display = "block";
@@ -51,6 +41,7 @@ function boot(GIS) {
       map.setMeasurementActiveWidget(null);
     }
   });
+
   // Create a site
   map.ObjMapView.when(function() {
     let createSiteDiv = document.getElementById("create-site-div");
@@ -198,19 +189,16 @@ function boot(GIS) {
       });
     });
   });
-  createMarker(GIS,map)
-  createMarkerFromSite(GIS,map)
-  createMarkerFromCSV(GIS,map)
-  analysispoi(GIS,map)
+  createMarker(GIS, map);
+  createMarkerFromSite(GIS, map);
+  createMarkerFromCSV(GIS, map);
+  analysispoi(GIS, map);
   // end of create instant analysis
 
   //Define Buffers
   bufferRadius(GIS, map, config);
   driveTime(GIS, map);
   driveTimeDistance(GIS, map);
-  // document.querySelector("#basemap").addEventListener("click", function() {
-  //   console.log(radius.Results);
-  // });
 
   // sidebar/sidenav
   function openNav() {
@@ -256,6 +244,7 @@ function boot(GIS) {
       } else {
         if (mySidenav.style.width > "0px") {
           closeNav();
+          document.getElementById("form-filter").style.display = "none";
         } else {
           openNav();
         }
@@ -276,6 +265,7 @@ function boot(GIS) {
   }
 
   document.getElementById("closeviewer").addEventListener("click", function() {
+    document.getElementById("form-filter").style.display = "none";
     document.getElementById("myViewer").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
     $(".esri-ui-top-right")
@@ -297,6 +287,7 @@ function boot(GIS) {
         .children("#drag-csv")
         .remove();
       close_viewer();
+      document.getElementById("form-filter").style.display = "none";
     } else if (document.getElementById("mySiteAnalysis").style.width > "0px") {
       document.getElementById("mySiteAnalysis").style.width = "0";
       open_viewer();
@@ -387,25 +378,32 @@ function boot(GIS) {
     id: "point-this",
     className: "esri-icon-map-pin"
   };
-  delete map.ObjMapView.popup.actions.items[0]
+  delete map.ObjMapView.popup.actions.items[0];
   map.ObjMapView.popup.actions.push(pointThisAction);
   map.ObjMapView.popup.on("trigger-action", ({ action }) => {
     if (action.id === "point-this") {
       var S = map.ObjMapView.popup.title;
-      if (S.includes("Buffer") ===false || S.includes("Driving") ===false) {
-        function isFloat(n){
+      if (S.includes("Buffer") === false || S.includes("Driving") === false) {
+        function isFloat(n) {
           return Number(n) === n && n % 1 !== 0;
         }
-        let attr = map.ObjMapView.popup.selectedFeature.attributes
-        var lat
-        var lon
-        for(let key in attr) {
+        let attr = map.ObjMapView.popup.selectedFeature.attributes;
+        var lat;
+        var lon;
+        for (let key in attr) {
           if (isFloat(attr[key])) {
-            if(typeof attr[key] === 'number' && attr[key] >= -90 && attr[key] <= 90 ) {
-                lat = attr[key]
-            }
-            else if (typeof attr[key] === 'number' && attr[key] >= -180 && attr[key] <= 180 ) {
-                lon = attr[key]
+            if (
+              typeof attr[key] === "number" &&
+              attr[key] >= -90 &&
+              attr[key] <= 90
+            ) {
+              lat = attr[key];
+            } else if (
+              typeof attr[key] === "number" &&
+              attr[key] >= -180 &&
+              attr[key] <= 180
+            ) {
+              lon = attr[key];
             }
           }
         }
@@ -418,31 +416,29 @@ function boot(GIS) {
               ".selectbuffer-" + value,
               "click",
               function() {
-                $.get(
-                  "content/template/instant_analysis/buffer.php",
-                  function(data) {
-                    $(".form-buffer-" + value).append(data);
-                  }
-                );
+                $.get("content/template/instant_analysis/buffer.php", function(
+                  data
+                ) {
+                  $(".form-buffer-" + value).append(data);
+                });
               }
             );
             $("#form-list").delegate(
               ".selectdrive-" + value,
               "click",
               function() {
-                $.get(
-                  "content/template/instant_analysis/driving.php",
-                  function(data) {
-                    $(".form-drive-" + value).append(data);
-                  }
-                );
+                $.get("content/template/instant_analysis/driving.php", function(
+                  data
+                ) {
+                  $(".form-drive-" + value).append(data);
+                });
               }
             );
           }
         });
       }
     }
-  })
+  });
   //end of drag and drop
 
   // widget color picker and render poi
@@ -588,8 +584,12 @@ function boot(GIS) {
           departments.push(groupUserDepartment[i][2]);
         }
       }
+      console.log(userIds)
+      console.log(usernames)
+      console.log(departments)
       localStorage.setItem("userIds", JSON.stringify(userIds));
       localStorage.setItem("usernames", JSON.stringify(usernames));
+      localStorage.setItem("departments", JSON.stringify(departments));
     })
     .then(function() {
       storeDatabase.read().then(function(result) {
@@ -654,66 +654,30 @@ function boot(GIS) {
   ServiceLayerPOI(GIS, map, config);
   ServiceLayerInfrastructure(GIS, map, config);
   ServiceLayerDemographic(GIS, map, config);
+  submitFilter(storeLocalStorage,map.ObjMapView,convertCSV);
 
-  $(document).delegate("#select-filter", "change", function() {
-    let val = $("#select-filter").val();
-    let selected = JSON.parse(localStorage.getItem("selectFilter"));
-    if (selected == undefined) {
-      selected = [];
+  $(document).delegate("#operator-ba", "click", function() {
+    if ($("#operator-ba").val() == "between") {
+      $("#building-area-filter-between").show();
+    } else {
+      $("#building-area-filter-between").hide();
     }
-    if (val == "type") {
-      $("#type-filter").show();
-      if (!selected.includes("type")) {
-        selected.push("type");
-      }
-    } else if (val == "status") {
-      $("#status-filter").show();
-      if (!selected.includes("status")) {
-        selected.push("status");
-      }
-    } else if (val == "price") {
-      $("#price-filter").show();
-      if (!selected.includes("price")) {
-        selected.push("price");
-      }
-    } else if (val == "building_area") {
-      $("#building-area-filter").show();
-      if (!selected.includes("building_area")) {
-        selected.push("building_area");
-      }
-    } else if (val == "land_area") {
-      $("#land-area-filter").show();
-      if (!selected.includes("land_area")) {
-        selected.push("land_area");
-      }
-    }
-
-    if (selected.length > 0) {
-      $("#button-filter").show();
-    }
-    localStorage.setItem("selectFilter", JSON.stringify(selected));
-    console.log(JSON.parse(localStorage.getItem("selectFilter")));
   });
 
-  $(document).delegate(".mi-remove-circle", "click", function() {
-    let selected = JSON.parse(localStorage.getItem("selectFilter"));
-    let val = $(this)
-      .parents("tr")
-      .attr("value");
-    let index = selected.indexOf(val);
-    console.log(index);
-    selected.splice(index, 1);
-    localStorage.setItem("selectFilter", JSON.stringify(selected));
-    $(this)
-      .parents("tr")
-      .hide();
-    if (selected.length < 1) {
-      $("#select-filter")
-        .val("")
-        .change();
-      $("#button-filter").hide();
+  $(document).delegate("#operator-la", "click", function() {
+    if ($("#operator-la").val() == "between") {
+      $("#land-area-filter-between").show();
+    } else {
+      $("#land-area-filter-between").hide();
     }
-    console.log(JSON.parse(localStorage.getItem("selectFilter")));
+  });
+
+  $(document).delegate("#operator-price", "click", function() {
+    if ($("#operator-price").val() == "between") {
+      $("#price-filter-between").show();
+    } else {
+      $("#price-filter-between").hide();
+    }
   });
 
   $(document).delegate(".i-tree", "click", function() {
@@ -734,9 +698,44 @@ function boot(GIS) {
       .toggle();
   });
 
-  $(document).delegate("#button-filter","click",function() {
-    viewer.simpleFilterData()
-  })
+  $(document).delegate("#button-form-filter", "click", function() {
+    $("#form-filter").toggle();
+  });
+
+  $(function() {
+    let dateFormat = "mm/dd/yy",
+      from = $("#input-date-from")
+        .datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          changeYear: true
+        })
+        .on("change", function() {
+          to.datepicker("option", "minDate", getDate(this));
+        }),
+      to = $("#input-date-to")
+        .datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          changeYear: true
+        })
+        .on("change", function() {
+          from.datepicker("option", "maxDate", getDate(this));
+        });
+
+    function getDate(element) {
+      var date;
+      try {
+        date = $.datepicker.parseDate(dateFormat, element.value);
+      } catch (error) {
+        date = null;
+      }
+      return date;
+    }
+  });
+
+  console.log(JSON.parse(localStorage.getItem("usernames")))
+  console.log(JSON.parse(localStorage.getItem("departments")))
 
   document.getElementById("logout").addEventListener("click", function() {
     localStorage.clear();
