@@ -254,6 +254,7 @@ if (!isset($_SESSION['auth'])) {
                                 </i> Find Property</button>
 
                             <div class="form-popup-filter" id="form-filter">
+                                <h2>PROPERTY INFO</h2>
                                 <form class="form-container-filter">
                                     <table style="border:none">
                                         <tr style="border:none" id="type-filter" value="type">

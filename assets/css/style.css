@@ -297,8 +297,6 @@ button.active {
 .form-popup-filter {
   display: none;
   position: fixed;
-  left: 330px;
-  top: 98px;
   border: 1px solid #f1f1f1;
   z-index: 9;
 }

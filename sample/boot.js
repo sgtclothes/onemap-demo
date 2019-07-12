@@ -251,6 +251,8 @@ function boot(GIS) {
       }
     });
 
+    document.getElementById("myViewer").style.width = "350px"; //To modelling  
+
   function open_viewer() {
     setTimeout(function() {
       map.addWidget(dragCSVButton(), config.Position[6]);
