@@ -251,7 +251,7 @@ function boot(GIS) {
       }
     });
 
-    document.getElementById("myViewer").style.width = "350px"; //To modelling  
+  document.getElementById("myViewer").style.width = "400px"; //To modelling
 
   function open_viewer() {
     setTimeout(function() {
@@ -586,13 +586,18 @@ function boot(GIS) {
           departments.push(groupUserDepartment[i][2]);
         }
       }
-      localStorage.setItem("groupUserDepartment", JSON.stringify(groupUserDepartment));
+      localStorage.setItem(
+        "groupUserDepartment",
+        JSON.stringify(groupUserDepartment)
+      );
       localStorage.setItem("userIds", JSON.stringify(userIds));
       localStorage.setItem("usernames", JSON.stringify(usernames));
       localStorage.setItem("departments", JSON.stringify(departments));
     })
     .then(function() {
-      showCurrentDepartment(JSON.parse(localStorage.getItem("groupUserDepartment")))
+      showCurrentDepartment(
+        JSON.parse(localStorage.getItem("groupUserDepartment"))
+      );
       storeDatabase.read().then(function(result) {
         console.log(result);
         if (result !== "[]" && localStorage.length < 3) {
@@ -652,10 +657,11 @@ function boot(GIS) {
       });
     });
 
-  ServiceLayerPOI(GIS, map, config);
-  ServiceLayerInfrastructure(GIS, map, config);
-  ServiceLayerDemographic(GIS, map, config);
-  submitFilter(storeLocalStorage,map.ObjMapView,convertCSV);
+  // ServiceLayerPOI(GIS, map, config);
+  // ServiceLayerInfrastructure(GIS, map, config);
+  // ServiceLayerDemographic(GIS, map, config);
+  submitFilter(storeLocalStorage, map.ObjMapView, convertCSV);
+  inputFilter(); //inputFilter to handle keyboard input specifications
 
   $(document).delegate("#operator-ba", "click", function() {
     if ($("#operator-ba").val() == "between") {
@@ -681,6 +687,12 @@ function boot(GIS) {
     }
   });
 
+  $("input[name='popup-input-min']").click(function() {
+    console.log("OK");
+    $("#popup-alert").toggleClass("show");
+  });
+
+  //Toggle i-tree child
   $(document).delegate(".i-tree", "click", function() {
     $(this)
       .siblings("ul")
@@ -693,19 +705,78 @@ function boot(GIS) {
       .toggle();
   });
 
+  // // If an event gets to the body
+  // $("body").click(function() {
+  //   $(".popuptext")
+  //     .fadeOut()
+  //     .removeClass("show");
+  // });
+
+  // // Prevent events from getting pass .popup
+  // $(".popuptext").click(function(e) {
+  //   e.stopPropagation();
+  // });
+
+  //Toggle i-tree-layers child
   $(document).delegate(".i-tree-layers", "click", function() {
     $(this)
       .siblings("ul")
       .toggle();
   });
 
-  $(document).delegate("#button-form-filter", "click", function() {
-    $("#form-filter").toggle();
+  //Dropdown for property info
+  $(document).delegate("#dropdown-property-info", "click", function() {
+    $("#property-info").toggle();
+    changeDropdownArrowIcon($(this).find("i"));
+    toggleButtonFindProperty();
   });
 
+  //Dropdown for property status
+  $(document).delegate("#dropdown-property-status", "click", function() {
+    $("#property-status").toggle();
+    changeDropdownArrowIcon($(this).find("i"));
+    toggleButtonFindProperty();
+  });
+
+  //Get value of strata-input radio button
+  $("input[name='strata-input']").change(function() {
+    let strata = $("input[name='strata-input']:checked").val();
+    $("#strata-value").attr("value", strata);
+  });
+
+  //Show or hide button when dropdown info or status displayed
+  function toggleButtonFindProperty() {
+    $(document).ready(function() {
+      let propertyInfoCSS = $("#property-info").css("display");
+      let propertyStatusCSS = $("#property-status").css("display");
+      let propertyButton = $("#button-filter-property");
+      if (propertyInfoCSS !== "none" || propertyStatusCSS !== "none") {
+        $(propertyButton).css("display", "block");
+      } else if (propertyInfoCSS == "none" && propertyStatusCSS == "none") {
+        $(propertyButton).css("display", "none");
+      }
+    });
+  }
+
+  //function to check toggle icon dropdown to up or down
+  function changeDropdownArrowIcon(element) {
+    $(element).toggleClass("down");
+  }
+
+  //function toggle icon mi-keyboard to down
+  function changeIconDegree() {
+    $(".rotate").click(function() {
+      let siblings = $(this).siblings("ul");
+      if (siblings.length > 0) {
+        $(this).toggleClass("down");
+      }
+    });
+  }
+
+  //Date Picker function to generating calendar and choose a date (Used for 'from' and 'to')
   $(function() {
     let dateFormat = "mm/dd/yy",
-      from = $("#input-date-from")
+      from = $("#from-time-period")
         .datepicker({
           defaultDate: "+1w",
           changeMonth: true,
@@ -714,7 +785,7 @@ function boot(GIS) {
         .on("change", function() {
           to.datepicker("option", "minDate", getDate(this));
         }),
-      to = $("#input-date-to")
+      to = $("#to-time-period")
         .datepicker({
           defaultDate: "+1w",
           changeMonth: true,
@@ -735,6 +806,7 @@ function boot(GIS) {
     }
   });
 
+  //Clear the localstorage when user logout
   document.getElementById("logout").addEventListener("click", function() {
     localStorage.clear();
   });

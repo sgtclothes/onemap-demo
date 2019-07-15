@@ -1,0 +1,126 @@
+<html lang="en">
+  <head>
+    <style>
+      table,
+      tr,
+      td {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="#">About</a>
+      <a href="#">Services</a>
+      <a href="#">Clients</a>
+      <a href="#">Contact</a>
+    </div>
+
+    <h2 style="margin-left:10px;">PROPERTY INFO</h2>
+    <table id="table1" cellspacing="5px" cellpadding="5%" ;>
+      <tr>
+        <td class="style1">Strata</td>
+        <td style="margin-top:30px;" class="strata-input">
+          <label class="radio-inline">
+            <input type="radio" name="optradio" checked /> Yes
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="optradio" /> No
+          </label>
+        </td>
+      </tr>
+      <tr>
+        <td>Property Type</td>
+        <td>
+          <select name="cars">
+            <option value="" selected>--SELECT TYPE--</option>
+            <option value="land">LAND</option>
+            <option value="apartment">APARTMENT</option>
+            <option value="house">HOUSE</option>
+            <option value="office">OFFICE</option>
+            <option value="ruko">RUKO</option>
+            <option value="shopping-center">SHOPPING CENTER</option>
+            <option value="warehouse">WAREHOUSE</option>
+            <option value="others">OTHERS</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Size</td>
+        <td>
+          <table>
+            <tr>
+              <td style="width:40px;">Min</td>
+              <td>
+                <input style="width:50px;" type="text" name="Company Name" />
+              </td>
+              <td style="width:40px;">Max</td>
+              <td>
+                <input style="width:50px;" type="text" name="Company Name" />
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>Time Period</td>
+
+        <td>
+          <table>
+            <tr>
+              <td style="width:40px;">
+                From
+              </td>
+              <td>
+                <input style="width:50px;" type="text" name="Company Name" />
+              </td>
+              <td style="width:40px;">To</td>
+              <td>
+                <input style="width:50px;" type="text" name="Company Name" />
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <h2 style="margin-left:10px;">PROPERTY STATUS/SERVICE</h2>
+    <h4 style="margin-left:10px;">PROPERTY AVAILABLE</h4>
+
+    <table id="table1" ; cellspacing="5px" cellpadding="5%" ;>
+      <tr>
+        <td><input type="checkbox" name="vehicle" value="Bike" /> Listing</td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" name="vehicle" value="Bike" /> Available</td>
+      </tr>
+    </table>
+
+    <h4 style="margin-left:10px;">PROPERTY SOLD</h4>
+
+    <table id="table1" ; cellspacing="5px" cellpadding="5%" ;>
+      <tr>
+        <td><input type="checkbox" name="vehicle" value="Bike" /> Colliers</td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" name="vehicle" value="Bike" /> Others</td>
+      </tr>
+    </table>
+
+    <h4 style="margin-left:10px;">PROPERTY ADVISORY</h4>
+
+    <h4 style="margin-left:10px;">PROPERTY VALUATION</h4>
+
+    <table id="table1" ; cellspacing="5px" cellpadding="5%" ;>
+      <tr>
+        <td><input type="checkbox" name="vehicle" value="Bike" /> KJPP</td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" name="vehicle" value="Bike" /> Others</td>
+      </tr>
+    </table>
+  </body>
+</html>
