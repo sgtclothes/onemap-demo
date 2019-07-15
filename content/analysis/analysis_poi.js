@@ -47,11 +47,11 @@ function analysispoi (GIS,map){
                                             bufferPOI.setObjectID(objectIDArr[a][b])
                                         }
                                         bufferPOI.create()
-                                        console.log(bufferPOI)
                                     }
                                 }
                             });
                         }
+                        console.log(map.ObjMap.layers)
                     }
                 })
             })
