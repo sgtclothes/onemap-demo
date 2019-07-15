@@ -42,6 +42,7 @@ if (!isset($_SESSION['auth'])) {
 
         <!-- themes & template js files -->
         <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
+        <script src="assets/js/plugins/forms/checkboxes/form_checkboxes_radios.js"></script>
         <!-- <script type="text/javascript" src="http://www.dematte.at/cpn/colors.js"></script>
                 <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
                 <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>

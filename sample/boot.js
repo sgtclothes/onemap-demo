@@ -3,7 +3,7 @@ function boot(GIS) {
   let config = new GIS.Config();
   //Define Map class
   let map = new GIS.Map(config.CenterPoint);
-  map.setBasemap("topo-vector");
+  map.setBasemap(config.Basemap);
   map.addPrintWidget(config.PrintServiceUrl, config.Position[5]);
   //Setting Proxy
   //let esriConfig = new GIS.Proxy.esriConfig();

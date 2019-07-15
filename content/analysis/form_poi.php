@@ -5,7 +5,7 @@ for ($i=0; $i <count($an_id_array) ; $i++) {
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Select  POI</h5>
+				<h5 class="modal-title">Select POI</h5>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 
@@ -13,28 +13,40 @@ for ($i=0; $i <count($an_id_array) ; $i++) {
             <form id="all-poi-analysis-<?php echo $an_id_array[$i]; ?>">
                 <ul>
                     <li>
-                        <input type="checkbox" value="16" name="an_poi" id="">
-                        <label>Bank DKI</label>
+                        <label>
+                        <input type="checkbox" value="16" class="an_poi-<?php echo $an_id_array[$i]; ?>">
+                        Bank DKI
+                        </label>
                     </li>
                     <li>
-                        <input type="checkbox" value="27" name="an_poi" id="">
-                        <label>Bank Mandiri</label>
+                        <label>
+                        <input type="checkbox" value="27" class="an_poi-<?php echo $an_id_array[$i]; ?>">
+                        Bank Mandiri
+                        </label>
                     </li>
                     <li>
-                        <input type="checkbox" value="48" name="an_poi" id="">
-                        <label>Bank Sumut</label>
+                        <label>
+                        <input type="checkbox" value="48" class="an_poi-<?php echo $an_id_array[$i]; ?>">
+                        Bank Sumut
+                        </label>
                     </li>
                     <li>
-                        <input type="checkbox" value="4" name="an_poi" id="">
-                        <label>Apotek K24</label>
+                        <label>
+                        <input type="checkbox" value="4" class="an_poi-<?php echo $an_id_array[$i]; ?>">
+                        Apotek K24
+                        </label>
                     </li>
                     <li>
-                        <input type="checkbox" value="5" name="an_poi" id="">
-                        <label>Apotek Kimia Farma</label>
+                        <label>
+                        <input type="checkbox" value="5" class="an_poi-<?php echo $an_id_array[$i]; ?>">
+                        Apotek Kimia Farma
+                        </label>
                     </li>
                     <li>
-                        <input type="checkbox" value="7" name="an_poi" id="">
-                        <label>Apotek Watsons</label>
+                        <label>
+                        <input type="checkbox" value="7" class="an_poi-<?php echo $an_id_array[$i]; ?>">
+                        Apotek Watsons
+                        </label>
                     </li>
                 </ul>
             </div>
@@ -50,36 +62,48 @@ for ($i=0; $i <count($an_id_array) ; $i++) {
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Select  POI</h5>
+				<h5 class="modal-title">Select POI</h5>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 
             <div class="card-body">
             <form id="all-poi-analysis-<?php echo $current; ?>">
-                <ul class="treeview">
+                <ul>
                     <li>
-                        <input type="checkbox" value="16" name="" id="">
-                        <label for="tall-1-1" class="custom-unchecked">Bank DKI</label>
+                        <label>
+                        <input type="checkbox" value="16" class="an_poi-<?php echo $current; ?>">
+                        Bank DKI
+                        </label>
                     </li>
                     <li>
-                        <input type="checkbox" value="27" name="" id="">
-                        <label for="tall-1-2" class="custom-unchecked">Bank Mandiri</label>
+                        <label>
+                        <input type="checkbox" value="27" class="an_poi-<?php echo $current; ?>">
+                        Bank Mandiri
+                        </label>
                     </li>
                     <li>
-                        <input type="checkbox" value="48" name="" id="">
-                        <label for="tall-1-3" class="custom-unchecked">Bank Sumut</label>
+                        <label>
+                        <input type="checkbox" value="48" class="an_poi-<?php echo $current; ?>">
+                        Bank Sumut
+                        </label>
                     </li>
                     <li>
-                        <input type="checkbox" value="4" name="" id="">
-                        <label for="tall-1-4" class="custom-unchecked">Apotek K24</label>
+                        <label>
+                        <input type="checkbox" value="4" class="an_poi-<?php echo $current; ?>">
+                        Apotek K24
+                        </label>
                     </li>
                     <li>
-                        <input type="checkbox" value="5" name="" id="">
-                        <label for="tall-1-5" class="custom-unchecked">Apotek Kimia Farma</label>
+                        <label>
+                        <input type="checkbox" value="5" class="an_poi-<?php echo $current; ?>">
+                        Apotek Kimia Farma
+                        </label>
                     </li>
                     <li>
-                        <input type="checkbox" value="7" name="" id="">
-                        <label for="tall-1-6" class="custom-unchecked">Apotek Watsons</label>
+                        <label>
+                        <input type="checkbox" value="7" class="an_poi-<?php echo $current; ?>">
+                        Apotek Watsons
+                        </label>
                     </li>
                 </ul>
             </form>

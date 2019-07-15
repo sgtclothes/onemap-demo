@@ -10,7 +10,7 @@
         <?php 
         $sql = "SELECT * FROM `analysis` ORDER BY created_at DESC";
         $query = mysqli_query($conn,$sql);
-        $num = 0;
+        $num = 1;
         while ($site_anly = mysqli_fetch_array($query)) {
             $lat_array = array();
             $lon_array = array();
@@ -31,7 +31,7 @@
             </td>
             <td><?php echo "$site_anly[name]"; ?></td>
             <td width="20px">
-                <button class="btn btn-xs" type="button" data-toggle="modal" data-target="#modal_form_poi_<?php echo $site_anly['id']; ?>">
+                <button id="btn_poi_<?php echo $site_anly['id']; ?>" class="btn btn-xs" type="button" data-toggle="modal" data-target="#modal_form_poi_<?php echo $site_anly['id']; ?>">
                     <i class="icon-pin-alt"></i>
                 </button>
             </td>

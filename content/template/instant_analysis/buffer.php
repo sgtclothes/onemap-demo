@@ -20,6 +20,7 @@
 
         <div class="text-right">
             <button type="button" class="btn btn-primary btn-create-buffer">OK</button>
+            <input type="hidden" class="oid" name="oid">
         </div>
     </div>
 </div>
