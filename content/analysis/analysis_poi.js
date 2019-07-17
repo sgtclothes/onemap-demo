@@ -5,7 +5,7 @@ function analysispoi (GIS,map){
         let unit
         let distance
         let options
-        let objectID
+        let values
         $("#load-data-site-analysis").click(function(){
             $(this).find('input[name="get-point-for-analysis"]').each(function(){
                 if($(this).is(":checked")){
@@ -14,7 +14,7 @@ function analysispoi (GIS,map){
                     unit = $(this).attr('data-unit')
                     distance = $(this).attr('data-distance')
                     options = $(this).attr('data-options')
-                    objectID = $(this).attr('data-objectid')
+                    values = $(this).attr('data-values')
                 }
             })
         })
@@ -35,24 +35,65 @@ function analysispoi (GIS,map){
                         longitudeArr = longitudeArr.map(x=>parseFloat(x))
                         let distanceArr = JSON.parse(distance)
                         let unitArr = JSON.parse(unit)
-                        let objectIDArr = JSON.parse(objectID)
 
+                        let valueArr = JSON.parse(values)
+                        valueArr = valueArr.map(x=>parseInt(x))
                         for (let p = 0; p < option.length; p++) {
                             option[p].forEach(el => {
                                 if (el === 0) {
                                     for (let a = 0; a < latitudeArr.length; a++) {
-                                        let bufferPOI = new GIS.Analysis.BufferPOI(map.ObjMap,map.ObjMapView,latitudeArr[a],longitudeArr[a],layerId)
+                                        let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId)
                                         for (let b = 0; b < distanceArr[a].length; b++) {
-                                            bufferPOI.setDistanceAndUnit(distanceArr[a][b],unitArr[a][b])
-                                            bufferPOI.setObjectID(objectIDArr[a][b])
+                                            radiusPOI.setDistanceAndUnit(distanceArr[a][b],unitArr[a][b])
                                         }
-                                        bufferPOI.create()
+                                        radiusPOI.setGeometryBuffer(latitudeArr[a],longitudeArr[a])
+                                        radiusPOI.render()
+                                    }
+                                }
+                                if (el !== 0) {
+                                    let graphicslayers = map.ObjMap.layers.items
+                                    for (let d = 0; d < latitudeArr.length; d++) {
+                                        let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId)
+                                        for (let e = 0; e < distanceArr[d].length; e++) {
+                                            if (unitArr[d][e] == "minutes") {
+                                                unitnum = '1'
+                                            } else if (unitArr[d][e] == "hours") {
+                                                unitnum = '2'
+                                            }
+                                            else if (unitArr[d][e] == "kilometers") {
+                                                unitnum = '6'
+                                            } else if (unitArr[d][e] == "miles") {
+                                                unitnum = '7'
+                                            } 
+                                            else {
+                                                unitnum = '8'
+                                            }
+
+                                            let value = valueArr[d].toString()
+                                            let latitude = latitudeArr[d].toString()
+                                            let longitude = longitudeArr[d].toString()
+                                            let distance = distanceArr[d][e].toString()
+                                            let title = value+latitude+longitude+distance+unitnum
+                                            for (let c = 0; c < graphicslayers.length; c++) {
+                                                if (graphicslayers[c].title === title) {
+                                                    drivePOI.setGeometryDriving(
+                                                        graphicslayers[c].graphics.items[0].geometry
+                                                    )
+                                                }
+                                            }
+                                        }
+                                        drivePOI.render()
                                     }
                                 }
                             });
                         }
-                        console.log(map.ObjMap.layers)
                     }
+                })
+            })
+
+            $("button.close-"+value).click(function(){
+                $('input:checkbox.an_poi-'+value).each(function(){
+                    $(this).prop('checked',false)
                 })
             })
         })

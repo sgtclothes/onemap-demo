@@ -46,17 +46,10 @@ function bufferRadius(GIS,map){
                             map.ObjMapView.popup.dockOptions.breakpoint = false
                             map.ObjMapView.popup.dockOptions.position = 'bottom-right'
 
-                            let _this = $(this)
-                            let objectIDPromise = new Promise(function(resolve, reject) {
-                                radius.create(resolve);
-                                _this.closest(".text-right").prev().prev().find('input[type=text].distance').prop('disabled', true)
-                                _this.closest(".text-right").prev().find('select.select-unit').prop('disabled', true)
-                                _this.prop('disabled', true)
-                            });
-
-                            objectIDPromise.then(function() {
-                                _this.closest(".text-right").find('input[type=hidden].oid').prop('value',radius.OID)
-                            })
+                            radius.create();
+                            $(this).closest(".text-right").prev().prev().find('input[type=text].distance').prop('disabled', true)
+                            $(this).closest(".text-right").prev().find('select.select-unit').prop('disabled', true)
+                            $(this).prop('disabled', true)
                         }
                     })
                 })
