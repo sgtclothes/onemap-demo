@@ -149,7 +149,7 @@ if (!isset($_SESSION['auth'])) {
             <!-- navbar for product-brand -->
             <div class="navbar-brand py-0">
                 <a href="index.php" class="d-flex h-100">
-                    <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/logo.png" alt="">
+                    <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/LOGO.png" alt="">
                 </a>
             </div>
             <!-- /navbar for product brand -->
