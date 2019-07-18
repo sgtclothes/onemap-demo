@@ -255,8 +255,8 @@ function boot(GIS) {
     setTimeout(function() {
       map.addWidget(dragCSVButton(), config.Position[6]);
     }, 1000);
-    document.getElementById("myViewer").style.width = "320px";
-    document.getElementById("main").style.marginLeft = "320px";
+    document.getElementById("myViewer").style.width = "350px";
+    document.getElementById("main").style.marginLeft = "350px";
   }
 
   function close_viewer() {
@@ -374,12 +374,17 @@ function boot(GIS) {
     if (action.id === "point-this") {
       var S = map.ObjMapView.popup.title;
 <<<<<<< HEAD
+<<<<<<< HEAD
       if (S.includes("Buffer") === false || S.includes("Driving") === false) {
         function isFloat(n) {
 =======
       if (S.includes("Buffer") === false && S.includes("Driving") === false) {
         function isFloat(n){
 >>>>>>> 3996f4b143292e3468f72b83930b72621edd35bb
+=======
+      if (S.includes("Buffer") === false && S.includes("Driving") === false) {
+        function isFloat(n){
+>>>>>>> sgt
           return Number(n) === n && n % 1 !== 0;
         }
         let attr = map.ObjMapView.popup.selectedFeature.attributes;

@@ -29,21 +29,20 @@ if (!isset($_SESSION['auth'])) {
         <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
         <!-- <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" /> -->
         <!-- <link href="assets/js/plugins/tree/tree.css" rel="stylesheet" type="text/css" /> -->
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <link rel="stylesheet" href="assets/css/jquery/jquery-ui-1.12.1.css">
+        <script src="assets/js/jquery-1.12.4.js"></script>
+        <script src="assets/js/jquery-1.12.1.js"></script>
         <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
         <!-- /global stylesheets -->
 
         <!-- Adding other css -->
         <link rel="stylesheet" href="assets/css/section/popup-alert-require-text-input.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/section/awesome-bootstrap-checkbox.css" type="text/css" />
-        <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+        <link href="assets/css/section/fontawesome-5.0.1-all.css" rel="stylesheet">
         <!-- /Adding other css -->
 
         <!-- MultiSelect CSS & JS library -->
         <link href="./jquery.multiselect.css" rel="stylesheet" />
-        <!-- <script src="assets/js/jquery.js"></script> -->
         <script src="./jquery.multiselect.js"></script>
         <script>
             $(function() {
@@ -151,7 +150,7 @@ if (!isset($_SESSION['auth'])) {
             <!-- navbar for product-brand -->
             <div class="navbar-brand py-0">
                 <a href="index.php" class="d-flex h-100">
-                    <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/logo.png" alt="">
+                    <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/logo-fix.png" alt="">
                 </a>
             </div>
             <!-- /navbar for product brand -->
@@ -244,16 +243,22 @@ if (!isset($_SESSION['auth'])) {
             <!-- End of the SideNav Analysis -->
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             <!-- The SideNav Analysis -->
             <div id="mySidenav" class="sidenav">
 =======
             <!-- The SideNav Edit Analysis -->
             <div id="myEditSiteAnalysis" class="sidenav panel-right">
 >>>>>>> 3996f4b143292e3468f72b83930b72621edd35bb
+=======
+            <!-- The SideNav Edit Analysis -->
+            <div id="myEditSiteAnalysis" class="sidenav panel-right">
+>>>>>>> sgt
                 <div class="inline">
                     <a href="javascript:void(0)" id="closebtn">&times;</a>
                 </div>
                 <div>
+<<<<<<< HEAD
 <<<<<<< HEAD
                     <p class="title" style="padding: 70px 8px 0px 88px;"></p>
                     <div style="margin-left:52px; margin-bottom: 8px;">
@@ -273,6 +278,9 @@ if (!isset($_SESSION['auth'])) {
 =======
                     <p class="title" style="padding: 70px 8px 0px 88px;">Form Update Site Analysis</p>
 >>>>>>> 3996f4b143292e3468f72b83930b72621edd35bb
+=======
+                    <p class="title" style="padding: 70px 8px 0px 88px;">Form Update Site Analysis</p>
+>>>>>>> sgt
                 </div>
             </div>
             <!-- End of the SideNav Analysis -->
