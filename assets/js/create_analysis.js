@@ -11,33 +11,58 @@ $(document).ready(function(){
         let options = []
         let latitude = []
         let longitude = []
-        let valueArr = []
-
-        $('.distance').each(function(){
-            let dist = parseFloat($(this).val())
-            distance.push(dist);
-        });
-        $('.select-unit').each(function(){
-            unit.push($(this).val());
-            options.push(0);
-        });
-        $('.distance-time').each(function(){
-            let dist_time = parseFloat($(this).val())
-            distance.push(dist_time);
-        });
-        $('.select-unit-time').each(function(){
-            unit.push($(this).val());
-        });
-        $('.select-driving').each(function(){
-            let option = parseInt($(this).val())
-            options.push(option);
-        });
 
         $.each(window.counterArr, function(index, value){
             latitude.push($(".latitude-form-"+value).val())
             longitude.push($(".longitude-form-"+value).val())
-            valueArr.push(value)
+            distance[index] = new Array()
+            unit[index] = new Array()
+            options[index] = new Array()
+            $(".form-buffer-"+value).find('.distance').each(function(){
+                distance[index].push($(this).val())
+            })
+            $(".form-drive-"+value).find('.distance-time').each(function(){
+                distance[index].push($(this).val())
+            })
+            $(".form-drive-distance-"+value).find('.distance-time-distance').each(function(){
+                distance[index].push($(this).val())
+            })
+            $(".form-buffer-"+value).find('.select-unit').each(function(){
+                unit[index].push($(this).val())
+                options[index].push(0)
+            })
+            $(".form-drive-"+value).find('.select-unit-time').each(function(){
+                unit[index].push($(this).val())
+            })
+            $(".form-drive-distance-"+value).find('.select-unit-time-distance').each(function(){
+                unit[index].push($(this).val())
+            })
+            $(".form-drive-"+value).find('.select-driving').each(function(){
+                options[index].push(parseInt($(this).val()))
+            })
+            $(".form-drive-distance-"+value).find('.select-driving-distance').each(function(){
+                options[index].push(parseInt($(this).val()))
+            })
         })
+        distance = distance.filter(function(el) {
+            return (
+                el.length !== 0
+            );
+        });
+        unit = unit.filter(function(el) {
+            return (
+                el.length !== 0
+            );
+        });
+        options = options.filter(function(el) {
+            return (
+                el.length !== 0
+            );
+        });
+
+        console.log(distance)
+        console.log(unit)
+        console.log(options)
 
         $.ajax({
             url: "content/save_analysis.php",
@@ -65,7 +90,7 @@ $(document).ready(function(){
                     $("#mySidenav").css('width','320px');
                     $("#mySiteAnalysis").css('width','320px');
                 }
-                let newTD = '<tr><td><input type=radio checked name=get-site data-latitude='+JSON.stringify(latitude)+' data-longitude='+JSON.stringify(longitude)+'></td>';
+                let newTD = '<tr><td><input type=radio checked name=get-point-for-analysis data-latitude='+JSON.stringify(latitude)+' data-longitude='+JSON.stringify(longitude)+' data-options='+JSON.stringify(options)+' data-unit='+JSON.stringify(unit)+' data-distance='+JSON.stringify(distance)+'></td>';
                 newTD += '<td>'+name+'</td><td width=20px><button class=btn btn-xs type=button data-toggle=modal data-target=#modal_form_poi_'+current+'><i class=icon-pin-alt><i></button></td></tr>';
 
                 $("#load-data-site-analysis").prepend(newTD);

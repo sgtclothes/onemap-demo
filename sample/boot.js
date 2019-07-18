@@ -202,8 +202,8 @@ function boot(GIS) {
 
   // sidebar/sidenav
   function openNav() {
-    document.getElementById("mySidenav").style.width = "350px";
-    document.getElementById("main").style.marginLeft = "350px";
+    document.getElementById("mySidenav").style.width = "320px";
+    document.getElementById("main").style.marginLeft = "320px";
     document.getElementById("mySidenav").classList.add("panel-left");
     document.getElementById("main").style.marginRight = "0";
   }
@@ -373,8 +373,8 @@ function boot(GIS) {
   map.ObjMapView.popup.on("trigger-action", ({ action }) => {
     if (action.id === "point-this") {
       var S = map.ObjMapView.popup.title;
-      if (S.includes("Buffer") === false || S.includes("Driving") === false) {
-        function isFloat(n) {
+      if (S.includes("Buffer") === false && S.includes("Driving") === false) {
+        function isFloat(n){
           return Number(n) === n && n % 1 !== 0;
         }
         let attr = map.ObjMapView.popup.selectedFeature.attributes;
