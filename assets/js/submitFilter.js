@@ -1,77 +1,134 @@
 function submitFilter(convertData, mapView, convertCSV) {
   $(document).delegate("#button-filter-property", "click", function() {
-    let strata = $("#strata-value").attr("value");
-    let propertyTypeValue = $("#property-type-input").val();
-    let minSizeValue = $("#min-size").val();
-    let maxSizeValue = $("#max-size").val();
-    let fromTimePeriodValue = $("#from-time-period").val();
-    let toTimePeriodValue = $("#to-time-period").val();
+    //Define variables to get filter value
+    let strataValue = $("#strata-value").attr("value");
+    let propertyTypeValue = $("#property-type-value").val();
+    let propertyUnitSizeValue = $("#property-unit-size-value").val();
+    let propertyMinSizeValue = $("#property-min-size-value").val();
+    let propertyMaxSizeValue = $("#property-max-size-value").val();
+    let propertyFromTimePeriodValue = $(
+      "#property-from-time-period-value"
+    ).val();
+    let propertyToTimePeriodValue = $("#property-to-time-period-value").val();
     let query = "";
     let value = [];
 
-    console.log(strata);
-    console.log(propertyTypeValue);
-    console.log(minSizeValue);
-    console.log(maxSizeValue);
-    console.log(fromTimePeriodValue);
-    console.log(toTimePeriodValue);
-
     //Strata will be automatically selected, so we get strata value
+    value.push('(data[i][j].attributes["strata"] == "' + strataValue + '")');
 
-    //Get value of property type and we register it on "value" array
-    if (propertyTypeValue !== "") {
+    // Get value of property type and we register it on "value" array
+    if (propertyTypeValue !== null) {
       value.push(
         '(data[i][j].attributes["type"] == "' + propertyTypeValue + '")'
       );
     }
 
-    if (minSizeValue == "" && maxSizeValue !== "") {
-      let popupMinEmpty = $("#popup-alert-min-empty");
-      $(popupMinEmpty).addClass("show");
-      setTimeout(function() {
-        $(".popuptext")
-          .fadeOut()
-          .removeClass("show");
-      }, 2000);
-
-      // } else if (minSizeValue !== "" && maxSizeValue == "") {
-      //   let popupMaxEmpty = $("#popup-alert-max-empty");
-      //   $(popupMaxEmpty).toggleClass("show");
-      //   setTimeout(function() {
-      //     $(popupMaxEmpty).toggleClass("hide");
-      //   }, 3000);
-      // } else if (minSizeValue > maxSizeValue) {
-      //   let popupMinValid = $("#popup-alert-min-valid");
-      //   $(popupMinValid).toggleClass("show");
-      //   setTimeout(function() {
-      //     $(popupMinValid).toggleClass("hide");
-      //   }, 3000);
-      // } else if (maxSizeValue < minSizeValue) {
-      //   let popupMaxValid = $("#popup-alert-max-valid");
-      //   $(popupMaxValid).toggleClass("show");
-      //   setTimeout(function() {
-      //     $(popupMaxValid).toggleClass("hide");
-      //   }, 3000);
+    //Get value of unit size and we register it on "value" array
+    if (
+      propertyUnitSizeValue !== null &&
+      (propertyMinSizeValue !== "" && propertyMaxSizeValue !== "")
+    ) {
+      value.push(
+        '(data[i][j].attributes["unit"] == "' + propertyUnitSizeValue + '")'
+      );
     }
+
+    console.log(propertyMinSizeValue);
+    console.log(propertyMaxSizeValue);
+
+    //Get value of min and max size, and we register it on "value" array
+    //We must validate it first
+    if (propertyMinSizeValue == "" && propertyMaxSizeValue !== "") {
+      let propertyPopupMinEmpty = $("#property-popup-alert-min-empty");
+      $(propertyPopupMinEmpty).addClass("show");
+      setTimeout(function() {
+        $(propertyPopupMinEmpty).removeClass("show");
+      }, 2000);
+    }
+    if (propertyMinSizeValue !== "" && propertyMaxSizeValue == "") {
+      let propertyPopupMaxEmpty = $("#property-popup-alert-max-empty");
+      $(propertyPopupMaxEmpty).addClass("show");
+      setTimeout(function() {
+        $(propertyPopupMaxEmpty).removeClass("show");
+      }, 2000);
+    }
+    if (propertyMinSizeValue !== "" && propertyMaxSizeValue !== "") {
+      if (propertyMinSizeValue > propertyMaxSizeValue) {
+        let propertyPopupMinValid = $("#property-popup-alert-min-valid");
+        $(propertyPopupMinValid).addClass("show");
+        setTimeout(function() {
+          $(propertyPopupMinValid).removeClass("show");
+        }, 2000);
+      } else if (propertyMaxSizeValue < propertyMinSizeValue) {
+        let propertyPopupMaxValid = $("#property-popup-alert-max-valid");
+        $(propertyPopupMaxValid).addClass("show");
+        setTimeout(function() {
+          $(propertyPopupMaxValid).removeClass("show");
+        }, 2000);
+      }
+    }
+
+    console.log(value);
+
+    // if (minSizeValue == "" && maxSizeValue !== "") {
+    //   let popupMinEmpty = $("#popup-alert-min-empty");
+    //   $(popupMinEmpty).addClass("show");
+    //   setTimeout(function() {
+    //     $(".popuptext")
+    //       .fadeOut()
+    //       .removeClass("show");
+    //   }, 2000);
+    // } else if (minSizeValue !== "" && maxSizeValue == "") {
+    //   let popupMaxEmpty = $("#popup-alert-max-empty");
+    //   $(popupMaxEmpty).addClass("show");
+    //   setTimeout(function() {
+    //     $(".popuptext")
+    //       .fadeOut()
+    //       .removeClass("show");
+    //   }, 2000);
+    // }
+    // } else if (minSizeValue > maxSizeValue) {
+    //   let popupMinValid = $("#popup-alert-min-valid");
+    //   $(popupMinValid).toggleClass("show");
+    //   setTimeout(function() {
+    //     $(popupMinValid).toggleClass("hide");
+    //   }, 3000);
+    // } else if (maxSizeValue < minSizeValue) {
+    //   let popupMaxValid = $("#popup-alert-max-valid");
+    //   $(popupMaxValid).toggleClass("show");
+    //   setTimeout(function() {
+    //     $(popupMaxValid).toggleClass("hide");
+    //   }, 3000);
 
     //Filtering text input of min and max value when either min or max has a value
 
     //Get value of property type and we register it on "value" array
-    if (minSizeValue !== "") {
-      value.push(
-        '(data[i][j].attributes["type"] == "' + propertyTypeValue + '")'
-      );
-    }
+    // if (minSizeValue !== "" && maxSizeValue !== "") {
+    //   value.push(
+    //     '(data[i][j].attributes["size"] >= ' +
+    //       minSizeValue +
+    //       " && " +
+    //       'data[i][j].attributes["size"] <= ' +
+    //       maxSizeValue +
+    //       ")"
+    //   );
+    // }
 
-    //We use for to adding value to query
-    for (let i = 0; i < value.length; i++) {
-      if (i > 0) {
-        query += " && ";
-      }
-      query += value[i];
-    }
+    // if (maxSizeValue !== "") {
+    //   value.push(
+    //     '(data[i][j].attributes["type"] == "' + propertyTypeValue + '")'
+    //   );
+    // }
 
-    console.log(query);
+    // //We use for to adding value to query
+    // for (let i = 0; i < value.length; i++) {
+    //   if (i > 0) {
+    //     query += " && ";
+    //   }
+    //   query += value[i];
+    // }
+
+    // console.log(query);
 
     // let type = ["type",$("#type-property").val()]
     // let status = ["status",$("#status-property").val()]

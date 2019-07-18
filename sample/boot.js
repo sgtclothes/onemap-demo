@@ -200,6 +200,8 @@ function boot(GIS) {
   driveTime(GIS, map);
   driveTimeDistance(GIS, map);
 
+  document.getElementById("myViewer").style.width = "350px";
+
   // sidebar/sidenav
   function openNav() {
     document.getElementById("mySidenav").style.width = "350px";
@@ -251,29 +253,18 @@ function boot(GIS) {
       }
     });
 
-  document.getElementById("myViewer").style.width = "400px"; //To modelling
-
   function open_viewer() {
     setTimeout(function() {
       map.addWidget(dragCSVButton(), config.Position[6]);
     }, 1000);
-    document.getElementById("myViewer").style.width = "350px";
-    document.getElementById("main").style.marginLeft = "350px";
+    document.getElementById("myViewer").style.width = "400px";
+    document.getElementById("main").style.marginLeft = "400px";
   }
 
   function close_viewer() {
     document.getElementById("myViewer").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
   }
-
-  document.getElementById("closeviewer").addEventListener("click", function() {
-    document.getElementById("form-filter").style.display = "none";
-    document.getElementById("myViewer").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-    $(".esri-ui-top-right")
-      .children("#drag-csv")
-      .remove();
-  });
 
   function dragCSVButton() {
     let button = document.createElement("BUTTON");
@@ -289,7 +280,6 @@ function boot(GIS) {
         .children("#drag-csv")
         .remove();
       close_viewer();
-      document.getElementById("form-filter").style.display = "none";
     } else if (document.getElementById("mySiteAnalysis").style.width > "0px") {
       document.getElementById("mySiteAnalysis").style.width = "0";
       open_viewer();
@@ -662,6 +652,7 @@ function boot(GIS) {
   // ServiceLayerDemographic(GIS, map, config);
   submitFilter(storeLocalStorage, map.ObjMapView, convertCSV);
   inputFilter(); //inputFilter to handle keyboard input specifications
+  // selectUnitSize();
 
   $(document).delegate("#operator-ba", "click", function() {
     if ($("#operator-ba").val() == "between") {
@@ -724,26 +715,6 @@ function boot(GIS) {
       .toggle();
   });
 
-  //Dropdown for property info
-  $(document).delegate("#dropdown-property-info", "click", function() {
-    $("#property-info").toggle();
-    changeDropdownArrowIcon($(this).find("i"));
-    toggleButtonFindProperty();
-  });
-
-  //Dropdown for property status
-  $(document).delegate("#dropdown-property-status", "click", function() {
-    $("#property-status").toggle();
-    changeDropdownArrowIcon($(this).find("i"));
-    toggleButtonFindProperty();
-  });
-
-  //Get value of strata-input radio button
-  $("input[name='strata-input']").change(function() {
-    let strata = $("input[name='strata-input']:checked").val();
-    $("#strata-value").attr("value", strata);
-  });
-
   //Show or hide button when dropdown info or status displayed
   function toggleButtonFindProperty() {
     $(document).ready(function() {
@@ -776,7 +747,7 @@ function boot(GIS) {
   //Date Picker function to generating calendar and choose a date (Used for 'from' and 'to')
   $(function() {
     let dateFormat = "mm/dd/yy",
-      from = $("#from-time-period")
+      from = $("#property-from-time-period-value")
         .datepicker({
           defaultDate: "+1w",
           changeMonth: true,
@@ -785,7 +756,39 @@ function boot(GIS) {
         .on("change", function() {
           to.datepicker("option", "minDate", getDate(this));
         }),
-      to = $("#to-time-period")
+      to = $("#property-to-time-period-value")
+        .datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          changeYear: true
+        })
+        .on("change", function() {
+          from.datepicker("option", "maxDate", getDate(this));
+        });
+
+    function getDate(element) {
+      var date;
+      try {
+        date = $.datepicker.parseDate(dateFormat, element.value);
+      } catch (error) {
+        date = null;
+      }
+      return date;
+    }
+  });
+
+  $(function() {
+    let dateFormat = "mm/dd/yy",
+      from = $("#land-from-time-period-value")
+        .datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          changeYear: true
+        })
+        .on("change", function() {
+          to.datepicker("option", "minDate", getDate(this));
+        }),
+      to = $("#land-to-time-period-value")
         .datepicker({
           defaultDate: "+1w",
           changeMonth: true,

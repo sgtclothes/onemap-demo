@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
 #main {
   transition: margin-left 0.5s;
 }
@@ -14,6 +16,10 @@
 /* .resultBuffer {
     display: none
 } */
+
+body {
+  font-family: "Open Sans", sans-serif;
+}
 
 #select-analysis {
   width: 100%;
@@ -50,16 +56,18 @@
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 27px;
+  margin-top: 22px;
 }
 
 div.inline {
   float: right;
+  text-align: center;
 }
 
 .sidenav span {
-  padding: 8px 8px 8px 32px;
+  padding: 0px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 10px;
   color: #818181;
   display: block;
   transition: 0.3s;
@@ -86,13 +94,11 @@ div.inline {
 }
 
 .sidenav #closeviewer {
-  padding: 0px 8px 8px 32px;
   font-size: 20px;
   position: relative;
   text-decoration: none;
   display: inline-block;
   color: #818181;
-  margin-top: 30px;
 }
 
 .sidenav #closeSiteAnalysis {
@@ -276,7 +282,7 @@ button.active {
 
 /* Button used to open the contact form - fixed at the bottom of the page */
 .open-button-filter {
-  background-color: #383b39;
+  background-color: #5b5959;
   color: white;
   padding: 16px 20px;
   border: none;
@@ -340,6 +346,8 @@ button.active {
 .ui-datepicker {
   padding: 0.2em 0.2em 0;
   width: 200px;
+  border: 1px solid black;
+  border-radius:10px;
 }
 
 .ui-datepicker-month {
@@ -350,31 +358,172 @@ button.active {
   padding: 0px;
 }
 
-.ui-datepicker-next, .ui-datepicker-prev {
+.ui-datepicker-next,
+.ui-datepicker-prev {
   display: none;
 }
 
-/* Dropdown property */
+/* Title property */
 
-.dropdown-property {
-  width:326.317px;
-  cursor: pointer;
+.title-property {
+  color: #5b5959;
+  width: 100%;
+  height: 20px;
+  background-color: #f7faff;
 }
 
-.property-info, .property-status, .button-filter-property {
-  display:none;
-  background-color: #fcfdff
+.title-property p {
+  padding-left:0px;
 }
 
-.rotate{
+.title-property:hover {
+  background-color: #ffffff;
+  color: #b9d6ed;
+}
+
+.property-status-items {
+  height:20px;
+}
+
+/* Table Property */
+
+.table-property {
+  width:320px;
+}
+
+td.property-item {
+  width:80px;
+}
+
+.table-property.button-filter-table {
+  margin-bottom: 20px;
+}
+
+.treeview {
+  margin-left:-5px;
+}
+
+.title-layers-property {
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  background-color: #7a7c80
+}
+
+.title-layers-property p {
+  padding-top:7px; 
+  padding-left:5px;
+}
+
+.treeview p {
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;
+}
+
+/* .property-info tr {
+  height:30px;
+} */
+
+table,
+tr,
+td {
+  font-family: "Open Sans", sans-serif;
+  font-size: 11px;
+  /* border: 1px solid; */
+}
+
+.rotate {
   -moz-transition: all linear;
   -webkit-transition: all linear;
   transition: all linear;
 }
 
-.rotate.down{
+.rotate.down {
   margin-top: 5px;
-  -moz-transform:rotate(180deg);
-  -webkit-transform:rotate(180deg);
-  transform:rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.unit-input {
+  cursor: pointer;
+  width:50%;
+  height: 26px;
+  position: relative;
+  text-align: left;
+  border: 1px solid #aaa;
+  margin-top: 1px;
+  font-size: 10px;
+  color: #aaa;
+  white-space: nowrap;
+  padding: 0px;
+  border-radius: 10px;
+}
+
+.unit-input select {
+  cursor: pointer;
+  z-index: 100;
+  margin-top:0px;
+  background: transparent;
+  width: 50;
+  padding: 5px;
+  font-size: 10px;
+  height: 26px;
+  border: 0;
+  border-radius: 10px;
+  color: #aaa;
+  -webkit-appearance: none;
+}
+
+.unit-input:after {
+  z-index: -1;
+    content: ' ';
+    height: 0;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    width: 0;
+    border: 6px solid rgba(0, 0, 0, 0);
+    border-top-color: #999;
+    margin-top: -3px;
+    
+}
+
+.sub-property-status {
+  height: 20px;
+  overflow:hidden;
+}
+
+.multiselect {
+  width: 100%;
+}
+
+.selectBox {
+  padding: 0px;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
 }

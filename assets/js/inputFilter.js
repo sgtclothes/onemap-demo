@@ -36,7 +36,7 @@ function inputFilter() {
   });
 
   //We use this for min and max size value
-  $("#min-size, #max-size").inputFilter(function(value) {
+  $("#property-min-size-value, #property-max-size-value").inputFilter(function(value) {
     return /^-?\d*[.,]?\d*$/.test(value);
   });
 
