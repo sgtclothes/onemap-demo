@@ -29,8 +29,9 @@ if (!isset($_SESSION['auth'])) {
         <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
         <!-- <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" /> -->
         <!-- <link href="assets/js/plugins/tree/tree.css" rel="stylesheet" type="text/css" /> -->
-        <link rel="stylesheet" href="assets/js/jquery-ui-1.12.1.js">
+        <link rel="stylesheet" href="assets/css/jquery/jquery-ui-1.12.1.css">
         <script src="assets/js/jquery-1.12.4.js"></script>
+        <script src="assets/js/jquery-1.12.1.js"></script>
         <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
         <!-- /global stylesheets -->
 
@@ -149,7 +150,7 @@ if (!isset($_SESSION['auth'])) {
             <!-- navbar for product-brand -->
             <div class="navbar-brand py-0">
                 <a href="index.php" class="d-flex h-100">
-                    <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/LOGO.png" alt="">
+                    <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/logo.png" alt="">
                 </a>
             </div>
             <!-- /navbar for product brand -->
