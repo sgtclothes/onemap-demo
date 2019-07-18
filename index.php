@@ -91,6 +91,25 @@ if (!isset($_SESSION['auth'])) {
                 padding-left: 8px;
                 padding-right: 8px;
             }
+
+            table.dataTable th {
+                padding-top: 1.2px;
+                padding-bottom: 1.2px;
+            }
+            
+            table.dataTable td {
+                padding-top: 1.2px;
+                padding-bottom: 1.2px;
+            }
+            
+            .btn-modal-form-poi{
+                background-color: transparent;
+                background-repeat: no-repeat;
+                border: none;
+                cursor: pointer;
+                overflow: hidden;
+                outline: none;
+            }
         </style>
         <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">
         <script src="https://js.arcgis.com/4.11/"></script>

@@ -9,7 +9,8 @@ function analysispoi (GIS,map){
         $("#load-data-site-analysis").click(function(){
             $(this).find('input[name="get-point-for-analysis"]').each(function(){
                 if($(this).is(":checked")){
-                    $(this).closest('tr').find('button.btn.btn-xs').removeAttr("disabled")
+                    $(this).closest('tr').find('button.btn-modal-form-poi').removeAttr("disabled")
+                    $(this).closest('tr').find('i.icon-pin-alt').css("color","#4169e1")
 
                     latitude = $(this).attr('data-latitude')
                     longitude = $(this).attr('data-longitude')
@@ -17,13 +18,64 @@ function analysispoi (GIS,map){
                     distance = $(this).attr('data-distance')
                     options = $(this).attr('data-options')
                     values = $(this).attr('data-values')
-                    
+
+                    if ($(this).attr('data-source')==='db') {
+                        let option = JSON.parse(options)
+                        let latitudeArr = JSON.parse(latitude)
+                        latitudeArr = latitudeArr.map(x=>parseFloat(x))
+                        let longitudeArr = JSON.parse(longitude)
+                        longitudeArr = longitudeArr.map(x=>parseFloat(x))
+                        let distanceArr = JSON.parse(distance)
+                        let unitArr = JSON.parse(unit)
+                        console.log(option)
+                        console.log(distanceArr)
+                        console.log(unitArr)
+                        // for (let p = 0; p < option.length; p++) {
+                        //     option[p].forEach(el => {
+                        //         if (el === 0) {
+                        //             for (let a = 0; a < latitudeArr.length; a++) {
+                        //                 for (let e = 0; e < distanceArr[a].length; e++) {
+                        //                     let unitnum
+                        //                     if (unitArr[a][e] === "kilometers") {
+                        //                         unitnum = '3'
+                        //                     } else if (unitArr[a][e] === "miles") {
+                        //                         unitnum = '4'
+                        //                     }
+                        //                     else {
+                        //                         unitnum = '5'
+                        //                     }
+                        //                     let latitude = latitudeArr[a].toString()
+                        //                     let longitude = longitudeArr[a].toString()
+                        //                     let distance = distanceArr[a][e].toString() 
+                        //                     let title = values+latitude+longitude+distance+unitnum
+                        //                     let radius = new GIS.Buffer.Radius(
+                        //                         map.ObjMap,
+                        //                         map.ObjMapView,
+                        //                         latitude,
+                        //                         longitude
+                        //                     );
+                        //                     radius.setTitle(title)
+                        //                     radius.setUnit(unitArr[a][e]);
+                        //                     radius.setRadius(distanceArr[a][e]);
+                
+                        //                     map.ObjMapView.popup.dockOptions.breakpoint = false
+                        //                     map.ObjMapView.popup.dockOptions.position = 'bottom-right'
+                        //                     radius.create();
+                        //                 }
+                        //             }
+                        //         }
+                        //     })
+                        // }
+                    }
+            
                     $('input:checkbox.an_poi').each(function(){
                         $(this).click(function(event){
                             event.stopImmediatePropagation();
                             if($(this).is(":checked")){
                                 let layerId = $(this).val()
                                 let option = JSON.parse(options)
+                                console.log(option)
+                                let valueArr = JSON.parse(values)
                                 let latitudeArr = JSON.parse(latitude)
                                 latitudeArr = latitudeArr.map(x=>parseFloat(x))
                                 let longitudeArr = JSON.parse(longitude)
@@ -61,15 +113,19 @@ function analysispoi (GIS,map){
                                                         unitnum = '8'
                                                     }
 
-                                                    let latitude = latitudeArr[d].toString()
-                                                    let longitude = longitudeArr[d].toString()
-                                                    let distance = distanceArr[d][e].toString()
-                                                    let title = values+latitude+longitude+distance+unitnum
-                                                    for (let c = 0; c < graphicslayers.length; c++) {
-                                                        if (graphicslayers[c].title === title) {
-                                                            drivePOI.setGeometryDriving(
-                                                                graphicslayers[c].graphics.items[0].geometry
-                                                            )
+                                                    let value = valueArr
+                                                    for (let v = 0; v < value.length; v++) {
+                                                        let val = value[v].toString()
+                                                        let latitude = latitudeArr[d].toString()
+                                                        let longitude = longitudeArr[d].toString()
+                                                        let distance = distanceArr[d][e].toString()
+                                                        let title = val+latitude+longitude+distance+unitnum
+                                                        for (let c = 0; c < graphicslayers.length; c++) {
+                                                            if (graphicslayers[c].title === title) {
+                                                                drivePOI.setGeometryDriving(
+                                                                    graphicslayers[c].graphics.items[0].geometry
+                                                                )
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -81,7 +137,7 @@ function analysispoi (GIS,map){
                             }
                         })
                     })
-            
+
                     $("#reset").click(function(){
                         $('input:checkbox.an_poi').each(function(){
                             $(this).prop('checked',false)
@@ -89,7 +145,8 @@ function analysispoi (GIS,map){
                     })
                 }
                 else {
-                    $(this).closest('tr').find('button.btn.btn-xs').attr("disabled","true")
+                    $(this).closest('tr').find('button.btn-modal-form-poi').attr("disabled","true")
+                    $(this).closest('tr').find('i.icon-pin-alt').removeAttr("style")
                 }
             })
 
