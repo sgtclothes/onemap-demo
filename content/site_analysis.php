@@ -27,7 +27,7 @@
         ?>
         <tr>
             <td>
-                <input type='radio' name='get-point' data-latitude='<?php echo $latitude; ?>' data-longitude='<?php echo $longitude; ?>'>
+                <input type='radio' name='get-point-for-analysis' data-latitude='<?php echo $latitude; ?>' data-longitude='<?php echo $longitude; ?>'>
             </td>
             <td><?php echo "$site_anly[name]"; ?></td>
             <td width="20px">

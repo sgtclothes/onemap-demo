@@ -134,10 +134,10 @@ if (!isset($_SESSION['auth'])) {
             window.analysis_id = '<?php print json_encode($an_id_array) ?>'
         </script>
 
+        <script src="sample/boot.js"></script>
         <script src="content/template/instant_analysis/buffers.js"></script>
         <script src="content/template/instant_analysis/drivetime_distance.js"></script>
         <script src="content/template/instant_analysis/drivetime.js"></script>
-        <script src="sample/boot.js"></script>
         <script src="sample/serviceLayerPOI.js"></script>
         <script src="sample/serviceLayerInfrastructure.js"></script>
         <script src="sample/serviceLayerDemographic.js"></script>
@@ -243,12 +243,18 @@ if (!isset($_SESSION['auth'])) {
             </div>
             <!-- End of the SideNav Analysis -->
 
+<<<<<<< HEAD
             <!-- The SideNav Analysis -->
             <div id="mySidenav" class="sidenav">
+=======
+            <!-- The SideNav Edit Analysis -->
+            <div id="myEditSiteAnalysis" class="sidenav panel-right">
+>>>>>>> 3996f4b143292e3468f72b83930b72621edd35bb
                 <div class="inline">
                     <a href="javascript:void(0)" id="closebtn">&times;</a>
                 </div>
                 <div>
+<<<<<<< HEAD
                     <p class="title" style="padding: 70px 8px 0px 88px;"></p>
                     <div style="margin-left:52px; margin-bottom: 8px;">
                         <button type="button" id="adding-btn" title="Input Latitude & Longitude" data-toggle="modal" data-target="#modal_form_input_point" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
@@ -264,6 +270,9 @@ if (!isset($_SESSION['auth'])) {
                         </div>
                         <div id="form-list"></div>
                     </form>
+=======
+                    <p class="title" style="padding: 70px 8px 0px 88px;">Form Update Site Analysis</p>
+>>>>>>> 3996f4b143292e3468f72b83930b72621edd35bb
                 </div>
             </div>
             <!-- End of the SideNav Analysis -->
@@ -890,11 +899,15 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/add_points_manual.js"></script>
     <script src="assets/js/create_analysis.js"></script>
     <script src="assets/js/from_list_csv.js"></script>
+<<<<<<< HEAD
     <script src="assets/js/analysis_poi.js"></script>
     <script src="assets/js/submitFilter.js"></script>
     <script src="assets/js/showCurrentDepartment.js"></script>
     <script src="assets/js/inputFilter.js"></script>
     <script src="assets/js/selectUnitSize.js"></script>
+=======
+    <script src="content/analysis/analysis_poi.js"></script>
+>>>>>>> 3996f4b143292e3468f72b83930b72621edd35bb
     <script>
         $(document).ready(function() {
             $('#datatable-sorting').dataTable({

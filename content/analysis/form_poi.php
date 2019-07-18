@@ -13,28 +13,28 @@ for ($i=0; $i <count($an_id_array) ; $i++) {
             <form id="all-poi-analysis-<?php echo $an_id_array[$i]; ?>">
                 <ul>
                     <li>
-                        <input type="checkbox" value="16" name="" id="">
-                        <label for="tall-1-1" class="custom-unchecked">Bank DKI</label>
+                        <input type="checkbox" value="16" name="an_poi" id="">
+                        <label>Bank DKI</label>
                     </li>
                     <li>
-                        <input type="checkbox" value="27" name="" id="">
-                        <label for="tall-1-2" class="custom-unchecked">Bank Mandiri</label>
+                        <input type="checkbox" value="27" name="an_poi" id="">
+                        <label>Bank Mandiri</label>
                     </li>
                     <li>
-                        <input type="checkbox" value="48" name="" id="">
-                        <label for="tall-1-3" class="custom-unchecked">Bank Sumut</label>
+                        <input type="checkbox" value="48" name="an_poi" id="">
+                        <label>Bank Sumut</label>
                     </li>
                     <li>
-                        <input type="checkbox" value="4" name="" id="">
-                        <label for="tall-1-4" class="custom-unchecked">Apotek K24</label>
+                        <input type="checkbox" value="4" name="an_poi" id="">
+                        <label>Apotek K24</label>
                     </li>
                     <li>
-                        <input type="checkbox" value="5" name="" id="">
-                        <label for="tall-1-5" class="custom-unchecked">Apotek Kimia Farma</label>
+                        <input type="checkbox" value="5" name="an_poi" id="">
+                        <label>Apotek Kimia Farma</label>
                     </li>
                     <li>
-                        <input type="checkbox" value="7" name="" id="">
-                        <label for="tall-1-6" class="custom-unchecked">Apotek Watsons</label>
+                        <input type="checkbox" value="7" name="an_poi" id="">
+                        <label>Apotek Watsons</label>
                     </li>
                 </ul>
             </div>
