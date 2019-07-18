@@ -1,8 +1,6 @@
 $(document).ready(function(){
     $("#form-create-analysis").submit(function(e){
         e.preventDefault();
-        let analysisArr = JSON.parse(analysis_id);
-        let current = analysisArr.length+1
         let name_analysis = $('#name_analysis').val()
         let created_by = parseInt($('#created_by').val())
         let distance = [];
@@ -10,12 +8,12 @@ $(document).ready(function(){
         let options = []
         let latitude = []
         let longitude = []
-        let values = []
+        let values
 
         $.each(window.counterArr, function(index, value){
             latitude.push($(".latitude-form-"+value).val())
             longitude.push($(".longitude-form-"+value).val())
-            values.push(value)
+            values = value
 
             distance[index] = new Array()
             unit[index] = new Array()
@@ -47,6 +45,16 @@ $(document).ready(function(){
                 options[index].push(parseInt($(this).val()))
             })
         })
+        latitude = latitude.filter(function(el) {
+            return (
+                el !== undefined
+            );
+        });
+        longitude = longitude.filter(function(el) {
+            return (
+                el !== undefined
+            );
+        });
         distance = distance.filter(function(el) {
             return (
                 el.length !== 0
@@ -89,8 +97,8 @@ $(document).ready(function(){
                     $("#mySidenav").css('width','320px');
                     $("#mySiteAnalysis").css('width','320px');
                 }
-                let newTD = '<tr><td><input type=radio checked name=get-point-for-analysis data-latitude='+JSON.stringify(latitude)+' data-longitude='+JSON.stringify(longitude)+' data-options='+JSON.stringify(options)+' data-unit='+JSON.stringify(unit)+' data-distance='+JSON.stringify(distance)+' data-values='+JSON.stringify(values)+'></td>';
-                newTD += '<td>'+name+'</td><td width=20px><button id=btn_poi_'+current+' class=btn btn-xs type=button data-toggle=modal data-target=#modal_form_poi_'+current+'><i class=icon-pin-alt><i></button></td></tr>';
+                let newTD = '<tr><td><input type=radio name=get-point-for-analysis checked data-latitude='+JSON.stringify(latitude)+' data-longitude='+JSON.stringify(longitude)+' data-options='+JSON.stringify(options)+' data-unit='+JSON.stringify(unit)+' data-distance='+JSON.stringify(distance)+' data-values='+JSON.stringify(values)+'></td>';
+                newTD += "<td>"+name+"</td><td width=20px><button class='btn btn-xs' type=button data-toggle=modal data-target=#modal_form_poi><i class=icon-pin-alt><i></button></td></tr>";
 
                 $("#load-data-site-analysis").prepend(newTD);
                 $('#name_analysis').val('')

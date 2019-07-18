@@ -240,7 +240,8 @@ function boot(GIS) {
     .getElementById("instant-analysis")
     .addEventListener("click", function() {
       let mySidenav = document.getElementById("mySidenav");
-      if (document.getElementById("myViewer").style.width > "0px") {
+      if (document.getElementById("myViewer").style.width > "0px" 
+          || document.getElementById("mySiteAnalysis").style.width > "0px") {
         if (mySidenav.style.width > "0px") {
           mySidenav.classList.add("panel-right");
           document.getElementById("main").style.marginRight = "0";

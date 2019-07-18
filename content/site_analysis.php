@@ -47,7 +47,7 @@
             </td>
             <td><?php echo "$site_anly[name]"; ?></td>
             <td width="20px">
-                <button id="btn_poi_<?php echo $site_anly['id']; ?>" class="btn btn-xs" type="button" data-toggle="modal" data-target="#modal_form_poi_<?php echo $site_anly['id']; ?>">
+                <button class="btn btn-xs" type="button" data-toggle="modal" data-target="#modal_form_poi" disabled>
                     <i class="icon-pin-alt"></i>
                 </button>
             </td>
