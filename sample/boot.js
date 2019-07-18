@@ -200,8 +200,6 @@ function boot(GIS) {
   driveTime(GIS, map);
   driveTimeDistance(GIS, map);
 
-  document.getElementById("myViewer").style.width = "350px";
-
   // sidebar/sidenav
   function openNav() {
     document.getElementById("mySidenav").style.width = "350px";
@@ -257,8 +255,8 @@ function boot(GIS) {
     setTimeout(function() {
       map.addWidget(dragCSVButton(), config.Position[6]);
     }, 1000);
-    document.getElementById("myViewer").style.width = "400px";
-    document.getElementById("main").style.marginLeft = "400px";
+    document.getElementById("myViewer").style.width = "350px";
+    document.getElementById("main").style.marginLeft = "350px";
   }
 
   function close_viewer() {
