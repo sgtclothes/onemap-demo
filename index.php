@@ -29,21 +29,19 @@ if (!isset($_SESSION['auth'])) {
         <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
         <!-- <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" /> -->
         <!-- <link href="assets/js/plugins/tree/tree.css" rel="stylesheet" type="text/css" /> -->
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <link rel="stylesheet" href="assets/js/jquery-ui-1.12.1.js">
+        <script src="assets/js/jquery-1.12.4.js"></script>
         <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
         <!-- /global stylesheets -->
 
         <!-- Adding other css -->
         <link rel="stylesheet" href="assets/css/section/popup-alert-require-text-input.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/section/awesome-bootstrap-checkbox.css" type="text/css" />
-        <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+        <link href="assets/css/section/fontawesome-5.0.1-all.css" rel="stylesheet">
         <!-- /Adding other css -->
 
         <!-- MultiSelect CSS & JS library -->
         <link href="./jquery.multiselect.css" rel="stylesheet" />
-        <!-- <script src="assets/js/jquery.js"></script> -->
         <script src="./jquery.multiselect.js"></script>
         <script>
             $(function() {
