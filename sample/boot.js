@@ -373,18 +373,8 @@ function boot(GIS) {
   map.ObjMapView.popup.on("trigger-action", ({ action }) => {
     if (action.id === "point-this") {
       var S = map.ObjMapView.popup.title;
-<<<<<<< HEAD
-<<<<<<< HEAD
-      if (S.includes("Buffer") === false || S.includes("Driving") === false) {
-        function isFloat(n) {
-=======
       if (S.includes("Buffer") === false && S.includes("Driving") === false) {
         function isFloat(n){
->>>>>>> 3996f4b143292e3468f72b83930b72621edd35bb
-=======
-      if (S.includes("Buffer") === false && S.includes("Driving") === false) {
-        function isFloat(n){
->>>>>>> sgt
           return Number(n) === n && n % 1 !== 0;
         }
         let attr = map.ObjMapView.popup.selectedFeature.attributes;
