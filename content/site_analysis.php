@@ -66,23 +66,11 @@
             $distance = json_encode($distance_array);
             $unit = json_encode($unit_array);
             $options = json_encode($options_array);
-    
-            // foreach($buffer_group_array as $key=>$value) {
-            //     foreach($buffer_all as $buffer){
-            //         if ($buffer['analysis_points_id']===$value) {
-            //             array_push($distance_array_i, $buffer['distance']);
-            //             array_push($unit_array_i, $buffer['unit']);
-            //             array_push($options_array_i, $buffer['options']); 
-            //         }
-            //     }  
-            //     array_push($distance_array, $distance_array_i);
-            //     array_push($unit_array, $unit_array_i);
-            //     array_push($options_array, $options_array_i); 
-            // }
+            $buffer_group = json_encode($buffer_group_array);
         ?>
         <tr>
             <td>
-                <input type='radio' name='get-point-for-analysis' data-latitude='<?php echo $latitude; ?>' data-longitude='<?php echo $longitude; ?>' data-options='<?php echo $options; ?>' data-unit='<?php echo $unit; ?>' data-distance='<?php echo $distance; ?>' data-values='<?php echo $num; ?>' data-source='db'>
+                <input type='radio' name='get-point-for-analysis' data-latitude='<?php echo $latitude; ?>' data-longitude='<?php echo $longitude; ?>' data-options='<?php echo $options; ?>' data-unit='<?php echo $unit; ?>' data-distance='<?php echo $distance; ?>' data-values='<?php echo $buffer_group; ?>' data-source='db'>
             </td>
             <td><?php echo "$site_anly[name]"; ?></td>
             <td width="20px">
