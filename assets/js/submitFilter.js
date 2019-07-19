@@ -10,6 +10,10 @@ function submitFilter(convertData, mapView, convertCSV) {
       "#property-from-time-period-value"
     ).val();
     let propertyToTimePeriodValue = $("#property-to-time-period-value").val();
+    let landMinSizeValue = $("#land-min-size-value").val();
+    let landMaxSizeValue = $("#land-max-size-value").val();
+    let landFromTimePeriodValue = $("#land-from-time-period-value").val();
+    let landToTimePeriodValue = $("#land-to-time-period-value").val();
     let query = "";
     let value = [];
 
@@ -26,29 +30,48 @@ function submitFilter(convertData, mapView, convertCSV) {
     //Get value of unit size and we register it on "value" array
     if (
       propertyUnitSizeValue !== null &&
-      (propertyMinSizeValue !== "" && propertyMaxSizeValue !== "")
+      (propertyMinSizeValue !== "" || propertyMaxSizeValue !== "")
     ) {
       value.push(
-        '(data[i][j].attributes["unit"] == "' + propertyUnitSizeValue + '")'
+        '(data[i][j].attributes["property-unit-size"] == "' +
+          propertyUnitSizeValue +
+          '")'
       );
     }
 
-    //Get property values of min and max size, and we register it on "value" array
+    //Get property values of min and max size, and we register it on "value" array, if one of value is empty, it won't be registered as range
     //We must validate it first
+    //-----------------------------------------------------------------//
+    // if (propertyMinSizeValue == "" && propertyMaxSizeValue !== "") {
+    //   let propertyPopupMinEmpty = $("#property-popup-alert-min-empty");
+    //   $(propertyPopupMinEmpty).addClass("show");
+    //   setTimeout(function() {
+    //     $(propertyPopupMinEmpty).removeClass("show");
+    //   }, 2000);
+    // }
+    // if (propertyMinSizeValue !== "" && propertyMaxSizeValue == "") {
+    //   let propertyPopupMaxEmpty = $("#property-popup-alert-max-empty");
+    //   $(propertyPopupMaxEmpty).addClass("show");
+    //   setTimeout(function() {
+    //     $(propertyPopupMaxEmpty).removeClass("show");
+    //   }, 2000);
+    // }
+    //-----------------------------------------------------------------//
+
     if (propertyMinSizeValue == "" && propertyMaxSizeValue !== "") {
-      let propertyPopupMinEmpty = $("#property-popup-alert-min-empty");
-      $(propertyPopupMinEmpty).addClass("show");
-      setTimeout(function() {
-        $(propertyPopupMinEmpty).removeClass("show");
-      }, 2000);
+      value.push(
+        '(data[i][j].attributes["property-size"] == ' +
+          propertyMaxSizeValue +
+          ")"
+      );
+    } else if (propertyMinSizeValue !== "" && propertyMaxSizeValue == "") {
+      value.push(
+        '(data[i][j].attributes["property-size"] == ' +
+          propertyMinSizeValue +
+          ")"
+      );
     }
-    if (propertyMinSizeValue !== "" && propertyMaxSizeValue == "") {
-      let propertyPopupMaxEmpty = $("#property-popup-alert-max-empty");
-      $(propertyPopupMaxEmpty).addClass("show");
-      setTimeout(function() {
-        $(propertyPopupMaxEmpty).removeClass("show");
-      }, 2000);
-    }
+
     if (propertyMinSizeValue !== "" && propertyMaxSizeValue !== "") {
       if (propertyMinSizeValue > propertyMaxSizeValue) {
         let propertyPopupMinValid = $("#property-popup-alert-min-valid");
@@ -56,47 +79,165 @@ function submitFilter(convertData, mapView, convertCSV) {
         setTimeout(function() {
           $(propertyPopupMinValid).removeClass("show");
         }, 2000);
-      } else if (propertyMaxSizeValue < propertyMinSizeValue) {
-        let propertyPopupMaxValid = $("#property-popup-alert-max-valid");
-        $(propertyPopupMaxValid).addClass("show");
-        setTimeout(function() {
-          $(propertyPopupMaxValid).removeClass("show");
-        }, 2000);
+      } else {
+        value.push(
+          '(data[i][j].attributes["property-size"] >= ' +
+            propertyMinSizeValue +
+            " && " +
+            'data[i][j].attributes["property-size"] <= ' +
+            propertyMaxSizeValue +
+            ")"
+        );
       }
     }
 
-    //Get land values of min and max size, and we register it on "value" array
+    //Get property time period, both from and to must not be empty
+    if (propertyFromTimePeriodValue !== "" && propertyToTimePeriodValue == "") {
+      let propertyPopupFromEmptyValue = $("#property-popup-alert-from-empty");
+      $(propertyPopupFromEmptyValue).addClass("show");
+      setTimeout(function() {
+        $(propertyPopupFromEmptyValue).removeClass("show");
+      }, 2000);
+    } else if (
+      propertyFromTimePeriodValue == "" &&
+      propertyToTimePeriodValue !== ""
+    ) {
+      let propertyPopupToEmptyValue = $("#property-popup-alert-to-empty");
+      $(propertyPopupToEmptyValue).addClass("show");
+      setTimeout(function() {
+        $(propertyPopupToEmptyValue).removeClass("show");
+      }, 2000);
+    }
+
+    if (
+      propertyFromTimePeriodValue !== "" &&
+      propertyToTimePeriodValue !== ""
+    ) {
+      if (validateDate(propertyFromTimePeriodValue) == false) {
+        let propertyPopupFromValidValue = $("#property-popup-alert-from-valid");
+        $(propertyPopupFromValidValue).addClass("show");
+        setTimeout(function() {
+          $(propertyPopupFromValidValue).removeClass("show");
+        }, 2000);
+      } else if (validateDate(propertyToTimePeriodValue) == false) {
+        let propertyPopupToValidValue = $("#property-popup-alert-to-valid");
+        $(propertyPopupToValidValue).addClass("show");
+        setTimeout(function() {
+          $(propertyPopupToValidValue).removeClass("show");
+        }, 2000);
+      } else {
+        propertyFromTimePeriodValue = new Date(propertyFromTimePeriodValue);
+        propertyToTimePeriodValue = new Date(propertyToTimePeriodValue);
+        value.push(
+          '(new Date(data[i][j].attributes["property-time-period"]) >= ' +
+            propertyFromTimePeriodValue +
+            " && " +
+            'new Date(data[i][j].attributes["property-time-period"]) <= ' +
+            propertyToTimePeriodValue +
+            ")"
+        );
+      }
+    }
+
+    //Get land values of min and max size, and we register it on "value" array, if one of value is empty, it won't be registered as range
     //We must validate it first
-    if (propertyMinSizeValue == "" && propertyMaxSizeValue !== "") {
-      let propertyPopupMinEmpty = $("#property-popup-alert-min-empty");
-      $(propertyPopupMinEmpty).addClass("show");
-      setTimeout(function() {
-        $(propertyPopupMinEmpty).removeClass("show");
-      }, 2000);
+    //-----------------------------------------------------------------//
+    // if (landMinSizeValue == "" && landMaxSizeValue !== "") {
+    //   let landPopupMinEmpty = $("#land-popup-alert-min-empty");
+    //   $(landPopupMinEmpty).addClass("show");
+    //   setTimeout(function() {
+    //     $(landPopupMinEmpty).removeClass("show");
+    //   }, 2000);
+    // }
+    // if (landMinSizeValue !== "" && landMaxSizeValue == "") {
+    //   let landPopupMaxEmpty = $("#land-popup-alert-max-empty");
+    //   $(landPopupMaxEmpty).addClass("show");
+    //   setTimeout(function() {
+    //     $(landPopupMaxEmpty).removeClass("show");
+    //   }, 2000);
+    // }
+    //-----------------------------------------------------------------//
+
+    if (landMinSizeValue == "" && landMaxSizeValue !== "") {
+      value.push(
+        '(data[i][j].attributes["land-size"] == ' + landMaxSizeValue + ")"
+      );
+    } else if (landMinSizeValue !== "" && landMaxSizeValue == "") {
+      value.push(
+        '(data[i][j].attributes["land-size"] == ' + landMinSizeValue + ")"
+      );
     }
-    if (propertyMinSizeValue !== "" && propertyMaxSizeValue == "") {
-      let propertyPopupMaxEmpty = $("#property-popup-alert-max-empty");
-      $(propertyPopupMaxEmpty).addClass("show");
-      setTimeout(function() {
-        $(propertyPopupMaxEmpty).removeClass("show");
-      }, 2000);
-    }
-    if (propertyMinSizeValue !== "" && propertyMaxSizeValue !== "") {
-      if (propertyMinSizeValue > propertyMaxSizeValue) {
-        let propertyPopupMinValid = $("#property-popup-alert-min-valid");
-        $(propertyPopupMinValid).addClass("show");
+
+    if (landMinSizeValue !== "" && landMaxSizeValue !== "") {
+      if (landMinSizeValue > landMaxSizeValue) {
+        let landPopupMinValid = $("#land-popup-alert-min-valid");
+        $(landPopupMinValid).addClass("show");
         setTimeout(function() {
-          $(propertyPopupMinValid).removeClass("show");
+          $(landPopupMinValid).removeClass("show");
         }, 2000);
-      } else if (propertyMaxSizeValue < propertyMinSizeValue) {
-        let propertyPopupMaxValid = $("#property-popup-alert-max-valid");
-        $(propertyPopupMaxValid).addClass("show");
-        setTimeout(function() {
-          $(propertyPopupMaxValid).removeClass("show");
-        }, 2000);
+      } else {
+        value.push(
+          '(data[i][j].attributes["land-size"] >= ' +
+            landMinSizeValue +
+            " && " +
+            'data[i][j].attributes["land-size"] <= ' +
+            landMaxSizeValue +
+            ")"
+        );
       }
     }
 
+    //Get land time period, both from and to must not be empty
+    if (landFromTimePeriodValue !== "" && landToTimePeriodValue == "") {
+      let landPopupFromEmptyValue = $("#land-popup-alert-from-empty");
+      $(landPopupFromEmptyValue).addClass("show");
+      setTimeout(function() {
+        $(landPopupFromEmptyValue).removeClass("show");
+      }, 2000);
+    } else if (landFromTimePeriodValue == "" && landToTimePeriodValue !== "") {
+      let landPopupToEmptyValue = $("#land-popup-alert-to-empty");
+      $(landPopupToEmptyValue).addClass("show");
+      setTimeout(function() {
+        $(landPopupToEmptyValue).removeClass("show");
+      }, 2000);
+    }
+
+    if (landFromTimePeriodValue !== "" && landToTimePeriodValue !== "") {
+      if (validateDate(landFromTimePeriodValue) == false) {
+        let landPopupFromValidValue = $("#land-popup-alert-from-valid");
+        $(landPopupFromValidValue).addClass("show");
+        setTimeout(function() {
+          $(landPopupFromValidValue).removeClass("show");
+        }, 2000);
+      } else if (validateDate(landToTimePeriodValue) == false) {
+        let landPopupToValidValue = $("#land-popup-alert-to-valid");
+        $(landPopupToValidValue).addClass("show");
+        setTimeout(function() {
+          $(landPopupToValidValue).removeClass("show");
+        }, 2000);
+      } else {
+        landFromTimePeriodValue = new Date(landFromTimePeriodValue);
+        landToTimePeriodValue = new Date(landToTimePeriodValue);
+        value.push(
+          '(new Date(data[i][j].attributes["land-time-period"]) >= ' +
+            landFromTimePeriodValue +
+            " && " +
+            'new Date(data[i][j].attributes["land-time-period"]) <= ' +
+            landToTimePeriodValue +
+            ")"
+        );
+      }
+    }
+
+    //We use for to adding value to query
+    for (let i = 0; i < value.length; i++) {
+      if (i > 0) {
+        query += " && ";
+      }
+      query += value[i];
+    }
+
+    console.log(query);
     console.log(value);
 
     // if (minSizeValue == "" && maxSizeValue !== "") {
@@ -268,4 +409,48 @@ function submitFilter(convertData, mapView, convertCSV) {
     //     // createFilteredViewer();
     //   }
   });
+}
+
+function validateDate(value) {
+  let dateformat = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+  // Match the date format through regular expression
+  if (value.match(dateformat)) {
+    //Test which seperator is used '/' or '-'
+    let opera1 = value.split("/");
+    let opera2 = value.split("-");
+    lopera1 = opera1.length;
+    lopera2 = opera2.length;
+    // Extract the string into month, date and year
+    if (lopera1 > 1) {
+      var pdate = value.split("/");
+    } else if (lopera2 > 1) {
+      var pdate = value.split("-");
+    }
+    let dd = parseInt(pdate[0]);
+    let mm = parseInt(pdate[1]);
+    let yy = parseInt(pdate[2]);
+    // Create list of days of a month [assume there is no leap year by default]
+    let ListofDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    if (mm == 1 || mm > 2) {
+      if (dd > ListofDays[mm - 1]) {
+        return false;
+      }
+    }
+    if (mm == 2) {
+      let lyear = false;
+      if ((!(yy % 4) && yy % 100) || !(yy % 400)) {
+        lyear = true;
+      }
+      if (lyear == false && dd >= 29) {
+        return false;
+      }
+      if (lyear == true && dd > 29) {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  } else {
+    return false;
+  }
 }
