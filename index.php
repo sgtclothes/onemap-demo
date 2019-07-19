@@ -243,7 +243,7 @@ if (!isset($_SESSION['auth'])) {
                     <a href="javascript:void(0)" id="closebtn">&times;</a>
                 </div>
                 <div>
-                    <p class="title" style="padding: 70px 8px 0px 88px;"></p>
+                    <p class="title" style="padding: 50px 8px 0px 88px;"></p>
                     <div style="margin-left:52px; margin-bottom: 8px;">
                         <button type="button" id="adding-btn" title="Input Latitude & Longitude" data-toggle="modal" data-target="#modal_form_input_point" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
                         <button type="button" id="add-from-site" title="Add from Site" data-toggle="modal" data-target="#modal_form_vertical" class="btn btn-sm alpha-primary border-primary text-primary-800 btn-icon rounded-round ml-2"><i class="icon-office"></i></button>
@@ -775,7 +775,7 @@ if (!isset($_SESSION['auth'])) {
                     <a href="javascript:void(0)" id="closeSiteAnalysis">&times;</a>
                 </div>
                 <div>
-                    <p style="margin-top: 20px; padding: 20px 8px 0px 90px;" class="title">
+                    <p style="padding: 20px 8px 0px 90px;" class="title">
                     </p>
                     <div class="table-responsive tbl">
                         <?php include 'content/site_analysis.php'; ?>
