@@ -1,9 +1,6 @@
 $(document).ready(function(){
     $("#form-create-analysis").submit(function(e){
         e.preventDefault();
-        let $form = $(this)
-        let analysisArr = JSON.parse(analysis_id);
-        let current = analysisArr.length+1
         let name_analysis = $('#name_analysis').val()
         let created_by = parseInt($('#created_by').val())
         let distance = [];
@@ -11,13 +8,17 @@ $(document).ready(function(){
         let options = []
         let latitude = []
         let longitude = []
+        let values = []
 
         $.each(window.counterArr, function(index, value){
             latitude.push($(".latitude-form-"+value).val())
             longitude.push($(".longitude-form-"+value).val())
+
             distance[index] = new Array()
             unit[index] = new Array()
             options[index] = new Array()
+            values.push(value)
+
             $(".form-buffer-"+value).find('.distance').each(function(){
                 distance[index].push($(this).val())
             })
@@ -44,6 +45,16 @@ $(document).ready(function(){
                 options[index].push(parseInt($(this).val()))
             })
         })
+        latitude = latitude.filter(function(el) {
+            return (
+                el !== undefined
+            );
+        });
+        longitude = longitude.filter(function(el) {
+            return (
+                el !== undefined
+            );
+        });
         distance = distance.filter(function(el) {
             return (
                 el.length !== 0
@@ -60,14 +71,10 @@ $(document).ready(function(){
             );
         });
 
-        console.log(distance)
-        console.log(unit)
-        console.log(options)
-
         $.ajax({
             url: "content/save_analysis.php",
             type: "POST",
-            data: {name_analysis:name_analysis, created_by:created_by, latitude:latitude , longitude:longitude, distance:distance, unit:unit, options:options},
+            data: {name_analysis:name_analysis, created_by:created_by, latitude:latitude , longitude:longitude, distance:distance, unit:unit, options:options, values:values},
             success: function() {
                 let name = $('#name_analysis').val()
                 $('div.rows').each(function(){
@@ -90,8 +97,8 @@ $(document).ready(function(){
                     $("#mySidenav").css('width','320px');
                     $("#mySiteAnalysis").css('width','320px');
                 }
-                let newTD = '<tr><td><input type=radio checked name=get-point-for-analysis data-latitude='+JSON.stringify(latitude)+' data-longitude='+JSON.stringify(longitude)+' data-options='+JSON.stringify(options)+' data-unit='+JSON.stringify(unit)+' data-distance='+JSON.stringify(distance)+'></td>';
-                newTD += '<td>'+name+'</td><td width=20px><button class=btn btn-xs type=button data-toggle=modal data-target=#modal_form_poi_'+current+'><i class=icon-pin-alt><i></button></td></tr>';
+                let newTD = '<tr><td><input type=radio name=get-point-for-analysis checked data-latitude='+JSON.stringify(latitude)+' data-longitude='+JSON.stringify(longitude)+' data-options='+JSON.stringify(options)+' data-unit='+JSON.stringify(unit)+' data-distance='+JSON.stringify(distance)+' data-values='+JSON.stringify(values)+' data-source=create></td>';
+                newTD += "<td>"+name+"</td><td width=20px><button class='btn-modal-form-poi' type=button data-toggle=modal data-target=#modal_form_poi><i class=icon-pin-alt style='color: rgb(65, 105, 225);'><i></button></td></tr>";
 
                 $("#load-data-site-analysis").prepend(newTD);
                 $('#name_analysis').val('')
