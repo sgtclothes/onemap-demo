@@ -71,6 +71,7 @@ if (!isset($_SESSION['auth'])) {
 
         <!-- themes & template js files -->
         <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
+        <script src="assets/js/plugins/forms/checkboxes/form_checkboxes_radios.js"></script>
         <!-- <script type="text/javascript" src="http://www.dematte.at/cpn/colors.js"></script>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
@@ -118,6 +119,25 @@ if (!isset($_SESSION['auth'])) {
             .tbl {
                 padding-left: 8px;
                 padding-right: 8px;
+            }
+
+            table.dataTable th {
+                padding-top: 1.2px;
+                padding-bottom: 1.2px;
+            }
+            
+            table.dataTable td {
+                padding-top: 1.2px;
+                padding-bottom: 1.2px;
+            }
+            
+            .btn-modal-form-poi{
+                background-color: transparent;
+                background-repeat: no-repeat;
+                border: none;
+                cursor: pointer;
+                overflow: hidden;
+                outline: none;
             }
         </style>
         <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">

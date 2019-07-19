@@ -1,7 +1,7 @@
 function boot(GIS) {
   let config = new GIS.Config(); //Define Config class
   let map = new GIS.Map(config.CenterPoint); //Define Map class
-  map.setBasemap("topo-vector"); //Set basemap to Topo Vector
+  map.setBasemap(config.Basemap); //Set basemap to Topo Vector
   map.addPrintWidget(config.PrintServiceUrl, config.Position[5]); //Adding print widget
   map.addMeasurementWidget(); //Adding measurement widget
   map.addLocateWidget(config.Position[5]); //Adding locate widget
@@ -228,7 +228,8 @@ function boot(GIS) {
     .getElementById("instant-analysis")
     .addEventListener("click", function() {
       let mySidenav = document.getElementById("mySidenav");
-      if (document.getElementById("myViewer").style.width > "0px") {
+      if (document.getElementById("myViewer").style.width > "0px" 
+          || document.getElementById("mySiteAnalysis").style.width > "0px") {
         if (mySidenav.style.width > "0px") {
           mySidenav.classList.add("panel-right");
           document.getElementById("main").style.marginRight = "0";
