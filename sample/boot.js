@@ -713,25 +713,6 @@ function boot(GIS) {
       .toggle();
   });
 
-  //Show or hide button when dropdown info or status displayed
-  function toggleButtonFindProperty() {
-    $(document).ready(function() {
-      let propertyInfoCSS = $("#property-info").css("display");
-      let propertyStatusCSS = $("#property-status").css("display");
-      let propertyButton = $("#button-filter-property");
-      if (propertyInfoCSS !== "none" || propertyStatusCSS !== "none") {
-        $(propertyButton).css("display", "block");
-      } else if (propertyInfoCSS == "none" && propertyStatusCSS == "none") {
-        $(propertyButton).css("display", "none");
-      }
-    });
-  }
-
-  //function to check toggle icon dropdown to up or down
-  function changeDropdownArrowIcon(element) {
-    $(element).toggleClass("down");
-  }
-
   //function toggle icon mi-keyboard to down
   function changeIconDegree() {
     $(".rotate").click(function() {
