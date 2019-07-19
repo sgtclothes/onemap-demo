@@ -33,10 +33,39 @@ function submitFilter(convertData, mapView, convertCSV) {
       );
     }
 
-    console.log(propertyMinSizeValue);
-    console.log(propertyMaxSizeValue);
+    //Get property values of min and max size, and we register it on "value" array
+    //We must validate it first
+    if (propertyMinSizeValue == "" && propertyMaxSizeValue !== "") {
+      let propertyPopupMinEmpty = $("#property-popup-alert-min-empty");
+      $(propertyPopupMinEmpty).addClass("show");
+      setTimeout(function() {
+        $(propertyPopupMinEmpty).removeClass("show");
+      }, 2000);
+    }
+    if (propertyMinSizeValue !== "" && propertyMaxSizeValue == "") {
+      let propertyPopupMaxEmpty = $("#property-popup-alert-max-empty");
+      $(propertyPopupMaxEmpty).addClass("show");
+      setTimeout(function() {
+        $(propertyPopupMaxEmpty).removeClass("show");
+      }, 2000);
+    }
+    if (propertyMinSizeValue !== "" && propertyMaxSizeValue !== "") {
+      if (propertyMinSizeValue > propertyMaxSizeValue) {
+        let propertyPopupMinValid = $("#property-popup-alert-min-valid");
+        $(propertyPopupMinValid).addClass("show");
+        setTimeout(function() {
+          $(propertyPopupMinValid).removeClass("show");
+        }, 2000);
+      } else if (propertyMaxSizeValue < propertyMinSizeValue) {
+        let propertyPopupMaxValid = $("#property-popup-alert-max-valid");
+        $(propertyPopupMaxValid).addClass("show");
+        setTimeout(function() {
+          $(propertyPopupMaxValid).removeClass("show");
+        }, 2000);
+      }
+    }
 
-    //Get value of min and max size, and we register it on "value" array
+    //Get land values of min and max size, and we register it on "value" array
     //We must validate it first
     if (propertyMinSizeValue == "" && propertyMaxSizeValue !== "") {
       let propertyPopupMinEmpty = $("#property-popup-alert-min-empty");

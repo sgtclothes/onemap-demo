@@ -13,7 +13,7 @@
 /* The actual popup */
 .popup-require .popuptext {
   visibility: hidden;
-  width: 160px;
+  width: 67.5px;
   background-color: #555;
   color: #fff;
   text-align: center;
@@ -22,8 +22,8 @@
   position: absolute;
   bottom: 125%;
   left: 50%;
-  margin-left: -80px;
-  font-size: 12px;
+  margin-left: -30px;
+  font-size: 8px;
 }
 
 /* Popup arrow */

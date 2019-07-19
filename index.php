@@ -42,8 +42,8 @@ if (!isset($_SESSION['auth'])) {
         <!-- /Adding other css -->
 
         <!-- MultiSelect CSS & JS library -->
-        <link href="./jquery.multiselect.css" rel="stylesheet" />
-        <script src="./jquery.multiselect.js"></script>
+        <link href="assets/css/jquery/jquery.multiselect.css" rel="stylesheet" />
+        <script src="assets/js/jquery.multiselect.js"></script>
         <script>
             $(function() {
                 $('select[multiple].active.3col').multiselect({
