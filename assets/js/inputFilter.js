@@ -37,7 +37,7 @@ function inputFilter() {
 
   //We use this for min and max size value
   $("#property-min-size-value, #property-max-size-value").inputFilter(function(value) {
-    return /^-?\d*[.,]?\d*$/.test(value);
+    return /^-?\d*[.,]?\d*$/.test(value) && (value === "" || parseFloat(value) > 0);
   });
 
   $("#currencyTextBox").inputFilter(function(value) {

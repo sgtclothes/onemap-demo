@@ -714,16 +714,6 @@ function boot(GIS) {
       .toggle();
   });
 
-  //function toggle icon mi-keyboard to down
-  function changeIconDegree() {
-    $(".rotate").click(function() {
-      let siblings = $(this).siblings("ul");
-      if (siblings.length > 0) {
-        $(this).toggleClass("down");
-      }
-    });
-  }
-
   //Date Picker function to generating calendar and choose a date (Used for 'from' and 'to')
   $(function() {
     let dateFormat = "mm/dd/yy",
