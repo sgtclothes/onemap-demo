@@ -20,6 +20,7 @@ function analysispoi (GIS,map){
                     values = $(this).attr('data-values')
 
                     if ($(this).attr('data-source')==='db') {
+                        let valueArr = JSON.parse(values)
                         let option = JSON.parse(options)
                         let latitudeArr = JSON.parse(latitude)
                         latitudeArr = latitudeArr.map(x=>parseFloat(x))
@@ -27,45 +28,153 @@ function analysispoi (GIS,map){
                         longitudeArr = longitudeArr.map(x=>parseFloat(x))
                         let distanceArr = JSON.parse(distance)
                         let unitArr = JSON.parse(unit)
-                        console.log(option)
-                        console.log(distanceArr)
-                        console.log(unitArr)
-                        // for (let p = 0; p < option.length; p++) {
-                        //     option[p].forEach(el => {
-                        //         if (el === 0) {
-                        //             for (let a = 0; a < latitudeArr.length; a++) {
-                        //                 for (let e = 0; e < distanceArr[a].length; e++) {
-                        //                     let unitnum
-                        //                     if (unitArr[a][e] === "kilometers") {
-                        //                         unitnum = '3'
-                        //                     } else if (unitArr[a][e] === "miles") {
-                        //                         unitnum = '4'
-                        //                     }
-                        //                     else {
-                        //                         unitnum = '5'
-                        //                     }
-                        //                     let latitude = latitudeArr[a].toString()
-                        //                     let longitude = longitudeArr[a].toString()
-                        //                     let distance = distanceArr[a][e].toString() 
-                        //                     let title = values+latitude+longitude+distance+unitnum
-                        //                     let radius = new GIS.Buffer.Radius(
-                        //                         map.ObjMap,
-                        //                         map.ObjMapView,
-                        //                         latitude,
-                        //                         longitude
-                        //                     );
-                        //                     radius.setTitle(title)
-                        //                     radius.setUnit(unitArr[a][e]);
-                        //                     radius.setRadius(distanceArr[a][e]);
-                
-                        //                     map.ObjMapView.popup.dockOptions.breakpoint = false
-                        //                     map.ObjMapView.popup.dockOptions.position = 'bottom-right'
-                        //                     radius.create();
-                        //                 }
-                        //             }
-                        //         }
-                        //     })
-                        // }
+                        for (let p = 0; p < option.length; p++) {
+                            for (let q = 0; q < option[p].length; q++) {
+                                option[p][q] = parseInt(option[p][q])
+                                if (option[p][q] === 0) {
+                                    let markerList = map.ObjMapView.graphics.items
+                                    let findLat = markerList.find(o => o.geometry.latitude === latitudeArr[p])
+                                    let findLong = markerList.find(o => o.geometry.longitude === longitudeArr[p])
+                                    if (findLat === undefined && findLong === undefined) {
+                                        let pointing = new GIS.Buffer.Pointing(
+                                            map.ObjMapView,
+                                            latitudeArr[p],
+                                            longitudeArr[p]
+                                        )
+                                        pointing.render()   
+                                    }
+
+                                    let unitnum
+                                    if (unitArr[p][q] === "kilometers") {
+                                        unitnum = '3'
+                                    } else if (unitArr[p][q] === "miles") {
+                                        unitnum = '4'
+                                    }
+                                    else {
+                                        unitnum = '5'
+                                    }
+                                    let latitude = latitudeArr[p]
+                                    let longitude = longitudeArr[p]
+                                    let distance = distanceArr[p][q].toString() 
+                                    let title = valueArr[p]+latitude+longitude+distance+unitnum
+
+                                    let graphicslayers = map.ObjMap.layers.items
+                                    let findTitle = graphicslayers.find(o => o.title === title)
+
+                                    if (findTitle === undefined){
+                                        let radius = new GIS.Buffer.Radius(
+                                            map.ObjMap,
+                                            map.ObjMapView,
+                                            latitude,
+                                            longitude
+                                        );
+                                        radius.setTitle(title)
+                                        radius.setUnit(unitArr[p][q]);
+                                        radius.setRadius(distanceArr[p][q]);
+            
+                                        map.ObjMapView.popup.dockOptions.breakpoint = false
+                                        map.ObjMapView.popup.dockOptions.position = 'bottom-right'
+                                        radius.create();
+                                    }
+                                }
+                                else if (option[p][q] !== 0) {
+                                    let markerList = map.ObjMapView.graphics.items
+                                    let findLat = markerList.find(o => o.geometry.latitude === latitudeArr[p])
+                                    let findLong = markerList.find(o => o.geometry.longitude === longitudeArr[p])
+                                    if (findLat === undefined && findLong === undefined) {
+                                        let pointing = new GIS.Buffer.Pointing(
+                                            map.ObjMapView,
+                                            latitudeArr[p],
+                                            longitudeArr[p]
+                                        )
+                                        pointing.render()   
+                                    }
+                                    let unitnum
+                                    if (unitArr[p][q] == "minutes") {
+                                        unitnum = '1'
+                                    } else if (unitArr[p][q] == "hours") {
+                                        unitnum = '2'
+                                    }
+                                    else if (unitArr[p][q] == "kilometers") {
+                                        unitnum = '6'
+                                    } else if (unitArr[p][q] == "miles") {
+                                        unitnum = '7'
+                                    } 
+                                    else {
+                                        unitnum = '8'
+                                    }
+                                    let latitude = latitudeArr[p]
+                                    let longitude = longitudeArr[p]
+                                    let distance = distanceArr[p][q].toString() 
+                                    let title = valueArr[p]+latitude+longitude+distance+unitnum
+
+                                    let graphicslayers = map.ObjMap.layers.items
+                                    let findTitle = graphicslayers.find(o => o.title === title)
+
+                                    if (findTitle === undefined){
+                                        let DriveTimePoint = {
+                                            type: "point",
+                                            longitude: longitude,
+                                            latitude: latitude
+                                        };
+                                            
+                                        let DriveTimeParams = {
+                                            'f': 'json',
+                                            'env:outSR': 4326,
+                                            'env:processSR': 4326,
+                                            'facilities':'{"geometryType":"esriGeometryPoint","features":[{"geometry":{"x":' + longitude + ',"y":'+ latitude + ',"spatialReference":{"wkid":4326}}}],"sr":{"wkid":4326}}',
+                                            'break_units': unitArr[p][q],
+                                            'B_Values': distance
+                                        }
+            
+                                        let driveTime = new GIS.Buffer.DriveTime(
+                                            map.ObjMap,
+                                            DriveTimePoint,
+                                            DriveTimeParams,
+                                            "http://tig.co.id/ags/rest/services/GP/DriveTime32223232/GPServer/DriveTime3",
+                                            title
+                                        );
+            
+                                        driveTime.setDistance(
+                                            distance,
+                                            unitArr[p][q]
+                                        );
+            
+                                        map.ObjMapView.popup.dockOptions.breakpoint = false
+                                        map.ObjMapView.popup.dockOptions.position = 'bottom-right'
+            
+                                        let driveTimePromise = new Promise(function(resolve, reject) {
+                                            driveTime.run(resolve);
+                                        });
+            
+                                        driveTimePromise.then(function() {
+                                            let gLayers = driveTime.ArrayParamsCatchment[0].features[0]
+                                            let inputFeatureArr = driveTime.ArrayParamsCatchment;
+                                            let catchmentParams = {
+                                                f: "json",
+                                                "env:outSR": 4326,
+                                                "env:processSR": 4326,
+                                                Input_Feature: JSON.stringify(inputFeatureArr[0])
+                                            };
+                                            
+                                            let catchment = new GIS.Buffer.Catchment();
+            
+                                            let catchmentPromise = new Promise(function(resolve, reject) {
+                                                catchment.setServiceUrl(
+                                                    "http://tig.co.id/ags/rest/services/GP/v2_catchment/GPServer/catchment_select_table"
+                                                );
+                                                catchment.setParams(catchmentParams,resolve);
+                                            });
+            
+                                            catchmentPromise.then(function() {
+                                                catchment.run(gLayers);
+                                            });
+                                        });
+                                        driveTime.render(map.ObjMapView);
+                                    }
+                                }
+                            }
+                        }
                     }
             
                     $('input:checkbox.an_poi').each(function(){
@@ -74,7 +183,6 @@ function analysispoi (GIS,map){
                             if($(this).is(":checked")){
                                 let layerId = $(this).val()
                                 let option = JSON.parse(options)
-                                console.log(option)
                                 let valueArr = JSON.parse(values)
                                 let latitudeArr = JSON.parse(latitude)
                                 latitudeArr = latitudeArr.map(x=>parseFloat(x))
@@ -83,56 +191,46 @@ function analysispoi (GIS,map){
                                 let distanceArr = JSON.parse(distance)
                                 let unitArr = JSON.parse(unit)
                                 for (let p = 0; p < option.length; p++) {
-                                    option[p].forEach(el => {
-                                        if (el === 0) {
-                                            for (let a = 0; a < latitudeArr.length; a++) {
-                                                let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId)
-                                                for (let b = 0; b < distanceArr[a].length; b++) {
-                                                    radiusPOI.setDistanceAndUnit(distanceArr[a][b],unitArr[a][b])
-                                                }
-                                                radiusPOI.setGeometryBuffer(latitudeArr[a],longitudeArr[a])
-                                                radiusPOI.render()
-                                            }
+                                    for (let q = 0; q < option[p].length; q++) {
+                                        option[p][q] = parseInt(option[p][q])
+                                        if (option[p][q] === 0) {
+                                            let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId)
+                                            radiusPOI.setDistanceAndUnit(distanceArr[p][q],unitArr[p][q])
+                                            radiusPOI.setGeometryBuffer(latitudeArr[p],longitudeArr[p])
+                                            radiusPOI.render()
                                         }
-                                        if (el !== 0) {
+                                        else if (option[p][q] !== 0) {
                                             let graphicslayers = map.ObjMap.layers.items
-                                            for (let d = 0; d < latitudeArr.length; d++) {
-                                                let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId)
-                                                for (let e = 0; e < distanceArr[d].length; e++) {
-                                                    if (unitArr[d][e] == "minutes") {
-                                                        unitnum = '1'
-                                                    } else if (unitArr[d][e] == "hours") {
-                                                        unitnum = '2'
-                                                    }
-                                                    else if (unitArr[d][e] == "kilometers") {
-                                                        unitnum = '6'
-                                                    } else if (unitArr[d][e] == "miles") {
-                                                        unitnum = '7'
-                                                    } 
-                                                    else {
-                                                        unitnum = '8'
-                                                    }
-
-                                                    let value = valueArr
-                                                    for (let v = 0; v < value.length; v++) {
-                                                        let val = value[v].toString()
-                                                        let latitude = latitudeArr[d].toString()
-                                                        let longitude = longitudeArr[d].toString()
-                                                        let distance = distanceArr[d][e].toString()
-                                                        let title = val+latitude+longitude+distance+unitnum
-                                                        for (let c = 0; c < graphicslayers.length; c++) {
-                                                            if (graphicslayers[c].title === title) {
-                                                                drivePOI.setGeometryDriving(
-                                                                    graphicslayers[c].graphics.items[0].geometry
-                                                                )
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                drivePOI.render()
+                                            let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId)
+                                            if (unitArr[p][q] == "minutes") {
+                                                unitnum = '1'
+                                            } else if (unitArr[p][q] == "hours") {
+                                                unitnum = '2'
                                             }
+                                            else if (unitArr[p][q] == "kilometers") {
+                                                unitnum = '6'
+                                            } else if (unitArr[p][q] == "miles") {
+                                                unitnum = '7'
+                                            } 
+                                            else {
+                                                unitnum = '8'
+                                            }
+
+                                            let val = valueArr[p].toString()
+                                            let latitude = latitudeArr[p].toString()
+                                            let longitude = longitudeArr[p].toString()
+                                            let distance = distanceArr[p][q].toString()
+                                            let title = val+latitude+longitude+distance+unitnum
+                                            for (let c = 0; c < graphicslayers.length; c++) {
+                                                if (graphicslayers[c].title === title) {
+                                                    drivePOI.setGeometryDriving(
+                                                        graphicslayers[c].graphics.items[0].geometry
+                                                    )
+                                                }
+                                            }
+                                            drivePOI.render()
                                         }
-                                    });
+                                    }
                                 }
                             }
                         })
