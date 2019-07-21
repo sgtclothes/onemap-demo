@@ -1,0 +1,64 @@
+#my-ul-analysis .chkbox-analysis {
+    position: relative;
+    min-height: 14px;
+    width: 17px;
+    border-radius: 50%;
+    background-color: #fff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+}
+#my-ul-analysis .chkbox-analysis:after {
+    font-size: 0.9em;
+    color: white;
+    text-align: center;
+    line-height: 16px;
+    background-color: #66bb6a;
+    border: 1px solid #ccc;
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+ }
+#my-ul-analysis .chkbox-analysis:before {
+    position: absolute;
+    cursor: pointer;
+    content: '';
+    height: 16px;
+    width: 16px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+}
+#my-ul-analysis .chkbox-analysis:checked:before {
+    background-color: #66bb6a;
+    border-color: #66bb6a;
+    border-radius: 50%;
+}
+#my-ul-analysis .chkbox-analysis:focus { outline: none; }
+#my-ul-analysis .chkbox-analysis:checked:after { content: '\2713\0020'; }
+
+#my-ul-analysis label.dd-nodrag {
+    display: block;
+}
+
+#my-ul-analysis span.dd-nodrag {
+    display: block;
+}
+
+#my-ul-analysis .dd-nodrag {
+    width: auto;
+    min-height: 30px;
+    margin: 0;
+    padding: 3px 0 5px 0;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #FFF;
+    background: #fafafa;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+/* created by rizal hermawan */

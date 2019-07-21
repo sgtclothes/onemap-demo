@@ -177,31 +177,85 @@ function analysispoi (GIS,map){
                         }
                     }
             
+                    let option = JSON.parse(options)
+                    let valueArr = JSON.parse(values)
+                    let latitudeArr = JSON.parse(latitude)
+                    latitudeArr = latitudeArr.map(x=>parseFloat(x))
+                    let longitudeArr = JSON.parse(longitude)
+                    longitudeArr = longitudeArr.map(x=>parseFloat(x))
+                    let distanceArr = JSON.parse(distance)
+                    let unitArr = JSON.parse(unit)
+                    
                     $('input:checkbox.an_poi').each(function(){
                         $(this).click(function(event){
                             event.stopImmediatePropagation();
                             if($(this).is(":checked")){
                                 let layerId = $(this).val()
-                                let option = JSON.parse(options)
-                                let valueArr = JSON.parse(values)
-                                let latitudeArr = JSON.parse(latitude)
-                                latitudeArr = latitudeArr.map(x=>parseFloat(x))
-                                let longitudeArr = JSON.parse(longitude)
-                                longitudeArr = longitudeArr.map(x=>parseFloat(x))
-                                let distanceArr = JSON.parse(distance)
-                                let unitArr = JSON.parse(unit)
+                                let poiName = $(this).attr('poiname')
                                 for (let p = 0; p < option.length; p++) {
                                     for (let q = 0; q < option[p].length; q++) {
                                         option[p][q] = parseInt(option[p][q])
                                         if (option[p][q] === 0) {
-                                            let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId)
+                                            let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
                                             radiusPOI.setDistanceAndUnit(distanceArr[p][q],unitArr[p][q])
                                             radiusPOI.setGeometryBuffer(latitudeArr[p],longitudeArr[p])
                                             radiusPOI.render()
                                         }
                                         else if (option[p][q] !== 0) {
                                             let graphicslayers = map.ObjMap.layers.items
-                                            let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId)
+                                            let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
+                                            if (unitArr[p][q] == "minutes") {
+                                                unitnum = '1'
+                                            } else if (unitArr[p][q] == "hours") {
+                                                unitnum = '2'
+                                            }
+                                            else if (unitArr[p][q] == "kilometers") {
+                                                unitnum = '6'
+                                            } else if (unitArr[p][q] == "miles") {
+                                                unitnum = '7'
+                                            } 
+                                            else {
+                                                unitnum = '8'
+                                            }
+
+                                            let val = valueArr[p].toString()
+                                            let latitude = latitudeArr[p].toString()
+                                            let longitude = longitudeArr[p].toString()
+                                            let distance = distanceArr[p][q].toString()
+                                            let title = val+latitude+longitude+distance+unitnum
+                                            for (let c = 0; c < graphicslayers.length; c++) {
+                                                if (graphicslayers[c].title === title) {
+                                                    drivePOI.setGeometryDriving(
+                                                        graphicslayers[c].graphics.items[0].geometry
+                                                    )
+                                                }
+                                            }
+                                            drivePOI.render()
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                    })
+
+                    $('input:checkbox.an_property').each(function(){
+                        $(this).click(function(event){
+                            event.stopImmediatePropagation();
+                            if($(this).is(":checked")){
+                                let layerId = $(this).val()
+                                let poiName = $(this).attr('poiname')
+                                for (let p = 0; p < option.length; p++) {
+                                    for (let q = 0; q < option[p].length; q++) {
+                                        option[p][q] = parseInt(option[p][q])
+                                        if (option[p][q] === 0) {
+                                            let radiusPOI = new GIS.Analysis.BufferProperty(map.ObjMap,layerId, poiName)
+                                            radiusPOI.setDistanceAndUnit(distanceArr[p][q],unitArr[p][q])
+                                            radiusPOI.setGeometryBuffer(latitudeArr[p],longitudeArr[p])
+                                            radiusPOI.render()
+                                        }
+                                        else if (option[p][q] !== 0) {
+                                            let graphicslayers = map.ObjMap.layers.items
+                                            let drivePOI = new GIS.Analysis.BufferProperty(map.ObjMap,layerId, poiName)
                                             if (unitArr[p][q] == "minutes") {
                                                 unitnum = '1'
                                             } else if (unitArr[p][q] == "hours") {
@@ -240,6 +294,9 @@ function analysispoi (GIS,map){
                         $('input:checkbox.an_poi').each(function(){
                             $(this).prop('checked',false)
                         })
+                        $('input:checkbox.an_property').each(function(){
+                            $(this).prop('checked',false)
+                        })
                     })
                 }
                 else {
@@ -247,7 +304,6 @@ function analysispoi (GIS,map){
                     $(this).closest('tr').find('i.icon-pin-alt').removeAttr("style")
                 }
             })
-
         })
     })
 }

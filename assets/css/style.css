@@ -403,11 +403,11 @@ td.table-property {
   font-size: 11px;
 }
 
-table,
+/* table,
 tr,
 td {
   border: 1px solid black;
-}
+} */
 
 td.property-item {
   width: 80px;
