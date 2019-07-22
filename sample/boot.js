@@ -373,65 +373,128 @@ function boot(GIS) {
   };
   delete map.ObjMapView.popup.actions.items[0];
   map.ObjMapView.popup.actions.push(pointThisAction);
-  // map.ObjMapView.popup.on("trigger-action", ({ action }) => {
-  //   if (action.id === "point-this") {
-  //     var S = map.ObjMapView.popup.title;
-  //     if (S.includes("Buffer") === false && S.includes("Driving") === false) {
-  //       function isFloat(n) {
-  //         return Number(n) === n && n % 1 !== 0;
-  //       }
-  //       let attr = map.ObjMapView.popup.selectedFeature.attributes;
-  //       var lat;
-  //       var lon;
-  //       for (let key in attr) {
-  //         if (isFloat(attr[key])) {
-  //           if (
-  //             typeof attr[key] === "number" &&
-  //             attr[key] >= -90 &&
-  //             attr[key] <= 90
-  //           ) {
-  //             lat = attr[key];
-  //           } else if (
-  //             typeof attr[key] === "number" &&
-  //             attr[key] >= -180 &&
-  //             attr[key] <= 180
-  //           ) {
-  //             lon = attr[key];
-  //           }
-  //         }
-  //       }
-  //       $.addRows();
-  //       $.each(window.counterArr, function(index, value) {
-  //         if ($(".latitude-form-" + value).val() === "") {
-  //           $(".latitude-form-" + value).val(lat);
-  //           $(".longitude-form-" + value).val(lon);
-  //           $("#form-list").delegate(
-  //             ".selectbuffer-" + value,
-  //             "click",
-  //             function() {
-  //               $.get("content/template/instant_analysis/buffer.php", function(
-  //                 data
-  //               ) {
-  //                 $(".form-buffer-" + value).append(data);
-  //               });
-  //             }
-  //           );
-  //           $("#form-list").delegate(
-  //             ".selectdrive-" + value,
-  //             "click",
-  //             function() {
-  //               $.get("content/template/instant_analysis/driving.php", function(
-  //                 data
-  //               ) {
-  //                 $(".form-drive-" + value).append(data);
-  //               });
-  //             }
-  //           );
-  //         }
-  //       });
-  //     }
-  //   }
-  // });
+  map.ObjMapView.popup.on("trigger-action", ({ action }) => {
+    if (action.id === "point-this") {
+      let mySidenav = document.getElementById("mySidenav");
+      if (document.getElementById("myViewer").style.width > "0px" 
+          || document.getElementById("mySiteAnalysis").style.width > "0px") {
+        mySidenav.classList.add("panel-right");
+        document.getElementById("main").style.marginRight = "320px";
+        mySidenav.setAttribute("style", "width:320px;");
+        if (mySidenav.classList.contains("panel-left")) {
+          mySidenav.classList.remove("panel-left");
+        }
+      } else {
+        openNav();
+      }
+
+      var S = map.ObjMapView.popup.title;
+      if (S.includes("Buffer") === false && S.includes("Driving") === false) {
+        function isFloat(n) {
+          return Number(n) === n && n % 1 !== 0;
+        }
+        let attr = map.ObjMapView.popup.selectedFeature.attributes;
+        console.log(attr)
+        var lat;
+        var lon;
+        if (
+          attr.hasOwnProperty('lat') || 
+          attr.hasOwnProperty('lon') ||
+          attr.hasOwnProperty('long') ||
+          attr.hasOwnProperty('latitude') ||
+          attr.hasOwnProperty('longitude') ||
+          attr.hasOwnProperty('Latitude') ||
+          attr.hasOwnProperty('Longitude') ||
+          attr.hasOwnProperty('LATITUDE') ||
+          attr.hasOwnProperty('LONGITUDE') ||
+          attr.hasOwnProperty('LAT') || 
+          attr.hasOwnProperty('LON')
+          ) {
+          if (attr.hasOwnProperty('lat')) {
+            lat = attr.lat
+          }
+          if (attr.hasOwnProperty('lon')) {
+            lon = attr.lon
+          }
+          if (attr.hasOwnProperty('long')) {
+            lon = attr.long
+          }
+          if (attr.hasOwnProperty('latitude')) {
+            lat = attr.latitude
+          }
+          if (attr.hasOwnProperty('longitude')) {
+            lon = attr.longitude
+          }
+          if (attr.hasOwnProperty('Latitude')) {
+            lat = attr.Latitude
+          }
+          if (attr.hasOwnProperty('Longitude')) {
+            lon = attr.Longitude
+          }
+          if (attr.hasOwnProperty('LATITUDE')) {
+            lat = attr.LATITUDE
+          }
+          if (attr.hasOwnProperty('LONGITUDE')) {
+            lon = attr.LONGITUDE
+          }
+          if (attr.hasOwnProperty('LAT')) {
+            lat = attr.LAT
+          }
+          if (attr.hasOwnProperty('LON')) {
+            lon = attr.LON
+          }
+        }
+        else {
+          for (let key in attr) {
+            if (isFloat(attr[key])) {
+              if (
+                typeof attr[key] === "number" &&
+                attr[key] >= -90 &&
+                attr[key] <= 90
+              ) {
+                lat = attr[key];
+              } else if (
+                typeof attr[key] === "number" &&
+                attr[key] >= -180 &&
+                attr[key] <= 180
+              ) {
+                lon = attr[key];
+              }
+            }
+          }
+        }
+        $.addRows();
+        $.each(window.counterArr, function(index, value) {
+          if ($(".latitude-form-" + value).val() === "") {
+            $(".latitude-form-" + value).val(lat);
+            $(".longitude-form-" + value).val(lon);
+            $("#form-list").delegate(
+              ".selectbuffer-" + value,
+              "click",
+              function() {
+                $.get("content/template/instant_analysis/buffer.php", function(
+                  data
+                ) {
+                  $(".form-buffer-" + value).append(data);
+                });
+              }
+            );
+            $("#form-list").delegate(
+              ".selectdrive-" + value,
+              "click",
+              function() {
+                $.get("content/template/instant_analysis/driving.php", function(
+                  data
+                ) {
+                  $(".form-drive-" + value).append(data);
+                });
+              }
+            );
+          }
+        });
+      }
+    }
+  });
   //end of drag and drop
 
   // widget color picker and render poi

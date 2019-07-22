@@ -62,7 +62,7 @@ $longitude = $_POST['longitude'];
                             }
                             $rows .= "</tr>";
                         }
-                        $table = "<div class='table-responsive'><table id='datatable-csv$tab' class='table datatable-sorting'><thead><tr>$columns</tr></thead><tbody>$rows</tbody></table><button type='button' id='select-row-csv$j' class='btn bg-teal-400'>Select</button></div>";
+                        $table = "<div class='table-responsive'><table id='datatable-csv$tab' class='table table-striped table-hover datatable-sorting '><thead><tr>$columns</tr></thead><tbody>$rows</tbody></table><button type='button' id='select-row-csv$j' class='btn bg-teal-400'>Select</button></div>";
 
                         echo "<div class='tab-pane fade $active' id='basic-tab$tab'>$table</div>";
                     }

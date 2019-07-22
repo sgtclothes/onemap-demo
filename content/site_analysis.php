@@ -1,4 +1,4 @@
-<table id="datatable-site" class="table display compact nowrap datatable-sorting">
+<table id="datatable-site" class="table display compact nowrap table-hover datatable-sorting">
     <thead>
         <tr>
             <th>#</th>
