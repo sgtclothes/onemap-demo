@@ -191,30 +191,89 @@ function analysispoi (GIS,map){
                             if($(this).is(":checked")){
                                 let layerId = $(this).val()
                                 let poiName = $(this).attr('poiname')
+                                let poiName2 = $(this).attr('name-of-poi')
                                 for (let p = 0; p < option.length; p++) {
                                     for (let q = 0; q < option[p].length; q++) {
                                         if (parseInt(option[p][q]) === 0) {
                                             let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
+
+                                            let unitnum
+                                            if (unitArr[p][q] == "kilometers") {
+                                                unitnum = 'km'
+                                            } else if (unitArr[p][q] == "miles") {
+                                                unitnum = 'mi'
+                                            } 
+                                            else {
+                                                unitnum = 'm'
+                                            }
+                                            let title = "Buffer "+distanceArr[p][q]+" "+unitnum
+                                            radiusPOI.setTitle(title)
+
                                             radiusPOI.setDistanceAndUnit(distanceArr[p][q],unitArr[p][q])
                                             radiusPOI.setGeometryBuffer(latitudeArr[p],longitudeArr[p])
-                                            radiusPOI.render()
+
+                                            let promise = new Promise(function(resolve, reject) {
+                                                radiusPOI.render(resolve)
+                                            });
+            
+                                            promise.then(function() {
+                                                if (poiName === "{POI_NAME}") {
+                                                    poiName = poiName2
+                                                }
+    
+                                                let layers = map.ObjMap.layers.items
+                                                let findPoiName = layers.find(o => o.title === title)
+                                                let length = findPoiName.graphics.length
+    
+                                                $('#analysisDiv').css('display', 'block')
+                                                $('#contentAnalysisDiv').css({
+                                                    "overflow-x": "hidden",
+                                                    "margin-bottom": "-20px",
+                                                })
+    
+                                                let row = "<tr><td>"+title+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
+    
+                                                $('#rowAnalysisDiv').append(row)
+                                            });
+
+                                            // $.ajax({
+                                            //     url: "content/analysis/results_table.php",
+                                            //     type: "POST",
+                                            //     data: {title:title, poiName:poiName, length:length},
+                                            //     success: function(data) {
+                                            //         $('#contentAnalysisDiv').css({
+                                            //             "overflow-x": "hidden",
+                                            //             "margin-bottom": "-20px",
+                                            //         })
+                                            //         $('#rowAnalysisDiv').append(data)
+                                            //     }
+                                            // });
                                         }
                                         else if (parseInt(option[p][q]) !== 0) {
                                             let graphicslayers = map.ObjMap.layers.items
                                             let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
+
+                                            let titleLayer 
+
                                             if (unitArr[p][q] == "minutes") {
                                                 unitnum = '1'
+                                                titleLayer = "Driving Time "+distanceArr[p][q]+" "+unitArr[p][q]
                                             } else if (unitArr[p][q] == "hours") {
                                                 unitnum = '2'
+                                                titleLayer = "Driving Time "+distanceArr[p][q]+" "+unitArr[p][q]
                                             }
                                             else if (unitArr[p][q] == "kilometers") {
                                                 unitnum = '6'
+                                                titleLayer = "Driving Distance "+distanceArr[p][q]+" km"
                                             } else if (unitArr[p][q] == "miles") {
                                                 unitnum = '7'
+                                                titleLayer = "Driving Distance "+distanceArr[p][q]+" mi"
                                             } 
                                             else {
                                                 unitnum = '8'
+                                                titleLayer = "Driving Distance "+distanceArr[p][q]+" m"
                                             }
+                                            drivePOI.setTitle(titleLayer)
 
                                             let val = valueArr[p].toString()
                                             let latitude = latitudeArr[p].toString()
@@ -228,7 +287,29 @@ function analysispoi (GIS,map){
                                                     )
                                                 }
                                             }
-                                            drivePOI.render()
+                                            let promise = new Promise(function(resolve, reject) {
+                                                drivePOI.render(resolve)
+                                            });
+            
+                                            promise.then(function() {
+                                                if (poiName === "{POI_NAME}") {
+                                                    poiName = poiName2
+                                                }
+    
+                                                let layers = map.ObjMap.layers.items
+                                                let findPoiName = layers.find(o => o.title === titleLayer)
+                                                let length = findPoiName.graphics.length
+    
+                                                $('#analysisDiv').css('display', 'block')
+                                                $('#contentAnalysisDiv').css({
+                                                    "overflow-x": "hidden",
+                                                    "margin-bottom": "-20px",
+                                                })
+    
+                                                let row = "<tr><td>"+titleLayer+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
+    
+                                                $('#rowAnalysisDiv').append(row)
+                                            });
                                         }
                                     }
                                 }
@@ -242,30 +323,74 @@ function analysispoi (GIS,map){
                             if($(this).is(":checked")){
                                 let layerId = $(this).val()
                                 let poiName = $(this).attr('poiname')
+                                let poiName2 = $(this).attr('name-of-poi')
                                 for (let p = 0; p < option.length; p++) {
                                     for (let q = 0; q < option[p].length; q++) {
                                         if (parseInt(option[p][q]) === 0) {
                                             let radiusPOI = new GIS.Analysis.BufferProperty(map.ObjMap,layerId, poiName)
+
+                                            let unitnum
+                                            if (unitArr[p][q] == "kilometers") {
+                                                unitnum = 'km'
+                                            } else if (unitArr[p][q] == "miles") {
+                                                unitnum = 'mi'
+                                            } 
+                                            else {
+                                                unitnum = 'm'
+                                            }
+                                            let title = "Buffer "+distanceArr[p][q]+" "+unitnum
+                                            radiusPOI.setTitle(title)
+
                                             radiusPOI.setDistanceAndUnit(distanceArr[p][q],unitArr[p][q])
                                             radiusPOI.setGeometryBuffer(latitudeArr[p],longitudeArr[p])
-                                            radiusPOI.render()
+                                            let promise = new Promise(function(resolve, reject) {
+                                                radiusPOI.render(resolve)
+                                            });
+            
+                                            promise.then(function() {
+                                                if (poiName === "{buildingname}") {
+                                                    poiName = poiName2
+                                                }
+    
+                                                let layers = map.ObjMap.layers.items
+                                                let findPoiName = layers.find(o => o.title === title)
+                                                let length = findPoiName.graphics.length
+    
+                                                $('#analysisDiv').css('display', 'block')
+                                                $('#contentAnalysisDiv').css({
+                                                    "overflow-x": "hidden",
+                                                    "margin-bottom": "-20px",
+                                                })
+    
+                                                let row = "<tr><td>"+title+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
+    
+                                                $('#rowAnalysisDiv').append(row)
+                                            });
                                         }
                                         else if (parseInt(option[p][q]) !== 0) {
                                             let graphicslayers = map.ObjMap.layers.items
                                             let drivePOI = new GIS.Analysis.BufferProperty(map.ObjMap,layerId, poiName)
+                                            let titleLayer 
+
                                             if (unitArr[p][q] == "minutes") {
                                                 unitnum = '1'
+                                                titleLayer = "Driving Time "+distanceArr[p][q]+" "+unitArr[p][q]
                                             } else if (unitArr[p][q] == "hours") {
                                                 unitnum = '2'
+                                                titleLayer = "Driving Time "+distanceArr[p][q]+" "+unitArr[p][q]
                                             }
                                             else if (unitArr[p][q] == "kilometers") {
                                                 unitnum = '6'
+                                                titleLayer = "Driving Distance "+distanceArr[p][q]+" km"
                                             } else if (unitArr[p][q] == "miles") {
                                                 unitnum = '7'
+                                                titleLayer = "Driving Distance "+distanceArr[p][q]+" mi"
                                             } 
                                             else {
                                                 unitnum = '8'
+                                                titleLayer = "Driving Distance "+distanceArr[p][q]+" m"
                                             }
+                                            drivePOI.setTitle(titleLayer)
 
                                             let val = valueArr[p].toString()
                                             let latitude = latitudeArr[p].toString()
@@ -279,7 +404,29 @@ function analysispoi (GIS,map){
                                                     )
                                                 }
                                             }
-                                            drivePOI.render()
+                                            let promise = new Promise(function(resolve, reject) {
+                                                drivePOI.render(resolve)
+                                            });
+            
+                                            promise.then(function() {
+                                                if (poiName === "{buildingname}") {
+                                                    poiName = poiName2
+                                                }
+    
+                                                let layers = map.ObjMap.layers.items
+                                                let findPoiName = layers.find(o => o.title === titleLayer)
+                                                let length = findPoiName.graphics.length
+    
+                                                $('#analysisDiv').css('display', 'block')
+                                                $('#contentAnalysisDiv').css({
+                                                    "overflow-x": "hidden",
+                                                    "margin-bottom": "-20px",
+                                                })
+    
+                                                let row = "<tr><td>"+titleLayer+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
+    
+                                                $('#rowAnalysisDiv').append(row)
+                                            });
                                         }
                                     }
                                 }

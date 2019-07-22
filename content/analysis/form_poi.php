@@ -94,19 +94,19 @@
                                 <ul class="nested-analysis">
                                 <li>
                                     <label class="dd-nodrag nested">
-                                    <input type="checkbox" value="175" class="an_poi chkbox-analysis" poiname="{POI_NAME}">
+                                    <input type="checkbox" value="175" class="an_poi chkbox-analysis" poiname="{POI_NAME}" name-of-poi="Hospital">
                                     Hospital
                                     </label>
                                 </li>
                                 <li>
                                     <label class="dd-nodrag nested">
-                                    <input type="checkbox" value="176" class="an_poi chkbox-analysis" poiname="{POI_NAME}">
+                                    <input type="checkbox" value="176" class="an_poi chkbox-analysis" poiname="{POI_NAME}" name-of-poi="Hotel">
                                     Hotel
                                     </label>
                                 </li>
                                 <li>
                                     <label class="dd-nodrag nested">
-                                    <input type="checkbox" value="193" class="an_poi chkbox-analysis" poiname="{POI_NAME}">
+                                    <input type="checkbox" value="193" class="an_poi chkbox-analysis" poiname="{POI_NAME}" name-of-poi="Police Station">
                                     Police Station
                                     </label>
                                 </li>
@@ -120,7 +120,7 @@
                         <ul class="nested-analysis">
                             <li>
                                 <label class="dd-nodrag">
-                                <input type="checkbox" value="0" class="an_property chkbox-analysis" poiname="{buildingname}">
+                                <input type="checkbox" value="0" class="an_property chkbox-analysis" poiname="{buildingname}" name-of-poi="Office">
                                 Office
                                 </label>
                             </li>
