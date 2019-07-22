@@ -375,6 +375,19 @@ function boot(GIS) {
   map.ObjMapView.popup.actions.push(pointThisAction);
   map.ObjMapView.popup.on("trigger-action", ({ action }) => {
     if (action.id === "point-this") {
+      let mySidenav = document.getElementById("mySidenav");
+      if (document.getElementById("myViewer").style.width > "0px" 
+          || document.getElementById("mySiteAnalysis").style.width > "0px") {
+        mySidenav.classList.add("panel-right");
+        document.getElementById("main").style.marginRight = "320px";
+        mySidenav.setAttribute("style", "width:320px;");
+        if (mySidenav.classList.contains("panel-left")) {
+          mySidenav.classList.remove("panel-left");
+        }
+      } else {
+        openNav();
+      }
+
       var S = map.ObjMapView.popup.title;
       if (S.includes("Buffer") === false && S.includes("Driving") === false) {
         function isFloat(n) {

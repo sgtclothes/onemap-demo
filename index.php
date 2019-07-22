@@ -28,7 +28,8 @@ if (!isset($_SESSION['auth'])) {
         <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
         <!-- <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" /> -->
-        <!-- <link href="assets/js/plugins/tree/tree.css" rel="stylesheet" type="text/css" /> -->
+        <link href="assets/js/plugins/tree/tree_analysis.css" rel="stylesheet" type="text/css" />
+        <link href="assets/js/plugins/tree/checkboxes.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="assets/css/jquery/jquery-ui-1.12.1.css">
         <script src="assets/js/jquery-1.12.4.js"></script>
         <script src="assets/js/jquery-1.12.1.js"></script>
@@ -73,9 +74,9 @@ if (!isset($_SESSION['auth'])) {
         <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
         <script src="assets/js/plugins/forms/checkboxes/form_checkboxes_radios.js"></script>
         <!-- <script type="text/javascript" src="http://www.dematte.at/cpn/colors.js"></script>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
+        <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.data.js"></script>
+        <script type="text/javascript" src="http://www.dematte.at/cpn/colorPicker.js"></script>
+        <script type="text/javascript" src="assets/colors/jsColor.js"></script> -->
         <!-- <script type="text/javascript" src="assets/js/plugins/tree/tree.js"></script> -->
         <script src="assets/js/layout/default/app.js"></script>
         <script src="https://unpkg.com/imask"></script>
@@ -129,6 +130,10 @@ if (!isset($_SESSION['auth'])) {
             table.dataTable td {
                 padding-top: 1.2px;
                 padding-bottom: 1.2px;
+            }
+
+            table.dataTable {
+                margin-bottom: 5px;
             }
 
             .btn-modal-form-poi {
@@ -600,7 +605,7 @@ if (!isset($_SESSION['auth'])) {
                                 </tr>
                             </table>
                         </li>
-                        <li>
+                        <!-- <li>
                                     <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                         <input id="checkbox-colliers-property" class="styled" type="checkbox" name="colliers-property" value="colliers-property">
                                         <label for="checkbox-colliers-property">
@@ -705,7 +710,7 @@ if (!isset($_SESSION['auth'])) {
                                         </li>
                                     </ul>
                                 </li>
-                        <li>
+                        <li> -->
                             <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                 <input id="checkbox-poi" class="styled" type="checkbox" name="POI" value="POI">
                                 <label for="checkbox-poi">
@@ -842,13 +847,14 @@ if (!isset($_SESSION['auth'])) {
             </div>
             <!-- End of Form Create Site -->
 
-            <div class="content-wrapper">
+            <div class="content-wrapper" id="contentAnalysisDiv">
                 <div id="mapDiv"></div>
                 <div style="align-items:center; justify-content:center;">
                     <table class="table-filter">
 
                     </table>
                 </div>
+                <div id="analysisDiv" style="display:none;"><?php include "content/analysis/results_table.html"; ?></div>
             </div>
         </div>
         <!-- /page-content-->
@@ -938,7 +944,8 @@ if (!isset($_SESSION['auth'])) {
                 "bLengthChange": false,
                 "bFilter": true,
                 "bInfo": false,
-                "paging": false,
+                "pageLength": 2,
+                "pagingType": "numbers"
             });
         });
     </script>

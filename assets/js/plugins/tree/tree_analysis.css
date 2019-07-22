@@ -1,0 +1,20 @@
+#my-ul-analysis {
+    list-style-type: none;
+}
+.nested-analysis {
+    display: none;
+}
+
+.active-analysis {
+    display: block;
+}
+
+.caret-analysis {
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari 3.1+ */
+    -moz-user-select: none; /* Firefox 2+ */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none;
+    margin-top: -4px;
+}
+
