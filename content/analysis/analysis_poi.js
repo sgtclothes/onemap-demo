@@ -30,8 +30,7 @@ function analysispoi (GIS,map){
                         let unitArr = JSON.parse(unit)
                         for (let p = 0; p < option.length; p++) {
                             for (let q = 0; q < option[p].length; q++) {
-                                option[p][q] = parseInt(option[p][q])
-                                if (option[p][q] === 0) {
+                                if (parseInt(option[p][q]) === 0) {
                                     let markerList = map.ObjMapView.graphics.items
                                     let findLat = markerList.find(o => o.geometry.latitude === latitudeArr[p])
                                     let findLong = markerList.find(o => o.geometry.longitude === longitudeArr[p])
@@ -77,7 +76,7 @@ function analysispoi (GIS,map){
                                         radius.create();
                                     }
                                 }
-                                else if (option[p][q] !== 0) {
+                                else if (parseInt(option[p][q]) !== 0) {
                                     let markerList = map.ObjMapView.graphics.items
                                     let findLat = markerList.find(o => o.geometry.latitude === latitudeArr[p])
                                     let findLong = markerList.find(o => o.geometry.longitude === longitudeArr[p])
@@ -194,14 +193,13 @@ function analysispoi (GIS,map){
                                 let poiName = $(this).attr('poiname')
                                 for (let p = 0; p < option.length; p++) {
                                     for (let q = 0; q < option[p].length; q++) {
-                                        option[p][q] = parseInt(option[p][q])
-                                        if (option[p][q] === 0) {
+                                        if (parseInt(option[p][q]) === 0) {
                                             let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
                                             radiusPOI.setDistanceAndUnit(distanceArr[p][q],unitArr[p][q])
                                             radiusPOI.setGeometryBuffer(latitudeArr[p],longitudeArr[p])
                                             radiusPOI.render()
                                         }
-                                        else if (option[p][q] !== 0) {
+                                        else if (parseInt(option[p][q]) !== 0) {
                                             let graphicslayers = map.ObjMap.layers.items
                                             let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
                                             if (unitArr[p][q] == "minutes") {
@@ -246,14 +244,13 @@ function analysispoi (GIS,map){
                                 let poiName = $(this).attr('poiname')
                                 for (let p = 0; p < option.length; p++) {
                                     for (let q = 0; q < option[p].length; q++) {
-                                        option[p][q] = parseInt(option[p][q])
-                                        if (option[p][q] === 0) {
+                                        if (parseInt(option[p][q]) === 0) {
                                             let radiusPOI = new GIS.Analysis.BufferProperty(map.ObjMap,layerId, poiName)
                                             radiusPOI.setDistanceAndUnit(distanceArr[p][q],unitArr[p][q])
                                             radiusPOI.setGeometryBuffer(latitudeArr[p],longitudeArr[p])
                                             radiusPOI.render()
                                         }
-                                        else if (option[p][q] !== 0) {
+                                        else if (parseInt(option[p][q]) !== 0) {
                                             let graphicslayers = map.ObjMap.layers.items
                                             let drivePOI = new GIS.Analysis.BufferProperty(map.ObjMap,layerId, poiName)
                                             if (unitArr[p][q] == "minutes") {

@@ -39,17 +39,22 @@
 #my-ul-analysis .chkbox-analysis:focus { outline: none; }
 #my-ul-analysis .chkbox-analysis:checked:after { content: '\2713\0020'; }
 
-#my-ul-analysis label.dd-nodrag {
-    display: block;
+#my-ul-analysis label.dd-nodrag.nested {
+    width: 488px;
 }
 
-#my-ul-analysis span.dd-nodrag {
-    display: block;
+#my-ul-analysis label.dd-nodrag {
+    width: 508px;
+}
+
+#my-ul-analysis span.dd-nodrag.nested {
+    width: 508px;
 }
 
 #my-ul-analysis .dd-nodrag {
     width: auto;
     min-height: 30px;
+    display: block;
     margin: 0;
     padding: 3px 0 5px 0;
     color: #333;

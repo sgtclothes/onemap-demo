@@ -132,6 +132,10 @@ if (!isset($_SESSION['auth'])) {
                 padding-bottom: 1.2px;
             }
 
+            table.dataTable {
+                margin-bottom: 5px;
+            }
+
             .btn-modal-form-poi {
                 background-color: transparent;
                 background-repeat: no-repeat;
@@ -831,13 +835,14 @@ if (!isset($_SESSION['auth'])) {
             </div>
             <!-- End of Form Create Site -->
 
-            <div class="content-wrapper">
+            <div class="content-wrapper" style="overflow-x:hidden; margin-bottom:-20px;">
                 <div id="mapDiv"></div>
                 <div style="align-items:center; justify-content:center;">
                     <table class="table-filter">
 
                     </table>
                 </div>
+                <div id="analysisDiv"><?php include "content/analysis/results_table.php"; ?></div>
             </div>
         </div>
         <!-- /page-content-->
@@ -909,7 +914,6 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/add_points_manual.js"></script>
     <script src="assets/js/create_analysis.js"></script>
     <script src="assets/js/from_list_csv.js"></script>
-    <script src="assets/js/analysis_poi.js"></script>
     <script src="assets/js/submitFilter.js"></script>
     <script src="assets/js/showCurrentDepartment.js"></script>
     <script src="assets/js/inputFilter.js"></script>
@@ -926,7 +930,8 @@ if (!isset($_SESSION['auth'])) {
                 "bLengthChange": false,
                 "bFilter": true,
                 "bInfo": false,
-                "paging": false,
+                "pageLength": 2,
+                "pagingType": "numbers"
             });
         });
     </script>
