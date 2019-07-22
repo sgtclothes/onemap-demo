@@ -835,14 +835,14 @@ if (!isset($_SESSION['auth'])) {
             </div>
             <!-- End of Form Create Site -->
 
-            <div class="content-wrapper" style="overflow-x:hidden; margin-bottom:-20px;">
+            <div class="content-wrapper" style="overflow-x:hidden;">
                 <div id="mapDiv"></div>
                 <div style="align-items:center; justify-content:center;">
                     <table class="table-filter">
 
                     </table>
                 </div>
-                <div id="analysisDiv"><?php include "content/analysis/results_table.php"; ?></div>
+                <div id="analysisDiv" style="display:none;"><?php include "content/analysis/results_table.php"; ?></div>
             </div>
         </div>
         <!-- /page-content-->
