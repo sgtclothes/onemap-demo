@@ -228,8 +228,10 @@ function boot(GIS) {
     .getElementById("instant-analysis")
     .addEventListener("click", function() {
       let mySidenav = document.getElementById("mySidenav");
-      if (document.getElementById("myViewer").style.width > "0px" 
-          || document.getElementById("mySiteAnalysis").style.width > "0px") {
+      if (
+        document.getElementById("myViewer").style.width > "0px" ||
+        document.getElementById("mySiteAnalysis").style.width > "0px"
+      ) {
         if (mySidenav.style.width > "0px") {
           mySidenav.classList.add("panel-right");
           document.getElementById("main").style.marginRight = "0";
@@ -375,7 +377,7 @@ function boot(GIS) {
     if (action.id === "point-this") {
       var S = map.ObjMapView.popup.title;
       if (S.includes("Buffer") === false && S.includes("Driving") === false) {
-        function isFloat(n){
+        function isFloat(n) {
           return Number(n) === n && n % 1 !== 0;
         }
         let attr = map.ObjMapView.popup.selectedFeature.attributes;
@@ -649,7 +651,8 @@ function boot(GIS) {
   // ServiceLayerPOI(GIS, map, config);
   // ServiceLayerInfrastructure(GIS, map, config);
   // ServiceLayerDemographic(GIS, map, config);
-  submitFilter(storeLocalStorage, map.ObjMapView, convertCSV);
+  submitFilterLocal(storeLocalStorage, map.ObjMapView, convertCSV);
+  submitFilterServices(storeLocalStorage, map, convertCSV);
   inputFilter(); //inputFilter to handle keyboard input specifications
   // selectUnitSize();
 
@@ -739,6 +742,7 @@ function boot(GIS) {
     function getDate(element) {
       var date;
       try {
+        console.log(dateFormat);
         date = $.datepicker.parseDate(dateFormat, element.value);
       } catch (error) {
         date = null;
@@ -778,6 +782,107 @@ function boot(GIS) {
       return date;
     }
   });
+
+  // Generate link to Census tract details
+  map.ObjMapView.when(function() {
+    on(map.ObjMapView, "click", displayTractID);
+  });
+
+  let colliersServicePopupTemplate = {
+    title: "Colliers Property",
+    content: [
+      {
+        type: "fields",
+        fieldInfos: [
+          {
+            fieldName: "buildingname",
+            label: "Building Name",
+            visible: true
+          }
+        ]
+      }
+    ]
+  };
+
+  let colliersRenderer = {
+    type: "simple",
+    symbol: {
+      type: "picture-marker",
+      url: "assets/images/icons/OB-blue.png",
+      width: "20px",
+      height: "20px"
+    }
+  }
+
+  let colliersService = new ESRI.FeatureLayer({
+    url:
+      "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/FeatureServer/0",
+    outFields: ["*"],
+    popupTemplate: colliersServicePopupTemplate,
+    renderer : colliersRenderer
+  });
+
+  function displayTractID(event) {
+    var screenPoint = {
+      x: event.x,
+      y: event.y
+    };
+
+    // Search for graphics at the clicked location
+    map.ObjMapView.hitTest(screenPoint).then(function(response) {
+      if (response.results.length) {
+        var graphic = response.results.filter(function(result) {
+          // check if the graphic belongs to the layer of interest
+          return result.graphic.layer === colliersService;
+        })[0].graphic;
+
+        // do something with the result graphic
+        console.log(graphic.attributes);
+      }
+    });
+  }
+
+  $(document).delegate("#checkbox-colliers-property", "click", function() {
+    if ($(this).prop("checked") == true) {
+      console.log("true");
+      map.ObjMap.add(colliersService);
+    } else if ($(this).prop("checked") == false) {
+      console.log("false");
+      map.ObjMap.remove(colliersService);
+    }
+  });
+
+  $(document).delegate(
+    ".esri-popup__inline-actions-container",
+    "click",
+    function() {
+      let mySidenav = document.getElementById("mySidenav");
+      if (
+        document.getElementById("myViewer").style.width > "0px" ||
+        document.getElementById("mySiteAnalysis").style.width > "0px"
+      ) {
+        if (mySidenav.style.width > "0px") {
+          mySidenav.classList.add("panel-right");
+          document.getElementById("main").style.marginRight = "0";
+          mySidenav.setAttribute("style", "width:0px;");
+        } else {
+          mySidenav.classList.add("panel-right");
+          document.getElementById("main").style.marginRight = "320px";
+          mySidenav.setAttribute("style", "width:320px;");
+        }
+        if (mySidenav.classList.contains("panel-left")) {
+          mySidenav.classList.remove("panel-left");
+        }
+      } else {
+        if (mySidenav.style.width > "0px") {
+          closeNav();
+          document.getElementById("form-filter").style.display = "none";
+        } else {
+          openNav();
+        }
+      }
+    }
+  );
 
   //Clear the localstorage when user logout
   document.getElementById("logout").addEventListener("click", function() {

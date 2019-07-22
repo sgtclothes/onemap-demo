@@ -1,7 +1,7 @@
-function submitFilter(convertData, mapView, convertCSV) {
+function submitFilterLocal(convertData, mapView, convertCSV) {
   $(document).delegate("#button-filter-property", "click", function() {
     //Define variables to get filter value
-    let strataValue = $("#strata-value").attr("value");
+    let strataValue = $("input[name='strata-input']:checked").val();
     let propertyTypeValue = $("#property-type-value").val();
     let propertyUnitSizeValue = $("#property-unit-size-value").val();
     let propertyMinSizeValue = $("#property-min-size-value").val();
@@ -18,16 +18,28 @@ function submitFilter(convertData, mapView, convertCSV) {
     let value = [];
 
     //Strata will be automatically selected, so we get strata value
-    value.push('(data[i][j].attributes["strata"] == "' + strataValue + '")');
+    //We set boolean value 0 = No, 1 = Yes
+    if (strataValue == "yes") strataValue = 1;
+    else if (strataValue == "no") strataValue = 0;
+    console.log(strataValue);
+    value.push(
+      '(data[i][j].attributes["r_k_strata"] == "' + strataValue + '")'
+    );
 
     // Get value of property type and we register it on "value" array
     if (propertyTypeValue !== null) {
-      value.push(
-        '(data[i][j].attributes["type"] == "' + propertyTypeValue + '")'
-      );
+      let q = "(";
+      for (let i = 0; i < propertyTypeValue.length; i++) {
+        q +=
+          '(data[i][j].attributes["type"] == "' + propertyTypeValue[i] + '")';
+        if (propertyTypeValue[i + 1] !== undefined) {
+          q += " || ";
+        }
+      }
+      q += ")";
     }
 
-    //Get value of unit size and we register it on "value" array
+    //Get value of property unit size and we register it on "value" array
     if (
       propertyUnitSizeValue !== null &&
       (propertyMinSizeValue !== "" || propertyMaxSizeValue !== "")
@@ -38,25 +50,6 @@ function submitFilter(convertData, mapView, convertCSV) {
           '")'
       );
     }
-
-    //Get property values of min and max size, and we register it on "value" array, if one of value is empty, it won't be registered as range
-    //We must validate it first
-    //-----------------------------------------------------------------//
-    // if (propertyMinSizeValue == "" && propertyMaxSizeValue !== "") {
-    //   let propertyPopupMinEmpty = $("#property-popup-alert-min-empty");
-    //   $(propertyPopupMinEmpty).addClass("show");
-    //   setTimeout(function() {
-    //     $(propertyPopupMinEmpty).removeClass("show");
-    //   }, 2000);
-    // }
-    // if (propertyMinSizeValue !== "" && propertyMaxSizeValue == "") {
-    //   let propertyPopupMaxEmpty = $("#property-popup-alert-max-empty");
-    //   $(propertyPopupMaxEmpty).addClass("show");
-    //   setTimeout(function() {
-    //     $(propertyPopupMaxEmpty).removeClass("show");
-    //   }, 2000);
-    // }
-    //-----------------------------------------------------------------//
 
     if (propertyMinSizeValue == "" && propertyMaxSizeValue !== "") {
       value.push(
@@ -139,25 +132,7 @@ function submitFilter(convertData, mapView, convertCSV) {
       }
     }
 
-    //Get land values of min and max size, and we register it on "value" array, if one of value is empty, it won't be registered as range
-    //We must validate it first
-    //-----------------------------------------------------------------//
-    // if (landMinSizeValue == "" && landMaxSizeValue !== "") {
-    //   let landPopupMinEmpty = $("#land-popup-alert-min-empty");
-    //   $(landPopupMinEmpty).addClass("show");
-    //   setTimeout(function() {
-    //     $(landPopupMinEmpty).removeClass("show");
-    //   }, 2000);
-    // }
-    // if (landMinSizeValue !== "" && landMaxSizeValue == "") {
-    //   let landPopupMaxEmpty = $("#land-popup-alert-max-empty");
-    //   $(landPopupMaxEmpty).addClass("show");
-    //   setTimeout(function() {
-    //     $(landPopupMaxEmpty).removeClass("show");
-    //   }, 2000);
-    // }
-    //-----------------------------------------------------------------//
-
+    //Get value of land unit size and we register it on "value" array
     if (landMinSizeValue == "" && landMaxSizeValue !== "") {
       value.push(
         '(data[i][j].attributes["land-size"] == ' + landMaxSizeValue + ")"
@@ -235,6 +210,22 @@ function submitFilter(convertData, mapView, convertCSV) {
         query += " && ";
       }
       query += value[i];
+    }
+
+    //Query using eval to retrieve data
+    let data = JSON.parse(localStorage.getItem("data"));
+    console.log(localStorage);
+    let dataFilter = [];
+    let isFiltered = true;
+    for (let i in data) {
+      for (let j in data[i]) {
+        if (eval(query)) {
+          //We start to query it using eval
+          dataFilter.push(data[i][j].attributes);
+          getFilteredData(i, j, isFiltered, convertData, mapView, convertCSV);
+          isFiltered = false;
+        }
+      }
     }
 
     console.log(query);
@@ -365,49 +356,6 @@ function submitFilter(convertData, mapView, convertCSV) {
     // }
 
     // $(".form-popup-filter").hide();
-
-    // function getFilteredData(i, j, isFiltered) {
-    //     if (isFiltered == true) {
-    //       for (let i in mapView.graphics.items) {
-    //         mapView.graphics.items[i].visible = false;
-    //         mapView.graphics.items = [];
-    //       }
-    //     }
-    //     $(".custom-data-master-select-all-poi")
-    //       .find("input:checkbox")
-    //       .prop("checked", false);
-    //     let data = JSON.parse(localStorage.getItem("data"));
-    //     convertCSV.setPushDataOnly(true);
-    //     convertCSV.processCSVData(
-    //       convertData.getRowofTextArray([data[i][j].attributes])
-    //     );
-    //     convertCSV.setPushDataOnly(false);
-    //     mapView.graphics.add(convertCSV.TempData);
-
-    //     let dataFilter = JSON.parse(localStorage.getItem("dataFilter"));
-    //     if (dataFilter == undefined) {
-    //       dataFilter = [];
-    //       dataFilter.push(convertCSV.TempData);
-    //     } else {
-    //       dataFilter.push(convertCSV.TempData);
-    //     }
-
-    //     localStorage.setItem("dataFilter", JSON.stringify(dataFilter));
-    //     console.log(JSON.parse(localStorage.getItem("dataFilter")));
-
-    //     let uidsFilter = JSON.parse(localStorage.getItem("uidsFilter"));
-    //     if (uidsFilter == undefined) {
-    //       uidsFilter = [];
-    //       uidsFilter.push(convertCSV.Uids);
-    //     } else {
-    //       uidsFilter.push(convertCSV.Uids);
-    //     }
-
-    //     localStorage.setItem("uidsFilter", JSON.stringify(uidsFilter));
-    //     console.log(JSON.parse(localStorage.getItem("uidsFilter")));
-
-    //     // createFilteredViewer();
-    //   }
   });
 }
 
@@ -453,4 +401,45 @@ function validateDate(value) {
   } else {
     return false;
   }
+}
+
+function getFilteredData(i, j, isFiltered, convertData, mapView, convertCSV) {
+  if (isFiltered == true) {
+    for (let i in mapView.graphics.items) {
+      mapView.graphics.items[i].visible = false;
+      mapView.graphics.items = [];
+    }
+  }
+  $(".custom-data-master-select-all-poi")
+    .find("input:checkbox")
+    .prop("checked", false);
+  let data = JSON.parse(localStorage.getItem("data"));
+  convertCSV.setPushDataOnly(true);
+  convertCSV.processCSVData(
+    convertData.getRowofTextArray([data[i][j].attributes])
+  );
+  convertCSV.setPushDataOnly(false);
+  mapView.graphics.add(convertCSV.TempData);
+
+  let dataFilter = JSON.parse(localStorage.getItem("dataFilter"));
+  if (dataFilter == undefined) {
+    dataFilter = [];
+    dataFilter.push(convertCSV.TempData);
+  } else {
+    dataFilter.push(convertCSV.TempData);
+  }
+
+  localStorage.setItem("dataFilter", JSON.stringify(dataFilter));
+  console.log(JSON.parse(localStorage.getItem("dataFilter")));
+
+  let uidsFilter = JSON.parse(localStorage.getItem("uidsFilter"));
+  if (uidsFilter == undefined) {
+    uidsFilter = [];
+    uidsFilter.push(convertCSV.Uids);
+  } else {
+    uidsFilter.push(convertCSV.Uids);
+  }
+
+  localStorage.setItem("uidsFilter", JSON.stringify(uidsFilter));
+  console.log(JSON.parse(localStorage.getItem("uidsFilter")));
 }

@@ -403,14 +403,15 @@ td.table-property {
   font-size: 11px;
 }
 
-table,
+/* table,
 tr,
 td {
   border: 1px solid black;
-}
+} */
 
 td.property-item {
   width: 80px;
+  height:26px;
 }
 
 .table-property.button-filter-table {
@@ -456,13 +457,14 @@ td.property-item {
 }
 
 .unit-input {
+  float: right;
   cursor: pointer;
-  width: 50%;
-  height: 26px;
+  width: 100%;
+  height: 22.9167px;
   position: relative;
-  text-align: left;
+  text-align: center;
   border: 1px solid #aaa;
-  margin-top: 1px;
+  margin-top: 0px;
   font-size: 10px;
   color: #aaa;
   white-space: nowrap;
@@ -475,8 +477,8 @@ td.property-item {
   z-index: 100;
   margin-top: 0px;
   background: transparent;
-  width: 50;
-  padding: 5px;
+  width: 60;
+  padding: 0px;
   font-size: 10px;
   height: 26px;
   border: 0;
