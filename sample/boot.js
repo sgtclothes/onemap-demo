@@ -373,78 +373,65 @@ function boot(GIS) {
   };
   delete map.ObjMapView.popup.actions.items[0];
   map.ObjMapView.popup.actions.push(pointThisAction);
-  map.ObjMapView.popup.on("trigger-action", ({ action }) => {
-    if (action.id === "point-this") {
-      let mySidenav = document.getElementById("mySidenav");
-      if (document.getElementById("myViewer").style.width > "0px" 
-          || document.getElementById("mySiteAnalysis").style.width > "0px") {
-        mySidenav.classList.add("panel-right");
-        document.getElementById("main").style.marginRight = "320px";
-        mySidenav.setAttribute("style", "width:320px;");
-        if (mySidenav.classList.contains("panel-left")) {
-          mySidenav.classList.remove("panel-left");
-        }
-      } else {
-        openNav();
-      }
-
-      var S = map.ObjMapView.popup.title;
-      if (S.includes("Buffer") === false && S.includes("Driving") === false) {
-        function isFloat(n) {
-          return Number(n) === n && n % 1 !== 0;
-        }
-        let attr = map.ObjMapView.popup.selectedFeature.attributes;
-        var lat;
-        var lon;
-        for (let key in attr) {
-          if (isFloat(attr[key])) {
-            if (
-              typeof attr[key] === "number" &&
-              attr[key] >= -90 &&
-              attr[key] <= 90
-            ) {
-              lat = attr[key];
-            } else if (
-              typeof attr[key] === "number" &&
-              attr[key] >= -180 &&
-              attr[key] <= 180
-            ) {
-              lon = attr[key];
-            }
-          }
-        }
-        $.addRows();
-        $.each(window.counterArr, function(index, value) {
-          if ($(".latitude-form-" + value).val() === "") {
-            $(".latitude-form-" + value).val(lat);
-            $(".longitude-form-" + value).val(lon);
-            $("#form-list").delegate(
-              ".selectbuffer-" + value,
-              "click",
-              function() {
-                $.get("content/template/instant_analysis/buffer.php", function(
-                  data
-                ) {
-                  $(".form-buffer-" + value).append(data);
-                });
-              }
-            );
-            $("#form-list").delegate(
-              ".selectdrive-" + value,
-              "click",
-              function() {
-                $.get("content/template/instant_analysis/driving.php", function(
-                  data
-                ) {
-                  $(".form-drive-" + value).append(data);
-                });
-              }
-            );
-          }
-        });
-      }
-    }
-  });
+  // map.ObjMapView.popup.on("trigger-action", ({ action }) => {
+  //   if (action.id === "point-this") {
+  //     var S = map.ObjMapView.popup.title;
+  //     if (S.includes("Buffer") === false && S.includes("Driving") === false) {
+  //       function isFloat(n) {
+  //         return Number(n) === n && n % 1 !== 0;
+  //       }
+  //       let attr = map.ObjMapView.popup.selectedFeature.attributes;
+  //       var lat;
+  //       var lon;
+  //       for (let key in attr) {
+  //         if (isFloat(attr[key])) {
+  //           if (
+  //             typeof attr[key] === "number" &&
+  //             attr[key] >= -90 &&
+  //             attr[key] <= 90
+  //           ) {
+  //             lat = attr[key];
+  //           } else if (
+  //             typeof attr[key] === "number" &&
+  //             attr[key] >= -180 &&
+  //             attr[key] <= 180
+  //           ) {
+  //             lon = attr[key];
+  //           }
+  //         }
+  //       }
+  //       $.addRows();
+  //       $.each(window.counterArr, function(index, value) {
+  //         if ($(".latitude-form-" + value).val() === "") {
+  //           $(".latitude-form-" + value).val(lat);
+  //           $(".longitude-form-" + value).val(lon);
+  //           $("#form-list").delegate(
+  //             ".selectbuffer-" + value,
+  //             "click",
+  //             function() {
+  //               $.get("content/template/instant_analysis/buffer.php", function(
+  //                 data
+  //               ) {
+  //                 $(".form-buffer-" + value).append(data);
+  //               });
+  //             }
+  //           );
+  //           $("#form-list").delegate(
+  //             ".selectdrive-" + value,
+  //             "click",
+  //             function() {
+  //               $.get("content/template/instant_analysis/driving.php", function(
+  //                 data
+  //               ) {
+  //                 $(".form-drive-" + value).append(data);
+  //               });
+  //             }
+  //           );
+  //         }
+  //       });
+  //     }
+  //   }
+  // });
   //end of drag and drop
 
   // widget color picker and render poi
@@ -669,32 +656,7 @@ function boot(GIS) {
   inputFilter(); //inputFilter to handle keyboard input specifications
   // selectUnitSize();
 
-  $(document).delegate("#operator-ba", "click", function() {
-    if ($("#operator-ba").val() == "between") {
-      $("#building-area-filter-between").show();
-    } else {
-      $("#building-area-filter-between").hide();
-    }
-  });
-
-  $(document).delegate("#operator-la", "click", function() {
-    if ($("#operator-la").val() == "between") {
-      $("#land-area-filter-between").show();
-    } else {
-      $("#land-area-filter-between").hide();
-    }
-  });
-
-  $(document).delegate("#operator-price", "click", function() {
-    if ($("#operator-price").val() == "between") {
-      $("#price-filter-between").show();
-    } else {
-      $("#price-filter-between").hide();
-    }
-  });
-
   $("input[name='popup-input-min']").click(function() {
-    console.log("OK");
     $("#popup-alert").toggleClass("show");
   });
 
@@ -710,18 +672,6 @@ function boot(GIS) {
       .find("li")
       .toggle();
   });
-
-  // // If an event gets to the body
-  // $("body").click(function() {
-  //   $(".popuptext")
-  //     .fadeOut()
-  //     .removeClass("show");
-  // });
-
-  // // Prevent events from getting pass .popup
-  // $(".popuptext").click(function(e) {
-  //   e.stopPropagation();
-  // });
 
   //Toggle i-tree-layers child
   $(document).delegate(".i-tree-layers", "click", function() {
@@ -855,15 +805,28 @@ function boot(GIS) {
     });
   }
 
+  $(document).ready(function() {
+    let divButton = $("<div></div>");
+    let button = $("<button></button>").text("OK");
+    $(button).attr("id", "button-ok-property");
+    $(button).attr("class", "btn btn-primary button-ok-property");
+    $(divButton).append(button);
+    $(".ms-options").append(divButton);
+  });
+
   $(document).delegate("#checkbox-colliers-property", "click", function() {
     if ($(this).prop("checked") == true) {
-      console.log("true");
       map.ObjMap.add(colliersService);
     } else if ($(this).prop("checked") == false) {
-      console.log("false");
       map.ObjMap.remove(colliersService);
     }
   });
+
+  $(document).delegate("#button-ok-property", "click", function() {
+    $(".ms-options-wrap").removeClass("ms-active");
+  });
+
+  console.log($(".esri-feature__field-header"))
 
   $(document).delegate(
     ".esri-popup__inline-actions-container",

@@ -149,3 +149,13 @@
   clip: rect(1px 1px 1px 1px);
   clip: rect(1px, 1px, 1px, 1px);
 }
+
+.button-ok-property {
+  float: right;
+  margin-right:20px;
+  width:60px; 
+  height:30px; 
+  background-color: #7a7c80; 
+  padding:0px; 
+  border-radius: 10px;
+}
