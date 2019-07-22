@@ -812,14 +812,14 @@ function boot(GIS) {
       width: "20px",
       height: "20px"
     }
-  }
+  };
 
   let colliersService = new ESRI.FeatureLayer({
     url:
       "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/FeatureServer/0",
     outFields: ["*"],
     popupTemplate: colliersServicePopupTemplate,
-    renderer : colliersRenderer
+    renderer: colliersRenderer
   });
 
   function displayTractID(event) {
@@ -857,28 +857,30 @@ function boot(GIS) {
     "click",
     function() {
       let mySidenav = document.getElementById("mySidenav");
-      if (
-        document.getElementById("myViewer").style.width > "0px" ||
-        document.getElementById("mySiteAnalysis").style.width > "0px"
-      ) {
-        if (mySidenav.style.width > "0px") {
-          mySidenav.classList.add("panel-right");
-          document.getElementById("main").style.marginRight = "0";
-          mySidenav.setAttribute("style", "width:0px;");
+      if (mySidenav.style.width < "320px") {
+        if (
+          document.getElementById("myViewer").style.width > "0px" ||
+          document.getElementById("mySiteAnalysis").style.width > "0px"
+        ) {
+          if (mySidenav.style.width > "0px") {
+            mySidenav.classList.add("panel-right");
+            document.getElementById("main").style.marginRight = "0";
+            mySidenav.setAttribute("style", "width:0px;");
+          } else {
+            mySidenav.classList.add("panel-right");
+            document.getElementById("main").style.marginRight = "320px";
+            mySidenav.setAttribute("style", "width:320px;");
+          }
+          if (mySidenav.classList.contains("panel-left")) {
+            mySidenav.classList.remove("panel-left");
+          }
         } else {
-          mySidenav.classList.add("panel-right");
-          document.getElementById("main").style.marginRight = "320px";
-          mySidenav.setAttribute("style", "width:320px;");
-        }
-        if (mySidenav.classList.contains("panel-left")) {
-          mySidenav.classList.remove("panel-left");
-        }
-      } else {
-        if (mySidenav.style.width > "0px") {
-          closeNav();
-          document.getElementById("form-filter").style.display = "none";
-        } else {
-          openNav();
+          if (mySidenav.style.width > "0px") {
+            closeNav();
+            document.getElementById("form-filter").style.display = "none";
+          } else {
+            openNav();
+          }
         }
       }
     }

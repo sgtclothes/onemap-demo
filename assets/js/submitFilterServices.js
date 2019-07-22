@@ -272,6 +272,8 @@ function submitFilterServices(convertData, map, convertCSV) {
       stat.push(c[0]);
     }
 
+    console.log(stat);
+
     if (stat.length > 1) {
       let val = "(";
       for (let k = 0; k < stat.length; k++) {
@@ -283,100 +285,8 @@ function submitFilterServices(convertData, map, convertCSV) {
       val += ")";
       value.push(val);
     } else {
-      if (stat !== []) value.push(stat[0]);
+      if (stat.length == 1) value.push(stat[0]);
     }
-
-    // if ($("#checkbox-available").prop("checked") == true) {
-    //   value.push("(r_k_property_availability = 'Available')");
-    // }
-
-    // if ($("#checkbox-sold-colliers").prop("checked") == true) {
-    //   value.push("(r_k_property_sold_by = 'Colliers')");
-    // }
-
-    // if ($("#checkbox-sold-others").prop("checked") == true) {
-    //   value.push("(r_k_property_sold_by = 'Others')");
-    // }
-
-    // if ($("#checkbox-valuation-kjpp").prop("checked") == true) {
-    //   value.push("(r_k_property_valuation = 'KJPP')");
-    // }
-
-    // if ($("#checkbox-valuation-others").prop("checked") == true) {
-    //   value.push("(r_k_property_valuation = 'Others')");
-    // }
-
-    // //Get value of land unit size and we register it on "value" array
-    // if (landMinSizeValue == "" && landMaxSizeValue !== "") {
-    //   value.push(
-    //     '(data[i][j].attributes["land-size"] == ' + landMaxSizeValue + ")"
-    //   );
-    // } else if (landMinSizeValue !== "" && landMaxSizeValue == "") {
-    //   value.push(
-    //     '(data[i][j].attributes["land-size"] == ' + landMinSizeValue + ")"
-    //   );
-    // }
-
-    // if (landMinSizeValue !== "" && landMaxSizeValue !== "") {
-    //   if (landMinSizeValue > landMaxSizeValue) {
-    //     let landPopupMinValid = $("#land-popup-alert-min-valid");
-    //     $(landPopupMinValid).addClass("show");
-    //     setTimeout(function() {
-    //       $(landPopupMinValid).removeClass("show");
-    //     }, 2000);
-    //   } else {
-    //     value.push(
-    //       '(data[i][j].attributes["land-size"] >= ' +
-    //         landMinSizeValue +
-    //         " && " +
-    //         'data[i][j].attributes["land-size"] <= ' +
-    //         landMaxSizeValue +
-    //         ")"
-    //     );
-    //   }
-    // }
-
-    // //Get land time period, both from and to must not be empty
-    // if (landFromTimePeriodValue !== "" && landToTimePeriodValue == "") {
-    //   let landPopupFromEmptyValue = $("#land-popup-alert-from-empty");
-    //   $(landPopupFromEmptyValue).addClass("show");
-    //   setTimeout(function() {
-    //     $(landPopupFromEmptyValue).removeClass("show");
-    //   }, 2000);
-    // } else if (landFromTimePeriodValue == "" && landToTimePeriodValue !== "") {
-    //   let landPopupToEmptyValue = $("#land-popup-alert-to-empty");
-    //   $(landPopupToEmptyValue).addClass("show");
-    //   setTimeout(function() {
-    //     $(landPopupToEmptyValue).removeClass("show");
-    //   }, 2000);
-    // }
-
-    // if (landFromTimePeriodValue !== "" && landToTimePeriodValue !== "") {
-    //   if (validateDate(landFromTimePeriodValue) == false) {
-    //     let landPopupFromValidValue = $("#land-popup-alert-from-valid");
-    //     $(landPopupFromValidValue).addClass("show");
-    //     setTimeout(function() {
-    //       $(landPopupFromValidValue).removeClass("show");
-    //     }, 2000);
-    //   } else if (validateDate(landToTimePeriodValue) == false) {
-    //     let landPopupToValidValue = $("#land-popup-alert-to-valid");
-    //     $(landPopupToValidValue).addClass("show");
-    //     setTimeout(function() {
-    //       $(landPopupToValidValue).removeClass("show");
-    //     }, 2000);
-    //   } else {
-    //     landFromTimePeriodValue = new Date(landFromTimePeriodValue);
-    //     landToTimePeriodValue = new Date(landToTimePeriodValue);
-    //     value.push(
-    //       '(new Date(data[i][j].attributes["land-time-period"]) >= ' +
-    //         landFromTimePeriodValue +
-    //         " && " +
-    //         'new Date(data[i][j].attributes["land-time-period"]) <= ' +
-    //         landToTimePeriodValue +
-    //         ")"
-    //     );
-    //   }
-    // }
 
     //We use for to adding value to query
     for (let i = 0; i < value.length; i++) {
