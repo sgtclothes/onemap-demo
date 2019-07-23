@@ -1,8 +1,24 @@
 function submitFilterServices(convertData, map, convertCSV) {
   $(document).delegate("#button-filter-property", "click", function() {
-    let colliersProperty = new ESRI.FeatureLayer(
-      "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/FeatureServer/0"
-    );
+    let colliersServicePopupTemplate = {
+      title: "Colliers Property",
+      content: [
+        {
+          type: "fields",
+          fieldInfos: [
+            {
+              fieldName: "buildingname",
+              label: "Building Name",
+              visible: true
+            }
+          ]
+        }
+      ]
+    };
+    let colliersProperty = new ESRI.FeatureLayer({
+      url:
+        "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/FeatureServer/0"
+    });
 
     let markerSymbol = new ESRI.SimpleMarkerSymbol({
       color: [240, 65, 65],
@@ -92,15 +108,15 @@ function submitFilterServices(convertData, map, convertCSV) {
     }
 
     //Get property time period, both from and to must not be empty
-    if (propertyFromTimePeriodValue !== "" && propertyToTimePeriodValue == "") {
+    if (propertyFromTimePeriodValue == "" && propertyToTimePeriodValue !== "") {
       let propertyPopupFromEmptyValue = $("#property-popup-alert-from-empty");
       $(propertyPopupFromEmptyValue).addClass("show");
       setTimeout(function() {
         $(propertyPopupFromEmptyValue).removeClass("show");
       }, 2000);
     } else if (
-      propertyFromTimePeriodValue == "" &&
-      propertyToTimePeriodValue !== ""
+      propertyFromTimePeriodValue !== "" &&
+      propertyToTimePeriodValue == ""
     ) {
       let propertyPopupToEmptyValue = $("#property-popup-alert-to-empty");
       $(propertyPopupToEmptyValue).addClass("show");
@@ -158,13 +174,13 @@ function submitFilterServices(convertData, map, convertCSV) {
       value.push("(r_k_l_sqha = " + landMinSizeValue + ")");
     }
     //Get land time period, both from and to must not be empty
-    if (landFromTimePeriodValue !== "" && landToTimePeriodValue == "") {
+    if (landFromTimePeriodValue == "" && landToTimePeriodValue !== "") {
       let landPopupFromEmptyValue = $("#land-popup-alert-from-empty");
       $(landPopupFromEmptyValue).addClass("show");
       setTimeout(function() {
         $(landPopupFromEmptyValue).removeClass("show");
       }, 2000);
-    } else if (landFromTimePeriodValue == "" && landToTimePeriodValue !== "") {
+    } else if (landFromTimePeriodValue !== "" && landToTimePeriodValue == "") {
       let landPopupToEmptyValue = $("#land-popup-alert-to-empty");
       $(landPopupToEmptyValue).addClass("show");
       setTimeout(function() {
@@ -310,25 +326,29 @@ function submitFilterServices(convertData, map, convertCSV) {
     });
 
     // view and print the number of results to the DOM
-    function displayResults(results, getDateOnly) {
+    function displayResults(results) {
       resultsLayer.removeAll();
-      var features = results.features.map(function(graphic) {
-        graphic.symbol = markerSymbol;
-        return graphic;
+      console.log(results.features)
+      results.features.forEach(function(feature) {
+        var g = new ESRI.Graphic({
+          geometry: feature.geometry,
+          attributes: feature.attributes,
+          symbol: {
+            type: "simple-marker",
+            color: [0, 0, 0],
+            outline: {
+              width: 2,
+              color: [0, 255, 255]
+            },
+            size: "20px"
+          },
+          popupTemplate: {
+            title: "Colliers Properties",
+            content: "{buildingname}"
+          }
+        });
+        resultsLayer.add(g);
       });
-
-      console.log(features);
-
-      let attributes = [];
-
-      for (let i in features) {
-        attributes.push(features[i].attributes);
-      }
-
-      convertCSV.processCSVData(
-        convertData.getRowofTextArray(attributes),
-        "custom"
-      );
     }
   });
 }
