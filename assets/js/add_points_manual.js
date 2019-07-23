@@ -17,7 +17,7 @@ function createMarker(GIS,map){
                 lonMessage = 'Longitude must be a number and between -180 to 180';
                 $(".lon-message").text(lonMessage);
             }
-            if (latMessage == "Lat Ok" && "Lon Ok") {
+            if (latMessage == "Lat Ok" && lonMessage == "Lon Ok") {
                 $('#modal_form_input_point').modal('toggle')
                 let pointing = new GIS.Buffer.Pointing(map.ObjMapView,$latitude,$longitude)
                 pointing.render()
