@@ -926,7 +926,6 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/add_points_manual.js"></script>
     <script src="assets/js/create_analysis.js"></script>
     <script src="assets/js/from_list_csv.js"></script>
-    <script src="assets/js/analysis_poi.js"></script>
     <script src="assets/js/submitFilterLocal.js"></script>
     <script src="assets/js/submitFilterServices.js"></script>
     <script src="assets/js/showCurrentDepartment.js"></script>
