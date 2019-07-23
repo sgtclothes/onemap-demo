@@ -9,7 +9,7 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                <table id="datatable-sorting" class="table datatable-sorting">
+                <table id="datatable-sorting" class="table table-striped table-hover datatable-sorting">
                     <thead>
                         <tr>
                             <th>#</th>

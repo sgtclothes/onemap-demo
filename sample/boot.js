@@ -392,22 +392,72 @@ function boot(GIS) {
           return Number(n) === n && n % 1 !== 0;
         }
         let attr = map.ObjMapView.popup.selectedFeature.attributes;
+        console.log(attr)
         var lat;
         var lon;
-        for (let key in attr) {
-          if (isFloat(attr[key])) {
-            if (
-              typeof attr[key] === "number" &&
-              attr[key] >= -90 &&
-              attr[key] <= 90
-            ) {
-              lat = attr[key];
-            } else if (
-              typeof attr[key] === "number" &&
-              attr[key] >= -180 &&
-              attr[key] <= 180
-            ) {
-              lon = attr[key];
+        if (
+          attr.hasOwnProperty('lat') || 
+          attr.hasOwnProperty('lon') ||
+          attr.hasOwnProperty('long') ||
+          attr.hasOwnProperty('latitude') ||
+          attr.hasOwnProperty('longitude') ||
+          attr.hasOwnProperty('Latitude') ||
+          attr.hasOwnProperty('Longitude') ||
+          attr.hasOwnProperty('LATITUDE') ||
+          attr.hasOwnProperty('LONGITUDE') ||
+          attr.hasOwnProperty('LAT') || 
+          attr.hasOwnProperty('LON')
+          ) {
+          if (attr.hasOwnProperty('lat')) {
+            lat = attr.lat
+          }
+          if (attr.hasOwnProperty('lon')) {
+            lon = attr.lon
+          }
+          if (attr.hasOwnProperty('long')) {
+            lon = attr.long
+          }
+          if (attr.hasOwnProperty('latitude')) {
+            lat = attr.latitude
+          }
+          if (attr.hasOwnProperty('longitude')) {
+            lon = attr.longitude
+          }
+          if (attr.hasOwnProperty('Latitude')) {
+            lat = attr.Latitude
+          }
+          if (attr.hasOwnProperty('Longitude')) {
+            lon = attr.Longitude
+          }
+          if (attr.hasOwnProperty('LATITUDE')) {
+            lat = attr.LATITUDE
+          }
+          if (attr.hasOwnProperty('LONGITUDE')) {
+            lon = attr.LONGITUDE
+          }
+          if (attr.hasOwnProperty('LAT')) {
+            lat = attr.LAT
+          }
+          if (attr.hasOwnProperty('LON')) {
+            lon = attr.LON
+          }
+        }
+        else {
+          for (let key in attr) {
+            if (isFloat(attr[key])) {
+              if (
+                typeof attr[key] === "number" &&
+                attr[key] >= -90 &&
+                attr[key] <= 90
+              ) {
+                lat = attr[key];
+              } else if (
+                typeof attr[key] === "number" &&
+                attr[key] >= -180 &&
+                attr[key] <= 180
+              ) {
+                lon = attr[key];
+              }
             }
           }
         }

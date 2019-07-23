@@ -229,8 +229,7 @@ function analysispoi (GIS,map){
     
                                                 $('#analysisDiv').css('display', 'block')
                                                 $('#contentAnalysisDiv').css({
-                                                    "overflow-x": "hidden",
-                                                    "margin-bottom": "-20px",
+                                                    "overflow-x": "hidden"
                                                 })
     
                                                 let row = "<tr><td>"+title+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
@@ -306,8 +305,7 @@ function analysispoi (GIS,map){
     
                                                 $('#analysisDiv').css('display', 'block')
                                                 $('#contentAnalysisDiv').css({
-                                                    "overflow-x": "hidden",
-                                                    "margin-bottom": "-20px",
+                                                    "overflow-x": "hidden"
                                                 })
     
                                                 let row = "<tr><td>"+titleLayer+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
@@ -365,8 +363,7 @@ function analysispoi (GIS,map){
     
                                                 $('#analysisDiv').css('display', 'block')
                                                 $('#contentAnalysisDiv').css({
-                                                    "overflow-x": "hidden",
-                                                    "margin-bottom": "-20px",
+                                                    "overflow-x": "hidden"
                                                 })
     
                                                 let row = "<tr><td>"+title+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
@@ -429,8 +426,7 @@ function analysispoi (GIS,map){
     
                                                 $('#analysisDiv').css('display', 'block')
                                                 $('#contentAnalysisDiv').css({
-                                                    "overflow-x": "hidden",
-                                                    "margin-bottom": "-20px",
+                                                    "overflow-x": "hidden"
                                                 })
     
                                                 let row = "<tr><td>"+titleLayer+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"

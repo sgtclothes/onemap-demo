@@ -930,7 +930,7 @@ if (!isset($_SESSION['auth'])) {
                 "bLengthChange": false,
                 "bFilter": true,
                 "bInfo": false,
-                "pageLength": 2,
+                "pageLength": 5,
                 "pagingType": "numbers"
             });
         });
