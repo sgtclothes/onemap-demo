@@ -139,6 +139,10 @@ div.inline {
   background-color: #fff;
 }
 
+.radio-inline {
+  padding-right: 20px;
+}
+
 .chkLabel {
   font-size: 12px;
 }
@@ -366,10 +370,10 @@ button.active {
 /* Title property */
 
 .title-property {
-  color: #5b5959;
+  color: #ffffff;
   width: 100%;
   height: 20px;
-  background-color: #f7faff;
+  background-color: #6496e8;
 }
 
 .title-property p {
@@ -403,6 +407,17 @@ td.table-property {
   font-size: 11px;
 }
 
+.table-property-bordered {
+  border: 1px solid black;
+}
+
+.table-property-bordered tr {
+  border: 1px solid black;
+}
+
+.table-property-bordered td {
+  border: 1px solid black;
+}
 /* table,
 tr,
 td {
@@ -411,7 +426,7 @@ td {
 
 td.property-item {
   width: 80px;
-  height:26px;
+  height: 26px;
 }
 
 .table-property.button-filter-table {

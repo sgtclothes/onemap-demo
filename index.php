@@ -51,7 +51,7 @@ if (!isset($_SESSION['auth'])) {
                     columns: 3,
                     placeholder: 'Select Property',
                     search: true,
-                    maxPlaceholderOpts: 3,
+                    maxPlaceholderOpts: 2,
                     searchOptions: {
                         'default': 'Search Property'
                     },
@@ -310,12 +310,31 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td style="height:26px;">
                                         <div class="title-property">
-                                            <p><b>PROPERTY INFO</b></p>
+                                            <p><b>BUILDING INFO</b></p>
                                         </div>
                                     </td>
                                 </tr>
                             </table>
                             <table class="table-property">
+                                <tr>
+                                    <td class="property-item"><b>Property Type</b></td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="padding-left:5px;">
+                                            <select id="property-type-value" name="property-type" multiple="multiple" class="3col active">
+                                                <option value="Office">Office</option>
+                                                <option value="Industrial">Industrial</option>
+                                                <option value="Ruko">Ruko</option>
+                                                <option value="Shopping Center">Shopping Center</option>
+                                                <option value="Apartment">Apartment</option>
+                                                <option value="House">House</option>
+                                                <option value="Others">Others</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td class="property-item">
                                         <div><b>Strata</b></div>
@@ -334,86 +353,78 @@ if (!isset($_SESSION['auth'])) {
                                         </div>
                                     </td>
                                 </tr>
+                            </table>
+                            <table class="table-property table-property-bordered">
                                 <tr>
-                                    <td class="property-item"><b>Property Type</b></td>
-
+                                    <td style="height:26px;">
+                                        <div class="title-property">
+                                            <p><b>LAND INFO</b></p>
+                                        </div>
+                                    </td>
                                 </tr>
+                            </table>
+                            <table class="table-property table-property-bordered">
                                 <tr>
-                                    <td>
-                                        <div style="padding-left:5px;">
-                                            <select id="property-type-value" name="property-type" multiple="multiple" class="3col active">
-                                                <option value="Land">Land</option>
-                                                <option value="Apartment">Apartment</option>
-                                                <option value="House">House</option>
-                                                <option value="Office">Office</option>
-                                                <option value="Ruko">Ruko</option>
-                                                <option value="Shopping-center">Shopping Center</option>
-                                                <option value="Warehouse">Warehouse</option>
-                                                <option value="Others">Others</option>
-                                            </select>
+                                    <td style="height:26px; width:90px;">
+                                        <div style="width:100%">
+                                            <p><b>Description</b></p>
+                                        </div>
+                                    </td>
+                                    <td style="height:26px;">
+                                        <div style="width:100%; text-align:center;">
+                                            <p><b>Min</b></p>
+                                        </div>
+                                    </td>
+                                    <td style="height:26px;">
+                                        <div style="width:100%; text-align:center;">
+                                            <p><b>Max</b></p>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="property-item"><b>Size</b></td>
-
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td style="padding-left:5px; width:38.45px;">Min</td>
-                                                <td style="width:70px;">
-                                                    <div class="popup-require">
-                                                        <input style="width:100%; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="property-min-size-value" />
-                                                        <span class="popuptext" id="property-popup-alert-min-empty">Please input min value!</span>
-                                                        <span class="popuptext" id="property-popup-alert-min-valid">Please input valid min value!</span>
-                                                    </div>
-                                                </td>
-                                                <td style="padding-left:5px; width:38.45px;">Max</td>
-                                                <td style="width:70px;">
-                                                    <div class="popup-require">
-                                                        <input style="width:100%; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="property-max-size-value" />
-                                                        <span class="popuptext" id="property-popup-alert-max-empty">Please input max value!</span>
-                                                        <span class="popuptext" id="property-popup-alert-max-valid">Please input valid max value!</span>
-                                                    </div>
-                                                </td>
-                                                <td style="width:50px">
-                                                    <div class="unit-input">
-                                                        <select style="padding-left:10px; height:22.9167px" id="property-unit-size-value">
-                                                            <option value="meter-square">m&sup2;</option>
-                                                            <option value="hectare">ha</option>
-                                                            <option value="feet">ft</option>
-                                                        </select>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                    <td style="height:26px;">
+                                        <div style="width:100%">
+                                            <p><b>m<sup>2</sup>/sqm</b></p>
+                                        </div>
+                                    </td>
+                                    <td style="height:26px; text-align:center;">
+                                        <div class="popup-require">
+                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="land-min-size-value" />
+                                            <span class="popuptext" id="land-popup-alert-min-empty">Please input min value!</span>
+                                            <span class="popuptext" id="land-popup-alert-min-valid">Please input valid min value!</span>
+                                        </div>
+                                    </td>
+                                    <td style="height:26px; text-align:center;">
+                                        <div class="popup-require">
+                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="land-max-size-value" />
+                                            <div style="z-index: 1000">
+                                                <span class="popuptext" id="land-popup-alert-max-empty">Please input max value!</span>
+                                                <span class="popuptext" id="land-popup-alert-max-valid">Please input valid max value!</span>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="property-item"><b>Time Period</b></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td style="padding-left:5px; width:38.45px;">From</td>
-                                                <td style="width:70px;">
-                                                    <div class="popup-require">
-                                                        <input style="width:100%; border-radius:10px; text-align:center;" type="text" id="property-from-time-period-value" />
-                                                        <span class="popuptext" id="property-popup-alert-from-empty">Please input from value!</span>
-                                                    </div>
-                                                </td>
-                                                <td style="padding-left:5px; width:38.45px; border-radius:10px;">To</td>
-                                                <td style="width:70px;">
-                                                    <div class="popup-require">
-                                                        <input style="width:100%; border-radius:10px;" type="text" id="property-to-time-period-value" />
-                                                        <span class="popuptext" id="property-popup-alert-to-empty">Please input to value!</span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                    <td style="height:26px; width:90px;">
+                                        <div style="width:100%">
+                                            <p><b>unit/room</b></p>
+                                        </div>
+                                    </td>
+                                    <td style="height:26px; text-align:center;">
+                                        <div class="popup-require">
+                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="land-min-size-value" />
+                                            <span class="popuptext" id="land-popup-alert-min-empty">Please input min value!</span>
+                                            <span class="popuptext" id="land-popup-alert-min-valid">Please input valid min value!</span>
+                                        </div>
+                                    </td>
+                                    <td style="height:26px; text-align:center;">
+                                        <div class="popup-require">
+                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="land-max-size-value" />
+                                            <div style="z-index: 1000">
+                                                <span class="popuptext" id="land-popup-alert-max-empty">Please input max value!</span>
+                                                <span class="popuptext" id="land-popup-alert-max-valid">Please input valid max value!</span>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
@@ -421,77 +432,54 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td style="height:26px;">
                                         <div class="title-property">
-                                            <p><b>Land Info</b></p>
+                                            <p><b>MARKETING SCHEME</b></p>
                                         </div>
                                     </td>
                                 </tr>
                             </table>
                             <table class="table-property">
                                 <tr>
-                                    <td class="property-item"><b>Size</b></td>
-
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td style="padding-left:5px; width:38.45px;">Min</td>
-                                                <td style="width:70px;">
-                                                    <div class="popup-require">
-                                                        <input style="width:100%; border-radius:10px; text-align:center; margin-right:20px;" name="popup-input-min" type="text" id="land-min-size-value" />
-                                                        <span class="popuptext" id="land-popup-alert-min-empty">Please input min value!</span>
-                                                        <span class="popuptext" id="land-popup-alert-min-valid">Please input valid min value!</span>
-                                                    </div>
-                                                </td>
-                                                <td style="padding-left:5px; width:38.45px;">Max</td>
-                                                <td style="width:70px;">
-                                                    <div class="popup-require">
-                                                        <input style="width:100%; border-radius:10px; text-align:center; margin-right:20px;" name="popup-input-max" type="text" id="land-max-size-value" />
-                                                        <div style="z-index: 1000">
-                                                            <span class="popuptext" id="land-popup-alert-max-empty">Please input max value!</span>
-                                                            <span class="popuptext" id="land-popup-alert-max-valid">Please input valid max value!</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td style="width:50px">
-                                                    <div class="unit-input">
-                                                        <select style="padding-left:10px; height:22.9167px" id="land-unit-size-value">
-                                                            <option value="meter-square">m&sup2;</option>
-                                                            <option value="hectare">ha</option>
-                                                            <option value="feet">ft</option>
-                                                        </select>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                    <td style="height:26px;">
+                                        <div style="padding-top:5px; padding-left:5px; width: 100%; height: 100%; overflow:hidden;" id="strata-value" value="yes">
+                                            <label class="radio-inline">
+                                                <input type="radio" name="marketing-scheme-input" value="lease" /> Lease
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="marketing-scheme-input" value="sale" /> Sale
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="marketing-scheme-input" value="lease-and-sale" /> Lease and Sale
+                                            </label>
+                                        </div>
                                     </td>
                                 </tr>
+                            </table>
+                            <table class="table-property">
                                 <tr>
-                                    <td class="property-item"><b>Time Period</b></td>
-
+                                    <td style="height:26px;">
+                                        <div class="title-property">
+                                            <p><b>TIME PERIOD</b></p>
+                                        </div>
+                                    </td>
                                 </tr>
+                            </table>
+                            <table class="table-property">
                                 <tr>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td style="padding-left:5px; width:38.45px;">From</td>
-                                                <td style="width:70px;">
-                                                    <div class="popup-require">
-                                                        <input style="width:100%; margin-right:20px; border-radius:10px; text-align:center;" type="text" id="land-from-time-period-value" />
-                                                        <span class="popuptext" id="land-popup-alert-from-empty">Please input from value!</span>
-                                                        <span class="popuptext" id="land-popup-alert-from-valid">Please input valid from value!</span>
-                                                    </div>
-                                                </td>
-                                                <td style="padding-left:5px; width:38.45px;">To</td>
-                                                <td style="width:70px;">
-                                                    <div class="popup-require">
-                                                        <input style="width:100%; margin-right:20px; border-radius:10px; text-align:center;" type="text" id="land-to-time-period-value" />
-                                                        <span class="popuptext" id="land-popup-alert-to-empty">Please input to value!</span>
-                                                        <span class="popuptext" id="land-popup-alert-to-valid">Please input valid to value!</span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                    <td style="width:38.45px;">From</td>
+                                    <td style="width:70px;">
+                                        <div class="popup-require">
+                                            <input style="width:100%; border-radius:10px; text-align:center;" type="text" id="land-from-time-period-value" />
+                                            <span class="popuptext" id="land-popup-alert-from-empty">Please input from value!</span>
+                                            <span class="popuptext" id="land-popup-alert-from-valid">Please input valid from value!</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: center; width:38.45px;">To</td>
+                                    <td style="width:70px;">
+                                        <div class="popup-require">
+                                            <input style="width:100%; border-radius:10px; text-align:center;" type="text" id="land-to-time-period-value" />
+                                            <span class="popuptext" id="land-popup-alert-to-empty">Please input to value!</span>
+                                            <span class="popuptext" id="land-popup-alert-to-valid">Please input valid to value!</span>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
@@ -508,7 +496,7 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td>
                                         <div class="sub-property-status">
-                                            <p><b>Property Available</b></p>
+                                            <p><b>Property Available for Sale</b></p>
                                         </div>
                                     </td>
                                 </tr>
@@ -517,7 +505,7 @@ if (!isset($_SESSION['auth'])) {
                                         <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                             <input id="checkbox-listing" class="property-status-available styled" type="checkbox" name="property-available" value="listing">
                                             <label for="checkbox-listing">
-                                                Listing
+                                                Land with Agreement
                                             </label>
                                         </div>
                                     </td>
@@ -532,64 +520,12 @@ if (!isset($_SESSION['auth'])) {
                                         </div>
                                     </td>
                                 </tr>
+                            </table>
+                            <table class="table-property">
                                 <tr>
-                                    <td>
-                                        <div class="sub-property-status">
-                                            <p><b>Property Sold</b></p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input id="checkbox-sold-colliers" class="property-status-sold styled" type="checkbox" name="colliers" value="colliers">
-                                            <label for="checkbox-sold-colliers">
-                                                Colliers
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input id="checkbox-sold-others" class="property-status-sold styled" type="checkbox" name="others" value="others">
-                                            <label for="checkbox-sold-others">
-                                                Others
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="sub-property-status">
-                                            <p><b>Property Advisory Work</b></p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="sub-property-status">
-                                            <p><b>Property Valuation</b></p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input id="checkbox-valuation-kjpp" class="property-status-valuation styled" type="checkbox" name="kjpp" value="kjpp">
-                                            <label for="checkbox-valuation-kjpp">
-                                                KJPP
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input id="checkbox-valuation-others" class="property-status-valuation styled" type="checkbox" name="others" value="others">
-                                            <label for="checkbox-valuation-others">
-                                                Others
-                                            </label>
+                                    <td style="height:26px;">
+                                        <div class="title-property">
+                                            <p><b>DEPARTMENT</b></p>
                                         </div>
                                     </td>
                                 </tr>
@@ -717,37 +653,55 @@ if (!isset($_SESSION['auth'])) {
                                     POI
                                 </label>
                             </div>
-                            <ul class="nested" style="display:none">
+                            <ul class="nested">
                                 <form id="all-poi">
                                     <li>
-                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree-layers"></i>
-                                        <input type="checkbox" value="16" name="tall-1-1" id="tall-1-1">
-                                        <label for="tall-1-1" class="custom-unchecked">Bank DKI</label>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input class="styled" type="checkbox" value="16" name="tall-1-1" id="tall-1-1">
+                                            <label for="tall-1-1">
+                                                Bank DKI
+                                            </label>
+                                        </div>
                                     </li>
                                     <li>
-                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree-layers"></i>
-                                        <input type="checkbox" value="27" name="tall-1-2" id="tall-1-2">
-                                        <label for="tall-1-2" class="custom-unchecked">Bank Mandiri</label>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input class="styled" type="checkbox" value="27" name="tall-1-2" id="tall-1-2">
+                                            <label for="tall-1-2">
+                                                Bank Mandiri
+                                            </label>
+                                        </div>
                                     </li>
                                     <li>
-                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree-layers"></i>
-                                        <input type="checkbox" value="48" name="tall-1-3" id="tall-1-3">
-                                        <label for="tall-1-3" class="custom-unchecked">Bank Sumut</label>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input class="styled" type="checkbox" value="48" name="tall-1-3" id="tall-1-3">
+                                            <label for="tall-1-3">
+                                                Bank Sumut
+                                            </label>
+                                        </div>
                                     </li>
                                     <li>
-                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree-layers"></i>
-                                        <input type="checkbox" value="4" name="tall-1-4" id="tall-1-4">
-                                        <label for="tall-1-4" class="custom-unchecked">Apotek K24</label>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input class="styled" type="checkbox" value="4" name="tall-1-4" id="tall-1-4">
+                                            <label for="tall-1-4">
+                                                Apotek K24
+                                            </label>
+                                        </div>
                                     </li>
                                     <li>
-                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree-layers"></i>
-                                        <input type="checkbox" value="5" name="tall-1-5" id="tall-1-5">
-                                        <label for="tall-1-5" class="custom-unchecked">Apotek Kimia Farma</label>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input class="styled" type="checkbox" value="5" name="tall-1-5" id="tall-1-5">
+                                            <label for="tall-1-5">
+                                                Apotek Kimia Farma
+                                            </label>
+                                        </div>
                                     </li>
                                     <li class="last">
-                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree-layers"></i>
-                                        <input type="checkbox" value="7" name="tall-1-6" id="tall-1-6">
-                                        <label for="tall-1-6" class="custom-unchecked">Apotek Watsons</label>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input class="styled" type="checkbox" value="7" name="tall-1-6" id="tall-1-6">
+                                            <label for="tall-1-6">
+                                                Apotek Watsons
+                                            </label>
+                                        </div>
                                     </li>
                                 </form>
                             </ul>
@@ -760,17 +714,23 @@ if (!isset($_SESSION['auth'])) {
                                     Infrastructure
                                 </label>
                             </div>
-                            <ul class="nested" style="display:none">
+                            <ul class="nested">
                                 <form id="all-infrastructure">
                                     <li>
-                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree-layers"></i>
-                                        <input type="checkbox" value="109" name="tall-2-1" id="tall-2-1">
-                                        <label for="tall-2-1" class="custom-unchecked">Masjid</label>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input class="styled" type="checkbox" value="109" name="tall-2-1" id="tall-2-1">
+                                            <label for="tall-2-1">
+                                                Masjid
+                                            </label>
+                                        </div>
                                     </li>
                                     <li>
-                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree-layers"></i>
-                                        <input type="checkbox" value="133" name="tall-2-2" id="tall-2-2">
-                                        <label for="tall-2-2" class="custom-unchecked">Industri Mikro</label>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input class="styled" type="checkbox" value="133" name="tall-2-2" id="tall-2-2">
+                                            <label for="tall-2-2">
+                                                Industri Mikro
+                                            </label>
+                                        </div>
                                     </li>
                                 </form>
                             </ul>
@@ -783,12 +743,15 @@ if (!isset($_SESSION['auth'])) {
                                     Demographic
                                 </label>
                             </div>
-                            <ul class="nested" style="display:none;">
+                            <ul class="nested">
                                 <form id="all-demographic">
                                     <li>
-                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree-layers"></i>
-                                        <input type="checkbox" value="4" name="tall-3-1" id="tall-3-1">
-                                        <label for="tall-3-1" class="custom-unchecked">Populasi</label>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input class="styled" type="checkbox" value="4" name="tall-3-1" id="tall-3-1">
+                                            <label for="tall-3-1">
+                                                Populasi
+                                            </label>
+                                        </div>
                                     </li>
                                 </form>
                             </ul>
