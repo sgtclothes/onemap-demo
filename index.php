@@ -605,7 +605,7 @@ if (!isset($_SESSION['auth'])) {
                                 </tr>
                             </table>
                         </li>
-                        <!-- <li>
+                        <li>
                             <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                 <input id="checkbox-colliers-property" class="styled" type="checkbox" name="colliers-property" value="colliers-property">
                                 <label for="checkbox-colliers-property">
@@ -709,7 +709,7 @@ if (!isset($_SESSION['auth'])) {
                                     </ul>
                                 </li>
                             </ul>
-                        </li> -->
+                        </li>
                         <li>
                             <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                 <input id="checkbox-poi" class="styled" type="checkbox" name="POI" value="POI">
