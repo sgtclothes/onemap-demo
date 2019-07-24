@@ -47,7 +47,7 @@ else {
                                 <th>Role</th>
                                 <th>Active</th>
                                 <?php 
-                                if ($_SESSION['role']=='System Administrator') {
+                                if ($_SESSION['role']=='System Administrator' || 'Admin') {
                                     echo '<th>Action</th>';
                                 }
                                 ?>
@@ -95,9 +95,11 @@ else {
                                     ?>
                                 </td>
                                 <?php 
-                                if ($_SESSION['role']=='System Administrator') {
-                                    if($user['role']!='System Administrator') {
-                                        echo '<td><button type=submit name=edit class=btn bg-teal-400 btn-icon rounded-round><i class=icon-pen2></i></button></td>';
+                                if ($_SESSION['role']=='System Administrator' || 'Admin') {
+                                    if($user['role']!='System Administrator' || 'Admin') {
+                                    ?>
+                                    <td><button type=submit name=edit class='btn btn-xs bg-teal-400 btn-icon rounded-round'><i class=icon-pen2></i></button><button type=submit name=del class='btn btn-xs bg-teal-400 btn-icon rounded-round' onclick="return confirm('Are you sure to delete this data?');"><i class=icon-cancel-circle2></i></button></td>
+                                    <?php
                                     }
                                     else {
                                         echo '<td></td>';
@@ -124,7 +126,8 @@ else {
 if (isset($_POST['update'])) {
     $id = $_POST ['id'];
     $active = $_POST['active'];
-    $update = mysqli_query($conn,"UPDATE users SET active='$active', updated_at = NOW() WHERE id = '$id'");
+    $name = $_POST['name'];
+    $update = mysqli_query($conn,"UPDATE users SET active='$active', name='$name', updated_at = NOW() WHERE id = '$id'");
     if ($update) {
         echo "<script>alert('Data succeed to save'); location.href='admin.php';</script>";
     }
@@ -132,5 +135,14 @@ if (isset($_POST['update'])) {
         echo "<script>alert('Data failed to save'); location.href='admin.php';</script>";
     }
   }
+}
+
+if (isset($_POST['del'])) {
+    $id = $_POST['id'];
+
+    $hasil = mysqli_query($conn,"delete from users where id='$id'");
+    if($hasil){
+        echo "<script>alert('Data has been deleted successfully'); location.href='';</script>";
+    }
 }
 ?>

@@ -830,8 +830,9 @@ if (!isset($_SESSION['auth'])) {
 
             <!-- Top bar for measurement -->
             <div id="topbar">
-                <button class="action-button esri-icon-minus" id="distanceButton" type="button" title="Measure distance between two or more points"></button>
-                <button class="action-button esri-icon-polygon" id="areaButton" type="button" title="Measure area"></button>
+                <button class="action-button esri-icon-minus" id="distanceButton" type="button" title="Drawing distance between two or more points"></button>
+                <button class="action-button esri-icon-polygon" id="areaButton" type="button" title="Drawing Polygon (Area)"></button>
+                <!-- <button class="action-button esri-icon-erase" id="deleteGraphics" type="button" title="Delete drawing results"></button> -->
             </div>
             <!-- End of Top bar for measurement -->
 

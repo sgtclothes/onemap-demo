@@ -27,7 +27,18 @@ function boot(GIS) {
     .addEventListener("click", function() {
       map.setMeasurementActiveWidget(null);
       if (!this.classList.contains("active")) {
+        let _this = this
         map.setMeasurementActiveWidget("distance");
+        setTimeout(function() {
+          let esriDirectLineClass = document.getElementsByClassName("esri-direct-line-measurement-3d")[0]
+          esriDirectLineClass.style.display = "none";
+        }, 800);
+        map.ObjMapView.on("double-click", function(event) {
+          document
+            .getElementById("mapDiv")
+            .setAttribute("style", "cursor:default;");
+          _this.classList.remove("active");
+        })
       } else {
         map.setMeasurementActiveWidget(null);
       }
@@ -36,11 +47,29 @@ function boot(GIS) {
   document.getElementById("areaButton").addEventListener("click", function() {
     map.setMeasurementActiveWidget(null);
     if (!this.classList.contains("active")) {
+      let _this = this
       map.setMeasurementActiveWidget("area");
-    } else {
+      setTimeout(function() {
+        let esriAreaClass = document.getElementsByClassName("esri-area-measurement-3d")[0]
+        esriAreaClass.style.display = "none";
+      }, 800);
+      map.ObjMapView.on("double-click", function(event) {
+        document
+          .getElementById("mapDiv")
+          .setAttribute("style", "cursor:default;");
+        _this.classList.remove("active");
+      })
+    }
+    else {
       map.setMeasurementActiveWidget(null);
     }
   });
+
+  // document
+  //   .getElementById("deleteGraphics")
+  //   .addEventListener("click", function() {
+  //     map.setMeasurementActiveWidget(null);
+  // })
 
   // Create a site
   map.ObjMapView.when(function() {
