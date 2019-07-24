@@ -70,7 +70,6 @@ function boot(GIS) {
   //   .addEventListener("click", function() {
   //     map.setMeasurementActiveWidget(null);
   // })
-
   // Create a site
   map.ObjMapView.when(function() {
     let createSiteDiv = document.getElementById("create-site-div");
@@ -83,6 +82,7 @@ function boot(GIS) {
       expanded: false
     });
 
+    createSite(createSiteExpand, GIS, map)
     map.ObjMapView.ui.add(createSiteExpand, config.Position[6]);
   });
 
@@ -423,7 +423,6 @@ function boot(GIS) {
           return Number(n) === n && n % 1 !== 0;
         }
         let attr = map.ObjMapView.popup.selectedFeature.attributes;
-        console.log(attr)
         var lat;
         var lon;
         if (
