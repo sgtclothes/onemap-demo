@@ -84,7 +84,7 @@ function createSite(createSiteExpand, GIS, map) {
 
                             $( "#lat-site" ).val('');
                             $( "#lon-site" ).val('');
-                        }, 1000);
+                        }, 800);
                     },
                     error: function() {
                         let message = 'Error';

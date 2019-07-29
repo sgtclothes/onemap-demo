@@ -5,7 +5,6 @@ if (!isset($_SESSION['auth'])) {
 } else {
     include 'config/conn.php';
     include 'content/layer.php';
-    include 'content/analysis/analysis_id.php';
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -143,6 +142,16 @@ if (!isset($_SESSION['auth'])) {
                 cursor: pointer;
                 overflow: hidden;
                 outline: none;
+                margin-bottom: 9px;
+            }
+
+            .link {
+                background:none!important;
+                border:none; 
+                padding:0!important;
+                color:#069;
+                text-decoration:underline;
+                cursor:pointer;
             }
         </style>
         <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">
@@ -155,7 +164,6 @@ if (!isset($_SESSION['auth'])) {
             let pass = "<?= $dbpass ?>"
             window.created_by = "<?= $_SESSION['auth']['id'] ?>"
             window.layerDataArr = '<?php print json_encode($layer_array) ?>'
-            window.analysis_id = '<?php print json_encode($an_id_array) ?>'
         </script>
 
         <script src="sample/boot.js"></script>
@@ -206,9 +214,9 @@ if (!isset($_SESSION['auth'])) {
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-left">
-                            <a id="instant-analysis" href="#" class="dropdown-item">Instant Analysis</a>
+                            <a id="instant-analysis" href="#" class="dropdown-item">Analysis</a>
                             <a style="display:none;" id="myModal" href="#" class="dropdown-item">Drag and Drop CSV</a>
-                            <a id="site-analysis" href="#" class="dropdown-item">Site Analysis</a>
+                            <a id="site-analysis" href="#" class="dropdown-item">Analysis List</a>
                         </div>
                     </li>
                     <!-- /analysis menu item navbar -->
@@ -292,8 +300,6 @@ if (!isset($_SESSION['auth'])) {
 
             <!-- SideNav Viewer -->
             <div id="myViewer" class="sidenav panel-left">
-
-
                 <div id="tree-viewer">
                     <table style="width:100%; margin-bottom:10px; margin-top:2px;">
                         <tr>
@@ -798,7 +804,7 @@ if (!isset($_SESSION['auth'])) {
             </div>
             <!-- End of the SideNav Viewer -->
 
-            <!-- SideNav Site Instant Analysis -->
+            <!-- SideNav Analysis -->
             <div id="mySiteAnalysis" class="sidenav panel-left">
                 <div class="inline">
                     <a href="javascript:void(0)" id="closeSiteAnalysis">&times;</a>
@@ -811,7 +817,16 @@ if (!isset($_SESSION['auth'])) {
                     </div>
                 </div>
             </div>
-            <!-- End of the SideNav Site Instant Analysis -->
+            <div id="myAnalysisPOI" class="sidenav panel-left">
+                <div class="inline">
+                    <a href="javascript:void(0)" id="closeAnalysisPOI">&times;</a>
+                </div>
+                <div>
+                    <p style="padding: 20px 8px 0px 90px;" class="title"></p>
+                    <div id="myAnaysisPOIList" class="table-responsive tbl"></div>
+                </div>
+            </div>
+            <!-- End of the SideNav Analysis -->
 
             <!-- Create Buffer Info -->
             <div id="info">
@@ -932,7 +947,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/showCurrentDepartment.js"></script>
     <script src="assets/js/inputFilter.js"></script>
     <script src="assets/js/selectUnitSize.js"></script>
-    <script src="content/analysis/analysis_poi.js"></script>
+    <script src="content/analysis/analysisPoi.js"></script>
     <script>
         $(document).ready(function() {
             $('#datatable-sorting').dataTable({
@@ -949,7 +964,6 @@ if (!isset($_SESSION['auth'])) {
             });
         });
     </script>
-
     </html>
 <?php
 }

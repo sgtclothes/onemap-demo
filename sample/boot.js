@@ -221,11 +221,11 @@ function boot(GIS) {
   createMarker(GIS, map);
   createMarkerFromSite(GIS, map);
   createMarkerFromCSV(GIS, map);
-  analysispoi(GIS, map);
+  analysisPoi(GIS, map);
   // end of create instant analysis
 
   //Define Buffers
-  bufferRadius(GIS, map, config);
+  bufferRadius(GIS, map);
   driveTime(GIS, map);
   driveTimeDistance(GIS, map);
 
@@ -259,7 +259,8 @@ function boot(GIS) {
       let mySidenav = document.getElementById("mySidenav");
       if (
         document.getElementById("myViewer").style.width > "0px" ||
-        document.getElementById("mySiteAnalysis").style.width > "0px"
+        document.getElementById("mySiteAnalysis").style.width > "0px" ||
+        document.getElementById("myAnalysisPOI").style.width > "0px"
       ) {
         if (mySidenav.style.width > "0px") {
           mySidenav.classList.add("panel-right");
@@ -310,8 +311,10 @@ function boot(GIS) {
         .children("#drag-csv")
         .remove();
       close_viewer();
-    } else if (document.getElementById("mySiteAnalysis").style.width > "0px") {
+    } else if (document.getElementById("mySiteAnalysis").style.width > "0px" ||
+    document.getElementById("myAnalysisPOI").style.width > "0px") {
       document.getElementById("mySiteAnalysis").style.width = "0";
+      document.getElementById("myAnalysisPOI").style.width = "0";
       open_viewer();
     } else {
       open_viewer();
@@ -366,7 +369,6 @@ function boot(GIS) {
         $("#mySidenav").css("width", "320px");
       }
     });
-
   //end of sidebar/sidenav
 
   document.getElementById("myModal").addEventListener("click", function() {
@@ -612,8 +614,6 @@ function boot(GIS) {
       domain: null
     }
   ];
-
-  console.log(localStorage.getItem("namefile-database"));
 
   let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
   // poi.run();
@@ -916,8 +916,6 @@ function boot(GIS) {
   $(document).delegate("#button-ok-property", "click", function() {
     $(".ms-options-wrap").removeClass("ms-active");
   });
-
-  console.log($(".esri-feature__field-header"))
 
   $(document).delegate(
     ".esri-popup__inline-actions-container",

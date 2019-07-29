@@ -217,6 +217,12 @@ else {
                             <span>Analysis</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="admin.php?page=site" class="nav-link">
+                            <i class="icon-pin-alt"></i>
+                            <span>Site</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- /main navigation -->
@@ -247,7 +253,7 @@ else {
                     break;
                 
                 case 'analysis':
-                    include "content/admin_analysis/analysis.php";
+                    include "content/admin/analysis.php";
                     break;
 
                 // case 'poi':
@@ -256,6 +262,10 @@ else {
                 
                 case 'add_user':
                     include "content/add_user.php";
+                    break;
+
+                case 'site':
+                    include "content/admin/site.php";
                     break;
                 
                 default:

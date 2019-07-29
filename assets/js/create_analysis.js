@@ -97,10 +97,13 @@ $(document).ready(function(){
                     $("#mySidenav").css('width','320px');
                     $("#mySiteAnalysis").css('width','320px');
                 }
-                let newTD = '<tr><td><input type=radio name=get-point-for-analysis checked data-latitude='+JSON.stringify(latitude)+' data-longitude='+JSON.stringify(longitude)+' data-options='+JSON.stringify(options)+' data-unit='+JSON.stringify(unit)+' data-distance='+JSON.stringify(distance)+' data-values='+JSON.stringify(values)+' data-source=create></td>';
-                newTD += "<td>"+name+"</td><td width=20px><button class='btn-modal-form-poi' type=button data-toggle=modal data-target=#modal_form_poi><i class=icon-pin-alt style='color: rgb(65, 105, 225);'><i></button></td></tr>";
+                let currentNum = $("#load-data-site-analysis").children().length+1
+                let newTD = "<tr class='selected'><form method='POST' id='form-analysis-"+currentNum+"'><td>"+currentNum+"</td><td>"+name+"</td>"
+                newTD += "<td width='20px'><input type=hidden name='variable-for-analysis' data-latitude='"+JSON.stringify(latitude)+"' data-longitude='"+JSON.stringify(longitude)+"' data-options='"+JSON.stringify(options)+"' data-unit='"+JSON.stringify(unit)+"' data-distance='"+JSON.stringify(distance)+"' data-values='"+JSON.stringify(values)+"'>"
+                newTD += "<input type='hidden' id='id-analysis-"+currentNum+"' name='id_analysis' value=0><input type='hidden' id='name-analysis-"+currentNum+"' name='name_analysis' value='"+name+"'>"
+                newTD += "<button type='submit' class='link'>view</button>&nbsp;<a>edit</a></td></form>"
 
-                $("#load-data-site-analysis").prepend(newTD);
+                $("#load-data-site-analysis").append(newTD);
                 $('#name_analysis').val('')
             },
             error: function (jqXHR, exception){
