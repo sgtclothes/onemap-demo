@@ -1035,6 +1035,8 @@ if (!isset($_SESSION['auth'])) {
             </div>
             <!-- End of the SideNav Viewer -->
 
+            <div id="legend-POI" class="legend-POI">TEST</div>
+
             <!-- SideNav Analysis -->
             <div id="mySiteAnalysis" class="sidenav panel-left">
                 <div class="inline">
