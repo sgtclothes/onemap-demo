@@ -35,9 +35,14 @@ function inputFilter() {
     return /^-?\d*[.,]?\d*$/.test(value);
   });
 
-  //We use this for min and max size value
-  $("#property-min-size-value, #property-max-size-value").inputFilter(function(value) {
+  //We use this for min and max size sqm value
+  $("#land-min-size-meter-value, #land-max-size-meter-value").inputFilter(function(value) {
     return /^-?\d*[.,]?\d*$/.test(value) && (value === "" || parseFloat(value) > 0);
+  });
+
+  //We use this for min and max size unit value
+  $("#land-min-size-unit-value, #land-max-size-unit-value").inputFilter(function(value) {
+    return /^\d*$/.test(value) && (value === "" || parseInt(value) > 0);
   });
 
   $("#currencyTextBox").inputFilter(function(value) {

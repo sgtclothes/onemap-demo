@@ -1,54 +1,60 @@
 function submitFilterServices(convertData, map, convertCSV) {
   $(document).delegate("#button-filter-property", "click", function() {
-    let colliersServicePopupTemplate = {
-      title: "Colliers Property",
-      content: [
-        {
-          type: "fields",
-          fieldInfos: [
-            {
-              fieldName: "buildingname",
-              label: "Building Name",
-              visible: true
-            }
-          ]
-        }
-      ]
-    };
     let colliersProperty = new ESRI.FeatureLayer({
       url:
-        "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/FeatureServer/0"
+        "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/MapServer/0"
     });
 
-    let markerSymbol = new ESRI.SimpleMarkerSymbol({
-      color: [240, 65, 65],
-      outline: {
-        color: [240, 65, 65],
-        width: 0.2
-      }
-    });
-
+    var lyrFields;
     var resultsLayer = new ESRI.GraphicsLayer();
+    resultsLayer.removeAll();
 
     map.ObjMap.add(resultsLayer);
     map.ObjMapView.graphics.removeAll();
-    //Define variables to get filter value
+
+    let property = [];
+
     let strataValue = $("input[name='strata-input']:checked").val();
-    let propertyTypeValue = $("#property-type-value").val();
-    let propertyUnitSizeValue = $("#property-unit-size-value").val();
-    let propertyMinSizeValue = $("#property-min-size-value").val();
-    let propertyMaxSizeValue = $("#property-max-size-value").val();
-    let propertyFromTimePeriodValue = $(
-      "#property-from-time-period-value"
+    let propertyTypeValue = $("input[name='select-property']");
+    for (let i = 0; i < propertyTypeValue.length; i++) {
+      if ($(propertyTypeValue[i]).prop("checked") == true) {
+        property.push($(propertyTypeValue[i]).val());
+      }
+    }
+    let landMinSizeMeterValue = $("#land-min-size-meter-value").val();
+    let landMaxSizeMeterValue = $("#land-max-size-meter-value").val();
+    let landMinSizeUnitValue = $("#land-min-size-unit-value").val();
+    let landMaxSizeUnitValue = $("#land-max-size-unit-value").val();
+    let marketingSchemeValue = $(
+      "input[name='marketing-scheme-input']:checked"
     ).val();
-    let propertyToTimePeriodValue = $("#property-to-time-period-value").val();
-    let landUnitSizeValue = $("#land-unit-size-value").val();
-    let landMinSizeValue = $("#land-min-size-value").val();
-    let landMaxSizeValue = $("#land-max-size-value").val();
-    let landFromTimePeriodValue = $("#land-from-time-period-value").val();
-    let landToTimePeriodValue = $("#land-to-time-period-value").val();
+    let TimePeriodFromValue = $("#time-period-from-value").val();
+    let TimePeriodToValue = $("#time-period-to-value").val();
+
+    let propertyAvailable = $(".property-available");
+    let arrPropAvailable = [];
+
+    let propertySold = $(".property-sold");
+    let arrPropSold = [];
+
+    let propertyValuation = $(".property-valuation");
+    let arrPropValuation = [];
+
     let queryWhere = "";
     let value = [];
+
+    // Get value of property type and we register it on "value" array
+    if (property.length > 0) {
+      let q = "(";
+      for (let i = 0; i < property.length; i++) {
+        q += "(propertytype = '" + property[i] + "')";
+        if (property[i + 1] !== undefined) {
+          q += " OR ";
+        }
+      }
+      q += ")";
+      value.push(q);
+    }
 
     //Strata will be automatically selected, so we get strata value
     //We set boolean value 0 = No, 1 = Yes
@@ -58,250 +64,118 @@ function submitFilterServices(convertData, map, convertCSV) {
       value.push("(r_k_strata = " + strataValue + ")");
     }
 
-    // Get value of property type and we register it on "value" array
-    if (propertyTypeValue !== null) {
-      let q = "(";
-      for (let i = 0; i < propertyTypeValue.length; i++) {
-        q += "(propertytype = '" + propertyTypeValue[i] + "')";
-        if (propertyTypeValue[i + 1] !== undefined) {
-          q += " OR ";
-        }
-      }
-      q += ")";
-      value.push(q);
+    //Get value of land size meters and we register it on "value" array
+    if (landMinSizeMeterValue !== "" && landMaxSizeMeterValue !== "") {
+      value.push(
+        "(r_k_l_sqm >= " +
+          landMinSizeMeterValue +
+          " AND r_k_l_sqm <= " +
+          landMaxSizeMeterValue +
+          ")"
+      );
+    } else if (landMinSizeMeterValue == "" && landMaxSizeMeterValue !== "") {
+      value.push("(r_k_l_sqm = " + landMaxSizeMeterValue + ")");
+    } else if (landMinSizeMeterValue !== "" && landMaxSizeMeterValue == "") {
+      value.push("(r_k_l_sqm = " + landMinSizeMeterValue + ")");
     }
 
-    //Get value of property unit size and we register it on "value" array
-    if (
-      propertyUnitSizeValue !== null &&
-      (propertyMinSizeValue !== "" && propertyMaxSizeValue !== "")
-    ) {
-      if (propertyUnitSizeValue == "meter-square") {
-        value.push(
-          "(r_k_p_sqm >= " +
-            propertyMinSizeValue +
-            " AND r_k_p_sqm <= " +
-            propertyMaxSizeValue +
-            ")"
-        );
-      } else if (propertyUnitSizeValue == "hectare") {
-        value.push(
-          "(r_k_p_sqha >= " +
-            propertyMinSizeValue +
-            " AND r_k_p_sqha <= " +
-            propertyMaxSizeValue +
-            ")"
-        );
-      } else if (propertyUnitSizeValue == "feet") {
-        value.push(
-          "(r_k_p_sqft >= " +
-            propertyMinSizeValue +
-            " AND r_k_p_sqft <= " +
-            propertyMaxSizeValue +
-            ")"
-        );
-      }
-    } else if (propertyMinSizeValue == "" && propertyMaxSizeValue !== "") {
-      value.push("(r_k_p_sqha = " + propertyMaxSizeValue + ")");
-    } else if (propertyMinSizeValue !== "" && propertyMaxSizeValue == "") {
-      value.push("(r_k_p_sqha = " + propertyMinSizeValue + ")");
+    //Get value of land size unit and we register it on "value" array
+    if (landMinSizeUnitValue !== "" && landMaxSizeUnitValue !== "") {
+      value.push(
+        "(r_k_l_sqm >= " +
+          landMinSizeUnitValue +
+          " AND r_k_l_sqm <= " +
+          landMaxSizeUnitValue +
+          ")"
+      );
+    } else if (landMinSizeUnitValue == "" && landMaxSizeUnitValue !== "") {
+      value.push("(r_k_l_sqm = " + landMaxSizeUnitValue + ")");
+    } else if (landMinSizeUnitValue !== "" && landMaxSizeUnitValue == "") {
+      value.push("(r_k_l_sqm = " + landMinSizeUnitValue + ")");
+    }
+
+    //Get value of marketing scheme and we register it on "value" array
+    if (marketingSchemeValue !== undefined) {
+      value.push("(r_k_mkscheme = " + marketingSchemeValue + ")");
     }
 
     //Get property time period, both from and to must not be empty
-    if (propertyFromTimePeriodValue == "" && propertyToTimePeriodValue !== "") {
-      let propertyPopupFromEmptyValue = $("#property-popup-alert-from-empty");
-      $(propertyPopupFromEmptyValue).addClass("show");
+    if (TimePeriodFromValue == "" && TimePeriodToValue !== "") {
+      let PopupFromEmptyValue = $("#popup-alert-from-empty");
+      $(PopupFromEmptyValue).addClass("show");
       setTimeout(function() {
-        $(propertyPopupFromEmptyValue).removeClass("show");
+        $(PopupFromEmptyValue).removeClass("show");
       }, 2000);
-    } else if (
-      propertyFromTimePeriodValue !== "" &&
-      propertyToTimePeriodValue == ""
-    ) {
-      let propertyPopupToEmptyValue = $("#property-popup-alert-to-empty");
-      $(propertyPopupToEmptyValue).addClass("show");
+    } else if (TimePeriodFromValue !== "" && TimePeriodToValue == "") {
+      let PopupToEmptyValue = $("#popup-alert-to-empty");
+      $(PopupToEmptyValue).addClass("show");
       setTimeout(function() {
-        $(propertyPopupToEmptyValue).removeClass("show");
+        $(PopupToEmptyValue).removeClass("show");
       }, 2000);
     }
 
-    if (
-      propertyFromTimePeriodValue !== "" &&
-      propertyToTimePeriodValue !== ""
-    ) {
+    if (TimePeriodFromValue !== "" && TimePeriodToValue !== "") {
       value.push(
         "(r_k_time_period between '" +
-          propertyFromTimePeriodValue +
+          TimePeriodFromValue +
           "' AND '" +
-          propertyToTimePeriodValue +
+          TimePeriodToValue +
           "')"
       );
     }
 
-    //Get value of land unit size and we register it on "value" array
-    if (
-      landUnitSizeValue !== null &&
-      (landMinSizeValue !== "" && landMaxSizeValue !== "")
-    ) {
-      if (landUnitSizeValue == "meter-square") {
-        value.push(
-          "(r_k_l_sqm >= " +
-            landMinSizeValue +
-            " AND r_k_l_sqm <= " +
-            landMaxSizeValue +
-            ")"
-        );
-      } else if (landUnitSizeValue == "hectare") {
-        value.push(
-          "(r_k_l_sqha >= " +
-            landMinSizeValue +
-            " AND r_k_l_sqha <= " +
-            landMaxSizeValue +
-            ")"
-        );
-      } else if (landUnitSizeValue == "feet") {
-        value.push(
-          "(r_k_l_sqft >= " +
-            landMinSizeValue +
-            " AND r_k_l_sqft <= " +
-            landMaxSizeValue +
-            ")"
+    //Get property available
+    for (let i = 0; i < propertyAvailable.length; i++) {
+      if ($(propertyAvailable[i]).prop("checked") == true) {
+        arrPropAvailable.push(
+          "(r_k_p_available = '" + $(propertyAvailable[i]).val() + "')"
         );
       }
-    } else if (landMinSizeValue == "" && landMaxSizeValue !== "") {
-      value.push("(r_k_l_sqha = " + landMaxSizeValue + ")");
-    } else if (landMinSizeValue !== "" && landMaxSizeValue == "") {
-      value.push("(r_k_l_sqha = " + landMinSizeValue + ")");
-    }
-    //Get land time period, both from and to must not be empty
-    if (landFromTimePeriodValue == "" && landToTimePeriodValue !== "") {
-      let landPopupFromEmptyValue = $("#land-popup-alert-from-empty");
-      $(landPopupFromEmptyValue).addClass("show");
-      setTimeout(function() {
-        $(landPopupFromEmptyValue).removeClass("show");
-      }, 2000);
-    } else if (landFromTimePeriodValue !== "" && landToTimePeriodValue == "") {
-      let landPopupToEmptyValue = $("#land-popup-alert-to-empty");
-      $(landPopupToEmptyValue).addClass("show");
-      setTimeout(function() {
-        $(landPopupToEmptyValue).removeClass("show");
-      }, 2000);
     }
 
-    if (landFromTimePeriodValue !== "" && landToTimePeriodValue !== "") {
-      value.push(
-        "(r_k_l_time_period between '" +
-          landFromTimePeriodValue +
-          "' AND '" +
-          landToTimePeriodValue +
-          "')"
-      );
+    var queryAvailable = "";
+    if (arrPropAvailable.length > 1) {
+      queryAvailable =
+        "(" + arrPropAvailable[0] + " OR " + arrPropAvailable[1] + ")";
+      value.push(queryAvailable);
+    } else if (arrPropAvailable.length == 1) {
+      queryAvailable = arrPropAvailable[0];
+      value.push(queryAvailable);
     }
 
-    let checkboxStatusAvailable = $(".property-status-available");
-    let checkboxStatusSold = $(".property-status-sold");
-    let checkboxStatusValuation = $(".property-status-valuation");
-
-    let a = [];
-    let b = [];
-    let c = [];
-
-    let headAvailability = [
-      "r_k_property_availability",
-      "r_k_property_availability"
-    ];
-    let headSold = ["r_k_property_sold_by", "r_k_property_sold_by"];
-    let headValuation = ["r_k_property_valuation", "r_k_property_valuation"];
-
-    let listAvailable = ["Listing", "Available"];
-    let listSold = ["Colliers", "Others"];
-    let listValuation = ["KJPP", "Others"];
-
-    for (let i = 0; i < checkboxStatusAvailable.length; i++) {
-      if ($(checkboxStatusAvailable[i]).prop("checked") == true) {
-        a.push("(" + headAvailability[i] + " = '" + listAvailable[i] + "')");
+    //Get property sold
+    for (let i = 0; i < propertySold.length; i++) {
+      if ($(propertySold[i]).prop("checked") == true) {
+        arrPropSold.push("(r_k_p_sold = '" + $(propertySold[i]).val() + "')");
       }
     }
 
-    console.log(a);
+    var querySold = "";
+    if (arrPropSold.length > 1) {
+      querySold = "(" + arrPropSold[0] + " OR " + arrPropSold[1] + ")";
+      value.push(querySold);
+    } else if (arrPropSold.length == 1) {
+      querySold = arrPropSold[0];
+      value.push(querySold);
+    }
 
-    for (let i = 0; i < checkboxStatusSold.length; i++) {
-      if ($(checkboxStatusSold[i]).prop("checked") == true) {
-        b.push("(" + headSold[i] + " = '" + listSold[i] + "')");
+    //Get property valuation
+    for (let i = 0; i < propertyValuation.length; i++) {
+      if ($(propertyValuation[i]).prop("checked") == true) {
+        arrPropValuation.push(
+          "(r_k_p_valuation = '" + $(propertyValuation[i]).val() + "')"
+        );
       }
     }
 
-    console.log(b);
-
-    for (let i = 0; i < checkboxStatusValuation.length; i++) {
-      if ($(checkboxStatusValuation[i]).prop("checked") == true) {
-        c.push("(" + headValuation[i] + " = '" + listValuation[i] + "')");
-      }
-    }
-
-    console.log(c);
-
-    let stat = [];
-
-    if (a.length > 1) {
-      let valA = "(";
-      for (let j = 0; j < a.length; j++) {
-        valA += a[j];
-        console.log(a[j + 1]);
-        if (a[j + 1] !== undefined) {
-          valA += " OR ";
-        }
-      }
-      valA += ")";
-      stat.push(valA);
-    } else if (a.length == 1) {
-      stat.push(a[0]);
-    }
-
-    if (b.length > 1) {
-      let valB = "(";
-      for (let j = 0; j < b.length; j++) {
-        valB += b[j];
-        console.log(b[j + 1]);
-        if (b[j + 1] !== undefined) {
-          valB += " OR ";
-        }
-      }
-      valB += ")";
-      stat.push(valB);
-    } else if (b.length == 1) {
-      stat.push(b[0]);
-    }
-
-    if (c.length > 1) {
-      let valC = "(";
-      for (let j = 0; j < c.length; j++) {
-        valC += c[j];
-        console.log(c[j + 1]);
-        if (c[j + 1] !== undefined) {
-          valC += " OR ";
-        }
-      }
-      valC += ")";
-      stat.push(valC);
-    } else if (c.length == 1) {
-      stat.push(c[0]);
-    }
-
-    console.log(stat);
-
-    if (stat.length > 1) {
-      let val = "(";
-      for (let k = 0; k < stat.length; k++) {
-        val += stat[k];
-        if (stat[k + 1] !== undefined) {
-          val += " AND ";
-        }
-      }
-      val += ")";
-      value.push(val);
-    } else {
-      if (stat.length == 1) value.push(stat[0]);
+    var queryValuation = "";
+    if (arrPropValuation.length > 1) {
+      queryValuation =
+        "(" + arrPropValuation[0] + " OR " + arrPropValuation[1] + ")";
+      value.push(queryValuation);
+    } else if (arrPropValuation.length == 1) {
+      queryValuation = arrPropValuation[0];
+      value.push(queryValuation);
     }
 
     //We use for to adding value to query
@@ -313,6 +187,32 @@ function submitFilterServices(convertData, map, convertCSV) {
     }
 
     console.log(queryWhere);
+
+    var layersRequest = {
+      query: {
+        f: "json"
+      },
+      responseType: "json"
+    };
+
+    EsriRequest(
+      "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/MapServer/0",
+      layersRequest
+    ).then(function(response) {
+      console.log("response", response);
+      lyrFields = response.data.fields;
+    });
+
+    function getFldAlias(fieldName) {
+      var retVal = "";
+      arrayUtils.forEach(lyrFields, function(item) {
+        if (item.name === fieldName) {
+          retVal = item.alias;
+          return true;
+        }
+      });
+      return retVal;
+    }
 
     let query = new ESRI.Query();
     query.returnGeometry = true;
@@ -327,72 +227,72 @@ function submitFilterServices(convertData, map, convertCSV) {
 
     // view and print the number of results to the DOM
     function displayResults(results) {
-      resultsLayer.removeAll();
-      console.log(results.features)
-      results.features.forEach(function(feature) {
-        var g = new ESRI.Graphic({
-          geometry: feature.geometry,
-          attributes: feature.attributes,
-          symbol: {
-            type: "simple-marker",
-            color: [0, 0, 0],
-            outline: {
-              width: 2,
-              color: [0, 255, 255]
-            },
-            size: "20px"
-          },
-          popupTemplate: {
-            title: "Colliers Properties",
-            content: "{buildingname}"
-          }
-        });
-        resultsLayer.add(g);
-      });
+      let chunkedResults = results.features;
+      let attributes = [];
+      let geometry = [];
+      let alias = {};
+
+      for (let i in chunkedResults) {
+        attributes.push(chunkedResults[i].attributes);
+        geometry.push(chunkedResults[i].geometry);
+      }
+
+      for (let j in chunkedResults[0].attributes) {
+        alias[j] = getFldAlias(j);
+      }
+
+      console.log(alias);
+
+      convertCSV.processCSVData(
+        convertData.getRowofTextArray(attributes),
+        "custom",
+        geometry,
+        alias
+      );
     }
   });
 }
 
-function validateDate(value) {
-  let dateformat = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
-  // Match the date format through regular expression
-  if (value.match(dateformat)) {
-    //Test which seperator is used '/' or '-'
-    let opera1 = value.split("/");
-    let opera2 = value.split("-");
-    lopera1 = opera1.length;
-    lopera2 = opera2.length;
-    // Extract the string into month, date and year
-    if (lopera1 > 1) {
-      var pdate = value.split("/");
-    } else if (lopera2 > 1) {
-      var pdate = value.split("-");
-    }
-    let dd = parseInt(pdate[0]);
-    let mm = parseInt(pdate[1]);
-    let yy = parseInt(pdate[2]);
-    // Create list of days of a month [assume there is no leap year by default]
-    let ListofDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    if (mm == 1 || mm > 2) {
-      if (dd > ListofDays[mm - 1]) {
-        return false;
-      }
-    }
-    if (mm == 2) {
-      let lyear = false;
-      if ((!(yy % 4) && yy % 100) || !(yy % 400)) {
-        lyear = true;
-      }
-      if (lyear == false && dd >= 29) {
-        return false;
-      }
-      if (lyear == true && dd > 29) {
-        return false;
-      }
-    } else {
-      return true;
-    }
-  } else {
-    return false;
-  }
-}
+// function validateDate(value) {
+//   let dateformat = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+//   // Match the date format through regular expression
+//   if (value.match(dateformat)) {
+//     //Test which seperator is used '/' or '-'
+//     let opera1 = value.split("/");
+//     let opera2 = value.split("-");
+//     lopera1 = opera1.length;
+//     lopera2 = opera2.length;
+//     // Extract the string into month, date and year
+//     if (lopera1 > 1) {
+//       var pdate = value.split("/");
+//     } else if (lopera2 > 1) {
+//       var pdate = value.split("-");
+//     }
+//     let dd = parseInt(pdate[0]);
+//     let mm = parseInt(pdate[1]);
+//     let yy = parseInt(pdate[2]);
+//     // Create list of days of a month [assume there is no leap year by default]
+//     let ListofDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+//     if (mm == 1 || mm > 2) {
+//       if (dd > ListofDays[mm - 1]) {
+//         return false;
+//       }
+//     }
+//     if (mm == 2) {
+//       let lyear = false;
+//       if ((!(yy % 4) && yy % 100) || !(yy % 400)) {
+//         lyear = true;
+//       }
+//       if (lyear == false && dd >= 29) {
+//         return false;
+//       }
+//       if (lyear == true && dd > 29) {
+//         return false;
+//       }
+//     } else {
+//       return true;
+//     }
+//   } else {
+//     return false;
+//   }
+// }

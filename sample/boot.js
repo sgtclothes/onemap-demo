@@ -376,8 +376,10 @@ function boot(GIS) {
   map.ObjMapView.popup.on("trigger-action", ({ action }) => {
     if (action.id === "point-this") {
       let mySidenav = document.getElementById("mySidenav");
-      if (document.getElementById("myViewer").style.width > "0px" 
-          || document.getElementById("mySiteAnalysis").style.width > "0px") {
+      if (
+        document.getElementById("myViewer").style.width > "0px" ||
+        document.getElementById("mySiteAnalysis").style.width > "0px"
+      ) {
         mySidenav.classList.add("panel-right");
         document.getElementById("main").style.marginRight = "320px";
         mySidenav.setAttribute("style", "width:320px;");
@@ -394,57 +396,56 @@ function boot(GIS) {
           return Number(n) === n && n % 1 !== 0;
         }
         let attr = map.ObjMapView.popup.selectedFeature.attributes;
-        console.log(attr)
+        console.log(attr);
         var lat;
         var lon;
         if (
-          attr.hasOwnProperty('lat') || 
-          attr.hasOwnProperty('lon') ||
-          attr.hasOwnProperty('long') ||
-          attr.hasOwnProperty('latitude') ||
-          attr.hasOwnProperty('longitude') ||
-          attr.hasOwnProperty('Latitude') ||
-          attr.hasOwnProperty('Longitude') ||
-          attr.hasOwnProperty('LATITUDE') ||
-          attr.hasOwnProperty('LONGITUDE') ||
-          attr.hasOwnProperty('LAT') || 
-          attr.hasOwnProperty('LON')
-          ) {
-          if (attr.hasOwnProperty('lat')) {
-            lat = attr.lat
+          attr.hasOwnProperty("lat") ||
+          attr.hasOwnProperty("lon") ||
+          attr.hasOwnProperty("long") ||
+          attr.hasOwnProperty("latitude") ||
+          attr.hasOwnProperty("longitude") ||
+          attr.hasOwnProperty("Latitude") ||
+          attr.hasOwnProperty("Longitude") ||
+          attr.hasOwnProperty("LATITUDE") ||
+          attr.hasOwnProperty("LONGITUDE") ||
+          attr.hasOwnProperty("LAT") ||
+          attr.hasOwnProperty("LON")
+        ) {
+          if (attr.hasOwnProperty("lat")) {
+            lat = attr.lat;
           }
-          if (attr.hasOwnProperty('lon')) {
-            lon = attr.lon
+          if (attr.hasOwnProperty("lon")) {
+            lon = attr.lon;
           }
-          if (attr.hasOwnProperty('long')) {
-            lon = attr.long
+          if (attr.hasOwnProperty("long")) {
+            lon = attr.long;
           }
-          if (attr.hasOwnProperty('latitude')) {
-            lat = attr.latitude
+          if (attr.hasOwnProperty("latitude")) {
+            lat = attr.latitude;
           }
-          if (attr.hasOwnProperty('longitude')) {
-            lon = attr.longitude
+          if (attr.hasOwnProperty("longitude")) {
+            lon = attr.longitude;
           }
-          if (attr.hasOwnProperty('Latitude')) {
-            lat = attr.Latitude
+          if (attr.hasOwnProperty("Latitude")) {
+            lat = attr.Latitude;
           }
-          if (attr.hasOwnProperty('Longitude')) {
-            lon = attr.Longitude
+          if (attr.hasOwnProperty("Longitude")) {
+            lon = attr.Longitude;
           }
-          if (attr.hasOwnProperty('LATITUDE')) {
-            lat = attr.LATITUDE
+          if (attr.hasOwnProperty("LATITUDE")) {
+            lat = attr.LATITUDE;
           }
-          if (attr.hasOwnProperty('LONGITUDE')) {
-            lon = attr.LONGITUDE
+          if (attr.hasOwnProperty("LONGITUDE")) {
+            lon = attr.LONGITUDE;
           }
-          if (attr.hasOwnProperty('LAT')) {
-            lat = attr.LAT
+          if (attr.hasOwnProperty("LAT")) {
+            lat = attr.LAT;
           }
-          if (attr.hasOwnProperty('LON')) {
-            lon = attr.LON
+          if (attr.hasOwnProperty("LON")) {
+            lon = attr.LON;
           }
-        }
-        else {
+        } else {
           for (let key in attr) {
             if (isFloat(attr[key])) {
               if (
@@ -714,9 +715,12 @@ function boot(GIS) {
   // ServiceLayerPOI(GIS, map, config);
   // ServiceLayerInfrastructure(GIS, map, config);
   // ServiceLayerDemographic(GIS, map, config);
-  submitFilterLocal(storeLocalStorage, map.ObjMapView, convertCSV);
+  // submitFilterLocal(storeLocalStorage, map.ObjMapView, convertCSV);
   submitFilterServices(storeLocalStorage, map, convertCSV);
   inputFilter(); //inputFilter to handle keyboard input specifications
+  multiSelect();
+  inputCheckboxPropertyStatus();
+  inputCheckboxServices(GIS, map);
   // selectUnitSize();
 
   $("input[name='popup-input-min']").click(function() {
@@ -746,7 +750,7 @@ function boot(GIS) {
   //Date Picker function to generating calendar and choose a date (Used for 'from' and 'to')
   $(function() {
     let dateFormat = "mm/dd/yy",
-      from = $("#property-from-time-period-value")
+      from = $("#time-period-from-value")
         .datepicker({
           defaultDate: "+1w",
           changeMonth: true,
@@ -755,7 +759,7 @@ function boot(GIS) {
         .on("change", function() {
           to.datepicker("option", "minDate", getDate(this));
         }),
-      to = $("#property-to-time-period-value")
+      to = $("#time-period-to-value")
         .datepicker({
           defaultDate: "+1w",
           changeMonth: true,
@@ -777,38 +781,6 @@ function boot(GIS) {
     }
   });
 
-  $(function() {
-    let dateFormat = "mm/dd/yy",
-      from = $("#land-from-time-period-value")
-        .datepicker({
-          defaultDate: "+1w",
-          changeMonth: true,
-          changeYear: true
-        })
-        .on("change", function() {
-          to.datepicker("option", "minDate", getDate(this));
-        }),
-      to = $("#land-to-time-period-value")
-        .datepicker({
-          defaultDate: "+1w",
-          changeMonth: true,
-          changeYear: true
-        })
-        .on("change", function() {
-          from.datepicker("option", "maxDate", getDate(this));
-        });
-
-    function getDate(element) {
-      var date;
-      try {
-        date = $.datepicker.parseDate(dateFormat, element.value);
-      } catch (error) {
-        date = null;
-      }
-      return date;
-    }
-  });
-
   // Generate link to Census tract details
   map.ObjMapView.when(function() {
     on(map.ObjMapView, "click", displayTractID);
@@ -816,18 +788,7 @@ function boot(GIS) {
 
   let colliersServicePopupTemplate = {
     title: "Colliers Property",
-    content: [
-      {
-        type: "fields",
-        fieldInfos: [
-          {
-            fieldName: "buildingname",
-            label: "Building Name",
-            visible: true
-          }
-        ]
-      }
-    ]
+    content: "{*}"
   };
 
   let colliersRenderer = {
@@ -889,7 +850,7 @@ function boot(GIS) {
     $(".ms-options-wrap").removeClass("ms-active");
   });
 
-  console.log($(".esri-feature__field-header"))
+  console.log($(".esri-feature__field-header"));
 
   $(document).delegate(
     ".esri-popup__inline-actions-container",
@@ -924,6 +885,28 @@ function boot(GIS) {
       }
     }
   );
+
+  $("html").click(function() {
+    let property = $(".dropdown-content-property");
+    let department = $(".dropdown-content-department");
+    $(property).hide();
+    $(department).hide();
+  });
+
+  $(".dropdown-content-property").click(function(event) {
+    event.stopPropagation();
+  });
+  $(".dropdown-content-department").click(function(event) {
+    event.stopPropagation();
+  });
+  $("#dropdown-property-div").click(function(event) {
+    event.stopPropagation();
+    $(".dropdown-content-property").toggle();
+  });
+  $("#dropdown-department-div").click(function(event) {
+    event.stopPropagation();
+    $(".dropdown-content-department").toggle();
+  });
 
   //Clear the localstorage when user logout
   document.getElementById("logout").addEventListener("click", function() {

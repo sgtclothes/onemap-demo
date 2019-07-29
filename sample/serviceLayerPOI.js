@@ -118,6 +118,7 @@ function ServiceLayerPOI(GIS, map, config) {
 
   function getPerPOI(id, form) {
     document.getElementById(id).addEventListener("change", function() {
+      console.log(id)
       if (this.checked) {
         let idform = document.getElementById(form);
         let layerArr = renderPOI(idform);
