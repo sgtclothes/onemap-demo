@@ -27,7 +27,18 @@ function boot(GIS) {
     .addEventListener("click", function() {
       map.setMeasurementActiveWidget(null);
       if (!this.classList.contains("active")) {
+        let _this = this
         map.setMeasurementActiveWidget("distance");
+        setTimeout(function() {
+          let esriDirectLineClass = document.getElementsByClassName("esri-direct-line-measurement-3d")[0]
+          esriDirectLineClass.style.display = "none";
+        }, 800);
+        map.ObjMapView.on("double-click", function(event) {
+          document
+            .getElementById("mapDiv")
+            .setAttribute("style", "cursor:default;");
+          _this.classList.remove("active");
+        })
       } else {
         map.setMeasurementActiveWidget(null);
       }
@@ -36,12 +47,29 @@ function boot(GIS) {
   document.getElementById("areaButton").addEventListener("click", function() {
     map.setMeasurementActiveWidget(null);
     if (!this.classList.contains("active")) {
+      let _this = this
       map.setMeasurementActiveWidget("area");
-    } else {
+      setTimeout(function() {
+        let esriAreaClass = document.getElementsByClassName("esri-area-measurement-3d")[0]
+        esriAreaClass.style.display = "none";
+      }, 800);
+      map.ObjMapView.on("double-click", function(event) {
+        document
+          .getElementById("mapDiv")
+          .setAttribute("style", "cursor:default;");
+        _this.classList.remove("active");
+      })
+    }
+    else {
       map.setMeasurementActiveWidget(null);
     }
   });
 
+  // document
+  //   .getElementById("deleteGraphics")
+  //   .addEventListener("click", function() {
+  //     map.setMeasurementActiveWidget(null);
+  // })
   // Create a site
   map.ObjMapView.when(function() {
     let createSiteDiv = document.getElementById("create-site-div");
@@ -54,6 +82,7 @@ function boot(GIS) {
       expanded: false
     });
 
+    createSite(createSiteExpand, GIS, map)
     map.ObjMapView.ui.add(createSiteExpand, config.Position[6]);
   });
 
@@ -192,11 +221,11 @@ function boot(GIS) {
   createMarker(GIS, map);
   createMarkerFromSite(GIS, map);
   createMarkerFromCSV(GIS, map);
-  analysispoi(GIS, map);
+  analysisPoi(GIS, map);
   // end of create instant analysis
 
   //Define Buffers
-  bufferRadius(GIS, map, config);
+  bufferRadius(GIS, map);
   driveTime(GIS, map);
   driveTimeDistance(GIS, map);
 
@@ -230,7 +259,8 @@ function boot(GIS) {
       let mySidenav = document.getElementById("mySidenav");
       if (
         document.getElementById("myViewer").style.width > "0px" ||
-        document.getElementById("mySiteAnalysis").style.width > "0px"
+        document.getElementById("mySiteAnalysis").style.width > "0px" ||
+        document.getElementById("myAnalysisPOI").style.width > "0px"
       ) {
         if (mySidenav.style.width > "0px") {
           mySidenav.classList.add("panel-right");
@@ -281,8 +311,10 @@ function boot(GIS) {
         .children("#drag-csv")
         .remove();
       close_viewer();
-    } else if (document.getElementById("mySiteAnalysis").style.width > "0px") {
+    } else if (document.getElementById("mySiteAnalysis").style.width > "0px" ||
+    document.getElementById("myAnalysisPOI").style.width > "0px") {
       document.getElementById("mySiteAnalysis").style.width = "0";
+      document.getElementById("myAnalysisPOI").style.width = "0";
       open_viewer();
     } else {
       open_viewer();
@@ -337,7 +369,6 @@ function boot(GIS) {
         $("#mySidenav").css("width", "320px");
       }
     });
-
   //end of sidebar/sidenav
 
   document.getElementById("myModal").addEventListener("click", function() {
@@ -396,7 +427,6 @@ function boot(GIS) {
           return Number(n) === n && n % 1 !== 0;
         }
         let attr = map.ObjMapView.popup.selectedFeature.attributes;
-        console.log(attr);
         var lat;
         var lon;
         if (
@@ -585,8 +615,6 @@ function boot(GIS) {
       domain: null
     }
   ];
-
-  console.log(localStorage.getItem("namefile-database"));
 
   let poi = new GIS.Buffer.POI(map.ObjMapView, fields);
   // poi.run();
@@ -849,8 +877,6 @@ function boot(GIS) {
   $(document).delegate("#button-ok-property", "click", function() {
     $(".ms-options-wrap").removeClass("ms-active");
   });
-
-  console.log($(".esri-feature__field-header"));
 
   $(document).delegate(
     ".esri-popup__inline-actions-container",

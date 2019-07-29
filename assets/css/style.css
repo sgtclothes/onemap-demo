@@ -111,6 +111,16 @@ div.inline {
   margin-top: 10px;
 }
 
+.sidenav #closeAnalysisPOI {
+  padding: 0px 8px 8px 32px;
+  font-size: 20px;
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  color: #818181;
+  margin-top: 10px;
+}
+
 .drive-button {
   background-color: rgb(255, 255, 255);
   position: absolute;

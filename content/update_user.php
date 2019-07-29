@@ -48,6 +48,11 @@ $user = mysqli_fetch_array($query);
                                     <option value=0>Inactive</option>
                                 </select>
                             </div>
+                            <div class="col-md-12">
+                                <label class="col-form-label">Name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" class="form-control"
+                                value="<?php echo $user['name']; ?>" required>
+                            </div>
                         </div>
 
                         <div class="d-flex justify-content-center align-items-center">

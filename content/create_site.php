@@ -2,11 +2,11 @@
     <div class="form-group row">
         <div class="col-md-6">
             <label class="col-form-label">Latitude</label>
-            <input id="lat-site" name="lat" type="text" value="0" class="form-control" required readonly>
+            <input id="lat-site" name="lat" type="text" class="form-control" required>
         </div>
         <div class="col-md-6">
             <label class="col-form-label">Longitude</label>
-            <input id="lon-site" name="lon" type="text" value="0" class="form-control" required readonly>
+            <input id="lon-site" name="lon" type="text" class="form-control" required>
         </div>
         <div class="col-md-6">
             <label class="col-form-label">Name</label>
