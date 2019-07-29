@@ -214,9 +214,9 @@ if (!isset($_SESSION['auth'])) {
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-left">
-                            <a id="instant-analysis" href="#" class="dropdown-item">Analysis</a>
+                            <a id="instant-analysis" href="#" class="dropdown-item">Select Sites</a>
                             <a style="display:none;" id="myModal" href="#" class="dropdown-item">Drag and Drop CSV</a>
-                            <a id="site-analysis" href="#" class="dropdown-item">Analysis List</a>
+                            <a id="site-analysis" href="#" class="dropdown-item">Sites List</a>
                         </div>
                     </li>
                     <!-- /analysis menu item navbar -->
@@ -265,7 +265,7 @@ if (!isset($_SESSION['auth'])) {
                     </div>
                     <form action="" method="post" id="form-create-analysis">
                         <div class="bottom-input-name">
-                            <input type="text" class="form-control" style="margin-left:16px; width:150px" id="name_analysis" name="name_analysis" required placeholder="Name of Analysis">
+                            <input type="text" class="form-control" style="margin-left:16px; width:150px" id="name_analysis" name="name_analysis" required placeholder="Site's Name">
                             <input type="hidden" id="created_by" name="created_by" value="<?php echo $_SESSION['auth']['id'] ?>">
                             <button type="submit" name="add" class="btn btn-primary ml-3">Save Analysis</button>
                         </div>
@@ -451,7 +451,7 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td style="height:26px;">
                                         <div style="width:100%">
-                                            <p>sqm</p>
+                                            <p>Sqm</p>
                                         </div>
                                     </td>
                                     <td style="height:26px; text-align:center;">
@@ -474,7 +474,7 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td style="height:26px; width:90px;">
                                         <div style="width:100%">
-                                            <p>unit/room</p>
+                                            <p>Unit/Room</p>
                                         </div>
                                     </td>
                                     <td style="height:26px; text-align:center;">

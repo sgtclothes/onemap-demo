@@ -67,7 +67,7 @@
         <tbody>
             <tr>
                 <td style='text-align:center;'>
-                    <label><input type='radio' name='render-for-analysis-<?php echo $site_anly_id;?>' data-latitude='<?php echo $latitude; ?>' data-longitude='<?php echo $longitude; ?>' data-options='<?php echo $options; ?>' data-unit='<?php echo $unit; ?>' data-distance='<?php echo $distance; ?>' data-values='<?php echo $buffer_group; ?>' data-source='db' style="margin-right: 5px">Render</label>
+                    <label><input type='radio' name='render-for-analysis-<?php echo $site_anly_id;?>' data-latitude='<?php echo $latitude; ?>' data-longitude='<?php echo $longitude; ?>' data-options='<?php echo $options; ?>' data-unit='<?php echo $unit; ?>' data-distance='<?php echo $distance; ?>' data-values='<?php echo $buffer_group; ?>' data-source='db' style="margin-right: 5px">Show</label>
                 </td>
                 <td style='text-align:center;'>
                     <button class="btn-modal-form-poi" type="button" data-toggle="modal" data-target="#modal_form_poi" disabled><i class="icon-pin-alt"></i></button>
