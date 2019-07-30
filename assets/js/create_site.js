@@ -41,6 +41,8 @@ function createSite(createSiteExpand, GIS, map) {
                                 if ($(".latitude-form-"+value).val() === '') {
                                     $(".latitude-form-"+value).val(lat)
                                     $(".longitude-form-"+value).val(lon)
+                                    $(".latitude-form-"+value).attr('title','Latitude '+lat);
+                                    $(".longitude-form-"+value).attr('title','Longitude '+lon);
                                     $("#form-list").delegate('.selectbuffer-'+value, 'click', function() {
                                         $.get("content/template/instant_analysis/buffer.php", function(data){ 
                                             $(".form-buffer-"+value).append(data)

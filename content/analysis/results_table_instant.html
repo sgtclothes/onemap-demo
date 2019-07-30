@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-md-12" style="background-color:white;">
+        <div class="card">
+            <div style="height: 40px;" class="card-header header-elements-inline bg-secondary">
+                <h6 class="card-title">Results</h6>
+                <div class="header-elements">
+                    <div class="list-icons">
+                        <a class="list-icons-item" data-action="collapse"></a>
+                        <a class="list-icons-item" data-action="reload"></a>
+                        <a id="hidden-table-instant-analysis"><i class="icon-cross3"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" style="overflow-y: auto; height: 170px;">
+                <div class="table-responsive">
+                    <table class='table table-bordered table-xs table-striped table-hover'>
+                        <thead>
+                            <tr>
+                                <th style='text-align:center;'><b>Latitude</b></th>
+                                <th style='text-align:center;'><b>Longitude</b></th>
+                                <th style='text-align:center;'><b>Type Specification</b></th>
+                                <th style='text-align:center;'><b>Poi Name</b></th>
+                                <th style='text-align:center;'><b>Total</b></th>
+                            </tr>
+                        </thead>
+                        <tbody id="instant-analysis-result-row"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $("#hidden-table-instant-analysis").click(function(){
+        $('#instantAnalysisDiv').css('display', 'none')
+        $('#contentAnalysisDiv').removeAttr("style")
+    })
+})
+</script>
+
+<style>
+#hidden-table-instant-analysis{
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari 3.1+ */
+    -moz-user-select: none; /* Firefox 2+ */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none;
+}
+</style>

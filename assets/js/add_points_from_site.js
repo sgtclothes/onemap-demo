@@ -9,7 +9,9 @@ function createMarkerFromSite(GIS,map){
                         if ($(".latitude-form-"+value).val() === '') {
                             $(".latitude-form-"+value).val($ischecked.attr('data-latitude'))
                             $(".longitude-form-"+value).val($ischecked.attr('data-longitude'))
-                            
+                            $(".latitude-form-"+value).attr('title','Latitude '+$ischecked.attr('data-latitude'));
+                            $(".longitude-form-"+value).attr('title','Longitude '+$ischecked.attr('data-longitude'));
+
                             let pointing = new GIS.Buffer.Pointing(
                                 map.ObjMapView,
                                 $ischecked.attr('data-latitude'),

@@ -42,6 +42,7 @@ function bufferRadius(GIS,map){
                             radius.setTitle(title)
                             radius.setUnit(unit);
                             radius.setRadius(distance);
+                            radius.setValue(value);
 
                             map.ObjMapView.popup.dockOptions.breakpoint = false
                             map.ObjMapView.popup.dockOptions.position = 'bottom-right'
@@ -50,6 +51,7 @@ function bufferRadius(GIS,map){
                             $(this).closest(".text-right").prev().prev().find('input[type=text].distance').prop('disabled', true)
                             $(this).closest(".text-right").prev().find('select.select-unit').prop('disabled', true)
                             $(this).prop('disabled', true)
+                            $('.anly-poi-'+value).removeAttr('disabled')
                         }
                     })
                 })
@@ -83,6 +85,168 @@ function bufferRadius(GIS,map){
                         $(this)
                         .closest(".collapsible")
                         .remove();
+                    })
+                })
+                $(".anly-poi-"+value).on('click',function(){
+                    let graphicsLayers = map.ObjMap.layers.items
+                    let bufferRadius = graphicsLayers.filter(o => o.value === value)
+                    $('input:checkbox.an_poi').each(function(){
+                        $(this).click(function(){
+                            if($(this).is(":checked")){
+                                let layerId = $(this).val()
+                                let poiName = $(this).attr('poiname')
+                                let poiName2 = $(this).attr('name-of-poi')
+
+                                for (let i = 0; i < bufferRadius.length; i++) {
+                                    let unit = bufferRadius[i].graphics.items[0].geometry.radiusUnit
+                                    let distance = bufferRadius[i].graphics.items[0].geometry.radius
+                                    let latitude = bufferRadius[i].graphics.items[0].geometry.center.latitude
+                                    let longitude = bufferRadius[i].graphics.items[0].geometry.center.longitude
+
+                                    let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
+                                    let unitnum
+                                    if (unit == "kilometers") {
+                                        unitnum = 'km'
+                                    } else if (unit == "miles") {
+                                        unitnum = 'mi'
+                                    } 
+                                    else {
+                                        unitnum = 'm'
+                                    }
+                            
+                                    let title = "Buffer "+distance+" "+unitnum+" "+poiName
+                                    radiusPOI.setTitle(title)
+
+                                    radiusPOI.setDistanceAndUnit(distance,unit)
+                                    radiusPOI.setGeometryBuffer(latitude,longitude)
+
+                                    let promise = new Promise(function(resolve, reject) {
+                                        let layers = map.ObjMap.layers.items
+                                        let check = layers.find(o => o.title === title)
+                                        if (check === undefined) {
+                                            radiusPOI.render(resolve)   
+                                        }
+                                    });
+
+                                    promise.then(function() {
+                                        let layers = map.ObjMap.layers.items
+                                        let findPoiName = layers.find(o => o.title === title)
+                                        let length = findPoiName.graphics.length
+
+                                        if (length>0) {
+                                            title = title.split(' ')
+                                            title = title[0]+" "+title[1]+" "+title[2]
+
+                                            if (poiName === "{POI_NAME}") {
+                                                poiName = poiName2
+                                            }
+
+                                            let row = "<tr><td>"+latitude+"</td><td>"+longitude+"</td><td>"+title+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
+                                            $('#instant-analysis-result-row').prepend(row)
+                                            let seen = {};
+                                            $('#instant-analysis-result-row tr').each(function() {
+                                                let txt = $(this).text();
+                                                if (seen[txt]) {
+                                                    $(this).remove();
+                                                }
+                                                else {
+                                                    seen[txt] = true;
+                                                }
+                                            });
+                                            $('#instantAnalysisDiv').css('display', 'block')
+                                            $('#contentAnalysisDiv').css({
+                                                "overflow-x": "hidden"
+                                            })
+  
+                                        }
+                                    });
+                                }
+                            }
+                        })
+                    })
+
+                    $('input:checkbox.an_property').each(function(){
+                        $(this).click(function(){
+                            if($(this).is(":checked")){
+                                let layerId = $(this).val()
+                                let poiName = $(this).attr('poiname')
+                                let poiName2 = $(this).attr('name-of-poi')
+
+                                for (let i = 0; i < bufferRadius.length; i++) {
+                                    let unit = bufferRadius[i].graphics.items[0].geometry.radiusUnit
+                                    let distance = bufferRadius[i].graphics.items[0].geometry.radius
+                                    let latitude = bufferRadius[i].graphics.items[0].geometry.center.latitude
+                                    let longitude = bufferRadius[i].graphics.items[0].geometry.center.longitude
+
+                                    let radiusPOI = new GIS.Analysis.BufferProperty(map.ObjMap,layerId, poiName)
+
+                                    let unitnum
+                                    if (unit == "kilometers") {
+                                        unitnum = 'km'
+                                    } else if (unit == "miles") {
+                                        unitnum = 'mi'
+                                    } 
+                                    else {
+                                        unitnum = 'm'
+                                    }
+
+                                    let title = "Buffer "+distance+" "+unitnum+" "+poiName
+                                    radiusPOI.setTitle(title)
+
+                                    radiusPOI.setDistanceAndUnit(distance,unit)
+                                    radiusPOI.setGeometryBuffer(latitude,longitude)
+
+                                    let promise = new Promise(function(resolve, reject) {
+                                        let layers = map.ObjMap.layers.items
+                                        let check = layers.find(o => o.title === title)
+                                        if (check === undefined) {
+                                            radiusPOI.render(resolve)   
+                                        }
+                                    });
+
+                                    promise.then(function() {
+                                        let layers = map.ObjMap.layers.items
+                                        let findPoiName = layers.find(o => o.title === title)
+                                        let length = findPoiName.graphics.length
+                                        
+                                        if (length>0) {
+                                            title = title.split(' ')
+                                            title = title[0]+" "+title[1]+" "+title[2]
+    
+                                            if (poiName === "{buildingname}") {
+                                                poiName = poiName2
+                                            }
+    
+                                            let row = "<tr><td>"+latitude+"</td><td>"+longitude+"</td><td>"+title+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
+                                            $('#instant-analysis-result-row').prepend(row)
+                                            let seen = {};
+                                            $('#instant-analysis-result-row tr').each(function() {
+                                                let txt = $(this).text();
+                                                if (seen[txt]) {
+                                                    $(this).remove();
+                                                }
+                                                else {
+                                                    seen[txt] = true;
+                                                }
+                                            });
+                                            $('#instantAnalysisDiv').css('display', 'block')
+                                            $('#contentAnalysisDiv').css({
+                                                "overflow-x": "hidden"
+                                            })
+                                        }
+                                    });
+                                }
+                            }
+                        })
+                    })
+
+                    $("#reset").click(function(){
+                        $('input:checkbox.an_poi').each(function(){
+                            $(this).prop('checked',false)
+                        })
+                        $('input:checkbox.an_property').each(function(){
+                            $(this).prop('checked',false)
+                        })
                     })
                 })
             })

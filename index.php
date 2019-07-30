@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['auth'])) {
-    echo "<script>alert('Login Required.'); location.href='login.php';</script>";
+    header('Location: login.php'); 
 } else {
     include 'config/conn.php';
     include 'content/layer.php';
@@ -102,6 +102,7 @@ if (!isset($_SESSION['auth'])) {
             #form-list {
                 margin-left: 5px;
                 margin-top: 5px;
+                margin-bottom: 10px;
                 overflow-y: auto;
                 overflow-x: hidden;
                 min-height: 100px;
@@ -1102,6 +1103,7 @@ if (!isset($_SESSION['auth'])) {
                     </table>
                 </div>
                 <div id="analysisDiv" style="display:none;"><?php include "content/analysis/results_table.html"; ?></div>
+                <div id="instantAnalysisDiv" style="display:none;"><?php include "content/analysis/results_table_instant.html"; ?></div>
             </div>
         </div>
         <!-- /page-content-->

@@ -173,6 +173,8 @@ function boot(GIS) {
             if ($(".latitude-form-" + value).val() === "") {
               $(".latitude-form-" + value).val(latitude);
               $(".longitude-form-" + value).val(longitude);
+              $(".latitude-form-" + value).attr('title','Latitude '+latitude);
+              $(".longitude-form-" + value).attr('title','Longitude '+longitude);
               $("#form-list").delegate(
                 ".selectbuffer-" + value,
                 "click",

@@ -15,8 +15,7 @@ function analysisPoi(GIS,map) {
                         $('#myAnaysisPOIList').append(data)
 
                         document.getElementById("myAnalysisPOI").style.width = "320px";
-                        $("input[name='render-for-analysis-"+id_analysis+"']").click(function(evt){
-                            evt.stopImmediatePropagation();
+                        $("input[name='render-for-analysis-"+id_analysis+"']").click(function(){
                             $(this).closest('div').find('button.btn-modal-form-poi').removeAttr("disabled")
                             $(this).closest('div').find('i.icon-pin-alt').css("color","#4169e1")
 
@@ -107,7 +106,8 @@ function analysisPoi(GIS,map) {
                                                 radius.setTitle(title)
                                                 radius.setUnit(unitArr[p][q]);
                                                 radius.setRadius(distanceArr[p][q]);
-                    
+                                                radius.setValue(valueArr[p]);
+
                                                 map.ObjMapView.popup.dockOptions.breakpoint = false
                                                 map.ObjMapView.popup.dockOptions.position = 'bottom-right'
                                                 radius.create();
@@ -258,7 +258,11 @@ function analysisPoi(GIS,map) {
                                                 radiusPOI.setGeometryBuffer(latitudeArr[p],longitudeArr[p])
 
                                                 let promise = new Promise(function(resolve, reject) {
-                                                    radiusPOI.render(resolve)
+                                                    let layers = map.ObjMap.layers.items
+                                                    let check = layers.find(o => o.title === title)
+                                                    if (check === undefined) {
+                                                        radiusPOI.render(resolve)   
+                                                    }
                                                 });
 
                                                 promise.then(function() {
@@ -270,11 +274,6 @@ function analysisPoi(GIS,map) {
                                                         title = title.split(' ')
                                                         title = title[0]+" "+title[1]+" "+title[2]
 
-                                                        $('#analysisDiv').css('display', 'block')
-                                                        $('#contentAnalysisDiv').css({
-                                                            "overflow-x": "hidden"
-                                                        })
-
                                                         if (poiName === "{POI_NAME}") {
                                                             poiName = poiName2
                                                         }
@@ -282,6 +281,20 @@ function analysisPoi(GIS,map) {
                                                         let row = "<tr><td>"+title+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
 
                                                         $('#rowAnalysisDiv'+id_analysis).prepend(row)
+                                                        let seen = {};
+                                                        $('#rowAnalysisDiv'+id_analysis+' tr').each(function() {
+                                                            let txt = $(this).text();
+                                                            if (seen[txt]) {
+                                                                $(this).remove();
+                                                            }
+                                                            else {
+                                                                seen[txt] = true;
+                                                            }
+                                                        });
+                                                        $('#analysisDiv').css('display', 'block')
+                                                        $('#contentAnalysisDiv').css({
+                                                            "overflow-x": "hidden"
+                                                        })
                                                     }
                                                 });
                                             }
@@ -324,7 +337,11 @@ function analysisPoi(GIS,map) {
                                                     }
                                                 }
                                                 let promise = new Promise(function(resolve, reject) {
-                                                    drivePOI.render(resolve)
+                                                    let layers = map.ObjMap.layers.items
+                                                    let check = layers.find(o => o.title === titleLayer)
+                                                    if (check === undefined) {
+                                                        drivePOI.render(resolve) 
+                                                    }
                                                 });
 
                                                 promise.then(function() {
@@ -336,11 +353,6 @@ function analysisPoi(GIS,map) {
                                                         titleLayer = titleLayer.split(' ')
                                                         titleLayer = titleLayer[0]+" "+titleLayer[1]+" "+titleLayer[2]+" "+titleLayer[3]
 
-                                                        $('#analysisDiv').css('display', 'block')
-                                                        $('#contentAnalysisDiv').css({
-                                                            "overflow-x": "hidden"
-                                                        })
-
                                                         if (poiName === "{POI_NAME}") {
                                                             poiName = poiName2
                                                         }
@@ -348,6 +360,20 @@ function analysisPoi(GIS,map) {
                                                         let row = "<tr><td>"+titleLayer+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
 
                                                         $('#rowAnalysisDiv'+id_analysis).prepend(row)
+                                                        let seen = {};
+                                                        $('#rowAnalysisDiv'+id_analysis+' tr').each(function() {
+                                                            let txt = $(this).text();
+                                                            if (seen[txt]) {
+                                                                $(this).remove();
+                                                            }
+                                                            else {
+                                                                seen[txt] = true;
+                                                            }
+                                                        });
+                                                        $('#analysisDiv').css('display', 'block')
+                                                        $('#contentAnalysisDiv').css({
+                                                            "overflow-x": "hidden"
+                                                        })
                                                     }
                                                 });
                                             }
@@ -384,7 +410,11 @@ function analysisPoi(GIS,map) {
                                                 radiusPOI.setDistanceAndUnit(distanceArr[p][q],unitArr[p][q])
                                                 radiusPOI.setGeometryBuffer(latitudeArr[p],longitudeArr[p])
                                                 let promise = new Promise(function(resolve, reject) {
-                                                    radiusPOI.render(resolve)
+                                                    let layers = map.ObjMap.layers.items
+                                                    let check = layers.find(o => o.title === title)
+                                                    if (check === undefined) {
+                                                        radiusPOI.render(resolve) 
+                                                    }
                                                 });
 
                                                 promise.then(function() {
@@ -396,10 +426,6 @@ function analysisPoi(GIS,map) {
                                                         title = title.split(' ')
                                                         title = title[0]+" "+title[1]+" "+title[2]
 
-                                                        $('#analysisDiv').css('display', 'block')
-                                                        $('#contentAnalysisDiv').css({
-                                                            "overflow-x": "hidden"
-                                                        })
                                                         if (poiName === "{buildingname}") {
                                                             poiName = poiName2
                                                         }
@@ -407,6 +433,20 @@ function analysisPoi(GIS,map) {
                                                         let row = "<tr><td>"+title+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
 
                                                         $('#rowAnalysisDiv'+id_analysis).prepend(row)
+                                                        let seen = {};
+                                                        $('#rowAnalysisDiv'+id_analysis+' tr').each(function() {
+                                                            let txt = $(this).text();
+                                                            if (seen[txt]) {
+                                                                $(this).remove();
+                                                            }
+                                                            else {
+                                                                seen[txt] = true;
+                                                            }
+                                                        });
+                                                        $('#analysisDiv').css('display', 'block')
+                                                        $('#contentAnalysisDiv').css({
+                                                            "overflow-x": "hidden"
+                                                        })
                                                     }
                                                 });
                                             }
@@ -448,7 +488,11 @@ function analysisPoi(GIS,map) {
                                                     }
                                                 }
                                                 let promise = new Promise(function(resolve, reject) {
-                                                    drivePOI.render(resolve)
+                                                    let layers = map.ObjMap.layers.items
+                                                    let check = layers.find(o => o.title === titleLayer)
+                                                    if (check === undefined) {
+                                                        drivePOI.render(resolve) 
+                                                    }
                                                 });
 
                                                 promise.then(function() {
@@ -460,11 +504,6 @@ function analysisPoi(GIS,map) {
                                                         titleLayer = titleLayer.split(' ')
                                                         titleLayer = titleLayer[0]+" "+titleLayer[1]+" "+titleLayer[2]+" "+titleLayer[3]
 
-                                                        $('#analysisDiv').css('display', 'block')
-                                                        $('#contentAnalysisDiv').css({
-                                                            "overflow-x": "hidden"
-                                                        })
-
                                                         if (poiName === "{buildingname}") {
                                                             poiName = poiName2
                                                         }
@@ -472,6 +511,20 @@ function analysisPoi(GIS,map) {
                                                         let row = "<tr><td>"+titleLayer+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
                                                         
                                                         $('#rowAnalysisDiv'+id_analysis).prepend(row)
+                                                        let seen = {};
+                                                        $('#rowAnalysisDiv'+id_analysis+' tr').each(function() {
+                                                            let txt = $(this).text();
+                                                            if (seen[txt]) {
+                                                                $(this).remove();
+                                                            }
+                                                            else {
+                                                                seen[txt] = true;
+                                                            }
+                                                        });
+                                                        $('#analysisDiv').css('display', 'block')
+                                                        $('#contentAnalysisDiv').css({
+                                                            "overflow-x": "hidden"
+                                                        })
                                                     }
                                                 });
                                             }

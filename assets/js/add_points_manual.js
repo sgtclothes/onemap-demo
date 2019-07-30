@@ -26,6 +26,9 @@ function createMarker(GIS,map){
                     if ($(".latitude-form-"+value).val() === '') {
                         $(".latitude-form-"+value).val($latitude)
                         $(".longitude-form-"+value).val($longitude)
+                        $(".latitude-form-" + value).attr('title','Latitude '+$latitude);
+                        $(".longitude-form-" + value).attr('title','Longitude '+$longitude);
+
                         $("#form-list").delegate('.selectbuffer-'+value, 'click', function() {
                             $.get("content/template/instant_analysis/buffer.php", function(data){ 
                                 $(".form-buffer-"+value).append(data)
