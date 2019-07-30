@@ -446,7 +446,7 @@ td.property-item {
 
 .table-property.button-filter-table {
   margin-bottom: 20px;
-  margin-top:20px;
+  margin-top: 20px;
 }
 
 .treeview {
@@ -610,4 +610,8 @@ td.property-item {
 
 .dropdown-table-department {
   width: 300px;
+}
+
+.legend-POI {
+  display: none;
 }

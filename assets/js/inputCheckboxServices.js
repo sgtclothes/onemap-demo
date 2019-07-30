@@ -11,6 +11,9 @@ function inputCheckboxServices(GIS, map) {
     let layer;
     let url =
       "http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/";
+    let legend = document.createElement("div");
+    let title = "<p>LIST POINT OF INTEREST</p>";
+    $(legend).append(title);
     if ($(this).prop("checked") == true) {
       for (let i = 0; i < subPOI.length; i++) {
         $(subPOI).prop("checked", true);
@@ -23,6 +26,7 @@ function inputCheckboxServices(GIS, map) {
           "name",
           map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
         );
+        renderLegend(legend, url + $(subPOI[i]).val());
       }
     } else if ($(this).prop("checked") == false) {
       map.ObjMap.layers.items = [];
@@ -30,7 +34,6 @@ function inputCheckboxServices(GIS, map) {
         $(subPOI).prop("checked", false);
       }
     }
-    renderLegend(url);
   });
 
   $(subPOI).click(function() {
@@ -67,13 +70,24 @@ function inputCheckboxServices(GIS, map) {
     }
   });
 
-  function renderLegend(url) {
-    map.ObjMapView.when(function() {
-      var featureLayer = map.ObjMap.layers.getItemAt(1);
-      var featureLayer2 = map.ObjMap.layers.getItemAt(2);
-      let legend = document.createElement("DIV");
-      legend.innerHTML = "OKE";
-      map.ObjMapView.ui.add(legend, "bottom-right");
+  function renderLegend(legend, url) {
+    var layersRequest = {
+      query: {
+        f: "json"
+      },
+      responseType: "json"
+    };
+    EsriRequest(url, layersRequest).then(function(response) {
+      console.log("response", response.data.drawingInfo.renderer.symbol);
+      let symbol = response.data.drawingInfo.renderer.symbol.url;
+      map.ObjMapView.when(function() {
+        let pic =
+          "<img src=" + url + "/images/" + symbol + " width='14' height='14'>";
+        $(legend).append(pic);
+        map.ObjMapView.ui.add($(".legend-POI")[0], "bottom-right");
+        $(".legend-POI")[0].toggle();
+        console.log($(".legend-POI")[0])
+      });
     });
   }
 
