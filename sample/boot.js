@@ -557,7 +557,6 @@ function boot(GIS) {
   // end of widget color picker and render poi
 
   // Show & Hide POI from GIS Services
-  let layerServiceArr = JSON.parse(layerDataArr);
   let storeDatabase = new GIS.Buffer.Database(
     "localhost",
     "root",

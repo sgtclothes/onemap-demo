@@ -122,7 +122,6 @@ function analysisPoi(GIS,map) {
                                                 radius.setTitle(title)
                                                 radius.setUnit(unitArr[p][q]);
                                                 radius.setRadius(distanceArr[p][q]);
-                                                radius.setValue(valueArr[p]);
 
                                                 map.ObjMapView.popup.dockOptions.breakpoint = false
                                                 map.ObjMapView.popup.dockOptions.position = 'bottom-right'

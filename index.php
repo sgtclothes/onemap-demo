@@ -4,7 +4,6 @@ if (!isset($_SESSION['auth'])) {
     header('Location: login.php'); 
 } else {
     include 'config/conn.php';
-    include 'content/layer.php';
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -164,7 +163,6 @@ if (!isset($_SESSION['auth'])) {
             let user = "<?= $dbuser ?>"
             let pass = "<?= $dbpass ?>"
             window.created_by = "<?= $_SESSION['auth']['id'] ?>"
-            window.layerDataArr = '<?php print json_encode($layer_array) ?>'
         </script>
 
         <script src="sample/boot.js"></script>
