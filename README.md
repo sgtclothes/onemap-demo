@@ -10,7 +10,5 @@ Rules :
 4. Setiap melakukan perubahan 1-5 file, lakukan push ke branch masing-masing terlebih dahulu kemudian lakukan merging terhadap master, lakukan evaluasi menggunakan VSCode
 
 ### Onemap Demo Application
-```
 1. https://onemap-demo.locatorlogic.com
 2. http://onemap.rizalhrm.xyz
-```

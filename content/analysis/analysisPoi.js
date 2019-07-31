@@ -32,20 +32,36 @@ function analysisPoi(GIS,map) {
                             }
                             else {
                                 tab = navTabsObj.length
-                                let navTabs = "<li id='"+id_analysis+"' class='nav-item'><a href='#basic-tab"+tab+"' class='nav-link' data-toggle='tab'>"+name_analysis+"</a></li>"
-                                for (let key in navTabsObj){
-                                    if (isNaN(parseInt(key)) === false) {
-                                        if (
-                                            parseInt(navTabsObj[key].attributes[0].value)
-                                            !== parseInt(id_analysis)
-                                            ) {
-                                            $('#nav-tabs-analysis').append(navTabs)   
-                                        }
+                                $("#analysis-results-table").find("#nav-tabs-analysis").children('li').each(function(){
+                                    if(parseInt(id_analysis) !== parseInt($(this).attr('id'))) {
+                                        let navTabs = "<li id='"+id_analysis+"' class='nav-item' style='margin-left:-9px;'><a href='#basic-tab"+tab+"' class='nav-link' data-toggle='tab'>"+name_analysis+"</a></li>"
+                                        $('#nav-tabs-analysis').append(navTabs)
+                                        let table = "<div class='table-responsive'><table class='table table-bordered table-xs table-striped table-hover' style='margin-bottom:15px;'><thead><tr><th style='text-align:center;'><b>Type Specification</b></th><th style='text-align:center;'><b>Poi Name</b></th><th style='text-align:center;'><b>Total</b></th></tr></thead><tbody id='rowAnalysisDiv"+id_analysis+"'></tbody></table></div>"
+                                        let tabContent = "<div class='tab-pane' id='basic-tab"+tab+"'>"+table+"</div>";
+                                        $('#tab-content-analysis').append(tabContent)
                                     }
-                                }
-                                let table = "<div class='table-responsive'><table class='table table-bordered table-xs table-striped table-hover' style='margin-bottom:15px;'><thead><tr><th style='text-align:center;'><b>Type Specification</b></th><th style='text-align:center;'><b>Poi Name</b></th><th style='text-align:center;'><b>Total</b></th></tr></thead><tbody id='rowAnalysisDiv"+id_analysis+"'></tbody></table></div>"
-                                let tabContent = "<div class='tab-pane' id='basic-tab"+tab+"'>"+table+"</div>";
-                                $('#tab-content-analysis').append(tabContent)
+                                })
+                                let seen = {};
+                                $("#analysis-results-table").find("#nav-tabs-analysis").children('li')
+                                .each(function() {
+                                    let id = $(this).attr('id');
+                                    if (seen[id]) {
+                                        $(this).remove();
+                                    }
+                                    else {
+                                        seen[id] = true;
+                                    }
+                                });
+                                let tabPane = {};
+                                $(".tab-pane").each(function() {
+                                    let id = $(this).attr('id');
+                                    if (tabPane[id]) {
+                                        $(this).remove();
+                                    }
+                                    else {
+                                        tabPane[id] = true;
+                                    }
+                                });
                             }
                 
                             let latitude = $(this).attr('data-latitude')
