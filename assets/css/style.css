@@ -605,13 +605,27 @@ td.property-item {
 }
 
 .dropdown-table-property {
-  width: 270px;
+  width: 290px;
+  font-size: 8px;
+  color: black;
 }
 
 .dropdown-table-department {
-  width: 300px;
+  width: 290px;
+  font-size: 8px;
+  color: black;
 }
 
-.legend-POI {
-  display: none;
+.div-legend {
+  width: 130px;
+}
+
+.title-legend {
+  width: 100%;
+  font-size: 10px;
+  text-align: center;
+  background-color: #6496e8;
+  margin: 0px;
+  font-weight: bold;
+  color: #ffffff;
 }

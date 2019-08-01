@@ -27,10 +27,12 @@ function boot(GIS) {
     .addEventListener("click", function() {
       map.setMeasurementActiveWidget(null);
       if (!this.classList.contains("active")) {
-        let _this = this
+        let _this = this;
         map.setMeasurementActiveWidget("distance");
         setTimeout(function() {
-          let esriDirectLineClass = document.getElementsByClassName("esri-direct-line-measurement-3d")[0]
+          let esriDirectLineClass = document.getElementsByClassName(
+            "esri-direct-line-measurement-3d"
+          )[0];
           esriDirectLineClass.style.display = "none";
         }, 800);
         map.ObjMapView.on("double-click", function(event) {
@@ -38,7 +40,7 @@ function boot(GIS) {
             .getElementById("mapDiv")
             .setAttribute("style", "cursor:default;");
           _this.classList.remove("active");
-        })
+        });
       } else {
         map.setMeasurementActiveWidget(null);
       }
@@ -47,10 +49,12 @@ function boot(GIS) {
   document.getElementById("areaButton").addEventListener("click", function() {
     map.setMeasurementActiveWidget(null);
     if (!this.classList.contains("active")) {
-      let _this = this
+      let _this = this;
       map.setMeasurementActiveWidget("area");
       setTimeout(function() {
-        let esriAreaClass = document.getElementsByClassName("esri-area-measurement-3d")[0]
+        let esriAreaClass = document.getElementsByClassName(
+          "esri-area-measurement-3d"
+        )[0];
         esriAreaClass.style.display = "none";
       }, 800);
       map.ObjMapView.on("double-click", function(event) {
@@ -58,9 +62,8 @@ function boot(GIS) {
           .getElementById("mapDiv")
           .setAttribute("style", "cursor:default;");
         _this.classList.remove("active");
-      })
-    }
-    else {
+      });
+    } else {
       map.setMeasurementActiveWidget(null);
     }
   });
@@ -82,7 +85,7 @@ function boot(GIS) {
       expanded: false
     });
 
-    createSite(createSiteExpand, GIS, map)
+    createSite(createSiteExpand, GIS, map);
     map.ObjMapView.ui.add(createSiteExpand, config.Position[6]);
   });
 
@@ -314,8 +317,10 @@ function boot(GIS) {
         .children("#drag-csv")
         .remove();
       close_viewer();
-    } else if (document.getElementById("mySiteAnalysis").style.width > "0px" ||
-    document.getElementById("myAnalysisPOI").style.width > "0px") {
+    } else if (
+      document.getElementById("mySiteAnalysis").style.width > "0px" ||
+      document.getElementById("myAnalysisPOI").style.width > "0px"
+    ) {
       document.getElementById("mySiteAnalysis").style.width = "0";
       document.getElementById("myAnalysisPOI").style.width = "0";
       open_viewer();
@@ -685,6 +690,7 @@ function boot(GIS) {
   multiSelect();
   inputCheckboxPropertyStatus();
   inputCheckboxServices(GIS, map);
+  saveDataServiceToLocalStorage();
   // selectUnitSize();
 
   $("input[name='popup-input-min']").click(function() {
@@ -788,7 +794,7 @@ function boot(GIS) {
         })[0].graphic;
 
         // do something with the result graphic
-        console.log(graphic.attributes);
+        console.log(graphic.geometry);
       }
     });
   }
@@ -802,8 +808,9 @@ function boot(GIS) {
     $(".ms-options").append(divButton);
   });
 
-  $(document).delegate("#checkbox-colliers-property", "click", function() {
+  $("#checkbox-colliers-property").click(function() {
     if ($(this).prop("checked") == true) {
+      console.log("OPK");
       map.ObjMap.add(colliersService);
     } else if ($(this).prop("checked") == false) {
       map.ObjMap.remove(colliersService);
@@ -868,6 +875,18 @@ function boot(GIS) {
   $("#dropdown-department-div").click(function(event) {
     event.stopPropagation();
     $(".dropdown-content-department").toggle();
+  });
+
+  $("input:radio").on("click", function(e) {
+    var inp = $(this);
+    if (inp.is(".theone")) {
+      inp.prop("checked", false).removeClass("theone");
+    } else {
+      $("input:radio[name='" + inp.prop("name") + "'].theone").removeClass(
+        "theone"
+      );
+      inp.addClass("theone");
+    }
   });
 
   //Clear the localstorage when user logout

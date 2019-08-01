@@ -146,12 +146,12 @@ if (!isset($_SESSION['auth'])) {
             }
 
             .link {
-                background:none!important;
-                border:none; 
-                padding:0!important;
-                color:#069;
-                text-decoration:underline;
-                cursor:pointer;
+                background: none !important;
+                border: none;
+                padding: 0 !important;
+                color: #069;
+                text-decoration: underline;
+                cursor: pointer;
             }
         </style>
         <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">
@@ -329,7 +329,7 @@ if (!isset($_SESSION['auth'])) {
                                     <td style=>
                                         <div class="unit-input dropdown-filter">
                                             <div id="dropdown-property-div">
-                                                <p id="property-value" style="margin-left:10px;">Select Property</p>
+                                                <p id="property-value" style="margin-left:10px;color:#7a7c80;">Select Property</p>
                                             </div>
                                             <div class="dropdown-content-property">
                                                 <table class="dropdown-table-property">
@@ -344,19 +344,19 @@ if (!isset($_SESSION['auth'])) {
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-property" id="property-office" value="Office">
-                                                                <label for="property-office">Office</label>
+                                                                <label for="property-office"><span></span>Office</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-property" id="property-ruko" value="Ruko">
-                                                                <label for="property-ruko">Ruko</label>
+                                                                <label for="property-ruko"><span></span>Ruko</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-property" id="property-apartment" value="Apartment">
-                                                                <label for="property-apartment">Apartment</label>
+                                                                <label for="property-apartment"><span></span>Apartment</label>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -364,19 +364,19 @@ if (!isset($_SESSION['auth'])) {
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-property" id="property-industrial" value="Industrial">
-                                                                <label for="property-industrial">Industrial/Logistic</label>
+                                                                <label for="property-industrial"><span></span>Industrial/Logistic</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-property" id="property-shopping-center" value="Shopping Center">
-                                                                <label for="property-shopping-center">Shopping Center</label>
+                                                                <label for="property-shopping-center"><span></span>Shopping Center</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-property" id="property-house" value="House">
-                                                                <label for="property-house">House</label>
+                                                                <label for="property-house"><span></span>House</label>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -386,7 +386,7 @@ if (!isset($_SESSION['auth'])) {
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-property" id="property-others" value="Others">
-                                                                <label for="property-others">Others</label>
+                                                                <label for="property-others"><span></span>Others</label>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -562,9 +562,9 @@ if (!isset($_SESSION['auth'])) {
                             <table class="table-property">
                                 <tr>
                                     <td>
-                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
+                                        <div style="margin-top:2px;" class="sub-property-status property-status-items">
                                             <input id="checkbox-available-for-sale" class="property-status-available-for-sale styled" type="checkbox" name="property-status-available-for-sale">
-                                            <label for="checkbox-available-for-sale">
+                                            <label for="checkbox-available-for-sale"><span></span>
                                                 <b>Property Available For Sale</b>
                                             </label>
                                         </div>
@@ -572,9 +572,9 @@ if (!isset($_SESSION['auth'])) {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
                                             <input id="checkbox-land-with-agreement" class="property-available styled" type="checkbox" name="property-available" value="land with agreement">
-                                            <label for="checkbox-land-with-agreement">
+                                            <label for="checkbox-land-with-agreement"><span></span>
                                                 Land with Agreement
                                             </label>
                                         </div>
@@ -582,9 +582,9 @@ if (!isset($_SESSION['auth'])) {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
                                             <input id="checkbox-available" class="property-available styled" type="checkbox" name="property-available" value="available">
-                                            <label for="checkbox-available">
+                                            <label for="checkbox-available"><span></span>
                                                 Available
                                             </label>
                                         </div>
@@ -594,9 +594,9 @@ if (!isset($_SESSION['auth'])) {
                             <table class="table-property">
                                 <tr>
                                     <td>
-                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
+                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox-circle">
                                             <input id="checkbox-sold" class="property-status-sold styled" type="checkbox" name="property-status-sold">
-                                            <label for="checkbox-sold">
+                                            <label for="checkbox-sold"><span></span>
                                                 <b>Property Sold</b>
                                             </label>
                                         </div>
@@ -604,9 +604,9 @@ if (!isset($_SESSION['auth'])) {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
                                             <input id="checkbox-sold-colliers" class="property-sold styled" type="checkbox" name="property-sold" value="colliers">
-                                            <label for="checkbox-sold-colliers">
+                                            <label for="checkbox-sold-colliers"><span></span>
                                                 By Colliers
                                             </label>
                                         </div>
@@ -614,9 +614,9 @@ if (!isset($_SESSION['auth'])) {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
                                             <input id="checkbox-sold-others" class="property-sold styled" type="checkbox" name="property-sold" value="others">
-                                            <label for="checkbox-sold-others">
+                                            <label for="checkbox-sold-others"><span></span>
                                                 Others
                                             </label>
                                         </div>
@@ -626,9 +626,9 @@ if (!isset($_SESSION['auth'])) {
                             <table class="table-property">
                                 <tr>
                                     <td>
-                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
+                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox-circle">
                                             <input id="checkbox-valuation" class="property-status-valuation styled" type="checkbox" name="property-status-valuation">
-                                            <label for="checkbox-valuation">
+                                            <label for="checkbox-valuation"><span></span>
                                                 <b>Property Valuation</b>
                                             </label>
                                         </div>
@@ -638,7 +638,7 @@ if (!isset($_SESSION['auth'])) {
                                     <td>
                                         <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                             <input id="checkbox-kjpp" class="property-valuation styled" type="checkbox" name="property-valuation" value="kjpp">
-                                            <label for="checkbox-kjpp">
+                                            <label for="checkbox-kjpp"><span></span>
                                                 KJPP
                                             </label>
                                         </div>
@@ -648,7 +648,7 @@ if (!isset($_SESSION['auth'])) {
                                     <td>
                                         <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                             <input id="checkbox-valuation-others" class="property-valuation styled" type="checkbox" name="property-valuation" value="others">
-                                            <label for="checkbox-valuation-others">
+                                            <label for="checkbox-valuation-others"><span></span>
                                                 Others
                                             </label>
                                         </div>
@@ -660,7 +660,7 @@ if (!isset($_SESSION['auth'])) {
                                     <td>
                                         <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
                                             <input id="checkbox-advisory-work" class="property-status-advisory-work styled" type="checkbox" name="property-status-advisory-work">
-                                            <label for="checkbox-advisory-work">
+                                            <label for="checkbox-advisory-work"><span></span>
                                                 <b>Property Advisory Work</b>
                                             </label>
                                         </div>
@@ -672,7 +672,7 @@ if (!isset($_SESSION['auth'])) {
                                     <td>
                                         <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
                                             <input id="checkbox-location" class="property-status-location styled" type="checkbox" name="property-status-location">
-                                            <label for="checkbox-location">
+                                            <label for="checkbox-location"><span></span>
                                                 <b>Property Location</b>
                                             </label>
                                         </div>
@@ -693,7 +693,7 @@ if (!isset($_SESSION['auth'])) {
                                     <td style=>
                                         <div class="unit-input dropdown-filter">
                                             <div id="dropdown-department-div">
-                                                <p id="department-value" style="margin-left:10px;">Select Department</p>
+                                                <p id="department-value" style="margin-left:10px; color:#7a7c80;">Select Department</p>
                                             </div>
                                             <div class="dropdown-content-department">
                                                 <table class="dropdown-table-department">
@@ -708,19 +708,19 @@ if (!isset($_SESSION['auth'])) {
                                                         <td style="width:100px;">
                                                             <div>
                                                                 <input type="checkbox" name="select-department" id="department-advisory" value="Advisory">
-                                                                <label for="department-advisory">Advisory</label>
+                                                                <label for="department-advisory"><span></span>Advisory</label>
                                                             </div>
                                                         </td>
                                                         <td style="width:100px;">
                                                             <div>
                                                                 <input type="checkbox" name="select-department" id="department-industrial" value="Industrial">
-                                                                <label for="department-industrial">Industrial/Logistic</label>
+                                                                <label for="department-industrial"><span></span>Industrial/Logistic</label>
                                                             </div>
                                                         </td>
                                                         <td style="width:100px;">
                                                             <div>
                                                                 <input type="checkbox" name="select-department" id="department-project-management" value="Project Management">
-                                                                <label for="department-project-management">Project Management</label>
+                                                                <label for="department-project-management"><span></span>Project Management</label>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -728,19 +728,19 @@ if (!isset($_SESSION['auth'])) {
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-department" id="department-office" value="Office">
-                                                                <label for="department-office">Office</label>
+                                                                <label for="department-office"><span></span>Office</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-department" id="department-residential" value="Residential">
-                                                                <label for="department-residential">Residential</label>
+                                                                <label for="department-residential"><span></span>Residential</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-department" id="department-facility-management" value="Facility Management">
-                                                                <label for="department-facility-management">Facility Management</label>
+                                                                <label for="department-facility-management"><span></span>Facility Management</label>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -748,19 +748,19 @@ if (!isset($_SESSION['auth'])) {
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-department" id="department-retail" value="Retail">
-                                                                <label for="department-retail">Retail</label>
+                                                                <label for="department-retail"><span></span>Retail</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-department" id="department-capital-market" value="Capital Market">
-                                                                <label for="department-capital-market">Capital Market</label>
+                                                                <label for="department-capital-market"><span></span>Capital Market</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
                                                                 <input type="checkbox" name="select-department" id="department-real-estate-management" value="Real Estate Management">
-                                                                <label for="department-real-estate-management">Real Estate Management</label>
+                                                                <label for="department-real-estate-management"><span></span>Real Estate Management</label>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -770,14 +770,14 @@ if (!isset($_SESSION['auth'])) {
                                                         <tr>
                                                             <td>
                                                                 <div class="department-direction">
-                                                                    <input type="checkbox" name="select-department-direction" id="department-current">
-                                                                    <label for="property-others">Current</label>
+                                                                    <input type="checkbox" name="select-department" id="department-current" value="Current">
+                                                                    <label for="department-current"><span></span>Current</label>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="department-direction">
-                                                                    <input type="checkbox" name="select-department-direction" id="department-previous">
-                                                                    <label for="property-others">Previous</label>
+                                                                    <input type="checkbox" name="select-department" id="department-previous" value="Previous">
+                                                                    <label for="department-previous"><span></span>Previous</label>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -808,115 +808,121 @@ if (!isset($_SESSION['auth'])) {
                                 </tr>
                             </table>
                         </li>
-                        <!-- <li>
-                                                                                                                                                                                                                                                                <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                                                                                                                                                                                                                                                    <input id="checkbox-colliers-property" class="styled" type="checkbox" name="colliers-property" value="colliers-property">
-                                                                                                                                                                                                                                                                    <label for="checkbox-colliers-property">
-                                                                                                                                                                                                                                                                        Colliers Property
-                                                                                                                                                                                                                                                                    </label>
-                                                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                                                                <ul id="colliers-custom-data-user">
-                                                                                                                                                                                                                                                                    <li style="margin-left:20px; display:none" class="tree-custom-data-locatorlogic" value="Locator Logic">
-                                                                                                                                                                                                                                                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                        <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                                                                                                                                                                                                                                                                        <label for="custom-data-master-select-all-poi" class="label-custom-data">Locator Logic</label>
-                                                                                                                                                                                                                                                                        <ul id="custom-data-user">
-                                                                                                                                                                                                                                                                            <li class="tree-database" style="display:none">
-                                                                                                                                                                                                                                                                                <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                                <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                                                                                                                                                                                                                                                                                <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                                                                                                                                                                                                                                                                <div id="locatorlogic-user-database"></div>
-                                                                                                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                                                                            <li class="tree-localstorage" style="display:none">
-                                                                                                                                                                                                                                                                                <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                                <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                                                                                                                                                                                                                                                                                <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                                                                                                                                                                                                                                                                <div id="locatorlogic-user-localstorage"></div>
-                                                                                                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                                                                        </ul>
-                                                                                                                                                                                                                                                                    </li>
-                                                                                                                                                                                                                                                                    <li style="margin-left:20px; display:none" class="tree-custom-data-residential" value="Residential">
-                                                                                                                                                                                                                                                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                        <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                                                                                                                                                                                                                                                                        <label for="custom-data-master-select-all-poi" class="label-custom-data">Residential</label>
-                                                                                                                                                                                                                                                                        <ul id="custom-data-user">
-                                                                                                                                                                                                                                                                            <li class="tree-database" style="display:none">
-                                                                                                                                                                                                                                                                                <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                                <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                                                                                                                                                                                                                                                                                <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                                                                                                                                                                                                                                                                <div id="residential-user-database"></div>
-                                                                                                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                                                                            <li class="tree-localstorage" style="display:none">
-                                                                                                                                                                                                                                                                                <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                                <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                                                                                                                                                                                                                                                                                <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                                                                                                                                                                                                                                                                <div id="residential-user-localstorage"></div>
-                                                                                                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                                                                        </ul>
-                                                                                                                                                                                                                                                                    </li>
-                                                                                                                                                                                                                                                                    <li style="margin-left:20px; display:none" class="tree-custom-data-office" value="Office">
-                                                                                                                                                                                                                                                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                        <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                                                                                                                                                                                                                                                                        <label for="custom-data-master-select-all-poi" class="label-custom-data">Office</label>
-                                                                                                                                                                                                                                                                        <ul id="custom-data-user">
-                                                                                                                                                                                                                                                                            <li class="tree-database" style="display:none">
-                                                                                                                                                                                                                                                                                <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                                <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                                                                                                                                                                                                                                                                                <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                                                                                                                                                                                                                                                                <div id="office-user-database"></div>
-                                                                                                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                                                                            <li class="tree-localstorage" style="display:none">
-                                                                                                                                                                                                                                                                                <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                                <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                                                                                                                                                                                                                                                                                <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                                                                                                                                                                                                                                                                <div id="office-user-localstorage"></div>
-                                                                                                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                                                                        </ul>
-                                                                                                                                                                                                                                                                    </li>
-                                                                                                                                                                                                                                                                    <li style="margin-left:20px; display:none" class="tree-custom-data-industrial" value="Industrial">
-                                                                                                                                                                                                                                                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                        <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                                                                                                                                                                                                                                                                        <label for="custom-data-master-select-all-poi" class="label-custom-data">Industrial</label>
-                                                                                                                                                                                                                                                                        <ul id="custom-data-user">
-                                                                                                                                                                                                                                                                            <li class="tree-database" style="display:none">
-                                                                                                                                                                                                                                                                                <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                                <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                                                                                                                                                                                                                                                                                <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                                                                                                                                                                                                                                                                <div id="industrial-user-database"></div>
-                                                                                                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                                                                            <li class="tree-localstorage" style="display:none">
-                                                                                                                                                                                                                                                                                <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                                <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                                                                                                                                                                                                                                                                                <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                                                                                                                                                                                                                                                                <div id="industrial-user-localstorage"></div>
-                                                                                                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                                                                        </ul>
-                                                                                                                                                                                                                                                                    </li>
-                                                                                                                                                                                                                                                                    <li style="margin-left:20px; display:none" class="tree-custom-data-investment" value="Investment">
-                                                                                                                                                                                                                                                                        <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                        <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                                                                                                                                                                                                                                                                        <label for="custom-data-master-select-all-poi" class="label-custom-data">Investment & Advisory</label>
-                                                                                                                                                                                                                                                                        <ul id="custom-data-user">
-                                                                                                                                                                                                                                                                            <li class="tree-database" style="display:none">
-                                                                                                                                                                                                                                                                                <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                                <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                                                                                                                                                                                                                                                                                <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                                                                                                                                                                                                                                                                <div id="investment-user-database"></div>
-                                                                                                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                                                                            <li class="tree-localstorage" style="display:none">
-                                                                                                                                                                                                                                                                                <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                                                                                                                                                                                                                                                                <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                                                                                                                                                                                                                                                                                <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                                                                                                                                                                                                                                                                <div id="investment-user-localstorage"></div>
-                                                                                                                                                                                                                                                                            </li>
-                                                                                                                                                                                                                                                                        </ul>
-                                                                                                                                                                                                                                                                    </li>
-                                                                                                                                                                                                                                                                </ul>
-                                                                                                                                                                                                                                                            </li> -->
+                        <li>
+                            <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                <input class="checkbox-sub-poi styled" type="checkbox" secondValue="043efa83c740ada85088797610dcff20" value="16" id="tall-1-1">
+                                <label for="tall-1-1"><span></span>
+                                    Bank DKI
+                                </label>
+                            </div>
+                            <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                <input id="checkbox-colliers-property" class="styled" type="checkbox" value="colliers-property">
+                                <label for="checkbox-colliers-property"><span></span>
+                                    Colliers Property
+                                </label>
+                            </div>
+                            <ul id="colliers-custom-data-user">
+                                <li style="margin-left:20px; display:none" class="tree-custom-data-locatorlogic" value="Locator Logic">
+                                    <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                    <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
+                                    <label for="custom-data-master-select-all-poi" class="label-custom-data">Locator Logic</label>
+                                    <ul id="custom-data-user">
+                                        <li class="tree-database" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                            <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
+                                            <label for="database-master-select-all-poi" class="label-database">Database</label>
+                                            <div id="locatorlogic-user-database"></div>
+                                        </li>
+                                        <li class="tree-localstorage" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                            <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
+                                            <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
+                                            <div id="locatorlogic-user-localstorage"></div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li style="margin-left:20px; display:none" class="tree-custom-data-residential" value="Residential">
+                                    <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                    <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
+                                    <label for="custom-data-master-select-all-poi" class="label-custom-data">Residential</label>
+                                    <ul id="custom-data-user">
+                                        <li class="tree-database" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                            <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
+                                            <label for="database-master-select-all-poi" class="label-database">Database</label>
+                                            <div id="residential-user-database"></div>
+                                        </li>
+                                        <li class="tree-localstorage" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                            <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
+                                            <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
+                                            <div id="residential-user-localstorage"></div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li style="margin-left:20px; display:none" class="tree-custom-data-office" value="Office">
+                                    <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                    <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
+                                    <label for="custom-data-master-select-all-poi" class="label-custom-data">Office</label>
+                                    <ul id="custom-data-user">
+                                        <li class="tree-database" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                            <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
+                                            <label for="database-master-select-all-poi" class="label-database">Database</label>
+                                            <div id="office-user-database"></div>
+                                        </li>
+                                        <li class="tree-localstorage" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                            <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
+                                            <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
+                                            <div id="office-user-localstorage"></div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li style="margin-left:20px; display:none" class="tree-custom-data-industrial" value="Industrial">
+                                    <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                    <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
+                                    <label for="custom-data-master-select-all-poi" class="label-custom-data">Industrial</label>
+                                    <ul id="custom-data-user">
+                                        <li class="tree-database" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                            <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
+                                            <label for="database-master-select-all-poi" class="label-database">Database</label>
+                                            <div id="industrial-user-database"></div>
+                                        </li>
+                                        <li class="tree-localstorage" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                            <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
+                                            <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
+                                            <div id="industrial-user-localstorage"></div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li style="margin-left:20px; display:none" class="tree-custom-data-investment" value="Investment">
+                                    <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                    <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
+                                    <label for="custom-data-master-select-all-poi" class="label-custom-data">Investment & Advisory</label>
+                                    <ul id="custom-data-user">
+                                        <li class="tree-database" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                            <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
+                                            <label for="database-master-select-all-poi" class="label-database">Database</label>
+                                            <div id="investment-user-database"></div>
+                                        </li>
+                                        <li class="tree-localstorage" style="display:none">
+                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
+                                            <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
+                                            <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
+                                            <div id="investment-user-localstorage"></div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
                         <li>
                             <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                 <input id="tall-1" class="checkbox-poi styled" type="checkbox" name="POI" value="POI">
-                                <label for="tall-1">
+                                <label for="tall-1"><span></span>
                                     POI
                                 </label>
                             </div>
@@ -924,48 +930,48 @@ if (!isset($_SESSION['auth'])) {
                                 <form id="all-poi">
                                     <li>
                                         <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input class="checkbox-sub-poi styled" type="checkbox" value="16" id="tall-1-1">
-                                            <label for="tall-1-1">
+                                            <input class="checkbox-sub-poi styled" type="checkbox" secondValue="043efa83c740ada85088797610dcff20" value="16" id="tall-1-1">
+                                            <label for="tall-1-1"><span></span>
                                                 Bank DKI
                                             </label>
                                         </div>
                                     </li>
                                     <li>
                                         <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input class="checkbox-sub-poi styled" type="checkbox" value="27" id="tall-1-2">
-                                            <label for="tall-1-2">
+                                            <input class="checkbox-sub-poi styled" type="checkbox" secondValue="6d360f3944aedea7a11c30a65e2b9f81" value="27" id="tall-1-2">
+                                            <label for="tall-1-2"><span></span>
                                                 Bank Mandiri
                                             </label>
                                         </div>
                                     </li>
                                     <li>
                                         <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input class="checkbox-sub-poi styled" type="checkbox" value="48" id="tall-1-3">
-                                            <label for="tall-1-3">
+                                            <input class="checkbox-sub-poi styled" type="checkbox" secondValue="043efa83c740ada85088797610dcff20" value="48" id="tall-1-3">
+                                            <label for="tall-1-3"><span></span>
                                                 Bank Sumut
                                             </label>
                                         </div>
                                     </li>
                                     <li>
                                         <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input class="checkbox-sub-poi styled" type="checkbox" value="4" id="tall-1-4">
-                                            <label for="tall-1-4">
+                                            <input class="checkbox-sub-poi styled" type="checkbox" secondValue="5997da4fa19d09c66b078ecb7df5a043" value="4" id="tall-1-4">
+                                            <label for="tall-1-4"><span></span>
                                                 Apotek K24
                                             </label>
                                         </div>
                                     </li>
                                     <li>
                                         <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input class="checkbox-sub-poi styled" type="checkbox" value="5" id="tall-1-5">
-                                            <label for="tall-1-5">
+                                            <input class="checkbox-sub-poi styled" type="checkbox" secondValue="ff5f425350108fbe0df7d0cac1764626" value="5" id="tall-1-5">
+                                            <label for="tall-1-5"><span></span>
                                                 Apotek Kimia Farma
                                             </label>
                                         </div>
                                     </li>
                                     <li class="last">
                                         <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input class="checkbox-sub-poi styled" type="checkbox" value="7" id="tall-1-6">
-                                            <label for="tall-1-6">
+                                            <input class="checkbox-sub-poi styled" type="checkbox" secondValue="a5b865a0a219dda0d5434ebdee20c4e7" value="7" id="tall-1-6">
+                                            <label for="tall-1-6"><span></span>
                                                 Apotek Watsons
                                             </label>
                                         </div>
@@ -976,7 +982,7 @@ if (!isset($_SESSION['auth'])) {
                         <li>
                             <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                 <input id="checkbox-infrastructure" class="checkbox-infrastructure styled" type="checkbox" name="infrastructure">
-                                <label for="checkbox-infrastructure">
+                                <label for="checkbox-infrastructure"><span></span>
                                     Infrastructure
                                 </label>
                             </div>
@@ -984,24 +990,24 @@ if (!isset($_SESSION['auth'])) {
                                 <form id="all-infrastructure">
                                     <li>
                                         <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input class="checkbox-sub-infrastructure styled" type="checkbox" value="14" id="tall-2-1">
-                                            <label for="tall-2-1">
+                                            <input class="checkbox-sub-infrastructure styled" type="checkbox" value="14" secondValue="3cd464faf714f7bd5ac83794a7a4a05d" id="tall-2-1">
+                                            <label for="tall-2-1"><span></span>
                                                 Bus Station
                                             </label>
                                         </div>
                                     </li>
                                     <li>
                                         <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input class="checkbox-sub-infrastructure styled" type="checkbox" value="15" id="tall-2-2">
-                                            <label for="tall-2-2">
+                                            <input class="checkbox-sub-infrastructure styled" type="checkbox" value="15" secondValue="2cd615ee33f699f12f5b370f42b35338" id="tall-2-2">
+                                            <label for="tall-2-2"><span></span>
                                                 MRT Station
                                             </label>
                                         </div>
                                     </li>
                                     <li>
                                         <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input class="checkbox-sub-infrastructure styled" type="checkbox" value="16" id="tall-2-3">
-                                            <label for="tall-2-3">
+                                            <input class="checkbox-sub-infrastructure styled" type="checkbox" value="16" secondValue="3cb6ca1379241d21cf375b3a3c9f1b70" id="tall-2-3">
+                                            <label for="tall-2-3"><span></span>
                                                 Commuter Line Station
                                             </label>
                                         </div>
@@ -1013,7 +1019,7 @@ if (!isset($_SESSION['auth'])) {
                         <li style="margin-bottom:50px;">
                             <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                 <input id="checkbox-demographic" class="checkbox-demographic styled" type="checkbox" name="demographic">
-                                <label for="checkbox-demographic">
+                                <label for="checkbox-demographic"><span></span>
                                     Demographic
                                 </label>
                             </div>
@@ -1022,7 +1028,7 @@ if (!isset($_SESSION['auth'])) {
                                     <li>
                                         <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                             <input class="checkbox-sub-demographic styled" type="checkbox" value="4" id="tall-3-1">
-                                            <label for="tall-3-1">
+                                            <label for="tall-3-1"><span></span>
                                                 Populasi
                                             </label>
                                         </div>
@@ -1034,8 +1040,6 @@ if (!isset($_SESSION['auth'])) {
                 </div>
             </div>
             <!-- End of the SideNav Viewer -->
-
-            <div id="legend-POI" class="legend-POI">TEST</div>
 
             <!-- SideNav Analysis -->
             <div id="mySiteAnalysis" class="sidenav panel-left">
@@ -1182,6 +1186,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/multiSelect.js"></script>
     <script src="assets/js/inputCheckboxPropertyStatus.js"></script>
     <script src="assets/js/inputCheckboxServices.js"></script>
+    <script src="assets/js/saveDataServiceToLocalStorage.js"></script>
     <script src="content/analysis/analysisPoi.js"></script>
     <script>
         $(document).ready(function() {
@@ -1192,6 +1197,7 @@ if (!isset($_SESSION['auth'])) {
             });
         });
     </script>
+
     </html>
 <?php
 }
