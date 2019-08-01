@@ -40,12 +40,3 @@ $(document).ready(function() {
 
     jQuery.addRows = function(){ $.fn.addRows() };
 });
-
-// width input lat & lon = 68px
-// $(document).ready(function() {
-//   $("#adding-btn").on("click", function() {
-//     $.get("content/template/instant_analysis/index.php", function(data){ 
-//       $("#form-list").append(data)
-//     });
-//   })
-// })

@@ -230,6 +230,7 @@ function boot(GIS) {
   bufferRadius(GIS, map);
   driveTime(GIS, map);
   driveTimeDistance(GIS, map);
+  saveAnalysis(map)
 
   // sidebar/sidenav
   function openNav() {

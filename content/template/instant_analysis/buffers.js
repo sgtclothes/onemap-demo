@@ -126,7 +126,8 @@ function bufferRadius(GIS,map){
                                             let layers = map.ObjMap.layers.items
                                             let check = layers.find(o => o.title === title)
                                             if (check === undefined) {
-                                                radiusPOI.render(resolve)   
+                                                radiusPOI.render(resolve)
+                                                console.log(graphicsLayers)   
                                             }
                                         });
 
