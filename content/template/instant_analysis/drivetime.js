@@ -16,6 +16,7 @@ function driveTime(GIS,map){
                         event.stopImmediatePropagation();
                         let distance = $(this).closest(".text-right").prev().children()[0].children[1].value
                         let unit = $(this).closest(".text-right").prev().children()[1].children[1].value
+                        let options = $(this).closest(".text-right").prev().prev().find('select.select-driving-distance').val()
 
                         var unitnum
                         if (unit == "minutes") {
@@ -67,6 +68,7 @@ function driveTime(GIS,map){
                                 distance,
                                 unit
                             );
+                            driveTime.setOptions(value,options,latitude,longitude,unit,distance)
 
                             map.ObjMapView.popup.dockOptions.breakpoint = false
                             map.ObjMapView.popup.dockOptions.position = 'bottom-right'
@@ -104,6 +106,7 @@ function driveTime(GIS,map){
                             $(this).closest(".text-right").prev().find('select.select-unit-time').prop('disabled', true)
                             $(this).closest(".text-right").prev().prev().find('select.select-driving').prop('disabled', true)
                             $(this).prop('disabled', true)
+                            $('.anly-poi-'+value).removeAttr('disabled')
                         }
                     })
                 })

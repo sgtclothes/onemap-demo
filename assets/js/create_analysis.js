@@ -97,6 +97,9 @@ $(document).ready(function(){
                     $("#mySidenav").css('width','320px');
                     $("#mySiteAnalysis").css('width','320px');
                 }
+                $('#instantAnalysisDiv').css('display', 'none')
+                $('#contentAnalysisDiv').removeAttr("style")
+
                 let currentNum = $("#load-data-site-analysis").children().length+1
                 let newTD = "<tr class='selected'><form method='POST' id='form-analysis-"+currentNum+"'><td>"+currentNum+"</td><td>"+name+"</td>"
                 newTD += "<td width='20px'><input type=hidden name='variable-for-analysis' data-latitude='"+JSON.stringify(latitude)+"' data-longitude='"+JSON.stringify(longitude)+"' data-options='"+JSON.stringify(options)+"' data-unit='"+JSON.stringify(unit)+"' data-distance='"+JSON.stringify(distance)+"' data-values='"+JSON.stringify(values)+"'>"

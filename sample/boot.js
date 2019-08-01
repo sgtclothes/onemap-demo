@@ -176,6 +176,8 @@ function boot(GIS) {
             if ($(".latitude-form-" + value).val() === "") {
               $(".latitude-form-" + value).val(latitude);
               $(".longitude-form-" + value).val(longitude);
+              $(".latitude-form-" + value).attr('title','Latitude '+latitude);
+              $(".longitude-form-" + value).attr('title','Longitude '+longitude);
               $("#form-list").delegate(
                 ".selectbuffer-" + value,
                 "click",
@@ -428,82 +430,16 @@ function boot(GIS) {
 
       var S = map.ObjMapView.popup.title;
       if (S.includes("Buffer") === false && S.includes("Driving") === false) {
-        function isFloat(n) {
-          return Number(n) === n && n % 1 !== 0;
-        }
-        let attr = map.ObjMapView.popup.selectedFeature.attributes;
-        var lat;
-        var lon;
-        if (
-          attr.hasOwnProperty("lat") ||
-          attr.hasOwnProperty("lon") ||
-          attr.hasOwnProperty("long") ||
-          attr.hasOwnProperty("latitude") ||
-          attr.hasOwnProperty("longitude") ||
-          attr.hasOwnProperty("Latitude") ||
-          attr.hasOwnProperty("Longitude") ||
-          attr.hasOwnProperty("LATITUDE") ||
-          attr.hasOwnProperty("LONGITUDE") ||
-          attr.hasOwnProperty("LAT") ||
-          attr.hasOwnProperty("LON")
-        ) {
-          if (attr.hasOwnProperty("lat")) {
-            lat = attr.lat;
-          }
-          if (attr.hasOwnProperty("lon")) {
-            lon = attr.lon;
-          }
-          if (attr.hasOwnProperty("long")) {
-            lon = attr.long;
-          }
-          if (attr.hasOwnProperty("latitude")) {
-            lat = attr.latitude;
-          }
-          if (attr.hasOwnProperty("longitude")) {
-            lon = attr.longitude;
-          }
-          if (attr.hasOwnProperty("Latitude")) {
-            lat = attr.Latitude;
-          }
-          if (attr.hasOwnProperty("Longitude")) {
-            lon = attr.Longitude;
-          }
-          if (attr.hasOwnProperty("LATITUDE")) {
-            lat = attr.LATITUDE;
-          }
-          if (attr.hasOwnProperty("LONGITUDE")) {
-            lon = attr.LONGITUDE;
-          }
-          if (attr.hasOwnProperty("LAT")) {
-            lat = attr.LAT;
-          }
-          if (attr.hasOwnProperty("LON")) {
-            lon = attr.LON;
-          }
-        } else {
-          for (let key in attr) {
-            if (isFloat(attr[key])) {
-              if (
-                typeof attr[key] === "number" &&
-                attr[key] >= -90 &&
-                attr[key] <= 90
-              ) {
-                lat = attr[key];
-              } else if (
-                typeof attr[key] === "number" &&
-                attr[key] >= -180 &&
-                attr[key] <= 180
-              ) {
-                lon = attr[key];
-              }
-            }
-          }
-        }
+        let attr = map.ObjMapView.popup.selectedFeature;
+        let lat = attr.geometry.latitude
+        let lon = attr.geometry.longitude
         $.addRows();
         $.each(window.counterArr, function(index, value) {
           if ($(".latitude-form-" + value).val() === "") {
-            $(".latitude-form-" + value).val(lat);
-            $(".longitude-form-" + value).val(lon);
+            $(".latitude-form-"+value).val(lat);
+            $(".longitude-form-"+value).val(lon);
+            $(".latitude-form-"+value).attr('title','Latitude '+lat);
+            $(".longitude-form-"+value).attr('title','Longitude '+lon);
             $("#form-list").delegate(
               ".selectbuffer-" + value,
               "click",
@@ -626,7 +562,6 @@ function boot(GIS) {
   // end of widget color picker and render poi
 
   // Show & Hide POI from GIS Services
-  let layerServiceArr = JSON.parse(layerDataArr);
   let storeDatabase = new GIS.Buffer.Database(
     "localhost",
     "root",

@@ -1,10 +1,9 @@
 <?php
 session_start();
 if (!isset($_SESSION['auth'])) {
-    echo "<script>alert('Login Required.'); location.href='login.php';</script>";
+    header('Location: login.php'); 
 } else {
     include 'config/conn.php';
-    include 'content/layer.php';
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -102,6 +101,7 @@ if (!isset($_SESSION['auth'])) {
             #form-list {
                 margin-left: 5px;
                 margin-top: 5px;
+                margin-bottom: 10px;
                 overflow-y: auto;
                 overflow-x: hidden;
                 min-height: 100px;
@@ -163,7 +163,6 @@ if (!isset($_SESSION['auth'])) {
             let user = "<?= $dbuser ?>"
             let pass = "<?= $dbpass ?>"
             window.created_by = "<?= $_SESSION['auth']['id'] ?>"
-            window.layerDataArr = '<?php print json_encode($layer_array) ?>'
         </script>
 
         <script src="sample/boot.js"></script>
@@ -1108,6 +1107,7 @@ if (!isset($_SESSION['auth'])) {
                     </table>
                 </div>
                 <div id="analysisDiv" style="display:none;"><?php include "content/analysis/results_table.html"; ?></div>
+                <div id="instantAnalysisDiv" style="display:none;"><?php include "content/analysis/results_table_instant.html"; ?></div>
             </div>
         </div>
         <!-- /page-content-->

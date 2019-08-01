@@ -95,6 +95,8 @@ function createMarkerFromCSV(GIS,map){
                                 if ($(".latitude-form-"+value).val() === '') {
                                     $(".latitude-form-"+value).val($ischecked.attr('data-latitude'+key))
                                     $(".longitude-form-"+value).val($ischecked.attr('data-longitude'+key))
+                                    $(".latitude-form-"+value).attr('title','Latitude '+$ischecked.attr('data-latitude'+key));
+                                    $(".longitude-form-"+value).attr('title','Longitude '+$ischecked.attr('data-longitude'+key));
                                     
                                     let pointing = new GIS.Buffer.Pointing(
                                         map.ObjMapView,

@@ -1,10 +1,10 @@
 <?php
     session_start();
-    unset($_SESSION['email']);
-	if(isset($_SESSION['email'])) {
+    unset($_SESSION['auth']);
+	if(isset($_SESSION['auth'])) {
         session_destroy();
     }
     if(isset($_SESSION)) {
-        echo '<script>window.location="login.php"</script>';
+        header('Location: login.php');
     }
 ?>
