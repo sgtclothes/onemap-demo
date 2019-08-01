@@ -109,7 +109,7 @@ function multiSelect() {
   $(inputDepartment).click(function() {
     if ($(this).prop("checked") == true) {
       department.push($(this).val());
-      if (department.length == 9) {
+      if (department.length == 11) {
         $(selectAllDepartment).text("Unselect all");
       }
     } else if ($(this).prop("checked") == false) {
