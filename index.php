@@ -166,7 +166,7 @@ if (!isset($_SESSION['auth'])) {
         </script>
 
         <script src="sample/boot.js"></script>
-        <script src="content/analysis/dataAnalysis.js"></script>
+        <!-- <script src="content/analysis/dataAnalysis.js"></script> -->
         <script src="content/template/instant_analysis/buffers.js"></script>
         <script src="content/template/instant_analysis/drivetime_distance.js"></script>
         <script src="content/template/instant_analysis/drivetime.js"></script>
@@ -1046,10 +1046,12 @@ if (!isset($_SESSION['auth'])) {
                 <div class="inline">
                     <a href="javascript:void(0)" id="closeSiteAnalysis">&times;</a>
                 </div>
-                <div>
+                <div id="tbl-analysis-div-parent">
                     <p style="padding: 20px 8px 0px 90px;" class="title">
                     </p>
-                    <div id="tbl-analysis-div" class="table-responsive tbl"></div>
+                    <div id="tbl-analysis-div" class="table-responsive tbl">
+                        <?php include "content/analysis/site_analysis.php"; ?>
+                    </div>
                 </div>
             </div>
             <div id="myAnalysisPOI" class="sidenav panel-left">
@@ -1197,7 +1199,6 @@ if (!isset($_SESSION['auth'])) {
             });
         });
     </script>
-
     </html>
 <?php
 }

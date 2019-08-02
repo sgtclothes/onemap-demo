@@ -1,15 +1,15 @@
 function analysisPoi(GIS,map) {
     $(document).ready(function(){
-        let table = $("#datatable-site").children()[1].children
+        let tbl = $("#datatable-site").DataTable();
+        let table = tbl.column(0).data()
         for (let i = 1; i <= table.length; i++) {
-            $("#form-analysis-"+i).submit(function(e){
-                e.preventDefault();
-                let id_analysis = $("#id-analysis-"+i).val()
-                let name_analysis = $("#name-analysis-"+i).val()
+            $("#datatable-site").on('click','#form-analysis-'+i, function(){
+                let id_analysis = $(this).attr('data-id')
+                let name_analysis = $(this).attr('data-name')
                 $.ajax({
                     url: "content/analysis/analysis_poi.php",
                     type: 'POST',
-                    data: $(this).serialize(),
+                    data: {id_analysis:id_analysis,name_analysis:name_analysis},
                     success: function(data) {
                         $('#datatable-poi-anly').remove()
                         $('#myAnaysisPOIList').append(data)
@@ -558,7 +558,7 @@ function analysisPoi(GIS,map) {
                             })
                         })
                     }
-                }); 
+                });
             })
         }
     })
