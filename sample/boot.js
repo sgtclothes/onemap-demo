@@ -145,6 +145,9 @@ function boot(GIS) {
   });
   // END of create a site
 
+  map.ObjMapView.popup.actionsMenuEnabled = false;
+  map.ObjMapView.popup.featureNavigationEnabled = false;
+
   // create instant analysis
   let pointEnabled = false;
   $(document).ready(function() {
@@ -176,8 +179,14 @@ function boot(GIS) {
             if ($(".latitude-form-" + value).val() === "") {
               $(".latitude-form-" + value).val(latitude);
               $(".longitude-form-" + value).val(longitude);
-              $(".latitude-form-" + value).attr('title','Latitude '+latitude);
-              $(".longitude-form-" + value).attr('title','Longitude '+longitude);
+              $(".latitude-form-" + value).attr(
+                "title",
+                "Latitude " + latitude
+              );
+              $(".longitude-form-" + value).attr(
+                "title",
+                "Longitude " + longitude
+              );
               $("#form-list").delegate(
                 ".selectbuffer-" + value,
                 "click",
@@ -407,10 +416,22 @@ function boot(GIS) {
   var pointThisAction = {
     title: "Pointing",
     id: "point-this",
-    className: "esri-icon-map-pin"
+    className: "esri-icon-map-pin onemap-pointing"
+  };
+  var editThisAction = {
+    title: "Edit",
+    id: "edit-this",
+    className: "esri-icon-edit onemap-edit"
+  };
+  var removeThisPoint = {
+    title: "Remove",
+    id: "remove-this",
+    className: "esri-icon-trash onemap-remove"
   };
   delete map.ObjMapView.popup.actions.items[0];
   map.ObjMapView.popup.actions.push(pointThisAction);
+  map.ObjMapView.popup.actions.push(editThisAction);
+  map.ObjMapView.popup.actions.push(removeThisPoint);
   map.ObjMapView.popup.on("trigger-action", ({ action }) => {
     if (action.id === "point-this") {
       let mySidenav = document.getElementById("mySidenav");
@@ -431,15 +452,15 @@ function boot(GIS) {
       var S = map.ObjMapView.popup.title;
       if (S.includes("Buffer") === false && S.includes("Driving") === false) {
         let attr = map.ObjMapView.popup.selectedFeature;
-        let lat = attr.geometry.latitude
-        let lon = attr.geometry.longitude
+        let lat = attr.geometry.latitude;
+        let lon = attr.geometry.longitude;
         $.addRows();
         $.each(window.counterArr, function(index, value) {
           if ($(".latitude-form-" + value).val() === "") {
-            $(".latitude-form-"+value).val(lat);
-            $(".longitude-form-"+value).val(lon);
-            $(".latitude-form-"+value).attr('title','Latitude '+lat);
-            $(".longitude-form-"+value).attr('title','Longitude '+lon);
+            $(".latitude-form-" + value).val(lat);
+            $(".longitude-form-" + value).val(lon);
+            $(".latitude-form-" + value).attr("title", "Latitude " + lat);
+            $(".longitude-form-" + value).attr("title", "Longitude " + lon);
             $("#form-list").delegate(
               ".selectbuffer-" + value,
               "click",
@@ -467,7 +488,31 @@ function boot(GIS) {
       }
     }
   });
-  //end of drag and drop
+
+  map.ObjMapView.popup.on("trigger-action", ({ action }) => {
+    if (action.id === "edit-this") {
+      alert("EDIT");
+    }
+  });
+
+  map.ObjMapView.popup.on("trigger-action", ({ action }) => {
+    if (action.id === "remove-this") {
+      let confirmBox = new GIS.Buffer.ConfirmBox(
+        "Remove this point?",
+        "Yes",
+        "No",
+        "remove-point-yes",
+        "remove-point-no",
+        function() {
+          console.log(map.ObjMapView.popup.selectedFeature);
+          console.log(map.ObjMap.layers);
+          // map.ObjMap.remove(map.ObjMapView.popup.selectedFeature);
+        }
+      );
+      confirmBox.show();
+    }
+  });
+  // end of drag and drop
 
   // widget color picker and render poi
   // let colorsDiv = document.getElementById("colors-div");
@@ -755,6 +800,14 @@ function boot(GIS) {
     on(map.ObjMapView, "click", displayTractID);
   });
 
+  var measureThisAction = {
+    title: "Measure Length",
+    id: "measure-this",
+    image:
+      "https://developers.arcgis.com/javascript/latest/sample-code/popup-actions/live/Measure_Distance16.png",
+    label: "OK"
+  };
+
   let colliersServicePopupTemplate = {
     title: "Colliers Property",
     content: "{*}"
@@ -786,6 +839,7 @@ function boot(GIS) {
 
     // Search for graphics at the clicked location
     map.ObjMapView.hitTest(screenPoint).then(function(response) {
+      // console.log(response)
       if (response.results.length) {
         var graphic = response.results.filter(function(result) {
           // check if the graphic belongs to the layer of interest
@@ -793,7 +847,10 @@ function boot(GIS) {
         })[0].graphic;
 
         // do something with the result graphic
-        console.log(graphic.geometry);
+        console.log(graphic);
+        map.ObjMap.graphics.clear();
+        // localStorage.setItem("selectedFeature", JSON.stringify(graphic));
+        // console.log(JSON.parse(localStorage.getItem("selectedFeature")))
       }
     });
   }
@@ -809,7 +866,6 @@ function boot(GIS) {
 
   $("#checkbox-colliers-property").click(function() {
     if ($(this).prop("checked") == true) {
-      console.log("OPK");
       map.ObjMap.add(colliersService);
     } else if ($(this).prop("checked") == false) {
       map.ObjMap.remove(colliersService);
@@ -819,40 +875,6 @@ function boot(GIS) {
   $(document).delegate("#button-ok-property", "click", function() {
     $(".ms-options-wrap").removeClass("ms-active");
   });
-
-  $(document).delegate(
-    ".esri-popup__inline-actions-container",
-    "click",
-    function() {
-      let mySidenav = document.getElementById("mySidenav");
-      if (mySidenav.style.width < "320px") {
-        if (
-          document.getElementById("myViewer").style.width > "0px" ||
-          document.getElementById("mySiteAnalysis").style.width > "0px"
-        ) {
-          if (mySidenav.style.width > "0px") {
-            mySidenav.classList.add("panel-right");
-            document.getElementById("main").style.marginRight = "0";
-            mySidenav.setAttribute("style", "width:0px;");
-          } else {
-            mySidenav.classList.add("panel-right");
-            document.getElementById("main").style.marginRight = "320px";
-            mySidenav.setAttribute("style", "width:320px;");
-          }
-          if (mySidenav.classList.contains("panel-left")) {
-            mySidenav.classList.remove("panel-left");
-          }
-        } else {
-          if (mySidenav.style.width > "0px") {
-            closeNav();
-            document.getElementById("form-filter").style.display = "none";
-          } else {
-            openNav();
-          }
-        }
-      }
-    }
-  );
 
   $("html").click(function() {
     let property = $(".dropdown-content-property");

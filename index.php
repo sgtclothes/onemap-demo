@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['auth'])) {
-    header('Location: login.php'); 
+    header('Location: login.php');
 } else {
     include 'config/conn.php';
     ?>
@@ -342,19 +342,19 @@ if (!isset($_SESSION['auth'])) {
                                                     <tr>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-property" id="property-office" value="Office">
+                                                                <input class="styled" type="checkbox" name="select-property" id="property-office" value="Office">
                                                                 <label for="property-office"><span></span>Office</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-property" id="property-ruko" value="Ruko">
+                                                                <input class="styled" type="checkbox" name="select-property" id="property-ruko" value="Ruko">
                                                                 <label for="property-ruko"><span></span>Ruko</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-property" id="property-apartment" value="Apartment">
+                                                                <input class="styled" type="checkbox" name="select-property" id="property-apartment" value="Apartment">
                                                                 <label for="property-apartment"><span></span>Apartment</label>
                                                             </div>
                                                         </td>
@@ -362,19 +362,19 @@ if (!isset($_SESSION['auth'])) {
                                                     <tr>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-property" id="property-industrial" value="Industrial">
+                                                                <input class="styled" type="checkbox" name="select-property" id="property-industrial" value="Industrial">
                                                                 <label for="property-industrial"><span></span>Industrial/Logistic</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-property" id="property-shopping-center" value="Shopping Center">
+                                                                <input class="styled" type="checkbox" name="select-property" id="property-shopping-center" value="Shopping Center">
                                                                 <label for="property-shopping-center"><span></span>Shopping Center</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-property" id="property-house" value="House">
+                                                                <input class="styled" type="checkbox" name="select-property" id="property-house" value="House">
                                                                 <label for="property-house"><span></span>House</label>
                                                             </div>
                                                         </td>
@@ -384,7 +384,7 @@ if (!isset($_SESSION['auth'])) {
                                                     <tr>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-property" id="property-others" value="Others">
+                                                                <input class="styled" type="checkbox" name="select-property" id="property-others" value="Others">
                                                                 <label for="property-others"><span></span>Others</label>
                                                             </div>
                                                         </td>
@@ -706,19 +706,19 @@ if (!isset($_SESSION['auth'])) {
                                                     <tr>
                                                         <td style="width:100px;">
                                                             <div>
-                                                                <input type="checkbox" name="select-department" id="department-advisory" value="Advisory">
+                                                                <input type="checkbox" class="styled" name="select-department" id="department-advisory" value="Advisory">
                                                                 <label for="department-advisory"><span></span>Advisory</label>
                                                             </div>
                                                         </td>
                                                         <td style="width:100px;">
                                                             <div>
-                                                                <input type="checkbox" name="select-department" id="department-industrial" value="Industrial">
+                                                                <input type="checkbox" class="styled" name="select-department" id="department-industrial" value="Industrial">
                                                                 <label for="department-industrial"><span></span>Industrial/Logistic</label>
                                                             </div>
                                                         </td>
                                                         <td style="width:100px;">
                                                             <div>
-                                                                <input type="checkbox" name="select-department" id="department-project-management" value="Project Management">
+                                                                <input type="checkbox" class="styled" name="select-department" id="department-project-management" value="Project Management">
                                                                 <label for="department-project-management"><span></span>Project Management</label>
                                                             </div>
                                                         </td>
@@ -726,19 +726,19 @@ if (!isset($_SESSION['auth'])) {
                                                     <tr>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-department" id="department-office" value="Office">
+                                                                <input type="checkbox" class="styled" name="select-department" id="department-office" value="Office">
                                                                 <label for="department-office"><span></span>Office</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-department" id="department-residential" value="Residential">
+                                                                <input type="checkbox" class="styled" name="select-department" id="department-residential" value="Residential">
                                                                 <label for="department-residential"><span></span>Residential</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-department" id="department-facility-management" value="Facility Management">
+                                                                <input type="checkbox" class="styled" name="select-department" id="department-facility-management" value="Facility Management">
                                                                 <label for="department-facility-management"><span></span>Facility Management</label>
                                                             </div>
                                                         </td>
@@ -746,19 +746,19 @@ if (!isset($_SESSION['auth'])) {
                                                     <tr>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-department" id="department-retail" value="Retail">
+                                                                <input type="checkbox" class="styled" name="select-department" id="department-retail" value="Retail">
                                                                 <label for="department-retail"><span></span>Retail</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-department" id="department-capital-market" value="Capital Market">
+                                                                <input type="checkbox" class="styled" name="select-department" id="department-capital-market" value="Capital Market">
                                                                 <label for="department-capital-market"><span></span>Capital Market</label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div>
-                                                                <input type="checkbox" name="select-department" id="department-real-estate-management" value="Real Estate Management">
+                                                                <input type="checkbox" class="styled" name="select-department" id="department-real-estate-management" value="Real Estate Management">
                                                                 <label for="department-real-estate-management"><span></span>Real Estate Management</label>
                                                             </div>
                                                         </td>
@@ -769,13 +769,13 @@ if (!isset($_SESSION['auth'])) {
                                                         <tr>
                                                             <td>
                                                                 <div class="department-direction">
-                                                                    <input type="checkbox" name="select-department" id="department-current" value="Current">
+                                                                    <input type="checkbox" class="styled" name="select-department" id="department-current" value="Current">
                                                                     <label for="department-current"><span></span>Current</label>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="department-direction">
-                                                                    <input type="checkbox" name="select-department" id="department-previous" value="Previous">
+                                                                    <input type="checkbox" class="styled" name="select-department" id="department-previous" value="Previous">
                                                                     <label for="department-previous"><span></span>Previous</label>
                                                                 </div>
                                                             </td>
@@ -807,13 +807,7 @@ if (!isset($_SESSION['auth'])) {
                                 </tr>
                             </table>
                         </li>
-                        <li>
-                            <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                <input class="checkbox-sub-poi styled" type="checkbox" secondValue="043efa83c740ada85088797610dcff20" value="16" id="tall-1-1">
-                                <label for="tall-1-1"><span></span>
-                                    Bank DKI
-                                </label>
-                            </div>
+                        <li style="display:none">
                             <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                 <input id="checkbox-colliers-property" class="styled" type="checkbox" value="colliers-property">
                                 <label for="checkbox-colliers-property"><span></span>
