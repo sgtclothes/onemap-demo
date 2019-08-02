@@ -52,7 +52,7 @@ function inputCheckboxServices(GIS, map) {
             url + $(subPOI[i]).val()
           );
           layer.setPopupTemplate({
-            content: "{Geometry}"
+            content: "{*}"
           });
           layer.render();
           $(subPOI[i]).attr(
@@ -65,7 +65,6 @@ function inputCheckboxServices(GIS, map) {
         }
       }
       localStorage.setItem("checkedPOI", JSON.stringify(checked));
-      console.log(JSON.parse(localStorage.getItem("checkedPOI")));
     } else if ($(this).prop("checked") == false) {
       let checked = JSON.parse(localStorage.getItem("checkedPOI"));
       if (checked !== null) {
@@ -87,7 +86,6 @@ function inputCheckboxServices(GIS, map) {
       }
       checked = [];
       localStorage.setItem("checkedPOI", JSON.stringify(checked));
-      console.log(JSON.parse(localStorage.getItem("checkedPOI")));
     }
   });
 
@@ -115,6 +113,9 @@ function inputCheckboxServices(GIS, map) {
         $(this).val()
       );
       layer = new GIS.Layer.ServiceLayer(map.ObjMap, url + $(this).val());
+      layer.setPopupTemplate({
+        content: "{*}"
+      });
       layer.render();
       $(this).attr(
         "name",
@@ -124,12 +125,10 @@ function inputCheckboxServices(GIS, map) {
         map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
       );
       localStorage.setItem("checkedPOI", JSON.stringify(checked));
-      console.log(JSON.parse(localStorage.getItem("checkedPOI")));
     } else if ($(this).prop("checked") == false) {
       let index = checked.indexOf($(this).attr("name"));
       checked.splice(index, 1);
       localStorage.setItem("checkedPOI", JSON.stringify(checked));
-      console.log(JSON.parse(localStorage.getItem("checkedPOI")));
       let trSecondValue = $(this).attr("secondValue");
       let trValue = $(this).val();
       $("#" + trSecondValue + "-" + trValue).remove();
@@ -266,6 +265,9 @@ function inputCheckboxServices(GIS, map) {
             map.ObjMap,
             url + $(subInfrasctructure[i]).val()
           );
+          layer.setPopupTemplate({
+            content: "{*}"
+          });
           layer.render();
           $(subInfrasctructure[i]).attr(
             "name",
@@ -277,7 +279,6 @@ function inputCheckboxServices(GIS, map) {
         }
       }
       localStorage.setItem("checkedInfrastructure", JSON.stringify(checked));
-      console.log(JSON.parse(localStorage.getItem("checkedInfrastructure")));
     } else if ($(this).prop("checked") == false) {
       let checked = JSON.parse(localStorage.getItem("checkedInfrastructure"));
       if (checked !== null) {
@@ -299,7 +300,6 @@ function inputCheckboxServices(GIS, map) {
       }
       checked = [];
       localStorage.setItem("checkedInfrastructure", JSON.stringify(checked));
-      console.log(JSON.parse(localStorage.getItem("checkedInfrastructure")));
     }
   });
 
@@ -329,6 +329,9 @@ function inputCheckboxServices(GIS, map) {
         $(this).val()
       );
       layer = new GIS.Layer.ServiceLayer(map.ObjMap, url + $(this).val());
+      layer.setPopupTemplate({
+        content: "{*}"
+      });
       layer.render();
       $(this).attr(
         "name",
@@ -338,12 +341,10 @@ function inputCheckboxServices(GIS, map) {
         map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
       );
       localStorage.setItem("checkedInfrastructure", JSON.stringify(checked));
-      console.log(JSON.parse(localStorage.getItem("checkedInfrastructure")));
     } else if ($(this).prop("checked") == false) {
       let index = checked.indexOf($(this).attr("name"));
       checked.splice(index, 1);
       localStorage.setItem("checkedInfrastructure", JSON.stringify(checked));
-      console.log(JSON.parse(localStorage.getItem("checkedInfrastructure")));
       let trSecondValue = $(this).attr("secondValue");
       let trValue = $(this).val();
       $("#" + trSecondValue + "-" + trValue).remove();
@@ -405,6 +406,9 @@ function inputCheckboxServices(GIS, map) {
             map.ObjMap,
             url + $(subDemographic[i]).val()
           );
+          layer.setPopupTemplate({
+            content: "{*}"
+          });
           layer.render();
           $(subDemographic[i]).attr(
             "name",
@@ -416,7 +420,6 @@ function inputCheckboxServices(GIS, map) {
         }
       }
       localStorage.setItem("checkedDemographic", JSON.stringify(checked));
-      console.log(JSON.parse(localStorage.getItem("checkedDemographic")));
     } else if ($(this).prop("checked") == false) {
       let checked = JSON.parse(localStorage.getItem("checkedDemographic"));
       if (checked !== null) {
@@ -438,7 +441,6 @@ function inputCheckboxServices(GIS, map) {
       }
       checked = [];
       localStorage.setItem("checkedDemographic", JSON.stringify(checked));
-      console.log(JSON.parse(localStorage.getItem("checkedDemographic")));
     }
   });
 
@@ -471,6 +473,9 @@ function inputCheckboxServices(GIS, map) {
         $(this).val()
       );
       layer = new GIS.Layer.ServiceLayer(map.ObjMap, url + $(this).val());
+      layer.setPopupTemplate({
+        content: "{*}"
+      });
       layer.render();
       $(this).attr(
         "name",
@@ -480,7 +485,6 @@ function inputCheckboxServices(GIS, map) {
         map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
       );
       localStorage.setItem("checkedDemographic", JSON.stringify(checked));
-      console.log(JSON.parse(localStorage.getItem("checkedDemographic")));
     } else if ($(this).prop("checked") == false) {
       $(".div-demographic").remove();
       let checked = JSON.parse(localStorage.getItem("checkedDemographic"));
@@ -491,7 +495,6 @@ function inputCheckboxServices(GIS, map) {
       }
       checked = [];
       localStorage.setItem("checkedDemographic", JSON.stringify(checked));
-      console.log(JSON.parse(localStorage.getItem("checkedDemographic")));
       for (let i in map.ObjMap.layers.items) {
         if (map.ObjMap.layers.items[i].uid == $(this).attr("name")) {
           map.ObjMap.layers.items[i].visible = false;

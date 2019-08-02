@@ -1,4 +1,4 @@
-input[type="checkbox"]:not(old) {
+input.styled[type="checkbox"]:not(old) {
   width: 2em;
   margin: 0;
   padding: 0;
@@ -7,14 +7,14 @@ input[type="checkbox"]:not(old) {
   cursor: pointer;
 }
 
-input[type="checkbox"]:not(old) + label {
+input.styled[type="checkbox"]:not(old) + label {
   display: inline-block;
   margin-left: -2em;
   line-height: 1.5em;
   cursor: pointer;
 }
 
-input[type="checkbox"]:not(old) + label > span {
+input.styled[type="checkbox"]:not(old) + label > span {
   display: inline-block;
   width: 1.25em;
   height: 1.25em;
@@ -37,7 +37,7 @@ input[type="checkbox"]:not(old) + label > span {
   vertical-align: bottom;
 }
 
-input[type="checkbox"]:not(old):checked + label > span {
+input.styled[type="checkbox"]:not(old):checked + label > span {
   border-radius: 50%;
   background-image: -moz-linear-gradient(
     rgb(224, 224, 224),
@@ -52,7 +52,7 @@ input[type="checkbox"]:not(old):checked + label > span {
   background-image: linear-gradient(rgb(224, 224, 224), rgb(240, 240, 240));
 }
 
-input[type="checkbox"]:not(old):checked + label > span:before {
+input.styled[type="checkbox"]:not(old):checked + label > span:before {
   content: "●";
   display: block;
   /* width: 1em; */

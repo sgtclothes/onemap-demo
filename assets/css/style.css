@@ -629,3 +629,33 @@ td.property-item {
   font-weight: bold;
   color: #ffffff;
 }
+
+.esri-popup__inline-actions-container {
+  width: 112px !important;
+}
+
+.esri-view-width-less-than-large .esri-popup__action {
+  display: block !important;
+}
+
+div.esri-popup__button.esri-popup__action {
+  margin-right: 5px;
+}
+
+.esri-view-width-less-than-large .onemap-pointing:after {
+  content: "Point";
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.esri-view-width-less-than-large .onemap-edit:after {
+  content: "Edit";
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.esri-view-width-less-than-large .onemap-remove:after {
+  content: "Remove";
+  padding-left: 2px;
+  padding-right: 2px;
+}
