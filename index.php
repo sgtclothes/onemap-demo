@@ -166,6 +166,7 @@ if (!isset($_SESSION['auth'])) {
         </script>
 
         <script src="sample/boot.js"></script>
+        <script src="content/analysis/dataAnalysis.js"></script>
         <script src="content/template/instant_analysis/buffers.js"></script>
         <script src="content/template/instant_analysis/drivetime_distance.js"></script>
         <script src="content/template/instant_analysis/drivetime.js"></script>
@@ -1042,9 +1043,7 @@ if (!isset($_SESSION['auth'])) {
                 <div>
                     <p style="padding: 20px 8px 0px 90px;" class="title">
                     </p>
-                    <div class="table-responsive tbl">
-                        <?php include 'content/site_analysis.php'; ?>
-                    </div>
+                    <div id="tbl-analysis-div" class="table-responsive tbl"></div>
                 </div>
             </div>
             <div id="myAnalysisPOI" class="sidenav panel-left">
@@ -1189,13 +1188,6 @@ if (!isset($_SESSION['auth'])) {
                 "bLengthChange": false,
                 "bFilter": true,
                 "pageLength": 5
-            });
-            $('#datatable-site').dataTable({
-                "bLengthChange": false,
-                "bFilter": true,
-                "bInfo": false,
-                "pageLength": 5,
-                "pagingType": "numbers"
             });
         });
     </script>

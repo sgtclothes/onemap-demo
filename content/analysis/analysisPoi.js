@@ -561,14 +561,5 @@ function analysisPoi(GIS,map) {
                 }); 
             })
         }
-
-        $('#datatable-site').click(function(){
-            let tbl = $("#datatable-site").children()[1].children
-            for (let i = 1; i <= tbl.length; i++) {
-                $("#form-analysis-"+i).submit(function(){
-                    console.log("Hello World")
-                })
-            }
-        })
     })
 }
