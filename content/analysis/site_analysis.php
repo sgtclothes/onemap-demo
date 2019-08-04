@@ -17,7 +17,7 @@
             <td><?php echo $num; ?></td>
             <td><?php echo $site_anly['name']; ?></td>
             <td width="20px">
-                <button id="form-analysis-<?php echo $num; ?>" data-id="<?php echo $site_anly['id']; ?>" data-name="<?php echo $site_anly['name']; ?>" type="button" class="link">view</button>
+                <button data-id="<?php echo $site_anly['id']; ?>" data-name="<?php echo $site_anly['name']; ?>" type="button" class="form-analysis link">view</button>
                 <a>edit</a>
             </td>
         </tr>
