@@ -14,6 +14,7 @@ function analysisPoi(GIS,map) {
                     document.getElementById("myAnalysisPOI").style.width = "320px";
                     $("input[name='render-for-analysis-"+id_analysis+"']").click(function(){
                         $(this).closest('div').find('button.btn-modal-form-poi').removeAttr("disabled")
+                        $(this).closest('div').find('button.btn-batas-administrasi').removeAttr("disabled")
                         $(this).closest('div').find('i.icon-pin-alt').css("color","#4169e1")
                         $(this).closest('div').find('i.icon-table2').css("color","#4169e1")
                     
@@ -128,6 +129,7 @@ function analysisPoi(GIS,map) {
                                             });
                 
                                             promise.then(function() {
+                                                localStorage.setItem('titleBatasAdm', title)
                                                 let batasAdministrasi = new GIS.Analysis.BatasAdministrasi(map.ObjMap,title)
                                                 batasAdministrasi.render(radius.Results)
                                             })
@@ -235,7 +237,11 @@ function analysisPoi(GIS,map) {
                     })
 
                     $('.btn-batas-administrasi').on('click', function(){
-                        
+                        let title = localStorage.getItem('titleBatasAdm')
+                        title = title+"BatasAdministrasi"
+                        let graphicslayers = map.ObjMap.layers.items
+                        let batasAdministrasi = graphicslayers.find(o => o.title === title)
+                        batasAdministrasi.visible = true
                     })
 
                     let latitude = $("input[name='render-for-analysis-"+id_analysis+"']").attr('data-latitude')
