@@ -1,6 +1,5 @@
 <?php
 include '../config/conn_user_data.php';
-include '../config/ConsolePhp.php';
 function debug_to_console($data)
 {
     $output = $data;

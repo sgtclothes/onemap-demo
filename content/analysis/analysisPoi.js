@@ -15,7 +15,8 @@ function analysisPoi(GIS,map) {
                     $("input[name='render-for-analysis-"+id_analysis+"']").click(function(){
                         $(this).closest('div').find('button.btn-modal-form-poi').removeAttr("disabled")
                         $(this).closest('div').find('i.icon-pin-alt').css("color","#4169e1")
-
+                        $(this).closest('div').find('i.icon-table2').css("color","#4169e1")
+                    
                         let navTabsObj = $("#analysis-results-table").find("#nav-tabs-analysis").children()
                         let tab
                         if (navTabsObj.length === 0) {
@@ -122,7 +123,14 @@ function analysisPoi(GIS,map) {
 
                                             map.ObjMapView.popup.dockOptions.breakpoint = false
                                             map.ObjMapView.popup.dockOptions.position = 'bottom-right'
-                                            radius.create();
+                                            let promise = new Promise(function(resolve, reject) {
+                                                radius.create(resolve);
+                                            });
+                
+                                            promise.then(function() {
+                                                let batasAdministrasi = new GIS.Analysis.BatasAdministrasi(map.ObjMap,title)
+                                                batasAdministrasi.render(radius.Results)
+                                            })
                                         }
                                     }
                                     else if (parseInt(option[p][q]) !== 0) {
@@ -224,6 +232,10 @@ function analysisPoi(GIS,map) {
                                 }
                             }
                         }
+                    })
+
+                    $('.btn-batas-administrasi').on('click', function(){
+                        
                     })
 
                     let latitude = $("input[name='render-for-analysis-"+id_analysis+"']").attr('data-latitude')

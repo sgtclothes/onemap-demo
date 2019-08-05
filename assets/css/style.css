@@ -659,3 +659,70 @@ div.esri-popup__button.esri-popup__action {
   padding-left: 2px;
   padding-right: 2px;
 }
+
+#form-list {
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 100px;
+  min-height: 200px
+}
+
+.bottom-input-name {
+  background-color: #fff;
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 16px;
+}
+
+.tbl {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+table.dataTable th {
+  padding-top: 1.2px;
+  padding-bottom: 1.2px;
+}
+
+table.dataTable td {
+  padding-top: 1.2px;
+  padding-bottom: 1.2px;
+}
+
+table.dataTable {
+  margin-bottom: 5px;
+}
+
+.btn-modal-form-poi {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  margin-bottom: 9px;
+}
+
+.btn-batas-administrasi {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  margin-bottom: 9px;
+  padding-left: -2px;
+}
+
+.link {
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+}
