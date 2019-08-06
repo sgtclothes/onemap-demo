@@ -146,7 +146,7 @@ function boot(GIS) {
   // END of create a site
 
   map.ObjMapView.popup.actionsMenuEnabled = false;
-  map.ObjMapView.popup.featureNavigationEnabled = false;
+  // map.ObjMapView.popup.featureNavigationEnabled = false;
 
   // create instant analysis
   let pointEnabled = false;
@@ -242,7 +242,7 @@ function boot(GIS) {
   bufferRadius(GIS, map);
   driveTime(GIS, map);
   driveTimeDistance(GIS, map);
-  saveAnalysis(map)
+  saveAnalysis(map);
 
   // sidebar/sidenav
   function openNav() {
@@ -415,17 +415,17 @@ function boot(GIS) {
   );
   convertCSV.setupDropZone();
   var pointThisAction = {
-    title: "Pointing",
+    title: "Point this Site",
     id: "point-this",
     className: "esri-icon-map-pin onemap-pointing"
   };
   var editThisAction = {
-    title: "Edit",
+    title: "Edit Site",
     id: "edit-this",
     className: "esri-icon-edit onemap-edit"
   };
   var removeThisPoint = {
-    title: "Remove",
+    title: "Remove Site",
     id: "remove-this",
     className: "esri-icon-trash onemap-remove"
   };
@@ -726,16 +726,14 @@ function boot(GIS) {
       });
     });
 
-  // ServiceLayerPOI(GIS, map, config);
-  // ServiceLayerInfrastructure(GIS, map, config);
-  // ServiceLayerDemographic(GIS, map, config);
-  // submitFilterLocal(storeLocalStorage, map.ObjMapView, convertCSV);
   submitFilterServices(storeLocalStorage, map, convertCSV);
   inputFilter(); //inputFilter to handle keyboard input specifications
   multiSelect();
   inputCheckboxPropertyStatus();
   inputCheckboxServices(GIS, map);
   saveDataServiceToLocalStorage();
+  removeFilterResults(map);
+  createOverlap(GIS, map);
   // selectUnitSize();
 
   $("input[name='popup-input-min']").click(function() {

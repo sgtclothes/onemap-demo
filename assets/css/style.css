@@ -631,7 +631,7 @@ td.property-item {
 }
 
 .esri-popup__inline-actions-container {
-  width: 112px !important;
+  width: 40px !important;
 }
 
 .esri-view-width-less-than-large .esri-popup__action {
@@ -642,22 +642,28 @@ div.esri-popup__button.esri-popup__action {
   margin-right: 5px;
 }
 
-.esri-view-width-less-than-large .onemap-pointing:after {
-  content: "Point";
-  padding-left: 2px;
-  padding-right: 2px;
+.button-remove-filter {
+  display: none;
 }
 
-.esri-view-width-less-than-large .onemap-edit:after {
-  content: "Edit";
-  padding-left: 2px;
-  padding-right: 2px;
+.table-layer {
+  margin-top: 2px;
 }
 
-.esri-view-width-less-than-large .onemap-remove:after {
-  content: "Remove";
-  padding-left: 2px;
-  padding-right: 2px;
+.sub-table-layer {
+  padding-left: 20px;
+}
+
+.item-buffer-layer {
+  text-align: center;
+  display: none;
+}
+
+.select-buffer-layer {
+  width: 70px;
+  height: 20px;
+  padding: 0px;
+  margin: 0px;
 }
 
 #form-list {

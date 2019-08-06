@@ -748,6 +748,10 @@ if (!isset($_SESSION['auth'])) {
                                             <button style="width:80px; height:30px; float:right; background-color: #7a7c80; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
                                                 <i class="mi-search"></i> Find</button>
                                         </div>
+                                        <div class="button-filter-property button-remove-filter" id="button-filter-remove-property">
+                                            <button style="width:80px; height:30px; margin-right:10px; float:right; background-color: #d9493f; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
+                                                <i class="esri-icon-trash "></i> Clear</button>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
@@ -858,121 +862,254 @@ if (!isset($_SESSION['auth'])) {
                             </ul>
                         </li>
                         <li>
-                            <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                <input id="tall-1" class="checkbox-poi styled" type="checkbox" name="POI" value="POI">
-                                <label for="tall-1"><span></span>
-                                    POI
-                                </label>
-                            </div>
-                            <ul class="nested">
-                                <form id="all-poi">
-                                    <li>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                            <table class="table-property">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer">
+                                            <input id="tall-1" class="checkbox-poi styled" type="checkbox" name="POI" value="POI">
+                                            <label for="tall-1"><span></span>
+                                                POI
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
                                             <input class="checkbox-sub-poi styled" type="checkbox" secondValue="043efa83c740ada85088797610dcff20" value="16" id="tall-1-1">
                                             <label for="tall-1-1"><span></span>
                                                 Bank DKI
                                             </label>
                                         </div>
-                                    </li>
-                                    <li>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer" id="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
                                             <input class="checkbox-sub-poi styled" type="checkbox" secondValue="6d360f3944aedea7a11c30a65e2b9f81" value="27" id="tall-1-2">
                                             <label for="tall-1-2"><span></span>
                                                 Bank Mandiri
                                             </label>
                                         </div>
-                                    </li>
-                                    <li>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer" id="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
                                             <input class="checkbox-sub-poi styled" type="checkbox" secondValue="043efa83c740ada85088797610dcff20" value="48" id="tall-1-3">
                                             <label for="tall-1-3"><span></span>
                                                 Bank Sumut
                                             </label>
                                         </div>
-                                    </li>
-                                    <li>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer" id="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
                                             <input class="checkbox-sub-poi styled" type="checkbox" secondValue="5997da4fa19d09c66b078ecb7df5a043" value="4" id="tall-1-4">
                                             <label for="tall-1-4"><span></span>
                                                 Apotek K24
                                             </label>
                                         </div>
-                                    </li>
-                                    <li>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer" id="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
                                             <input class="checkbox-sub-poi styled" type="checkbox" secondValue="ff5f425350108fbe0df7d0cac1764626" value="5" id="tall-1-5">
                                             <label for="tall-1-5"><span></span>
                                                 Apotek Kimia Farma
                                             </label>
                                         </div>
-                                    </li>
-                                    <li class="last">
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer" id="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
                                             <input class="checkbox-sub-poi styled" type="checkbox" secondValue="a5b865a0a219dda0d5434ebdee20c4e7" value="7" id="tall-1-6">
                                             <label for="tall-1-6"><span></span>
                                                 Apotek Watsons
                                             </label>
                                         </div>
-                                    </li>
-                                </form>
-                            </ul>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer" id="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                            </table>
                         </li>
                         <li>
-                            <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                <input id="checkbox-infrastructure" class="checkbox-infrastructure styled" type="checkbox" name="infrastructure">
-                                <label for="checkbox-infrastructure"><span></span>
-                                    Infrastructure
-                                </label>
-                            </div>
-                            <ul class="nested">
-                                <form id="all-infrastructure">
-                                    <li>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                            <table class="table-property">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer">
+                                            <input id="checkbox-infrastructure" class="checkbox-infrastructure styled" type="checkbox" name="infrastructure">
+                                            <label for="checkbox-infrastructure"><span></span>
+                                                Infrastructure
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
                                             <input class="checkbox-sub-infrastructure styled" type="checkbox" value="14" secondValue="3cd464faf714f7bd5ac83794a7a4a05d" id="tall-2-1">
                                             <label for="tall-2-1"><span></span>
                                                 Bus Station
                                             </label>
                                         </div>
-                                    </li>
-                                    <li>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
                                             <input class="checkbox-sub-infrastructure styled" type="checkbox" value="15" secondValue="2cd615ee33f699f12f5b370f42b35338" id="tall-2-2">
                                             <label for="tall-2-2"><span></span>
                                                 MRT Station
                                             </label>
                                         </div>
-                                    </li>
-                                    <li>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
                                             <input class="checkbox-sub-infrastructure styled" type="checkbox" value="16" secondValue="3cb6ca1379241d21cf375b3a3c9f1b70" id="tall-2-3">
                                             <label for="tall-2-3"><span></span>
                                                 Commuter Line Station
                                             </label>
                                         </div>
-                                    </li>
-                                </form>
-                            </ul>
+                                    </td>
+                                </tr>
+                            </table>
                         </li>
-
                         <li style="margin-bottom:50px;">
-                            <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                <input id="checkbox-demographic" class="checkbox-demographic styled" type="checkbox" name="demographic">
-                                <label for="checkbox-demographic"><span></span>
-                                    Demographic
-                                </label>
-                            </div>
-                            <ul class="nested">
-                                <form id="all-demographic">
-                                    <li>
-                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                            <table class="table-property">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer">
+                                            <input id="checkbox-demographic" class="checkbox-demographic styled" type="checkbox" name="demographic">
+                                            <label for="checkbox-demographic"><span></span>
+                                                Demographic
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
                                             <input class="checkbox-sub-demographic styled" type="checkbox" value="4" id="tall-3-1">
                                             <label for="tall-3-1"><span></span>
                                                 Populasi
                                             </label>
                                         </div>
-                                    </li>
-                                </form>
-                            </ul>
+                                    </td>
+                                </tr>
+                            </table>
                         </li>
                     </ul>
                 </div>
@@ -1118,7 +1255,6 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/add_points_manual.js"></script>
     <script src="assets/js/create_analysis.js"></script>
     <script src="assets/js/from_list_csv.js"></script>
-    <script src="assets/js/submitFilterLocal.js"></script>
     <script src="assets/js/submitFilterServices.js"></script>
     <script src="assets/js/showCurrentDepartment.js"></script>
     <script src="assets/js/inputFilter.js"></script>
@@ -1127,6 +1263,8 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/inputCheckboxPropertyStatus.js"></script>
     <script src="assets/js/inputCheckboxServices.js"></script>
     <script src="assets/js/saveDataServiceToLocalStorage.js"></script>
+    <script src="assets/js/removeFilterResults.js"></script>
+    <script src="assets/js/createOverlap.js"></script>
     <script src="content/analysis/analysisPoi.js"></script>
     <script>
         $(document).ready(function() {

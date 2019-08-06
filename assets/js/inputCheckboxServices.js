@@ -5,6 +5,7 @@ function inputCheckboxServices(GIS, map) {
   let subPOI = $(".checkbox-sub-poi");
   let subInfrasctructure = $(".checkbox-sub-infrastructure");
   let subDemographic = $(".checkbox-sub-demographic");
+  let itemLayer = $(".item-buffer-layer");
 
   function makeTableLegend(titleText, className) {
     let divLegend = document.createElement("DIV");
@@ -95,6 +96,16 @@ function inputCheckboxServices(GIS, map) {
       "http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/";
     let check = [];
     let tableLegend = undefined;
+    //Show or hide item to do overlapping
+    let itemLayer = $(this)
+      .parents("td")
+      .siblings("td");
+    for (let i = 0; i < itemLayer.length; i++) {
+      $(itemLayer[i]).toggle();
+      $(itemLayer[i]).css("height", "24px");
+      $(itemLayer[i]).css("float", "right");
+    }
+    //Show list POI
     if (document.getElementsByClassName("div-poi")[0] == undefined) {
       tableLegend = makeTableLegend("LIST OF POI", "div-poi");
     } else {
