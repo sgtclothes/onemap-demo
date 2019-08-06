@@ -643,19 +643,19 @@ function analysisPoi(GIS,map) {
                 }
             });
         })
-        // $("#closeSiteAnalysis").on('live',function(){
-        //     if($("#mySiteAnalysis").width()===0){
-        //         if (localStorage.getItem('titleBatasAdm') !== null) {
-        //             localStorage.removeItem('titleBatasAdm')
-        //         }
-        //         let graphicslayers = map.ObjMap.layers.items
-        //         let graphics = map.ObjMapView.graphics.items
-        //         if (graphicslayers.length > 0 || graphics.length > 0) {
-        //             map.ObjMap.removeAll()
-        //             map.ObjMapView.graphics.removeAll()
-        //         }
-        //         console.log("ok")
-        //     }
-        // })
+        $("#closeSiteAnalysis").on('click',function(){
+            if (localStorage.getItem('titleBatasAdm') !== null) {
+                localStorage.removeItem('titleBatasAdm')
+            }
+            if (localStorage.getItem('titleBatasAdmDriving') !== null) {
+                localStorage.removeItem('titleBatasAdmDriving')
+            }
+            let graphicslayers = map.ObjMap.layers.items
+            let graphics = map.ObjMapView.graphics.items
+            if (graphicslayers.length > 0 || graphics.length > 0) {
+                map.ObjMap.removeAll()
+                map.ObjMapView.graphics.removeAll()
+            }
+        })
     })
 }
