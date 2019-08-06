@@ -10,6 +10,7 @@ function analysisPoi(GIS,map) {
                 success: function(data) {
                     $('#datatable-poi-anly').remove()
                     $('#myAnaysisPOIList').append(data)
+                    let radiusResults = []
 
                     document.getElementById("myAnalysisPOI").style.width = "320px";
                     $("input[name='render-for-analysis-"+id_analysis+"']").click(function(){
@@ -130,8 +131,7 @@ function analysisPoi(GIS,map) {
                 
                                             promise.then(function() {
                                                 localStorage.setItem('titleBatasAdm', title)
-                                                let batasAdministrasi = new GIS.Analysis.BatasAdministrasi(map.ObjMap,title)
-                                                batasAdministrasi.render(radius.Results)
+                                                radiusResults = radius.Results
                                             })
                                         }
                                     }
@@ -238,10 +238,23 @@ function analysisPoi(GIS,map) {
 
                     $('.btn-batas-administrasi').on('click', function(){
                         let title = localStorage.getItem('titleBatasAdm')
-                        title = title+"BatasAdministrasi"
+                        titleLayer = title+"BatasAdministrasi"
                         let graphicslayers = map.ObjMap.layers.items
-                        let batasAdministrasi = graphicslayers.find(o => o.title === title)
-                        batasAdministrasi.visible = true
+                        let findBatasAdm = graphicslayers.find(o => o.title === titleLayer)
+                        if (findBatasAdm === undefined){
+                            let batasAdministrasi = new GIS.Analysis.BatasAdministrasi(map.ObjMap,title)
+                            batasAdministrasi.render(radiusResults)
+                            console.log(graphicslayers)
+                        }
+                        else {
+                            console.log(findBatasAdm.visible)
+                            if (findBatasAdm.visible === true) {
+                                findBatasAdm.visible = false
+                            }
+                            else {
+                                findBatasAdm.visible = true
+                            }
+                        }
                     })
 
                     let latitude = $("input[name='render-for-analysis-"+id_analysis+"']").attr('data-latitude')
