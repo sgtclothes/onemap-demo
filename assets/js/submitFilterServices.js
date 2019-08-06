@@ -241,7 +241,7 @@ function submitFilterServices(convertData, map, convertCSV) {
         alias[j] = getFldAlias(j);
       }
 
-      console.log(alias);
+      console.log(chunkedResults);
 
       convertCSV.processCSVData(
         convertData.getRowofTextArray(attributes),
