@@ -97,62 +97,6 @@ if (!isset($_SESSION['auth'])) {
             .width-buff-dropdown {
                 width: 50px;
             }
-
-            #form-list {
-                margin-left: 5px;
-                margin-top: 5px;
-                margin-bottom: 10px;
-                overflow-y: auto;
-                overflow-x: hidden;
-                min-height: 100px;
-                min-height: 200px
-            }
-
-            .bottom-input-name {
-                background-color: #fff;
-                width: 300px;
-                display: flex;
-                flex-direction: row;
-                margin-top: 16px;
-            }
-
-            .tbl {
-                padding-left: 8px;
-                padding-right: 8px;
-            }
-
-            table.dataTable th {
-                padding-top: 1.2px;
-                padding-bottom: 1.2px;
-            }
-
-            table.dataTable td {
-                padding-top: 1.2px;
-                padding-bottom: 1.2px;
-            }
-
-            table.dataTable {
-                margin-bottom: 5px;
-            }
-
-            .btn-modal-form-poi {
-                background-color: transparent;
-                background-repeat: no-repeat;
-                border: none;
-                cursor: pointer;
-                overflow: hidden;
-                outline: none;
-                margin-bottom: 9px;
-            }
-
-            .link {
-                background: none !important;
-                border: none;
-                padding: 0 !important;
-                color: #069;
-                text-decoration: underline;
-                cursor: pointer;
-            }
         </style>
         <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">
         <script src="https://js.arcgis.com/4.11/"></script>
@@ -166,7 +110,7 @@ if (!isset($_SESSION['auth'])) {
         </script>
 
         <script src="sample/boot.js"></script>
-        <script src="content/analysis/dataAnalysis.js"></script>
+        <!-- <script src="content/analysis/dataAnalysis.js"></script> -->
         <script src="content/template/instant_analysis/buffers.js"></script>
         <script src="content/template/instant_analysis/drivetime_distance.js"></script>
         <script src="content/template/instant_analysis/drivetime.js"></script>
@@ -1177,10 +1121,12 @@ if (!isset($_SESSION['auth'])) {
                 <div class="inline">
                     <a href="javascript:void(0)" id="closeSiteAnalysis">&times;</a>
                 </div>
-                <div>
+                <div id="tbl-analysis-div-parent">
                     <p style="padding: 20px 8px 0px 90px;" class="title">
                     </p>
-                    <div id="tbl-analysis-div" class="table-responsive tbl"></div>
+                    <div id="tbl-analysis-div" class="table-responsive tbl">
+                        <?php include "content/analysis/site_analysis.php"; ?>
+                    </div>
                 </div>
             </div>
             <div id="myAnalysisPOI" class="sidenav panel-left">
@@ -1329,7 +1275,6 @@ if (!isset($_SESSION['auth'])) {
             });
         });
     </script>
-
     </html>
 <?php
 }

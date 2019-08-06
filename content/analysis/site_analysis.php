@@ -7,24 +7,22 @@
         </tr>
     </thead>
     <tbody id="load-data-site-analysis">
-        <?php 
-        $data = json_decode($_POST['data_analysis']);
-        for ($i=0; $i < count($data); $i++) {
-            $num = $i+1; 
-        ?>        
+        <?php
+        $sql = "SELECT * FROM `analysis` ORDER BY created_at DESC";
+        $query = mysqli_query($conn,$sql);
+        $num = 1;
+        while ($site_anly = mysqli_fetch_array($query)) {
+        ?>
         <tr>
             <td><?php echo $num; ?></td>
-            <td><?php echo $data[$i]->name; ?></td>
+            <td><?php echo $site_anly['name']; ?></td>
             <td width="20px">
-                <form method="POST" id="form-analysis-<?php echo $num; ?>">
-                <input type="hidden" id="id-analysis-<?php echo $num; ?>" name="id_analysis" value="<?php echo $data[$i]->id; ?>">
-                <input type="hidden" id="name-analysis-<?php echo $num; ?>" name="name_analysis" value="<?php echo $data[$i]->name; ?>">
-                <button type="submit" class="link">view</button>
+                <button data-id="<?php echo $site_anly['id']; ?>" data-name="<?php echo $site_anly['name']; ?>" type="button" class="form-analysis link">view</button>
                 <a>edit</a>
-                </form>
             </td>
         </tr>
         <?php
+        $num++;
         }
         ?>
     </tbody>

@@ -126,7 +126,20 @@ function saveAnalysis(map){
                     $('#instant-analysis-row-div').remove()
                     $('#contentAnalysisDiv').removeAttr("style")
                     $('#name_analysis').val('')
-                    $.fn.loadDataAnalysis()
+                    $('#tbl-analysis-div').remove()
+                    $.ajax({
+                        url: "content/analysis/data_analysis.php",
+                        method: "GET"
+                      }).done(function(data_analysis) {
+                        $.ajax({
+                            url: "content/analysis/site_analysis_2.php",
+                            type: "POST",
+                            data: {data_analysis:data_analysis},
+                            success: function(data) {
+                                $('#tbl-analysis-div-parent').append(data)
+                            }
+                        });
+                    });
                 },
                 error: function (jqXHR, exception){
                     if (jqXHR.status === 0) {

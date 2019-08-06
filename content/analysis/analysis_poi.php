@@ -71,6 +71,7 @@
                 </td>
                 <td style='text-align:center;'>
                     <button class="btn-modal-form-poi" type="button" data-toggle="modal" data-target="#modal_form_poi" disabled><i class="icon-pin-alt"></i></button>
+                    <button class="btn-batas-administrasi" type="button" disabled><i class="icon-table2"></i></button>
                 </td>
             </tr>
         </tbody>

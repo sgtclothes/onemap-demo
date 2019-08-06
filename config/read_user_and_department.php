@@ -1,6 +1,5 @@
 <?php
 include '../config/conn.php';
-include '../config/ConsolePhp.php';
 
 function data_user($conn)
 {
