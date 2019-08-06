@@ -83,28 +83,32 @@ function saveAnalysis(map){
                     let graphicslayers = map.ObjMap.layers.items
                     let graphics = map.ObjMapView.graphics.items
                     if (graphicslayers.length > 0 || graphics.length > 0) {
-                        for (let i = 0; i < graphicslayers.length; i++) {
-                            if (graphicslayers[i].title !== null) {
-                                map.ObjMap.remove(graphicslayers[i])
-                            }
-                        }
-                        for (let a = 0; a < graphics.length; a++) {
-                            let point = parseFloat(graphics[a].attributes.id)
-                            if (graphics[a].attributes !== null || 
-                                point !== undefined || 
-                                point !== null ||
-                                isNaN(point) === false) {
-                                map.ObjMapView.graphics.remove(graphics[a])
-                            }
-                        }
-                        let poiGraphics = map.ObjMap.layers.items
-                        for (let b = 0; b < poiGraphics.length; b++) {
-                            if (poiGraphics[b].title.includes("Buffer") || 
-                            poiGraphics[b].title.includes("Driving")) {
-                                map.ObjMap.remove(poiGraphics[b])
-                            }
-                        }
+                        map.ObjMap.removeAll()
+                        map.ObjMapView.graphics.removeAll()
                     }
+                    // if (graphicslayers.length > 0 || graphics.length > 0) {
+                    //     for (let i = 0; i < graphicslayers.length; i++) {
+                    //         if (graphicslayers[i].title !== null) {
+                    //             map.ObjMap.remove(graphicslayers[i])
+                    //         }
+                    //     }
+                    //     for (let a = 0; a < graphics.length; a++) {
+                    //         let point = parseFloat(graphics[a].attributes.id)
+                    //         if (graphics[a].attributes !== null || 
+                    //             point !== undefined || 
+                    //             point !== null ||
+                    //             isNaN(point) === false) {
+                    //             map.ObjMapView.graphics.remove(graphics[a])
+                    //         }
+                    //     }
+                    //     let poiGraphics = map.ObjMap.layers.items
+                    //     for (let b = 0; b < poiGraphics.length; b++) {
+                    //         if (poiGraphics[b].title.includes("Buffer") || 
+                    //         poiGraphics[b].title.includes("Driving")) {
+                    //             map.ObjMap.remove(poiGraphics[b])
+                    //         }
+                    //     }
+                    // }
                     let viewer = document.getElementById("myViewer");
                     if (viewer.style.width > "0px") {
                         $(".esri-ui-top-right")

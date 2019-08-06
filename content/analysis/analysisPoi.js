@@ -11,7 +11,7 @@ function analysisPoi(GIS,map) {
                     $('#datatable-poi-anly').remove()
                     $('#myAnaysisPOIList').append(data)
                     let radiusResults = []
-
+                    let drivingResults = []
                     document.getElementById("myAnalysisPOI").style.width = "320px";
                     $("input[name='render-for-analysis-"+id_analysis+"']").click(function(){
                         $(this).closest('div').find('button.btn-modal-form-poi').removeAttr("disabled")
@@ -130,8 +130,20 @@ function analysisPoi(GIS,map) {
                                             });
                 
                                             promise.then(function() {
-                                                localStorage.setItem('titleBatasAdm', title)
-                                                radiusResults = radius.Results
+                                                if (
+                                                    localStorage.getItem('titleBatasAdm')
+                                                    !== null) {
+                                                    let t = JSON.parse(localStorage.getItem('titleBatasAdm'))
+                                                    t.push(title)
+                                                    localStorage.setItem('titleBatasAdm', JSON.stringify(t))
+                                                    radiusResults.push(radius.Results)
+                                                }
+                                                else {
+                                                    let t = []
+                                                    t.push(title)
+                                                    localStorage.setItem('titleBatasAdm', JSON.stringify(t))
+                                                    radiusResults.push(radius.Results)
+                                                }
                                             })
                                         }
                                     }
@@ -225,7 +237,26 @@ function analysisPoi(GIS,map) {
                                                 });
                 
                                                 catchmentPromise.then(function() {
-                                                    catchment.run(gLayers);
+                                                    let promise = new Promise(function(resolve, reject) {
+                                                        catchment.run(gLayers,resolve);
+                                                    });
+                        
+                                                    promise.then(function() {
+                                                        if (
+                                                            localStorage.getItem('titleBatasAdmDriving')
+                                                            !== null) {
+                                                            let t = JSON.parse(localStorage.getItem('titleBatasAdmDriving'))
+                                                            t.push(title)
+                                                            localStorage.setItem('titleBatasAdmDriving', JSON.stringify(t))
+                                                            drivingResults.push(catchment.ID_DESA)
+                                                        }
+                                                        else {
+                                                            let t = []
+                                                            t.push(title)
+                                                            localStorage.setItem('titleBatasAdmDriving', JSON.stringify(t))
+                                                            drivingResults.push(catchment.ID_DESA)
+                                                        }
+                                                    })
                                                 });
                                             });
                                             driveTime.render(map.ObjMapView);
@@ -237,22 +268,46 @@ function analysisPoi(GIS,map) {
                     })
 
                     $('.btn-batas-administrasi').on('click', function(){
-                        let title = localStorage.getItem('titleBatasAdm')
-                        titleLayer = title+"BatasAdministrasi"
-                        let graphicslayers = map.ObjMap.layers.items
-                        let findBatasAdm = graphicslayers.find(o => o.title === titleLayer)
-                        if (findBatasAdm === undefined){
-                            let batasAdministrasi = new GIS.Analysis.BatasAdministrasi(map.ObjMap,title)
-                            batasAdministrasi.render(radiusResults)
-                            console.log(graphicslayers)
-                        }
-                        else {
-                            console.log(findBatasAdm.visible)
-                            if (findBatasAdm.visible === true) {
-                                findBatasAdm.visible = false
+                        //buffer
+                        if (radiusResults.length>0) {
+                            let title = JSON.parse(localStorage.getItem('titleBatasAdm'))
+                            let graphicslayers = map.ObjMap.layers.items
+                            for (let i = 0; i < title.length; i++) {
+                                let titleLayer = title[i]+"BatasAdministrasi"
+                                let findBatasAdm = graphicslayers.find(o => o.title === titleLayer)
+                                if (findBatasAdm === undefined){
+                                    let batasAdministrasi = new GIS.Analysis.BatasAdministrasi(map.ObjMap,title[i])
+                                    batasAdministrasi.render(radiusResults[i])
+                                }
+                                else {
+                                    if (findBatasAdm.visible === true) {
+                                        findBatasAdm.visible = false
+                                    }
+                                    else {
+                                        findBatasAdm.visible = true
+                                    }
+                                }
                             }
-                            else {
-                                findBatasAdm.visible = true
+                        }
+                        //driving
+                        if (drivingResults.length>0) {
+                            let title = JSON.parse(localStorage.getItem('titleBatasAdmDriving'))
+                            let graphicslayers = map.ObjMap.layers.items
+                            for (let i = 0; i < title.length; i++) {
+                                let titleLayer = title[i]+"BatasAdministrasi"
+                                let findBatasAdm = graphicslayers.find(o => o.title === titleLayer)
+                                if (findBatasAdm === undefined){
+                                    let batasAdm = new GIS.Analysis.BatasAdministrasiDriving(map.ObjMap,drivingResults[i], title[i])
+                                    batasAdm.render()
+                                }
+                                else {
+                                    if (findBatasAdm.visible === true) {
+                                        findBatasAdm.visible = false
+                                    }
+                                    else {
+                                        findBatasAdm.visible = true
+                                    }
+                                }
                             }
                         }
                     })
@@ -588,5 +643,19 @@ function analysisPoi(GIS,map) {
                 }
             });
         })
+        // $("#closeSiteAnalysis").on('live',function(){
+        //     if($("#mySiteAnalysis").width()===0){
+        //         if (localStorage.getItem('titleBatasAdm') !== null) {
+        //             localStorage.removeItem('titleBatasAdm')
+        //         }
+        //         let graphicslayers = map.ObjMap.layers.items
+        //         let graphics = map.ObjMapView.graphics.items
+        //         if (graphicslayers.length > 0 || graphics.length > 0) {
+        //             map.ObjMap.removeAll()
+        //             map.ObjMapView.graphics.removeAll()
+        //         }
+        //         console.log("ok")
+        //     }
+        // })
     })
 }
