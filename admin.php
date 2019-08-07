@@ -71,7 +71,7 @@ else {
     <!-- navbar for product-brand -->
     <div class="navbar-brand py-0">
         <a href="index.php" class="d-flex h-100">
-            <img style="width:145px; height:24px;" class="img-fluid my-auto h-auto" src="assets/images/icons/logo-fix.png" alt="">
+            <img style="width:145px; height:24px;" class="img-fluid my-auto h-auto" src="assets/images/icons/logo-fix-with-pertamina.png" alt="">
         </a>
     </div>
     <!-- /navbar for product brand -->
