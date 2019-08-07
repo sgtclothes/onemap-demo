@@ -127,7 +127,6 @@ function bufferRadius(GIS,map){
                                             let check = layers.find(o => o.title === title)
                                             if (check === undefined) {
                                                 radiusPOI.render(resolve)
-                                                console.log(graphicsLayers)   
                                             }
                                         });
 
@@ -411,6 +410,21 @@ function bufferRadius(GIS,map){
                             $(this).prop('checked',false)
                         })
                     })
+                })
+                $("#closebtn").on('click',function(){
+                    let graphicslayers = map.ObjMap.layers.items
+                    let graphics = map.ObjMapView.graphics.items
+                    if (graphicslayers.length > 0 || graphics.length > 0) {
+                        map.ObjMap.removeAll()
+                        map.ObjMapView.graphics.removeAll()
+                    }
+                    $('#instantAnalysisDiv').css('display', 'none')
+                    $('#contentAnalysisDiv').removeAttr("style")
+                    $('#instant-analysis-result-row').empty()
+                    $('div.rows').each(function(){
+                        $(this).remove()
+                    });
+                    $('#name_analysis').val('')
                 })
             })
         })

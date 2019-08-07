@@ -656,6 +656,21 @@ function analysisPoi(GIS,map) {
                 map.ObjMap.removeAll()
                 map.ObjMapView.graphics.removeAll()
             }
+            $('#analysisDiv').css('display', 'none')
+            $('#contentAnalysisDiv').removeAttr("style")
+            $('#tab-content-analysis').empty()
+            $('#nav-tabs-analysis').empty()
         })
+        // $("#hidden-table-analysis").on('click',function(){
+        //     let poiGraphics = map.ObjMap.layers.items
+        //     for (let b = 0; b < poiGraphics.length; b++) {
+        //         if (poiGraphics[b].title.includes("Buffer") || 
+        //         poiGraphics[b].title.includes("Driving")) {
+        //             map.ObjMap.remove(poiGraphics[b])
+        //         }
+        //     }
+        //     $('#tab-content-analysis').empty()
+        //     $('#nav-tabs-analysis').empty()
+        // })
     })
 }
