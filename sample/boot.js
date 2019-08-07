@@ -734,6 +734,7 @@ function boot(GIS) {
   saveDataServiceToLocalStorage();
   removeFilterResults(map);
   createOverlap(GIS, map);
+  viewTableServices(map);
   // selectUnitSize();
 
   $("input[name='popup-input-min']").click(function() {

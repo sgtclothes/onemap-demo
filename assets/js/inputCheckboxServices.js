@@ -5,7 +5,6 @@ function inputCheckboxServices(GIS, map) {
   let subPOI = $(".checkbox-sub-poi");
   let subInfrasctructure = $(".checkbox-sub-infrastructure");
   let subDemographic = $(".checkbox-sub-demographic");
-  let itemLayer = $(".item-buffer-layer");
 
   function makeTableLegend(titleText, className) {
     let divLegend = document.createElement("DIV");

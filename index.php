@@ -127,7 +127,7 @@ if (!isset($_SESSION['auth'])) {
             <!-- navbar for product-brand -->
             <div class="navbar-brand py-0">
                 <a href="index.php" class="d-flex h-100">
-                    <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/logo-fix.png" alt="">
+                    <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/logo-fix-with-pertamina.png" alt="">
                 </a>
             </div>
             <!-- /navbar for product brand -->
@@ -898,7 +898,7 @@ if (!isset($_SESSION['auth'])) {
                                         </select>
                                     </td>
                                     <td class="item-buffer-layer">
-                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" name="list-table" class="mi-list"></i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1177,11 +1177,7 @@ if (!isset($_SESSION['auth'])) {
 
             <div class="content-wrapper" id="contentAnalysisDiv">
                 <div id="mapDiv"></div>
-                <div style="align-items:center; justify-content:center;">
-                    <table class="table-filter">
-
-                    </table>
-                </div>
+                <div class="table_list_services"><?php include "content/table_list_services.html"; ?></div>
                 <div id="analysisDiv" style="display:none;"><?php include "content/analysis/results_table.html"; ?></div>
                 <div id="instantAnalysisDiv" style="display:none;"><?php include "content/analysis/results_table_instant.html"; ?></div>
             </div>
@@ -1265,6 +1261,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/saveDataServiceToLocalStorage.js"></script>
     <script src="assets/js/removeFilterResults.js"></script>
     <script src="assets/js/createOverlap.js"></script>
+    <script src="assets/js/viewTableServices.js"></script>
     <script src="content/analysis/analysisPoi.js"></script>
     <script>
         $(document).ready(function() {
@@ -1275,6 +1272,7 @@ if (!isset($_SESSION['auth'])) {
             });
         });
     </script>
+
     </html>
 <?php
 }
