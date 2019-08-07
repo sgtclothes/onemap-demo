@@ -19,26 +19,31 @@ function analysisPoi(GIS,map) {
                         $(this).closest('div').find('i.icon-pin-alt').css("color","#4169e1")
                         $(this).closest('div').find('i.icon-table2').css("color","#4169e1")
                     
-                        let navTabsObj = $("#analysis-results-table").find("#nav-tabs-analysis").children()
-                        let tab
-                        if (navTabsObj.length === 0) {
-                            tab = 0
-                            let navTabs = "<li id='"+id_analysis+"' class='nav-item'><a href='#basic-tab"+tab+"' class='nav-link active' data-toggle='tab'>"+name_analysis+"</a></li>"
+                        function add(id_analysis,name_analysis,margin){
+                            let navTabs = "<li id='"+id_analysis+"' class='nav-item dropdown'"+margin+"><a id='titletab"+id_analysis+"' href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>"+name_analysis+"</a><div class='dropdown-menu dropdown-menu-right'><a href='#basic-tab"+id_analysis+"batas' class='dropdown-item' data-toggle='tab' style='display:none;'>Batas Administrasi</a><a href='#basic-tab"+id_analysis+"poi' class='dropdown-item' data-toggle='tab'>POI</a></div></li>"
                             $('#nav-tabs-analysis').append(navTabs)
 
                             let table = "<div class='table-responsive'><table class='table table-bordered table-xs table-striped table-hover' style='margin-bottom:15px;'><thead><tr><th style='text-align:center;'><b>Type Specification</b></th><th style='text-align:center;'><b>Poi Name</b></th><th style='text-align:center;'><b>Total</b></th></tr></thead><tbody id='rowAnalysisDiv"+id_analysis+"'></tbody></table></div>"
-                            let tabContent = "<div class='tab-pane active' id='basic-tab"+tab+"'>"+table+"</div>";
+                            let tabContent = "<div class='tab-pane' id='basic-tab"+id_analysis+"poi'>"+table+"</div>";
                             $('#tab-content-analysis').append(tabContent)
+
+                            let tableBatas = "<div class='table-responsive'><table class='table table-bordered table-xs table-striped table-hover' style='margin-bottom:15px; font-size:11px'><thead><tr><th style='text-align:center;'><b>Area (km<sup>2</sup>)</b></th><th style='text-align:center;'><b>Density (Ppl/km<sup>2</sup>)</b></th><th style='text-align:center;'><b>Population (Ppl)</b></th><th style='text-align:center;'><b>Household (Hh)</b></th><th style='text-align:center;'><b>Male (Ppl)</b></th><th style='text-align:center;'><b>Female (Ppl)</b></th><th style='text-align:center;'><b>SES Upper (%)</b></th><th style='text-align:center;'><b>SES Middle (%)</b></th><th style='text-align:center;'><b>SES Upper (%)</b></th><th style='text-align:center;'><b>Food 1 (Hh)</b></th><th style='text-align:center;'><b>Food 2 (Hh)</b></th><th style='text-align:center;'><b>Food 3 (Hh)</b></th><th style='text-align:center;'><b>Food 4 (Hh)</b></th><th style='text-align:center;'><b>Food 5 (Hh)</b></th><th style='text-align:center;'><b>Total Building (Unit)</b></th><th style='text-align:center;'><b>Non Food 1 (Hh)</b></th><th style='text-align:center;'><b>Non Food 2 (Hh)</b></th><th style='text-align:center;'><b>Non Food 3 (Hh)</b></th><th style='text-align:center;'><b>Non Food 4 (Hh)</b></th><th style='text-align:center;'><b>Non Food 5 (Hh)</b></th><th style='text-align:center;'><b>Expend 1 (Hh)</b></th><th style='text-align:center;'><b>Expend 2 (Hh)</b></th><th style='text-align:center;'><b>Expend 3 (Hh)</b></th><th style='text-align:center;'><b>Expend 4 (Hh)</b></th><th style='text-align:center;'><b>Expend 5 (Hh)</b></th><th style='text-align:center;'><b>SES A (%)</b></th><th style='text-align:center;'><b>SES B (%)</b></th><th style='text-align:center;'><b>SES C (%)</b></th><th style='text-align:center;'><b>SES D (%)</b></th><th style='text-align:center;'><b>SES E (%)</b></th></tr></thead><tbody id='batasAnalysisDiv"+id_analysis+"'></tbody></table></div>"
+                            let batasAdmContent = "<div class='tab-pane' id='basic-tab"+id_analysis+"batas' style='display:none;'>"+tableBatas+"</div>";
+                            $('#tab-content-analysis').append(batasAdmContent)
+                            $("a.nav-link.dropdown-toggle").removeClass("active");
+                            $("#titletab"+id_analysis+"").addClass("active");
+                            $(".tab-pane").removeClass("active");
+                        }
+                        let navTabsObj = $("#analysis-results-table").find("#nav-tabs-analysis").children()
+                        if (navTabsObj.length === 0) {
+                            let margin = "style='margin-left:-7px'"
+                            add(id_analysis,name_analysis,margin)
                         }
                         else {
-                            tab = navTabsObj.length
                             $("#analysis-results-table").find("#nav-tabs-analysis").children('li').each(function(){
                                 if(parseInt(id_analysis) !== parseInt($(this).attr('id'))) {
-                                    let navTabs = "<li id='"+id_analysis+"' class='nav-item' style='margin-left:-9px;'><a href='#basic-tab"+tab+"' class='nav-link' data-toggle='tab'>"+name_analysis+"</a></li>"
-                                    $('#nav-tabs-analysis').append(navTabs)
-                                    let table = "<div class='table-responsive'><table class='table table-bordered table-xs table-striped table-hover' style='margin-bottom:15px;'><thead><tr><th style='text-align:center;'><b>Type Specification</b></th><th style='text-align:center;'><b>Poi Name</b></th><th style='text-align:center;'><b>Total</b></th></tr></thead><tbody id='rowAnalysisDiv"+id_analysis+"'></tbody></table></div>"
-                                    let tabContent = "<div class='tab-pane' id='basic-tab"+tab+"'>"+table+"</div>";
-                                    $('#tab-content-analysis').append(tabContent)
+                                    let margin = "style='margin-left:-9px;'"
+                                    add(id_analysis,name_analysis,margin)
                                 }
                             })
                             let seen = {};
@@ -270,14 +275,26 @@ function analysisPoi(GIS,map) {
                     $('.btn-batas-administrasi').on('click', function(){
                         //buffer
                         if (radiusResults.length>0) {
+                            $("a[href$='#basic-tab"+id_analysis+"batas']").removeAttr("style")
+                            $("#basic-tab"+id_analysis+"batas").removeAttr("style")
+                            $(".tab-pane").removeClass("active");
+                            $("#basic-tab"+id_analysis+"batas").addClass("active");
+
                             let title = JSON.parse(localStorage.getItem('titleBatasAdm'))
                             let graphicslayers = map.ObjMap.layers.items
                             for (let i = 0; i < title.length; i++) {
                                 let titleLayer = title[i]+"BatasAdministrasi"
                                 let findBatasAdm = graphicslayers.find(o => o.title === titleLayer)
                                 if (findBatasAdm === undefined){
-                                    let batasAdministrasi = new GIS.Analysis.BatasAdministrasi(map.ObjMap,title[i])
-                                    batasAdministrasi.render(radiusResults[i])
+                                    let batasAdministrasi = new GIS.Analysis.BatasAdministrasi(map.ObjMap,title[i],radiusResults[i])
+                                    batasAdministrasi.summaryAnalysis()
+                                    let row = "<tr><td>"+batasAdministrasi.luas_km2+"</td><td>"+batasAdministrasi.kepadatan+"</td><td>"+batasAdministrasi.populasi+"</td><td>"+batasAdministrasi.household+"</td><td>"+batasAdministrasi.male+"</td><td>"+batasAdministrasi.female+"</td><td>"+batasAdministrasi.ses_up+"</td><td>"+batasAdministrasi.ses_mid+"</td><td>"+batasAdministrasi.ses_low+"</td><td>"+batasAdministrasi.food_1+"</td><td>"+batasAdministrasi.food_2+"</td><td>"+batasAdministrasi.food_3+"</td><td>"+batasAdministrasi.food_4+"</td><td>"+batasAdministrasi.food_5+"</td><td>"+batasAdministrasi.jml_bangun+"</td><td>"+batasAdministrasi.nfood_1+"</td><td>"+batasAdministrasi.nfood_2+"</td><td>"+batasAdministrasi.nfood_3+"</td><td>"+batasAdministrasi.nfood_4+"</td><td>"+batasAdministrasi.nfood_5+"</td><td>"+batasAdministrasi.expend_1+"</td><td>"+batasAdministrasi.expend_2+"</td><td>"+batasAdministrasi.expend_3+"</td><td>"+batasAdministrasi.expend_4+"</td><td>"+batasAdministrasi.expend_5+"</td><td>"+batasAdministrasi.sesa+"</td><td>"+batasAdministrasi.sesb+"</td><td>"+batasAdministrasi.sesc+"</td><td>"+batasAdministrasi.sesd+"</td><td>"+batasAdministrasi.sese+"</td></tr>"
+                                    $('#batasAnalysisDiv'+id_analysis).prepend(row)
+                                    $('#analysisDiv').css('display', 'block')
+                                    $('#contentAnalysisDiv').css({
+                                        "overflow-x": "hidden"
+                                    })
+                                    batasAdministrasi.render()
                                 }
                                 else {
                                     if (findBatasAdm.visible === true) {
@@ -389,6 +406,7 @@ function analysisPoi(GIS,map) {
                                                             seen[txt] = true;
                                                         }
                                                     });
+                                                    $("#basic-tab"+id_analysis+"poi").addClass("active");
                                                     $('#analysisDiv').css('display', 'block')
                                                     $('#contentAnalysisDiv').css({
                                                         "overflow-x": "hidden"
@@ -468,6 +486,7 @@ function analysisPoi(GIS,map) {
                                                             seen[txt] = true;
                                                         }
                                                     });
+                                                    $("#basic-tab"+id_analysis+"poi").addClass("active");
                                                     $('#analysisDiv').css('display', 'block')
                                                     $('#contentAnalysisDiv').css({
                                                         "overflow-x": "hidden"
@@ -541,6 +560,7 @@ function analysisPoi(GIS,map) {
                                                             seen[txt] = true;
                                                         }
                                                     });
+                                                    $("#basic-tab"+id_analysis+"poi").addClass("active");
                                                     $('#analysisDiv').css('display', 'block')
                                                     $('#contentAnalysisDiv').css({
                                                         "overflow-x": "hidden"
@@ -619,6 +639,7 @@ function analysisPoi(GIS,map) {
                                                             seen[txt] = true;
                                                         }
                                                     });
+                                                    $("#basic-tab"+id_analysis+"poi").addClass("active");
                                                     $('#analysisDiv').css('display', 'block')
                                                     $('#contentAnalysisDiv').css({
                                                         "overflow-x": "hidden"

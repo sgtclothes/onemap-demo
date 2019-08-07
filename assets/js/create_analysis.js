@@ -121,9 +121,7 @@ function saveAnalysis(map){
                     } 
                     if ($("#mySidenav").hasClass("panel-left")) {
                         $("#mySidenav").removeClass("panel-left");
-                        $("#mySidenav").addClass("panel-right");
-                        $("#main").css('margin-right','320px');
-                        $("#mySidenav").css('width','320px');
+                        $("#mySidenav").css('width','0px');
                         $("#mySiteAnalysis").css('width','320px');
                     }
                     $('#instantAnalysisDiv').css('display', 'none')

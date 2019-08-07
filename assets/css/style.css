@@ -433,12 +433,12 @@ td.table-property {
   border: 1px solid black;
 }
 
-table,
+/* table,
 tr,
 th,
 td {
   border: 1px solid black;
-}
+} */
 
 td.property-item {
   width: 80px;
