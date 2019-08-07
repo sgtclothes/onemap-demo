@@ -433,11 +433,12 @@ td.table-property {
   border: 1px solid black;
 }
 
-/* table,
+table,
 tr,
+th,
 td {
   border: 1px solid black;
-} */
+}
 
 td.property-item {
   width: 80px;
@@ -657,6 +658,7 @@ div.esri-popup__button.esri-popup__action {
 .item-buffer-layer {
   text-align: center;
   display: none;
+  cursor: pointer;
 }
 
 .select-buffer-layer {
@@ -673,7 +675,7 @@ div.esri-popup__button.esri-popup__action {
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 100px;
-  min-height: 200px
+  min-height: 200px;
 }
 
 .bottom-input-name {
@@ -731,4 +733,8 @@ table.dataTable {
   color: #069;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.table_list_services {
+  display: none;
 }
