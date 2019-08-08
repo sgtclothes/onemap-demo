@@ -10,8 +10,6 @@ function analysisPoi(GIS,map) {
                 success: function(data) {
                     $('#datatable-poi-anly').remove()
                     $('#myAnaysisPOIList').append(data)
-                    let radiusResults = []
-                    let drivingResults = []
                     document.getElementById("myAnalysisPOI").style.width = "320px";
                     $("input[name='render-for-analysis-"+id_analysis+"']").click(function(){
                         $(this).closest('div').find('button.btn-modal-form-poi').removeAttr("disabled")
@@ -19,31 +17,32 @@ function analysisPoi(GIS,map) {
                         $(this).closest('div').find('i.icon-pin-alt').css("color","#4169e1")
                         $(this).closest('div').find('i.icon-table2').css("color","#4169e1")
                     
-                        function add(id_analysis,name_analysis,margin){
-                            let navTabs = "<li id='"+id_analysis+"' class='nav-item dropdown'"+margin+"><a id='titletab"+id_analysis+"' href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>"+name_analysis+"</a><div class='dropdown-menu dropdown-menu-right'><a href='#basic-tab"+id_analysis+"batas' class='dropdown-item' data-toggle='tab' style='display:none;'>Batas Administrasi</a><a href='#basic-tab"+id_analysis+"poi' class='dropdown-item' data-toggle='tab'>POI</a></div></li>"
+                        function addTabs(id_analysis,name_analysis,margin){
+                            let navTabs = "<li id='"+id_analysis+"' class='nav-item dropdown'"+margin+"><a id='titletab"+id_analysis+"' href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>"+name_analysis+"</a><div class='dropdown-menu dropdown-menu-right'><a href='#basic-tab"+id_analysis+"batas' class='dropdown-item' data-toggle='tab' style='display:none;'>Batas Administrasi</a><a href='#basic-tab"+id_analysis+"poi' class='dropdown-item' data-toggle='tab' style='display:none;'>POI</a></div></li>"
                             $('#nav-tabs-analysis').append(navTabs)
 
                             let table = "<div class='table-responsive'><table class='table table-bordered table-xs table-striped table-hover' style='margin-bottom:15px;'><thead><tr><th style='text-align:center;'><b>Type Specification</b></th><th style='text-align:center;'><b>Poi Name</b></th><th style='text-align:center;'><b>Total</b></th></tr></thead><tbody id='rowAnalysisDiv"+id_analysis+"'></tbody></table></div>"
-                            let tabContent = "<div class='tab-pane' id='basic-tab"+id_analysis+"poi'>"+table+"</div>";
+                            let tabContent = "<div class='tab-pane' id='basic-tab"+id_analysis+"poi' style='display:none;'>"+table+"</div>";
                             $('#tab-content-analysis').append(tabContent)
 
-                            let tableBatas = "<div class='table-responsive'><table class='table table-bordered table-xs table-striped table-hover' style='margin-bottom:15px; font-size:11px'><thead><tr><th style='text-align:center;'><b>Area (km<sup>2</sup>)</b></th><th style='text-align:center;'><b>Density (Ppl/km<sup>2</sup>)</b></th><th style='text-align:center;'><b>Population (Ppl)</b></th><th style='text-align:center;'><b>Household (Hh)</b></th><th style='text-align:center;'><b>Male (Ppl)</b></th><th style='text-align:center;'><b>Female (Ppl)</b></th><th style='text-align:center;'><b>SES Upper (%)</b></th><th style='text-align:center;'><b>SES Middle (%)</b></th><th style='text-align:center;'><b>SES Upper (%)</b></th><th style='text-align:center;'><b>Food 1 (Hh)</b></th><th style='text-align:center;'><b>Food 2 (Hh)</b></th><th style='text-align:center;'><b>Food 3 (Hh)</b></th><th style='text-align:center;'><b>Food 4 (Hh)</b></th><th style='text-align:center;'><b>Food 5 (Hh)</b></th><th style='text-align:center;'><b>Total Building (Unit)</b></th><th style='text-align:center;'><b>Non Food 1 (Hh)</b></th><th style='text-align:center;'><b>Non Food 2 (Hh)</b></th><th style='text-align:center;'><b>Non Food 3 (Hh)</b></th><th style='text-align:center;'><b>Non Food 4 (Hh)</b></th><th style='text-align:center;'><b>Non Food 5 (Hh)</b></th><th style='text-align:center;'><b>Expend 1 (Hh)</b></th><th style='text-align:center;'><b>Expend 2 (Hh)</b></th><th style='text-align:center;'><b>Expend 3 (Hh)</b></th><th style='text-align:center;'><b>Expend 4 (Hh)</b></th><th style='text-align:center;'><b>Expend 5 (Hh)</b></th><th style='text-align:center;'><b>SES A (%)</b></th><th style='text-align:center;'><b>SES B (%)</b></th><th style='text-align:center;'><b>SES C (%)</b></th><th style='text-align:center;'><b>SES D (%)</b></th><th style='text-align:center;'><b>SES E (%)</b></th></tr></thead><tbody id='batasAnalysisDiv"+id_analysis+"'></tbody></table></div>"
+                            let tableBatas = "<div class='table-responsive'><table class='table table-bordered table-xs table-striped table-hover' style='margin-bottom:15px; font-size:11px'><thead><tr><th style='text-align:center;'><b>Type</b></th><th style='text-align:center;'><b>Area (km<sup>2</sup>)</b></th><th style='text-align:center;'><b>Density (Ppl/km<sup>2</sup>)</b></th><th style='text-align:center;'><b>Population (Ppl)</b></th><th style='text-align:center;'><b>Household (Hh)</b></th><th style='text-align:center;'><b>Male (Ppl)</b></th><th style='text-align:center;'><b>Female (Ppl)</b></th><th style='text-align:center;'><b>SES Upper (%)</b></th><th style='text-align:center;'><b>SES Middle (%)</b></th><th style='text-align:center;'><b>SES Lower (%)</b></th><th style='text-align:center;'><b>Food 1 (Hh)</b></th><th style='text-align:center;'><b>Food 2 (Hh)</b></th><th style='text-align:center;'><b>Food 3 (Hh)</b></th><th style='text-align:center;'><b>Food 4 (Hh)</b></th><th style='text-align:center;'><b>Food 5 (Hh)</b></th><th style='text-align:center;'><b>Total Building (Unit)</b></th><th style='text-align:center;'><b>Non Food 1 (Hh)</b></th><th style='text-align:center;'><b>Non Food 2 (Hh)</b></th><th style='text-align:center;'><b>Non Food 3 (Hh)</b></th><th style='text-align:center;'><b>Non Food 4 (Hh)</b></th><th style='text-align:center;'><b>Non Food 5 (Hh)</b></th><th style='text-align:center;'><b>Expend 1 (Hh)</b></th><th style='text-align:center;'><b>Expend 2 (Hh)</b></th><th style='text-align:center;'><b>Expend 3 (Hh)</b></th><th style='text-align:center;'><b>Expend 4 (Hh)</b></th><th style='text-align:center;'><b>Expend 5 (Hh)</b></th><th style='text-align:center;'><b>Age 0-4 (Ppl)</b></th><th style='text-align:center;'><b>Age 5-9 (Ppl)</b></th><th style='text-align:center;'><b>Age 10-14 (Ppl)</b></th><th style='text-align:center;'><b>Age 15-19 (Ppl)</b></th><th style='text-align:center;'><b>Age 20-24 (Ppl)</b></th><th style='text-align:center;'><b>Age 25-29 (Ppl)</b></th><th style='text-align:center;'><b>Age 30-34 (Ppl)</b></th><th style='text-align:center;'><b>Age 35-39 (Ppl)</b></th><th style='text-align:center;'><b>Age 40-44 (Ppl)</b></th><th style='text-align:center;'><b>Age 45-49 (Ppl)</b></th><th style='text-align:center;'><b>Age 50-54 (Ppl)</b></th><th style='text-align:center;'><b>Age 55-59 (Ppl)</b></th><th style='text-align:center;'><b>Age 60-64 (Ppl)</b></th><th style='text-align:center;'><b>Age 65-69 (Ppl)</b></th><th style='text-align:center;'><b>Age 70-74 (Ppl)</b></th><th style='text-align:center;'><b>Age 75-79 (Ppl)</b></th><th style='text-align:center;'><b>Age 80-84 (Ppl)</b></th><th style='text-align:center;'><b>Age 85-89 (Ppl)</b></th><th style='text-align:center;'><b>Age 90-94 (Ppl)</b></th><th style='text-align:center;'><b>Age >94 (Ppl)</b></th><th style='text-align:center;'><b>SES A (%)</b></th><th style='text-align:center;'><b>SES B (%)</b></th><th style='text-align:center;'><b>SES C (%)</b></th><th style='text-align:center;'><b>SES D (%)</b></th><th style='text-align:center;'><b>SES E (%)</b></th></tr></thead><tbody id='batasAnalysisDiv"+id_analysis+"'></tbody></table></div>"
                             let batasAdmContent = "<div class='tab-pane' id='basic-tab"+id_analysis+"batas' style='display:none;'>"+tableBatas+"</div>";
                             $('#tab-content-analysis').append(batasAdmContent)
                             $("a.nav-link.dropdown-toggle").removeClass("active");
+                            $("a.dropdown-item").removeClass("active");
                             $("#titletab"+id_analysis+"").addClass("active");
                             $(".tab-pane").removeClass("active");
                         }
                         let navTabsObj = $("#analysis-results-table").find("#nav-tabs-analysis").children()
                         if (navTabsObj.length === 0) {
                             let margin = "style='margin-left:-7px'"
-                            add(id_analysis,name_analysis,margin)
+                            addTabs(id_analysis,name_analysis,margin)
                         }
                         else {
                             $("#analysis-results-table").find("#nav-tabs-analysis").children('li').each(function(){
                                 if(parseInt(id_analysis) !== parseInt($(this).attr('id'))) {
                                     let margin = "style='margin-left:-9px;'"
-                                    add(id_analysis,name_analysis,margin)
+                                    addTabs(id_analysis,name_analysis,margin)
                                 }
                             })
                             let seen = {};
@@ -67,6 +66,36 @@ function analysisPoi(GIS,map) {
                                     tabPane[id] = true;
                                 }
                             });
+                        }
+
+                        function BatasAdministrasi(batasAdministrasi,colType){
+                            batasAdministrasi.summaryAnalysis()
+                            let row = "<tr>"
+                            row += "<td>"+colType+"</td>"
+                            let rowArr = batasAdministrasi.summaryAnalysisArray
+                            for (let i = 0; i < rowArr.length; i++) {
+                                row += "<td>"+rowArr[i]+"</td>"
+                            }
+                            row += "</tr>"
+                            $('#batasAnalysisDiv'+id_analysis).prepend(row)
+                            batasAdministrasi.render()
+                        }
+
+                        function BatasAdministrasiDriving(batasAdministrasi,colType){
+                            let promise = new Promise(function(resolve, reject) {
+                                batasAdministrasi.render(resolve)
+                            });
+
+                            promise.then(function() {
+                                let row = "<tr>"
+                                row += "<td>"+colType+"</td>"
+                                let rowArr = batasAdministrasi.summaryAnalysisArray
+                                for (let i = 0; i < rowArr.length; i++) {
+                                    row += "<td>"+rowArr[i]+"</td>"
+                                }
+                                row += "</tr>"
+                                $('#batasAnalysisDiv'+id_analysis).prepend(row)
+                            })
                         }
             
                         let latitude = $(this).attr('data-latitude')
@@ -101,14 +130,20 @@ function analysisPoi(GIS,map) {
                                         }
             
                                         let unitnum
+                                        let unitStr
                                         if (unitArr[p][q] === "kilometers") {
                                             unitnum = '3'
+                                            unitStr = 'km'
                                         } else if (unitArr[p][q] === "miles") {
                                             unitnum = '4'
+                                            unitStr = 'mi'
                                         }
                                         else {
                                             unitnum = '5'
+                                            unitStr = 'm'
                                         }
+                                        let colType = "Buffer "+distanceArr[p][q]+" "+unitStr
+
                                         let latitude = latitudeArr[p]
                                         let longitude = longitudeArr[p]
                                         let distance = distanceArr[p][q].toString() 
@@ -141,13 +176,25 @@ function analysisPoi(GIS,map) {
                                                     let t = JSON.parse(localStorage.getItem('titleBatasAdm'))
                                                     t.push(title)
                                                     localStorage.setItem('titleBatasAdm', JSON.stringify(t))
-                                                    radiusResults.push(radius.Results)
+                                                    let graphicslayers = map.ObjMap.layers.items
+                                                    let titleLayer = title+"BatasAdministrasi"
+                                                    let findBatasAdm = graphicslayers.find(o => o.title === titleLayer)
+                                                    if (findBatasAdm === undefined){
+                                                        let batasAdministrasi = new GIS.Analysis.BatasAdministrasi(map.ObjMap,title,radius.Results)
+                                                        BatasAdministrasi(batasAdministrasi,colType)
+                                                    }
                                                 }
                                                 else {
                                                     let t = []
                                                     t.push(title)
                                                     localStorage.setItem('titleBatasAdm', JSON.stringify(t))
-                                                    radiusResults.push(radius.Results)
+                                                    let graphicslayers = map.ObjMap.layers.items
+                                                    let titleLayer = title+"BatasAdministrasi"
+                                                    let findBatasAdm = graphicslayers.find(o => o.title === titleLayer)
+                                                    if (findBatasAdm === undefined){
+                                                        let batasAdministrasi = new GIS.Analysis.BatasAdministrasi(map.ObjMap,title,radius.Results)
+                                                        BatasAdministrasi(batasAdministrasi,colType)
+                                                    }
                                                 }
                                             })
                                         }
@@ -165,19 +212,26 @@ function analysisPoi(GIS,map) {
                                             pointing.render()   
                                         }
                                         let unitnum
+                                        let colType
                                         if (unitArr[p][q] == "minutes") {
                                             unitnum = '1'
+                                            colType = "Driving Time "+distanceArr[p][q]+" "+unitArr[p][q]
                                         } else if (unitArr[p][q] == "hours") {
                                             unitnum = '2'
+                                            colType = "Driving Time "+distanceArr[p][q]+" "+unitArr[p][q]
                                         }
                                         else if (unitArr[p][q] == "kilometers") {
                                             unitnum = '6'
+                                            colType = "Driving Distance "+distanceArr[p][q]+" km"
                                         } else if (unitArr[p][q] == "miles") {
                                             unitnum = '7'
+                                            colType = "Driving Distance "+distanceArr[p][q]+" mi"
                                         } 
                                         else {
                                             unitnum = '8'
+                                            colType = "Driving Distance "+distanceArr[p][q]+" m"
                                         }
+
                                         let latitude = latitudeArr[p]
                                         let longitude = longitudeArr[p]
                                         let distance = distanceArr[p][q].toString() 
@@ -253,13 +307,27 @@ function analysisPoi(GIS,map) {
                                                             let t = JSON.parse(localStorage.getItem('titleBatasAdmDriving'))
                                                             t.push(title)
                                                             localStorage.setItem('titleBatasAdmDriving', JSON.stringify(t))
-                                                            drivingResults.push(catchment.ID_DESA)
+                                                            let graphicslayers = map.ObjMap.layers.items
+                                                            let titleLayer = title+"BatasAdministrasi"
+                                                            let findBatasAdm = graphicslayers.find(o => o.title === titleLayer)
+                                                            console.log(findBatasAdm)
+                                                            if (findBatasAdm === undefined){
+                                                                let batasAdm = new GIS.Analysis.BatasAdministrasiDriving(map.ObjMap,catchment.ID_DESA, title)
+                                                                BatasAdministrasiDriving(batasAdm,colType)
+                                                            }
                                                         }
                                                         else {
                                                             let t = []
                                                             t.push(title)
                                                             localStorage.setItem('titleBatasAdmDriving', JSON.stringify(t))
-                                                            drivingResults.push(catchment.ID_DESA)
+                                                            let graphicslayers = map.ObjMap.layers.items
+                                                            let titleLayer = title+"BatasAdministrasi"
+                                                            let findBatasAdm = graphicslayers.find(o => o.title === titleLayer)
+                                                            console.log(findBatasAdm)
+                                                            if (findBatasAdm === undefined){
+                                                                let batasAdm = new GIS.Analysis.BatasAdministrasiDriving(map.ObjMap,catchment.ID_DESA, title)
+                                                                BatasAdministrasiDriving(batasAdm,colType)
+                                                            }
                                                         }
                                                     })
                                                 });
@@ -273,58 +341,30 @@ function analysisPoi(GIS,map) {
                     })
 
                     $('.btn-batas-administrasi').on('click', function(){
-                        //buffer
-                        if (radiusResults.length>0) {
-                            $("a[href$='#basic-tab"+id_analysis+"batas']").removeAttr("style")
-                            $("#basic-tab"+id_analysis+"batas").removeAttr("style")
-                            $(".tab-pane").removeClass("active");
-                            $("#basic-tab"+id_analysis+"batas").addClass("active");
-
+                        $("a[href$='#basic-tab"+id_analysis+"batas']").removeAttr("style")
+                        $("#basic-tab"+id_analysis+"batas").removeAttr("style")
+                        $(".tab-pane").removeClass("active");
+                        $("#basic-tab"+id_analysis+"batas").addClass("active");
+                        
+                        $('#analysisDiv').css('display', 'block')
+                        $('#contentAnalysisDiv').css({
+                            "overflow-x": "hidden"
+                        })
+                        let graphicslayers = map.ObjMap.layers.items
+                        if (localStorage.getItem('titleBatasAdm') !== null) {
                             let title = JSON.parse(localStorage.getItem('titleBatasAdm'))
-                            let graphicslayers = map.ObjMap.layers.items
                             for (let i = 0; i < title.length; i++) {
                                 let titleLayer = title[i]+"BatasAdministrasi"
                                 let findBatasAdm = graphicslayers.find(o => o.title === titleLayer)
-                                if (findBatasAdm === undefined){
-                                    let batasAdministrasi = new GIS.Analysis.BatasAdministrasi(map.ObjMap,title[i],radiusResults[i])
-                                    batasAdministrasi.summaryAnalysis()
-                                    let row = "<tr><td>"+batasAdministrasi.luas_km2+"</td><td>"+batasAdministrasi.kepadatan+"</td><td>"+batasAdministrasi.populasi+"</td><td>"+batasAdministrasi.household+"</td><td>"+batasAdministrasi.male+"</td><td>"+batasAdministrasi.female+"</td><td>"+batasAdministrasi.ses_up+"</td><td>"+batasAdministrasi.ses_mid+"</td><td>"+batasAdministrasi.ses_low+"</td><td>"+batasAdministrasi.food_1+"</td><td>"+batasAdministrasi.food_2+"</td><td>"+batasAdministrasi.food_3+"</td><td>"+batasAdministrasi.food_4+"</td><td>"+batasAdministrasi.food_5+"</td><td>"+batasAdministrasi.jml_bangun+"</td><td>"+batasAdministrasi.nfood_1+"</td><td>"+batasAdministrasi.nfood_2+"</td><td>"+batasAdministrasi.nfood_3+"</td><td>"+batasAdministrasi.nfood_4+"</td><td>"+batasAdministrasi.nfood_5+"</td><td>"+batasAdministrasi.expend_1+"</td><td>"+batasAdministrasi.expend_2+"</td><td>"+batasAdministrasi.expend_3+"</td><td>"+batasAdministrasi.expend_4+"</td><td>"+batasAdministrasi.expend_5+"</td><td>"+batasAdministrasi.sesa+"</td><td>"+batasAdministrasi.sesb+"</td><td>"+batasAdministrasi.sesc+"</td><td>"+batasAdministrasi.sesd+"</td><td>"+batasAdministrasi.sese+"</td></tr>"
-                                    $('#batasAnalysisDiv'+id_analysis).prepend(row)
-                                    $('#analysisDiv').css('display', 'block')
-                                    $('#contentAnalysisDiv').css({
-                                        "overflow-x": "hidden"
-                                    })
-                                    batasAdministrasi.render()
-                                }
-                                else {
-                                    if (findBatasAdm.visible === true) {
-                                        findBatasAdm.visible = false
-                                    }
-                                    else {
-                                        findBatasAdm.visible = true
-                                    }
-                                }
+                                findBatasAdm.visible = true
                             }
                         }
-                        //driving
-                        if (drivingResults.length>0) {
+                        if (localStorage.getItem('titleBatasAdmDriving') !== null) {
                             let title = JSON.parse(localStorage.getItem('titleBatasAdmDriving'))
-                            let graphicslayers = map.ObjMap.layers.items
                             for (let i = 0; i < title.length; i++) {
                                 let titleLayer = title[i]+"BatasAdministrasi"
                                 let findBatasAdm = graphicslayers.find(o => o.title === titleLayer)
-                                if (findBatasAdm === undefined){
-                                    let batasAdm = new GIS.Analysis.BatasAdministrasiDriving(map.ObjMap,drivingResults[i], title[i])
-                                    batasAdm.render()
-                                }
-                                else {
-                                    if (findBatasAdm.visible === true) {
-                                        findBatasAdm.visible = false
-                                    }
-                                    else {
-                                        findBatasAdm.visible = true
-                                    }
-                                }
+                                findBatasAdm.visible = true
                             }
                         }
                     })
@@ -395,6 +435,7 @@ function analysisPoi(GIS,map) {
 
                                                     let row = "<tr><td>"+title+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
 
+                                                    $(".tab-pane").removeClass("active");
                                                     $('#rowAnalysisDiv'+id_analysis).prepend(row)
                                                     let seen = {};
                                                     $('#rowAnalysisDiv'+id_analysis+' tr').each(function() {
@@ -406,6 +447,8 @@ function analysisPoi(GIS,map) {
                                                             seen[txt] = true;
                                                         }
                                                     });
+                                                    $("a[href$='#basic-tab"+id_analysis+"poi']").removeAttr("style")
+                                                    $("#basic-tab"+id_analysis+"poi").removeAttr("style")
                                                     $("#basic-tab"+id_analysis+"poi").addClass("active");
                                                     $('#analysisDiv').css('display', 'block')
                                                     $('#contentAnalysisDiv').css({
@@ -475,6 +518,7 @@ function analysisPoi(GIS,map) {
 
                                                     let row = "<tr><td>"+titleLayer+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
 
+                                                    $(".tab-pane").removeClass("active");
                                                     $('#rowAnalysisDiv'+id_analysis).prepend(row)
                                                     let seen = {};
                                                     $('#rowAnalysisDiv'+id_analysis+' tr').each(function() {
@@ -486,6 +530,8 @@ function analysisPoi(GIS,map) {
                                                             seen[txt] = true;
                                                         }
                                                     });
+                                                    $("a[href$='#basic-tab"+id_analysis+"poi']").removeAttr("style")
+                                                    $("#basic-tab"+id_analysis+"poi").removeAttr("style")
                                                     $("#basic-tab"+id_analysis+"poi").addClass("active");
                                                     $('#analysisDiv').css('display', 'block')
                                                     $('#contentAnalysisDiv').css({
@@ -549,6 +595,7 @@ function analysisPoi(GIS,map) {
 
                                                     let row = "<tr><td>"+title+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
 
+                                                    $(".tab-pane").removeClass("active");
                                                     $('#rowAnalysisDiv'+id_analysis).prepend(row)
                                                     let seen = {};
                                                     $('#rowAnalysisDiv'+id_analysis+' tr').each(function() {
@@ -560,6 +607,8 @@ function analysisPoi(GIS,map) {
                                                             seen[txt] = true;
                                                         }
                                                     });
+                                                    $("a[href$='#basic-tab"+id_analysis+"poi']").removeAttr("style")
+                                                    $("#basic-tab"+id_analysis+"poi").removeAttr("style")
                                                     $("#basic-tab"+id_analysis+"poi").addClass("active");
                                                     $('#analysisDiv').css('display', 'block')
                                                     $('#contentAnalysisDiv').css({
@@ -628,6 +677,7 @@ function analysisPoi(GIS,map) {
                                                     
                                                     let row = "<tr><td>"+titleLayer+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
                                                     
+                                                    $(".tab-pane").removeClass("active");
                                                     $('#rowAnalysisDiv'+id_analysis).prepend(row)
                                                     let seen = {};
                                                     $('#rowAnalysisDiv'+id_analysis+' tr').each(function() {
@@ -639,6 +689,8 @@ function analysisPoi(GIS,map) {
                                                             seen[txt] = true;
                                                         }
                                                     });
+                                                    $("a[href$='#basic-tab"+id_analysis+"poi']").removeAttr("style")
+                                                    $("#basic-tab"+id_analysis+"poi").removeAttr("style")
                                                     $("#basic-tab"+id_analysis+"poi").addClass("active");
                                                     $('#analysisDiv').css('display', 'block')
                                                     $('#contentAnalysisDiv').css({

@@ -112,7 +112,7 @@ if (!isset($_SESSION['auth'])) {
         <script src="sample/boot.js"></script>
         <!-- <script src="content/analysis/dataAnalysis.js"></script> -->
         <script src="content/template/instant_analysis/buffers.js"></script>
-        <script src="content/template/instant_analysis/drivetime_distance.js"></script>
+        <script src="content/template/instant_analysis/drivetimeDistance.js"></script>
         <script src="content/template/instant_analysis/drivetime.js"></script>
         <script src="sample/serviceLayerPOI.js"></script>
         <script src="sample/serviceLayerInfrastructure.js"></script>
@@ -1233,7 +1233,7 @@ if (!isset($_SESSION['auth'])) {
         ?>
         <!-- <script src="assets/colors/app.js"></script> -->
         <script type="text/javascript" src="assets/js/plugins/collapsible/collapsible.js"></script>
-        <script type="text/javascript" src="content/template/instant_analysis/form_instant_analysis.js"></script>
+        <script type="text/javascript" src="content/template/instant_analysis/formInstantAnalysis.js"></script>
         <script>
             var toggler = document.getElementsByClassName("caret");
             var i;
@@ -1246,11 +1246,11 @@ if (!isset($_SESSION['auth'])) {
             }
         </script>
     </body>
-    <script src="assets/js/create_site.js"></script>
-    <script src="assets/js/add_points_from_site.js"></script>
-    <script src="assets/js/add_points_manual.js"></script>
-    <script src="assets/js/create_analysis.js"></script>
-    <script src="assets/js/from_list_csv.js"></script>
+    <script src="assets/js/createSite.js"></script>
+    <script src="assets/js/addPointsFromSite.js"></script>
+    <script src="assets/js/addPointsManual.js"></script>
+    <script src="assets/js/createAnalysis.js"></script>
+    <script src="assets/js/formListCSV.js"></script>
     <script src="assets/js/submitFilterServices.js"></script>
     <script src="assets/js/showCurrentDepartment.js"></script>
     <script src="assets/js/inputFilter.js"></script>
