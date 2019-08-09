@@ -379,11 +379,13 @@ function boot(GIS) {
       } else {
         open_site_analysis();
       }
-      if ($("#mySidenav").hasClass("panel-left")) {
-        $("#mySidenav").removeClass("panel-left");
-        $("#mySidenav").addClass("panel-right");
-        $("#main").css("margin-right", "320px");
-        $("#mySidenav").css("width", "320px");
+      if (document.getElementById("mySidenav").style.width > "0px") {
+        if ($("#mySidenav").hasClass("panel-left")) {
+          $("#mySidenav").removeClass("panel-left");
+          $("#mySidenav").addClass("panel-right");
+          $("#main").css("margin-right", "320px");
+          $("#mySidenav").css("width", "320px");
+        } 
       }
     });
   //end of sidebar/sidenav

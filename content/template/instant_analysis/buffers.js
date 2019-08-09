@@ -412,12 +412,8 @@ function bufferRadius(GIS,map){
                     })
                 })
                 $("#closebtn").on('click',function(){
-                    let graphicslayers = map.ObjMap.layers.items
-                    let graphics = map.ObjMapView.graphics.items
-                    if (graphicslayers.length > 0 || graphics.length > 0) {
-                        map.ObjMap.removeAll()
-                        map.ObjMapView.graphics.removeAll()
-                    }
+                    map.ObjMap.removeAll()
+                    map.ObjMapView.graphics.removeAll()
                     $('#instantAnalysisDiv').css('display', 'none')
                     $('#contentAnalysisDiv').removeAttr("style")
                     $('#instant-analysis-result-row').empty()

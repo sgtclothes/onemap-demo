@@ -124,6 +124,11 @@ function saveAnalysis(map){
                         $("#mySidenav").css('width','0px');
                         $("#mySiteAnalysis").css('width','320px');
                     }
+                    else {
+                        $("#mySidenav").removeClass("panel-right");
+                        $("#mySidenav").css('width','0px');
+                        $("#main").css('margin-right','0px');
+                    }
                     $('#instantAnalysisDiv').css('display', 'none')
                     $('#instant-analysis-row-div').remove()
                     $('#contentAnalysisDiv').removeAttr("style")
