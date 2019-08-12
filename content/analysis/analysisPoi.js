@@ -323,7 +323,6 @@ function analysisPoi(GIS,map) {
                                                             let graphicslayers = map.ObjMap.layers.items
                                                             let titleLayer = title+"BatasAdministrasi"
                                                             let findBatasAdm = graphicslayers.find(o => o.title === titleLayer)
-                                                            console.log(findBatasAdm)
                                                             if (findBatasAdm === undefined){
                                                                 let batasAdm = new GIS.Analysis.BatasAdministrasiDriving(map.ObjMap,catchment.ID_DESA, title)
                                                                 BatasAdministrasiDriving(batasAdm,colType)

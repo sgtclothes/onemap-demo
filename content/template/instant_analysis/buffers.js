@@ -134,6 +134,7 @@ function bufferRadius(GIS,map){
                                             let layers = map.ObjMap.layers.items
                                             let findPoiName = layers.find(o => o.title === title)
                                             let length = findPoiName.graphics.length
+                                            console.log(findPoiName)
 
                                             if (length>0) {
                                                 title = title.split(' ')
@@ -142,7 +143,7 @@ function bufferRadius(GIS,map){
                                                 if (poiName === "{POI_NAME}") {
                                                     poiName = poiName2
                                                 }
-
+                                                
                                                 let row = "<tr><td>"+latitude.toString()+"</td><td>"+longitude.toString()+"</td><td>"+title+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
                                                 $('#instant-analysis-result-row').prepend(row)
                                                 let seen = {};
@@ -411,18 +412,18 @@ function bufferRadius(GIS,map){
                         })
                     })
                 })
-                $("#closebtn").on('click',function(){
-                    map.ObjMap.removeAll()
-                    map.ObjMapView.graphics.removeAll()
-                    $('#instantAnalysisDiv').css('display', 'none')
-                    $('#contentAnalysisDiv').removeAttr("style")
-                    $('#instant-analysis-result-row').empty()
-                    $('div.rows').each(function(){
-                        $(this).remove()
-                    });
-                    $('#name_analysis').val('')
-                })
             })
+        })
+        $("#closebtn").on('click',function(){
+            map.ObjMap.removeAll()
+            map.ObjMapView.graphics.removeAll()
+            $('#instantAnalysisDiv').css('display', 'none')
+            $('#contentAnalysisDiv').removeAttr("style")
+            $('#instant-analysis-result-row').empty()
+            $('div.rows').each(function(){
+                $(this).remove()
+            });
+            $('#name_analysis').val('')
         })
         // delete all buffers and drive time per rows
         $("#form-list").on("click", ".btn-delete", function() {

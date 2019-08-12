@@ -236,6 +236,7 @@ function boot(GIS) {
   createMarkerFromSite(GIS, map);
   createMarkerFromCSV(GIS, map);
   analysisPoi(GIS, map);
+  editAnalysis(GIS, map);
   // end of create instant analysis
 
   //Define Buffers
