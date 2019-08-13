@@ -739,10 +739,7 @@ function boot(GIS) {
   removeFilterResults(map);
   createOverlap(GIS, map);
   viewTableServices(map);
-<<<<<<< HEAD
   zoomToLayer(map);
-=======
->>>>>>> 633854356d70126aa357faeb78fa1625184cf381
   // selectUnitSize();
 
   $("input[name='popup-input-min']").click(function() {

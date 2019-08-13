@@ -1250,7 +1250,7 @@ if (!isset($_SESSION['auth'])) {
                 </table>
                 <table>
                     <tr>
-                        <td style="width:150px; height:200px;">
+                        <td style="width:150px; height:240px;">
                             <img class="image-property" src="assets/images/no-photo.png" style="vertical-align:bottom" width="100%" height="100%" alt="" />
                         </td>
                         <td>
@@ -1548,10 +1548,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/removeFilterResults.js"></script>
     <script src="assets/js/createOverlap.js"></script>
     <script src="assets/js/viewTableServices.js"></script>
-<<<<<<< HEAD
     <script src="assets/js/zoomToLayer.js"></script>
-=======
->>>>>>> 633854356d70126aa357faeb78fa1625184cf381
     <script src="content/analysis/analysisPoi.js"></script>
     <script src="content/analysis/editAnalysis.js"></script>
     <script>
