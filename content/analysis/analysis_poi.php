@@ -77,62 +77,61 @@
         </tbody>
     </table>
 
-    <div class="table-responsive" style="max-height:100%;">
-        <table class="table" style="font-size:12px;">
-            <thead>
+    <table class="table table-bordered" style="font-size:12px; margin-bottom:25px;">
+        <thead>
+            <tr>
+                <th colspan='3' style='text-align:center;'><b>Detail Analysis</b></th>
+            </tr>
+            <tr>
+                <th style='text-align:center;'><b>Points</b></th>
+                <th style='text-align:center;'><b>Type</b></th>
+                <th style='text-align:center;'><b>Distance</b></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            for ($i=0; $i < count($lat_array); $i++) {
+                $num = $i+1;
+                $distance = $distance_array[$i];
+                $unit = $unit_array[$i];
+                $options = $options_array[$i];
+                for ($j=0; $j < count($distance); $j++) {
+            ?> 
                 <tr>
-                    <th colspan='3' style='text-align:center;'><b>Detail Analysis</b></th>
-                </tr>
-                <tr>
-                    <th style='text-align:center;'><b>Points</b></th>
-                    <th style='text-align:center;'><b>Type</b></th>
-                    <th style='text-align:center;'><b>Distance</b></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                for ($i=0; $i < count($lat_array); $i++) {
-                    $num = $i+1;
-                    $distance = $distance_array[$i];
-                    $unit = $unit_array[$i];
-                    $options = $options_array[$i];
-                    for ($j=0; $j < count($distance); $j++) {
-                ?> 
-                    <tr>
-                        <?php
-                        if (count($distance) === 1) {
-                            echo '<td>'.$lat_array[$i].', '.$lon_array[$i].'</td>';
+                    <?php
+                    if (count($distance) === 1) {
+                        echo '<td>'.$lat_array[$i].', '.$lon_array[$i].'</td>';
+                    }
+                    else if(count($distance) > 1) {
+                        if ($j === 0) {
+                            echo '<td rowspan='.count($distance).'>'.$lat_array[$i].', '.$lon_array[$i].'</td>';
                         }
-                        else if(count($distance) > 1) {
-                            if ($j === 0) {
-                                echo '<td rowspan='.count($distance).'>'.$lat_array[$i].', '.$lon_array[$i].'</td>';
+                    }
+                    ?>
+                    <td>
+                        <?php
+                        if ($options[$j] === "0") {
+                            echo "Buffer";
+                        }
+                        else if ($options[$j] === "3") {
+                            if ($unit[$j] === "kilometers" || $unit[$j] === "miles" || $unit[$j] === "meters") {
+                                echo "Driving Distance";
+                            }
+                            else {
+                                echo "Driving Time";
                             }
                         }
                         ?>
-                        <td>
-                            <?php
-                            if ($options[$j] === "0") {
-                                echo "Buffer";
-                            }
-                            else if ($options[$j] === "3") {
-                                if ($unit[$j] === "kilometers" || $unit[$j] === "miles" || $unit[$j] === "meters") {
-                                    echo "Driving Distance";
-                                }
-                                else {
-                                    echo "Driving Time";
-                                }
-                            }
-                            ?>
-                        </td>
-                        <td><?php echo "$distance[$j] $unit[$j]"; ?></td>
-                    </tr>
-                <?php
-                    }
+                    </td>
+                    <td><?php echo "$distance[$j] $unit[$j]"; ?></td>
+                </tr>
+            <?php
                 }
-                ?>
-            </tbody>
-        </table>
-    </div>
+            }
+            ?>
+        </tbody>
+    </table>
+    
 </div>
 <script>
 document
