@@ -324,6 +324,14 @@ if (!isset($_SESSION['auth'])) {
                                                             </div>
                                                         </td>
                                                     </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                                <input class="styled" type="checkbox" name="select-property" id="property-data-center" value="Data Center">
+                                                                <label for="property-data-center"><span></span>Data Center</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                 </table>
                                                 <table style="margin-top:10px;" class="dropdown-table-property">
                                                     <tr>
@@ -350,7 +358,6 @@ if (!isset($_SESSION['auth'])) {
                                     <td class="property-item">
                                         <div><b>Strata</b></div>
                                     </td>
-
                                 </tr>
                                 <tr>
                                     <td style="height:26px;">
@@ -365,6 +372,71 @@ if (!isset($_SESSION['auth'])) {
                                     </td>
                                 </tr>
                             </table>
+                            <!-- <table>
+                                                    <tr>
+                                                        <td>
+                                                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/World_Trade_Center%2C_New_York_City_-_aerial_view_%28March_2001%29.jpg" width="100" height="100" alt="">
+                                                        </td>
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <table>
+                                                                            <tr>
+                                                                                <td>Asking/Transaction/Valuation</td>
+                                                                                <td>NJOP</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <table>
+                                                                                        <tr>
+                                                                                            <td>Total Price</td>
+                                                                                            <td>Total</td>
+                                                                                            <td>
+                                                                                                <table>
+                                                                                                    <tr>
+                                                                                                        <td>Size</td>
+                                                                                                    </tr>
+                                                                                                </table>
+                                                                                                <table>
+                                                                                                    <tr>
+                                                                                                        <td>Sqm</td>
+                                                                                                        <td>Units/Keys</td>
+                                                                                                    </tr>
+                                                                                                </table>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <table>
+                                                                                                    <tr>
+                                                                                                        <td>Price Per</td>
+                                                                                                    </tr>
+                                                                                                </table>
+                                                                                                <table>
+                                                                                                    <tr>
+                                                                                                        <td>Sqm</td>
+                                                                                                        <td>Unit/Key</td>
+                                                                                                    </tr>
+                                                                                                </table>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <table>
+                                                                                        <tr>
+                                                                                            <td>Price</td>
+                                                                                            <td>%</td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table> -->
                             <table class="table-property">
                                 <tr>
                                     <td style="height:26px;">
@@ -517,9 +589,9 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td>
                                         <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
-                                            <input id="checkbox-land-with-agreement" class="property-available styled" type="checkbox" name="property-available" value="land with agreement">
-                                            <label for="checkbox-land-with-agreement"><span></span>
-                                                Land with Agreement
+                                            <input id="checkbox-available-colliers" class="property-available styled" type="checkbox" name="property-available" value="colliers">
+                                            <label for="checkbox-available-colliers"><span></span>
+                                                Colliers
                                             </label>
                                         </div>
                                     </td>
@@ -617,7 +689,7 @@ if (!isset($_SESSION['auth'])) {
                                         <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
                                             <input id="checkbox-location" class="property-status-location styled" type="checkbox" name="property-status-location">
                                             <label for="checkbox-location"><span></span>
-                                                <b>Property Location</b>
+                                                <b>Property AYDA</b>
                                             </label>
                                         </div>
                                     </td>
@@ -756,7 +828,7 @@ if (!isset($_SESSION['auth'])) {
                                 </tr>
                             </table>
                         </li>
-                        <li style="display:none">
+                        <li style="display:block">
                             <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                 <input id="checkbox-colliers-property" class="styled" type="checkbox" value="colliers-property">
                                 <label for="checkbox-colliers-property"><span></span>
@@ -898,7 +970,7 @@ if (!isset($_SESSION['auth'])) {
                                         </select>
                                     </td>
                                     <td class="item-buffer-layer">
-                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" name="list-table" class="mi-list"></i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -926,7 +998,7 @@ if (!isset($_SESSION['auth'])) {
                                         </select>
                                     </td>
                                     <td class="item-buffer-layer">
-                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" name="list-table" class="mi-list"></i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -954,7 +1026,7 @@ if (!isset($_SESSION['auth'])) {
                                         </select>
                                     </td>
                                     <td class="item-buffer-layer">
-                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" name="list-table" class="mi-list"></i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -982,7 +1054,7 @@ if (!isset($_SESSION['auth'])) {
                                         </select>
                                     </td>
                                     <td class="item-buffer-layer">
-                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" name="list-table" class="mi-list"></i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1010,7 +1082,7 @@ if (!isset($_SESSION['auth'])) {
                                         </select>
                                     </td>
                                     <td class="item-buffer-layer">
-                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" name="list-table" class="mi-list"></i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1038,7 +1110,7 @@ if (!isset($_SESSION['auth'])) {
                                         </select>
                                     </td>
                                     <td class="item-buffer-layer">
-                                        <i style="background-color: #f0f0f0; border-radius: 5px;" class="mi-list"></i>
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" name="list-table" class="mi-list"></i>
                                     </td>
                                 </tr>
                             </table>
@@ -1175,20 +1247,246 @@ if (!isset($_SESSION['auth'])) {
             </div>
             <!-- End of Form Create Site -->
 
+            <!-- Popup Filter -->
+            <div class="popupFilter">
+                <table style="width:100%; font-size:8px;">
+                    <tr style="border-bottom: 1px solid black;">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td id="close-popup-property" class="close-popup-property" style="font-size:15px; font-weight:bold; float:right; padding-right:10px;">X</td>
+                    </tr>
+                    <tr>
+                        <td style="width:100px; font-weight:bold;">
+                            Property Type :
+                        </td>
+                        <td id="propertytype-popup" style="width:200px;">Land</td>
+                        <td>Last Updated :</td>
+                        <td id="lastupdate-popup">30-Jun-2019</td>
+                    </tr>
+                    <tr>
+                        <td id="address-popup">Land at Kemang</td>
+                        <td></td>
+                        <td>Transaction Date :</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td style="width:150px; height:200px;">
+                            <img class="image-property" src="assets/images/no-photo.png" style="vertical-align:bottom" width="100%" height="100%" alt="" />
+                        </td>
+                        <td>
+                            <table style="text-align: center; font-size:8px; height:100%">
+                                <tr>
+                                    <td colspan="6" style="background-color: #e6e6e6; font-weight:bold;">
+                                        Asking/<s>Transaction</s>/<s>Valuation</s>
+                                    </td>
+                                    <td colspan="3" style="background-color: #e6e6e6; font-weight:bold;">
+                                        NJOP
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2" style="width:100px; background-color: #e6e6e6; font-weight:bold;">
+                                        Total Price
+                                    </td>
+                                    <td rowspan="2" style="width:64px; background-color: #e6e6e6; font-weight:bold;">
+                                        Total
+                                    </td>
+                                    <td colspan="2" style="background-color: #e6e6e6; font-weight:bold;">
+                                        Size
+                                    </td>
+                                    <td colspan="2" style="background-color: #e6e6e6; font-weight:bold;">
+                                        Price Per
+                                    </td>
+                                    <td colspan="2" style="width:100px; background-color: #e6e6e6; font-weight:bold;">
+                                        Price
+                                    </td>
+                                    <td rowspan="2" style="width:30px; background-color: #e6e6e6; font-weight:bold;">
+                                        %
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:60px; background-color: #e6e6e6; font-weight:bold;">
+                                        Sqm
+                                    </td>
+                                    <td style="width:60px; background-color: #e6e6e6; font-weight:bold;">
+                                        Units/Keys
+                                    </td>
+                                    <td style="width:64px; background-color: #e6e6e6; font-weight:bold;">
+                                        Sqm
+                                    </td>
+                                    <td style="background-color: #e6e6e6; font-weight:bold;">Unit/Key</td>
+                                    <td style="width:64px; background-color: #e6e6e6; font-weight:bold;">
+                                        Total
+                                    </td>
+                                    <td style="width:60px; background-color: #e6e6e6; font-weight:bold;">
+                                        Per Sqm
+                                    </td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td>Land</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="tr-second">
+                                    <td>IDR</td>
+                                    <td id="landTotal"></td>
+                                    <td id="landSizeSqm"></td>
+                                    <td></td>
+                                    <td id="landPricePerSqm"></td>
+                                    <td></td>
+                                    <td id="priceTotal"></td>
+                                    <td id="pricePerSqm"></td>
+                                    <td id="NJOPPercent"></td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td>USD</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="tr-second">
+                                    <td>Building</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td>IDR</td>
+                                    <td id="buildingTotal"></td>
+                                    <td></td>
+                                    <td id="buildingSizeSqm"></td>
+                                    <td id="buildingPricePerSqm"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="tr-second">
+                                    <td>USD</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td>Total</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="tr-second">
+                                    <td>IDR</td>
+                                    <td id="totalTotal"></td>
+                                    <td id="totalSizeSqm"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td>USD</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="height:24px;" colspan="9"></td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #e6e6e6; font-weight:bold;">
+                                        Price/Buildable Sqm
+                                    </td>
+                                    <td style="background-color: #e6e6e6; font-weight:bold;">KLB</td>
+                                    <td style="background-color: #e6e6e6; font-weight:bold;">
+                                        Total KLB
+                                    </td>
+                                    <td style="background-color: #e6e6e6; font-weight:bold;">
+                                        Per KLB Sqm
+                                    </td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td>KLB</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="tr-second">
+                                    <td>IDR</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td>USD</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size:8px;">Jl Kemang No 1, Jakarta Selatan,</td>
+                        <td>
+                            <table style="font-size:8px;">
+                                <tr>
+                                    <td style="width:132.9px;">Colliers Contact :</td>
+                                    <td>Ringkardo Goratama</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size:8px;">DKI Jakarta, Indonesia</td>
+                        <td id="pointer-popup" style="float:right; padding-top:5px; padding-right:10px; cursor:pointer;"><i class="esri-icon-map-pin"></i></td>
+                    </tr>
+                </table>
+            </div>
+            <!-- End of Popup Filter -->
+
             <div class="content-wrapper" id="contentAnalysisDiv">
                 <div id="mapDiv"></div>
-                <div style="align-items:center; justify-content:center;">
-                    <table class="table-filter">
-
-                    </table>
-                </div>
+                <div class="table_list_services"><?php include "content/table_list_services.html"; ?></div>
                 <div id="analysisDiv" style="display:none;"><?php include "content/analysis/results_table.html"; ?></div>
                 <div id="instantAnalysisDiv" style="display:none;"><?php include "content/analysis/results_table_instant.html"; ?></div>
             </div>
         </div>
         <!-- /page-content-->
         <!-- Modal drag and drop csv -->
-        <div style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4); align-self: center; justify-content: center;" id="dragdrop-modal">
+        <div style="display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4); align-self: center; justify-content: center;" id="dragdrop-modal">
             <div id="info-csv" style="z-index: 2; margin-top: 25%; margin-left:30%; vertical-align: middle; line-height: 100%; font-size: 40; color: white;">
                 <p id="closeMyModal" align='right' style="margin-right:50%; cursor: default;">Close[X]</p>
                 <p>Drag your CSV File here</p>
@@ -1200,6 +1498,12 @@ if (!isset($_SESSION['auth'])) {
             </div>
         </div>
         <!-- End of Modal drag and drop csv -->
+
+        <!-- Loading bar -->
+        <div style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4);" id="loading-bar">
+            <img class="image-loading" draggable="false" style="margin-left:30%; margin-top:15%;" src="assets/images/oneMap-loading2.gif" width="500" height="300" loop>
+        </div>
+        <!-- End of loading bar -->
 
         <!-- Confirm Box -->
         <div id="confirmBox">
@@ -1265,6 +1569,8 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/saveDataServiceToLocalStorage.js"></script>
     <script src="assets/js/removeFilterResults.js"></script>
     <script src="assets/js/createOverlap.js"></script>
+    <script src="assets/js/viewTableServices.js"></script>
+    <script src="assets/js/zoomToLayer.js"></script>
     <script src="content/analysis/analysisPoi.js"></script>
     <script>
         $(document).ready(function() {
@@ -1275,6 +1581,7 @@ if (!isset($_SESSION['auth'])) {
             });
         });
     </script>
+
     </html>
 <?php
 }

@@ -433,11 +433,12 @@ td.table-property {
   border: 1px solid black;
 }
 
-/* table,
+table,
 tr,
+th,
 td {
-  border: 1px solid black;
-} */
+  border: 1px solid white;
+}
 
 td.property-item {
   width: 80px;
@@ -657,6 +658,7 @@ div.esri-popup__button.esri-popup__action {
 .item-buffer-layer {
   text-align: center;
   display: none;
+  cursor: pointer;
 }
 
 .select-buffer-layer {
@@ -673,7 +675,7 @@ div.esri-popup__button.esri-popup__action {
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 100px;
-  min-height: 200px
+  min-height: 200px;
 }
 
 .bottom-input-name {
@@ -730,5 +732,51 @@ table.dataTable {
   padding: 0 !important;
   color: #069;
   text-decoration: underline;
+  cursor: pointer;
+}
+
+.table_list_services {
+  display: none;
+}
+
+.close-services:hover {
+  cursor: pointer;
+}
+
+.label-services {
+  cursor: pointer;
+}
+
+.image-loading {
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
+}
+
+.popupFilter {
+  position: absolute;
+  z-index: 10;
+  background-color: white;
+  display: none;
+  width: auto;
+  height: auto;
+  right: 0;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  box-shadow: 2px 5px #888888;
+  padding: 10px;
+}
+
+.tr-first > td {
+  background-color: #f5f5f5;
+}
+
+.tr-second > td {
+  background-color: #edebeb;
+}
+
+.close-popup-property {
   cursor: pointer;
 }

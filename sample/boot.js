@@ -146,6 +146,7 @@ function boot(GIS) {
   // END of create a site
 
   map.ObjMapView.popup.actionsMenuEnabled = false;
+  console.log(map.ObjMapView.popup);
   // map.ObjMapView.popup.featureNavigationEnabled = false;
 
   // create instant analysis
@@ -734,6 +735,8 @@ function boot(GIS) {
   saveDataServiceToLocalStorage();
   removeFilterResults(map);
   createOverlap(GIS, map);
+  viewTableServices(map);
+  zoomToLayer(map);
   // selectUnitSize();
 
   $("input[name='popup-input-min']").click(function() {
@@ -809,7 +812,8 @@ function boot(GIS) {
 
   let colliersServicePopupTemplate = {
     title: "Colliers Property",
-    content: "{*}"
+    content: "{*}",
+    id: "collierspopup"
   };
 
   let colliersRenderer = {
@@ -844,14 +848,82 @@ function boot(GIS) {
           // check if the graphic belongs to the layer of interest
           return result.graphic.layer === colliersService;
         })[0].graphic;
-
         // do something with the result graphic
         console.log(graphic);
-        map.ObjMap.graphics.clear();
         // localStorage.setItem("selectedFeature", JSON.stringify(graphic));
         // console.log(JSON.parse(localStorage.getItem("selectedFeature")))
       }
     });
+  }
+
+  // Set up a click event handler and retrieve the screen point
+  map.ObjMapView.on("click", function(evt) {
+    var screenPoint = evt.screenPoint;
+
+    // the hitTest() checks to see if any graphics in the view
+    // intersect the given screen point
+    map.ObjMapView.hitTest(screenPoint).then(getGraphics);
+  });
+
+  function getGraphics(response) {
+    // the topmost graphic from the click location
+    // and display select attribute values from the
+    // graphic to the user
+    if (response.results.length > 0) {
+      function randomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+      }
+      localStorage.setItem(
+        "selectedFeatureFilterLatitude",
+        JSON.stringify(response.results[0].graphic.geometry.latitude)
+      );
+      localStorage.setItem(
+        "selectedFeatureFilterLongitude",
+        JSON.stringify(response.results[0].graphic.geometry.longitude)
+      );
+      let landTotal = randomNumber(50000000, 500000000);
+      let buildingTotal = randomNumber(50000000, 500000000);
+      let landSizeSqm = randomNumber(5000, 10000);
+      let buildingSizeSqm = randomNumber(5000, 20000);
+      let landPricePerSqm = randomNumber(5000, 20000);
+      let priceTotal = randomNumber(10000000, 50000000);
+      let pricePerSqm = randomNumber(5000, 10000);
+      let NJOPPercent = randomNumber(1, 5);
+      let attr = Object.keys(response.results[0].graphic.attributes);
+      let imageUrl = response.results[0].graphic.attributes.photo;
+      let propertytype = response.results[0].graphic.attributes.propertytype;
+      let lastupdate = response.results[0].graphic.attributes.lastupdate;
+      let address = response.results[0].graphic.attributes.address;
+      let d = new Date(lastupdate);
+      lastupdate =
+        d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+      if (lastupdate === "NaN-NaN-NaN") {
+        lastupdate = "-";
+      }
+      if (attr.includes("propertytype")) {
+        $(".popupFilter").show();
+        $(".image-property").attr("src", imageUrl);
+        $("#propertytype-popup").text(propertytype);
+        $("#lastupdate-popup").text(lastupdate);
+        $("#address-popup").text("Land at " + address);
+        $("#landTotal").text(landTotal);
+        $("#landSizeSqm").text(landSizeSqm);
+        $("#landPricePerSqm").text(landPricePerSqm);
+        $("#buildingTotal").text(buildingTotal);
+        $("#buildingSizeSqm").text(buildingSizeSqm);
+        $("#totalTotal").text(buildingTotal + landTotal);
+        $("#totalSizeSqm").text(buildingSizeSqm + landSizeSqm);
+        $("#priceTotal").text(priceTotal);
+        $("#pricePerSqm").text(pricePerSqm);
+        $("#NJOPPercent").text(NJOPPercent);
+        $(".image-property").error(function() {
+          $(this).attr("src", "assets/images/no-photo.png");
+        });
+      }
+
+      var graphic = response.results[0].graphic;
+      var attributes = graphic.attributes;
+    }
   }
 
   $(document).ready(function() {
@@ -897,6 +969,10 @@ function boot(GIS) {
     $(".dropdown-content-department").toggle();
   });
 
+  $.get("popupLayout.html", function(data) {
+    localStorage.setItem("popupLayout", JSON.stringify(data));
+  });
+
   $("input:radio").on("click", function(e) {
     var inp = $(this);
     if (inp.is(".theone")) {
@@ -907,6 +983,52 @@ function boot(GIS) {
       );
       inp.addClass("theone");
     }
+  });
+
+  $("#close-popup-property").click(function() {
+    $(".popupFilter").hide();
+  });
+
+  $("#pointer-popup").click(function() {
+    let mySidenav = document.getElementById("mySidenav");
+    if (
+      document.getElementById("myViewer").style.width > "0px" ||
+      document.getElementById("mySiteAnalysis").style.width > "0px"
+    ) {
+      mySidenav.classList.add("panel-right");
+      document.getElementById("main").style.marginRight = "320px";
+      mySidenav.setAttribute("style", "width:320px;");
+      if (mySidenav.classList.contains("panel-left")) {
+        mySidenav.classList.remove("panel-left");
+      }
+    } else {
+      openNav();
+    }
+    let lat = JSON.parse(localStorage.getItem("selectedFeatureFilterLatitude"));
+    let lon = JSON.parse(
+      localStorage.getItem("selectedFeatureFilterLongitude")
+    );
+    $.addRows();
+    $.each(window.counterArr, function(index, value) {
+      if ($(".latitude-form-" + value).val() === "") {
+        $(".latitude-form-" + value).val(lat);
+        $(".longitude-form-" + value).val(lon);
+        $(".latitude-form-" + value).attr("title", "Latitude " + lat);
+        $(".longitude-form-" + value).attr("title", "Longitude " + lon);
+        $("#form-list").delegate(".selectbuffer-" + value, "click", function() {
+          $.get("content/template/instant_analysis/buffer.php", function(data) {
+            $(".form-buffer-" + value).append(data);
+          });
+        });
+        $("#form-list").delegate(".selectdrive-" + value, "click", function() {
+          $.get("content/template/instant_analysis/driving.php", function(
+            data
+          ) {
+            $(".form-drive-" + value).append(data);
+          });
+        });
+      }
+    });
   });
 
   //Clear the localstorage when user logout

@@ -5,7 +5,6 @@ function inputCheckboxServices(GIS, map) {
   let subPOI = $(".checkbox-sub-poi");
   let subInfrasctructure = $(".checkbox-sub-infrastructure");
   let subDemographic = $(".checkbox-sub-demographic");
-  let itemLayer = $(".item-buffer-layer");
 
   function makeTableLegend(titleText, className) {
     let divLegend = document.createElement("DIV");
@@ -150,6 +149,24 @@ function inputCheckboxServices(GIS, map) {
         if (map.ObjMap.layers.items[i].uid == $(this).attr("name")) {
           map.ObjMap.layers.items[i].visible = false;
           map.ObjMap.layers.items.splice(i, 1);
+        }
+      }
+      //Remove tab navigation if it opens
+      let value = $(this).val();
+      let tabLink = $(".tab-link-service");
+      let indexTab = "";
+      console.log(tabLink);
+      $("#tab-link-services-" + value).hide();
+      $("#tab-content-services-" + value).hide();
+      for (let i = tabLink.length - 1; i > -1; i--) {
+        if ($(tabLink[i]).is(":visible")) {
+          $(tabLink[i]).addClass("active");
+          let a = $(tabLink[i]).attr("id"),
+            b = a.split("-"),
+            c = b[3];
+          document.getElementById("tab-content-services-" + c).style.display =
+            "block";
+          break;
         }
       }
     }

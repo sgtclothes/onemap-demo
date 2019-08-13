@@ -186,8 +186,6 @@ function submitFilterServices(convertData, map, convertCSV) {
       queryWhere += value[i];
     }
 
-    console.log(queryWhere);
-
     var layersRequest = {
       query: {
         f: "json"
@@ -214,18 +212,24 @@ function submitFilterServices(convertData, map, convertCSV) {
       return retVal;
     }
 
+    console.log(queryWhere);
+
     let query = new ESRI.Query();
     query.returnGeometry = true;
     query.outFields = ["*"];
     query.outSpatialReference = map.ObjMap.spatialReference;
     query.where = queryWhere;
 
+    $("#loading-bar").show();
+
     colliersProperty.queryFeatures(query).then(function(results) {
-      // you need to call your displayResults function
+      if (results.features.length < 1) {
+        $("#loading-bar").hide();
+      }
       displayResults(results);
     });
 
-    // view and print the number of results to the DOM
+    // // view and print the number of results to the DOM
     function displayResults(results) {
       let chunkedResults = results.features;
       let attributes = [];
@@ -241,14 +245,14 @@ function submitFilterServices(convertData, map, convertCSV) {
         alias[j] = getFldAlias(j);
       }
 
-      console.log(chunkedResults);
-
       convertCSV.processCSVData(
         convertData.getRowofTextArray(attributes),
         "custom",
         geometry,
-        alias
+        alias,
+        true
       );
+      $("#loading-bar").hide();
     }
   });
 }

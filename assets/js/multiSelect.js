@@ -56,7 +56,7 @@ function multiSelect() {
   $(inputProperty).click(function() {
     if ($(this).prop("checked") == true) {
       property.push($(this).val());
-      if (property.length == 7) {
+      if (property.length == 8) {
         $(selectAllProperty).text("Unselect all");
       }
     } else if ($(this).prop("checked") == false) {
