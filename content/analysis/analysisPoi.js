@@ -393,7 +393,7 @@ function analysisPoi(GIS,map) {
                                 for (let p = 0; p < option.length; p++) {
                                     for (let q = 0; q < option[p].length; q++) {
                                         if (parseInt(option[p][q]) === 0) {
-                                            let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
+                                            let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap, map.ObjMapView, layerId, poiName)
 
                                             let unitnum
                                             if (unitArr[p][q] == "kilometers") {
@@ -458,7 +458,7 @@ function analysisPoi(GIS,map) {
                                         }
                                         else if (parseInt(option[p][q]) !== 0) {
                                             let graphicslayers = map.ObjMap.layers.items
-                                            let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
+                                            let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap,map.ObjMapView, layerId, poiName)
 
                                             let titleLayer
 

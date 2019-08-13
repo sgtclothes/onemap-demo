@@ -33,7 +33,7 @@
             "bLengthChange": false,
             "bFilter": true,
             "bInfo": false,
-            "pageLength": 5,
+            "pageLength": 10,
             "pagingType": "numbers"
         });
     });

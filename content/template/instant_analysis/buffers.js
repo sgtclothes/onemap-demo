@@ -105,7 +105,7 @@ function bufferRadius(GIS,map){
                                         let latitude = buffer[i].graphics.items[0].geometry.center.latitude
                                         let longitude = buffer[i].graphics.items[0].geometry.center.longitude
 
-                                        let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
+                                        let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap, map.ObjMapView, layerId, poiName)
                                         let unitnum
                                         if (unit == "kilometers") {
                                             unitnum = 'km'
@@ -134,7 +134,6 @@ function bufferRadius(GIS,map){
                                             let layers = map.ObjMap.layers.items
                                             let findPoiName = layers.find(o => o.title === title)
                                             let length = findPoiName.graphics.length
-                                            console.log(findPoiName)
 
                                             if (length>0) {
                                                 title = title.split(' ')
@@ -164,7 +163,7 @@ function bufferRadius(GIS,map){
                                         });   
                                     }
                                     else if (parseInt(buffer[i].options) !== 0){
-                                        let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
+                                        let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap, map.ObjMapView, layerId, poiName)
 
                                         let anly = JSON.parse(buffer[i].anly)
                                         let unit = anly.unit

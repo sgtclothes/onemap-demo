@@ -76,11 +76,70 @@
             </tr>
         </tbody>
     </table>
+
+    <div class="table-responsive">
+        <table id="datatable-detail-anly" class="table display compact nowrap table-hover datatable-sorting" style="font-size:12px;">
+            <thead>
+                <tr>
+                    <th colspan='3' style='text-align:center;'><b>Detail Analysis</b></th>
+                </tr>
+                <tr>
+                    <th style='text-align:center;'><b>Points</b></th>
+                    <th style='text-align:center;'><b>Type</b></th>
+                    <th style='text-align:center;'><b>Distance</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                for ($i=0; $i < count($lat_array); $i++) {
+                    $num = $i+1;
+                    $distance = $distance_array[$i];
+                    $unit = $unit_array[$i];
+                    $options = $options_array[$i];
+                    for ($j=0; $j < count($distance); $j++) {
+                ?> 
+                    <tr>
+                        <td><?php echo "$lat_array[$i], $lon_array[$i]"; ?></td>
+                        <td>
+                            <?php
+                            if ($options[$j] === "0") {
+                                echo "Buffer";
+                            }
+                            else if ($options[$j] === "3") {
+                                if ($unit[$j] === "kilometers" || $unit[$j] === "miles" || $unit[$j] === "meters") {
+                                    echo "Driving Distance";
+                                }
+                                else {
+                                    echo "Driving Time";
+                                }
+                            }
+                            ?>
+                        </td>
+                        <td><?php echo "$distance[$j] $unit[$j]"; ?></td>
+                    </tr>
+                <?php
+                    }
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 <script>
 document
 .getElementById("closeAnalysisPOI")
 .addEventListener("click", function() {
     document.getElementById("myAnalysisPOI").style.width = "0";
+});
+
+$(document).ready(function() {
+    $('#datatable-detail-anly').dataTable({
+        "searching": false,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": false,
+        "pageLength": 7,
+        "pagingType": "numbers"
+    });
 });
 </script>
