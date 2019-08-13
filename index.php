@@ -806,7 +806,7 @@ if (!isset($_SESSION['auth'])) {
                                 </tr>
                             </table>
                         </li>
-                        <li style="display:block">
+                        <li style="display:none">
                             <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                 <input id="checkbox-colliers-property" class="styled" type="checkbox" value="colliers-property">
                                 <label for="checkbox-colliers-property"><span></span>
