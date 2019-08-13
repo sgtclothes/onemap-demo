@@ -77,8 +77,8 @@
         </tbody>
     </table>
 
-    <div class="table-responsive">
-        <table id="datatable-detail-anly" class="table display compact nowrap table-hover datatable-sorting" style="font-size:12px;">
+    <div class="table-responsive" style="max-height:100%;">
+        <table class="table" style="font-size:12px;">
             <thead>
                 <tr>
                     <th colspan='3' style='text-align:center;'><b>Detail Analysis</b></th>
@@ -99,7 +99,16 @@
                     for ($j=0; $j < count($distance); $j++) {
                 ?> 
                     <tr>
-                        <td><?php echo "$lat_array[$i], $lon_array[$i]"; ?></td>
+                        <?php
+                        if (count($distance) === 1) {
+                            echo '<td>'.$lat_array[$i].', '.$lon_array[$i].'</td>';
+                        }
+                        else if(count($distance) > 1) {
+                            if ($j === 0) {
+                                echo '<td rowspan='.count($distance).'>'.$lat_array[$i].', '.$lon_array[$i].'</td>';
+                            }
+                        }
+                        ?>
                         <td>
                             <?php
                             if ($options[$j] === "0") {
@@ -130,16 +139,5 @@ document
 .getElementById("closeAnalysisPOI")
 .addEventListener("click", function() {
     document.getElementById("myAnalysisPOI").style.width = "0";
-});
-
-$(document).ready(function() {
-    $('#datatable-detail-anly').dataTable({
-        "searching": false,
-        "bLengthChange": false,
-        "bFilter": true,
-        "bInfo": false,
-        "pageLength": 7,
-        "pagingType": "numbers"
-    });
 });
 </script>
