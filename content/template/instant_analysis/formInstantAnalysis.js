@@ -14,6 +14,8 @@ $(document).ready(function() {
         '<input name="latitude" type="text" value="" class="form-control latitude-form-'+counter+'" required readonly style="width:68px; margin-right:5px;">';
       cols +=
         '<input name="longitude" type="text" value="" class="form-control longitude-form-'+counter+'" required readonly style="width:68px;">';
+      cols +=
+        '<input name="id_points" type="hidden" value="undefined" class="form-control id-points-form-'+counter+'">';
       cols += '<div class="btn-group ml-1">';
       cols +=
         '<button type="button" class="btn btn-sm alpha-purple border-purple-300 text-purple-800 btn-icon dropdown-toggle" data-toggle="dropdown" title="Add Buffer Radius, Driving Time and Driving Distance">';

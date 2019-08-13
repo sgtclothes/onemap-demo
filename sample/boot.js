@@ -237,6 +237,7 @@ function boot(GIS) {
   createMarkerFromSite(GIS, map);
   createMarkerFromCSV(GIS, map);
   analysisPoi(GIS, map);
+  editAnalysis(GIS, map);
   // end of create instant analysis
 
   //Define Buffers
@@ -380,11 +381,13 @@ function boot(GIS) {
       } else {
         open_site_analysis();
       }
-      if ($("#mySidenav").hasClass("panel-left")) {
-        $("#mySidenav").removeClass("panel-left");
-        $("#mySidenav").addClass("panel-right");
-        $("#main").css("margin-right", "320px");
-        $("#mySidenav").css("width", "320px");
+      if (document.getElementById("mySidenav").style.width > "0px") {
+        if ($("#mySidenav").hasClass("panel-left")) {
+          $("#mySidenav").removeClass("panel-left");
+          $("#mySidenav").addClass("panel-right");
+          $("#main").css("margin-right", "320px");
+          $("#mySidenav").css("width", "320px");
+        } 
       }
     });
   //end of sidebar/sidenav
@@ -736,7 +739,10 @@ function boot(GIS) {
   removeFilterResults(map);
   createOverlap(GIS, map);
   viewTableServices(map);
+<<<<<<< HEAD
   zoomToLayer(map);
+=======
+>>>>>>> 633854356d70126aa357faeb78fa1625184cf381
   // selectUnitSize();
 
   $("input[name='popup-input-min']").click(function() {

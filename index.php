@@ -112,7 +112,7 @@ if (!isset($_SESSION['auth'])) {
         <script src="sample/boot.js"></script>
         <!-- <script src="content/analysis/dataAnalysis.js"></script> -->
         <script src="content/template/instant_analysis/buffers.js"></script>
-        <script src="content/template/instant_analysis/drivetime_distance.js"></script>
+        <script src="content/template/instant_analysis/drivetimeDistance.js"></script>
         <script src="content/template/instant_analysis/drivetime.js"></script>
         <script src="sample/serviceLayerPOI.js"></script>
         <script src="sample/serviceLayerInfrastructure.js"></script>
@@ -199,9 +199,10 @@ if (!isset($_SESSION['auth'])) {
                 <div class="inline">
                     <a href="javascript:void(0)" id="closebtn">&times;</a>
                 </div>
-                <div>
-                    <p class="title" style="padding: 50px 8px 0px 88px;"></p>
-                    <div style="margin-left:52px; margin-bottom: 8px;">
+                <div id="mySidenavChild">
+                    <p id="titleSidebarAnalysis" class="title" style="padding: 50px 8px 0px 88px;"></p>
+                    <p id="newTitleSidebarAnalysis" class="title" style="display:none; padding: 60px 8px 0px 75px;">Form Update Analysis</p>
+                    <div style="margin-left:60px; margin-bottom: 8px;">
                         <button type="button" id="adding-btn" title="Input Latitude & Longitude" data-toggle="modal" data-target="#modal_form_input_point" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
                         <button type="button" id="add-from-site" title="Add from Site" data-toggle="modal" data-target="#modal_form_vertical" class="btn btn-sm alpha-primary border-primary text-primary-800 btn-icon rounded-round ml-2"><i class="icon-office"></i></button>
                         <button type="button" id="add-from-csv" title="Add From CSV" class="btn btn-sm alpha-success border-success text-success-800 btn-icon rounded-round ml-2"><i class="icon-folder-open"></i></button>
@@ -215,29 +216,6 @@ if (!isset($_SESSION['auth'])) {
                         </div>
                         <div id="form-list"></div>
                     </form>
-                </div>
-            </div>
-            <!-- End of the SideNav Analysis -->
-
-            <!-- The SideNav Edit Analysis -->
-            <div id="myEditSiteAnalysis" class="sidenav panel-right">
-                <div class="inline">
-                    <a href="javascript:void(0)" id="closebtn">&times;</a>
-                </div>
-                <div>
-                    <p class="title" style="padding: 70px 8px 0px 88px;">Form Update Site Analysis</p>
-                </div>
-            </div>
-            <!-- End of the SideNav Analysis -->
-
-
-            <!-- The SideNav Edit Analysis -->
-            <div id="myEditSiteAnalysis" class="sidenav panel-right">
-                <div class="inline">
-                    <a href="javascript:void(0)" id="closebtn">&times;</a>
-                </div>
-                <div>
-                    <p class="title" style="padding: 70px 8px 0px 88px;">Form Update Site Analysis</p>
                 </div>
             </div>
             <!-- End of the SideNav Analysis -->
@@ -1541,7 +1519,7 @@ if (!isset($_SESSION['auth'])) {
         ?>
         <!-- <script src="assets/colors/app.js"></script> -->
         <script type="text/javascript" src="assets/js/plugins/collapsible/collapsible.js"></script>
-        <script type="text/javascript" src="content/template/instant_analysis/form_instant_analysis.js"></script>
+        <script type="text/javascript" src="content/template/instant_analysis/formInstantAnalysis.js"></script>
         <script>
             var toggler = document.getElementsByClassName("caret");
             var i;
@@ -1554,11 +1532,11 @@ if (!isset($_SESSION['auth'])) {
             }
         </script>
     </body>
-    <script src="assets/js/create_site.js"></script>
-    <script src="assets/js/add_points_from_site.js"></script>
-    <script src="assets/js/add_points_manual.js"></script>
-    <script src="assets/js/create_analysis.js"></script>
-    <script src="assets/js/from_list_csv.js"></script>
+    <script src="assets/js/createSite.js"></script>
+    <script src="assets/js/addPointsFromSite.js"></script>
+    <script src="assets/js/addPointsManual.js"></script>
+    <script src="assets/js/createAnalysis.js"></script>
+    <script src="assets/js/formListCSV.js"></script>
     <script src="assets/js/submitFilterServices.js"></script>
     <script src="assets/js/showCurrentDepartment.js"></script>
     <script src="assets/js/inputFilter.js"></script>
@@ -1570,8 +1548,12 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/removeFilterResults.js"></script>
     <script src="assets/js/createOverlap.js"></script>
     <script src="assets/js/viewTableServices.js"></script>
+<<<<<<< HEAD
     <script src="assets/js/zoomToLayer.js"></script>
+=======
+>>>>>>> 633854356d70126aa357faeb78fa1625184cf381
     <script src="content/analysis/analysisPoi.js"></script>
+    <script src="content/analysis/editAnalysis.js"></script>
     <script>
         $(document).ready(function() {
             $('#datatable-sorting').dataTable({

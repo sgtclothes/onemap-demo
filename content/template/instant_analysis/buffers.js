@@ -105,7 +105,7 @@ function bufferRadius(GIS,map){
                                         let latitude = buffer[i].graphics.items[0].geometry.center.latitude
                                         let longitude = buffer[i].graphics.items[0].geometry.center.longitude
 
-                                        let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
+                                        let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap, map.ObjMapView, layerId, poiName)
                                         let unitnum
                                         if (unit == "kilometers") {
                                             unitnum = 'km'
@@ -127,7 +127,6 @@ function bufferRadius(GIS,map){
                                             let check = layers.find(o => o.title === title)
                                             if (check === undefined) {
                                                 radiusPOI.render(resolve)
-                                                console.log(graphicsLayers)   
                                             }
                                         });
 
@@ -143,7 +142,7 @@ function bufferRadius(GIS,map){
                                                 if (poiName === "{POI_NAME}") {
                                                     poiName = poiName2
                                                 }
-
+                                                
                                                 let row = "<tr><td>"+latitude.toString()+"</td><td>"+longitude.toString()+"</td><td>"+title+"</td><td>"+poiName+"</td><td>"+length+"</td></tr>"
                                                 $('#instant-analysis-result-row').prepend(row)
                                                 let seen = {};
@@ -164,7 +163,7 @@ function bufferRadius(GIS,map){
                                         });   
                                     }
                                     else if (parseInt(buffer[i].options) !== 0){
-                                        let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap,layerId, poiName)
+                                        let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap, map.ObjMapView, layerId, poiName)
 
                                         let anly = JSON.parse(buffer[i].anly)
                                         let unit = anly.unit
@@ -413,6 +412,17 @@ function bufferRadius(GIS,map){
                     })
                 })
             })
+        })
+        $("#closebtn").on('click',function(){
+            map.ObjMap.removeAll()
+            map.ObjMapView.graphics.removeAll()
+            $('#instantAnalysisDiv').css('display', 'none')
+            $('#contentAnalysisDiv').removeAttr("style")
+            $('#instant-analysis-result-row').empty()
+            $('div.rows').each(function(){
+                $(this).remove()
+            });
+            $('#name_analysis').val('')
         })
         // delete all buffers and drive time per rows
         $("#form-list").on("click", ".btn-delete", function() {

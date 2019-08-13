@@ -18,7 +18,7 @@
                 <td><?php echo $data[$i]->name; ?></td>
                 <td width="20px">
                     <button data-id="<?php echo $data[$i]->id; ?>" data-name="<?php echo $data[$i]->name; ?>" type="button" class="form-analysis link">view</button>
-                    <a>edit</a>
+                    <button edit-id="<?php echo $data[$i]->id; ?>" edit-name="<?php echo $data[$i]->name; ?>" type="button" class="edit-analysis link">edit</button>
                 </td>
             </tr>
             <?php

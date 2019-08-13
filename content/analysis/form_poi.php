@@ -9,6 +9,18 @@
             <div class="card-body">
                 <ul id="my-ul-analysis">
                     <li><span class="caret-analysis dd-nodrag">
+                        <i class="icon-arrow-right32"></i>Colliers Property</span>
+                        <ul class="nested-analysis">
+                            <li>
+                                <label class="dd-nodrag">
+                                <input type="checkbox" value="0" class="an_property chkbox-analysis" poiname="{buildingname}" name-of-poi="Office">
+                                Office
+                                </label>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li><span class="caret-analysis dd-nodrag">
                         <i class="icon-arrow-right32"></i>POI</span>
                         <ul class="nested-analysis">
                             <li><span class="caret-analysis dd-nodrag nested">
@@ -111,18 +123,6 @@
                                     </label>
                                 </li>
                                 </ul>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li><span class="caret-analysis dd-nodrag">
-                        <i class="icon-arrow-right32"></i>Colliers Property</span>
-                        <ul class="nested-analysis">
-                            <li>
-                                <label class="dd-nodrag">
-                                <input type="checkbox" value="0" class="an_property chkbox-analysis" poiname="{buildingname}" name-of-poi="Office">
-                                Office
-                                </label>
                             </li>
                         </ul>
                     </li>

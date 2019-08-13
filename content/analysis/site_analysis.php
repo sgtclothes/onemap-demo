@@ -18,7 +18,7 @@
             <td><?php echo $site_anly['name']; ?></td>
             <td width="20px">
                 <button data-id="<?php echo $site_anly['id']; ?>" data-name="<?php echo $site_anly['name']; ?>" type="button" class="form-analysis link">view</button>
-                <a>edit</a>
+                <button edit-id="<?php echo $site_anly['id']; ?>" edit-name="<?php echo $site_anly['name']; ?>" type="button" class="edit-analysis link">edit</button>
             </td>
         </tr>
         <?php
@@ -33,7 +33,7 @@
             "bLengthChange": false,
             "bFilter": true,
             "bInfo": false,
-            "pageLength": 5,
+            "pageLength": 10,
             "pagingType": "numbers"
         });
     });
