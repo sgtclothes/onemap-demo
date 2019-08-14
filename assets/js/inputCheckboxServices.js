@@ -154,12 +154,12 @@ function inputCheckboxServices(GIS, map) {
       //Remove tab navigation if it opens
       let value = $(this).val();
       let tabLink = $(".tab-link-service");
-      let indexTab = "";
-      console.log(tabLink);
+      let visibility = [];
       $("#tab-link-services-" + value).hide();
       $("#tab-content-services-" + value).hide();
       for (let i = tabLink.length - 1; i > -1; i--) {
         if ($(tabLink[i]).is(":visible")) {
+          visibility.push($(tabLink[i]).is(":visible"));
           $(tabLink[i]).addClass("active");
           let a = $(tabLink[i]).attr("id"),
             b = a.split("-"),
@@ -168,6 +168,12 @@ function inputCheckboxServices(GIS, map) {
             "block";
           break;
         }
+      }
+      function checkVisibility(visible) {
+        return visible == false;
+      }
+      if (visibility.every(checkVisibility)) {
+        $(".table_list_services").hide();
       }
     }
     for (let i = 0; i < subPOI.length; i++) {
