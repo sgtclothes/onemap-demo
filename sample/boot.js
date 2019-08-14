@@ -338,13 +338,16 @@ function boot(GIS) {
     } else {
       open_viewer();
     }
-    if (document.getElementById("mySidenav").classList.contains("panel-left")) {
-      document.getElementById("mySidenav").classList.remove("panel-left");
-      document.getElementById("mySidenav").classList.add("panel-right");
-      document.getElementById("main").style.marginRight = "320px";
-      document
-        .getElementById("mySidenav")
-        .setAttribute("style", "width:320px;");
+    
+    if (document.getElementById("mySidenav").style.width > "0px") {
+      if (document.getElementById("mySidenav").classList.contains("panel-left")) {
+        document.getElementById("mySidenav").classList.remove("panel-left");
+        document.getElementById("mySidenav").classList.add("panel-right");
+        document.getElementById("main").style.marginRight = "320px";
+        document
+          .getElementById("mySidenav")
+          .setAttribute("style", "width:320px;");
+      }
     }
   });
 

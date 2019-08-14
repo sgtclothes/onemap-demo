@@ -440,6 +440,15 @@ td {
   border: 1px solid white;
 }
 
+/* table analysis global style */
+table .table,
+tr,
+th,
+td {
+  border: black;
+}
+/* table analysis global style */
+
 td.property-item {
   width: 80px;
   height: 26px;
@@ -778,5 +787,9 @@ table.dataTable {
 }
 
 .close-popup-property {
+  cursor: pointer;
+}
+
+.pagination-lib li:hover{
   cursor: pointer;
 }

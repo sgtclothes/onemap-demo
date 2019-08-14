@@ -1551,6 +1551,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/zoomToLayer.js"></script>
     <script src="content/analysis/analysisPoi.js"></script>
     <script src="content/analysis/editAnalysis.js"></script>
+    <!-- <script src="assets/js/plugins/tables/paginationLib.js"></script> -->
     <script>
         $(document).ready(function() {
             $('#datatable-sorting').dataTable({
