@@ -55,6 +55,8 @@ function editAnalysis(GIS, map){
                         $.addRows()
                         $.each(window.counterArr, function(index, value){
                             if ($(".latitude-form-"+value).val() === '') {
+                                let pointing = new GIS.Buffer.Pointing(map.ObjMapView,lat[p],lon[p])
+                                pointing.render()
                                 $(".latitude-form-"+value).css('width', '100px')
                                 $(".longitude-form-"+value).css('width', '100px')
                                 $(".latitude-form-"+value).siblings()[4].remove()
@@ -90,8 +92,6 @@ function editAnalysis(GIS, map){
                             }
                         })
                         for (let q = 0; q < options[p].length; q++) {
-                            let pointing = new GIS.Buffer.Pointing(map.ObjMapView,lat[p],lon[p])
-                            pointing.render()
                             $.each(window.counterArr, function(index, value){
                                 if ($(".latitude-form-"+value).val() == lat[p]) {
                                     if (parseInt(options[p][q]) === 0) {
@@ -100,7 +100,7 @@ function editAnalysis(GIS, map){
                                             type: 'POST',
                                             data: {distance: distance[p][q], unit: unit[p][q]},
                                             success: function(data) {
-                                                $(".form-buffer-"+value).html(data)
+                                                $(".form-buffer-"+value).append(data)
                                             }
                                         })
                                     }
@@ -114,7 +114,7 @@ function editAnalysis(GIS, map){
                                                     type: 'POST',
                                                     data: {distance: distance[p][q], unit: unit[p][q], options: options[p][q]},
                                                     success: function(data) {
-                                                        $(".form-drive-"+value).html(data)
+                                                        $(".form-drive-"+value).append(data)
                                                     }
                                                 })
                                         }
@@ -124,7 +124,7 @@ function editAnalysis(GIS, map){
                                                 type: 'POST',
                                                 data: {distance: distance[p][q], unit: unit[p][q], options: options[p][q]},
                                                 success: function(data) {
-                                                    $(".form-drive-distance-"+value).html(data)
+                                                    $(".form-drive-distance-"+value).append(data)
                                                 }
                                             })
                                         }

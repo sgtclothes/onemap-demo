@@ -150,8 +150,8 @@ $(document).ready(function() {
     .addEventListener("click", function() {
         document.getElementById("myAnalysisPOI").style.width = "0";
     });
-
-    $('#table-pagination-lib').paging({limit:2});
+    var limit = 2
+    $('#table-pagination-lib').paging({limit:limit});
 
     var points = '<?php print json_encode($points_array) ?>'
     points = JSON.parse(points)
@@ -170,8 +170,13 @@ $(document).ready(function() {
                         $('.'+none[0].className).each(function(){
                             $(this).css('display','none')
                         })
+                        if () {
+                            $('.'+none[0].className).each(function(){
+                                $(this).css('display','table-row')
+                            })   
+                        }
                     }
-                    else if (block.length > none.length) {
+                    else if (block.length > none.length || block.length === none.length) {
                         $('.'+block[0].className).each(function(){
                             $(this).css('display','table-row')
                         })
@@ -196,7 +201,7 @@ $(document).ready(function() {
                             $(this).css('display','none')
                         })
                     }
-                    else if (block.length > none.length) {
+                    else if (block.length > none.length || block.length === none.length) {
                         $('.'+block[0].className).each(function(){
                             $(this).css('display','table-row')
                         })

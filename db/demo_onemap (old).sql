@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2019 at 06:03 AM
+-- Generation Time: Jul 31, 2019 at 09:11 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
 
@@ -39,12 +39,9 @@ CREATE TABLE `analysis` (
 --
 
 INSERT INTO `analysis` (`id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'sangkuriang', 1, '2019-07-07 16:06:33', NULL),
-(2, 'analysis', 1, '2019-07-07 18:47:38', NULL),
-(3, 'test', 1, '2019-07-08 04:29:40', NULL),
-(4, 'sample', 2, '2019-07-08 09:36:54', NULL),
-(5, 'test', 2, '2019-07-09 02:35:21', NULL),
-(6, 'test', 2, '2019-07-09 02:40:09', NULL);
+(2, 'test', 2, '2019-07-11 06:39:23', NULL),
+(3, 'sample', 2, '2019-07-16 08:57:44', NULL),
+(4, 'analysis', 2, '2019-07-31 07:07:34', NULL);
 
 -- --------------------------------------------------------
 
@@ -55,8 +52,8 @@ INSERT INTO `analysis` (`id`, `name`, `created_by`, `created_at`, `updated_at`) 
 CREATE TABLE `analysis_points` (
   `id` int(8) NOT NULL,
   `analysis_id` int(8) DEFAULT NULL,
-  `lat` float NOT NULL,
-  `lon` float NOT NULL,
+  `lat` double NOT NULL,
+  `lon` double NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -66,14 +63,10 @@ CREATE TABLE `analysis_points` (
 --
 
 INSERT INTO `analysis_points` (`id`, `analysis_id`, `lat`, `lon`, `created_at`, `updated_at`) VALUES
-(1, 1, -6.883, 107.607, '2019-07-07 16:06:33', NULL),
-(2, 2, -2.598, 112.562, '2019-07-07 18:47:38', NULL),
-(3, 3, -2.598, 112.562, '2019-07-08 04:29:40', NULL),
-(4, 3, -6.883, 107.607, '2019-07-08 04:29:40', NULL),
-(5, 4, -1.96085, 120.961, '2019-07-08 09:36:54', NULL),
-(6, 4, -6.56307, 121.444, '2019-07-08 09:36:54', NULL),
-(7, 5, -2.598, 112.562, '2019-07-09 02:35:21', NULL),
-(8, 6, -2.598, 112.562, '2019-07-09 02:40:09', NULL);
+(3, 2, -6.882999897003174, 107.60700225830078, '2019-07-11 06:39:23', NULL),
+(4, 2, -6.865386009216309, 107.73448181152344, '2019-07-11 06:39:23', NULL),
+(5, 3, -6.882999897003174, 107.60700225830078, '2019-07-16 08:57:44', NULL),
+(6, 4, -6.406419999999975, 106.85188000000005, '2019-07-31 07:07:34', NULL);
 
 -- --------------------------------------------------------
 
@@ -102,31 +95,6 @@ INSERT INTO `department` (`id`, `department`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `layer`
---
-
-CREATE TABLE `layer` (
-  `id` int(3) NOT NULL,
-  `name` varchar(40) CHARACTER SET latin1 NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `layer`
---
-
-INSERT INTO `layer` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(4, 'Apotek K24', '2019-07-08 03:32:16', NULL),
-(5, 'Apotek Kimia Farma', '2019-07-08 03:32:16', NULL),
-(7, 'Apotek Watsons', '2019-07-08 03:32:39', NULL),
-(16, 'Bank DKI', NULL, NULL),
-(27, 'Bank Mandiri', NULL, NULL),
-(48, 'Bank Sumut', NULL, NULL);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `site`
 --
 
@@ -149,7 +117,8 @@ INSERT INTO `site` (`id`, `lat`, `lon`, `name`, `address`, `created_by`, `create
 (1, -8.65418, 115.218857, 'Resto Denpasar', 'Jalan Durian', 2, '2019-07-07 15:44:09', NULL),
 (5, -3.317, 105.046997, 'Wisata Danau', '', 2, '2019-07-07 15:46:06', NULL),
 (23, -6.883, 107.607002, 'Cafe Sangkuriang', 'Jalan Sangkuriang', 2, '2019-07-07 15:47:47', NULL),
-(25, -2.598, 112.561996, 'Site', '', 2, '2019-07-07 15:49:16', NULL);
+(25, -2.598, 112.561996, 'Site', '', 2, '2019-07-07 15:49:16', NULL),
+(26, -6.2159633, 106.8180848, 'Wtc sudirrman', '', 2, '2019-07-29 10:51:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -172,17 +141,12 @@ CREATE TABLE `spec_buffer_analysis` (
 --
 
 INSERT INTO `spec_buffer_analysis` (`id`, `analysis_points_id`, `distance`, `unit`, `options`, `created_at`, `updated_at`) VALUES
-(5, 1, 1, 'kilometers', 0, '2019-07-07 16:06:33', NULL),
-(21, 2, 257, 'kilometers', 0, '2019-07-07 18:47:38', NULL),
-(22, 2, 10, 'minutes', 3, '2019-07-07 18:47:38', NULL),
-(23, 3, 9.8, 'kilometers', 0, '2019-07-08 04:29:40', NULL),
-(24, 3, 10, 'kilometers', 0, '2019-07-08 04:29:40', NULL),
-(25, 4, 9.8, 'kilometers', 0, '2019-07-08 04:29:40', NULL),
-(26, 4, 10, 'kilometers', 0, '2019-07-08 04:29:40', NULL),
-(31, 5, 2, 'kilometers', 0, '2019-07-08 09:36:54', NULL),
-(32, 6, 2, 'kilometers', 0, '2019-07-08 09:36:54', NULL),
-(39, 7, 10, 'kilometers', 0, '2019-07-09 02:35:21', NULL),
-(40, 8, 10, 'kilometers', 0, '2019-07-09 02:40:09', NULL);
+(5, 3, 9.8, 'kilometers', 0, '2019-07-11 06:39:23', NULL),
+(6, 3, 45, 'minutes', 3, '2019-07-11 06:39:23', NULL),
+(7, 3, 7, 'kilometers', 3, '2019-07-11 06:39:23', NULL),
+(8, 4, 12, 'miles', 0, '2019-07-11 06:39:23', NULL),
+(128, 5, 12, 'minutes', 3, '2019-07-16 08:57:44', NULL),
+(131, 6, 12.5, 'kilometers', 0, '2019-07-31 07:07:34', NULL);
 
 -- --------------------------------------------------------
 
@@ -209,10 +173,9 @@ INSERT INTO `users` (`id`, `email`, `name`, `role`, `password`, `active`, `creat
 (1, 'system.administrator@locatorlogic.com', 'System Administrator', 'System Administrator', '1b3231655cebb7a1f783eddf27d254ca', 1, NULL, NULL),
 (2, 'rizal.hermawan@locatorlogic.com', 'Rizal Hermawan', 'Admin', '150fb021c56c33f82eef99253eb36ee1', 1, NULL, NULL),
 (3, 'sigit.sasongko@locatorlogic.com', 'Sigit Sasongko', 'Admin', '223a0fa8f15933d622b3c7a13f186027', 1, NULL, NULL),
-(4, 'adit@gmail.com', 'adit', 'User', '3bd862c0aa8fbe46cc60b2343e8d757f', 0, NULL, '2019-07-06 06:51:31'),
+(4, 'adit@gmail.com', 'Aditya', 'User', '3bd862c0aa8fbe46cc60b2343e8d757f', 1, NULL, '2019-07-24 02:45:46'),
 (5, 'rizalhrm24@gmail.com', 'Hermawan', 'User', '0a5c2657a27501b02b270ca999b0d412', 1, NULL, NULL),
-(6, 'sesillia.pongoh@locatorlogic.com', 'Sessilia Pongoh', 'System Administrator', '202cb962ac59075b964b07152d234b70', 1, '2019-07-09 04:03:35', NULL),
-(7, 'mikebrommel@locatorlogic.com', 'Mike Brommel', 'System Administrator', '202cb962ac59075b964b07152d234b70', 1, '2019-07-09 04:03:35', NULL);
+(6, 'sesillia.pongoh@locatorlogic.com', 'Sesillia Pongoh', 'User', '827ccb0eea8a706c4c34a16891f84e7b', 1, '2019-07-29 09:17:18', NULL);
 
 -- --------------------------------------------------------
 
@@ -240,7 +203,8 @@ INSERT INTO `users_department` (`id`, `user_id`, `department_id`, `created_at`, 
 (5, 4, 3, NULL, NULL),
 (7, 2, 4, NULL, NULL),
 (8, 5, 4, NULL, NULL),
-(9, 5, 5, NULL, NULL);
+(9, 5, 5, NULL, NULL),
+(10, 6, 1, '2019-07-29 09:17:18', NULL);
 
 --
 -- Indexes for dumped tables
@@ -264,12 +228,6 @@ ALTER TABLE `analysis_points`
 -- Indexes for table `department`
 --
 ALTER TABLE `department`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `layer`
---
-ALTER TABLE `layer`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -310,12 +268,12 @@ ALTER TABLE `users_department`
 -- AUTO_INCREMENT for table `analysis`
 --
 ALTER TABLE `analysis`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `analysis_points`
 --
 ALTER TABLE `analysis_points`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `department`
 --
@@ -325,22 +283,22 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `site`
 --
 ALTER TABLE `site`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `spec_buffer_analysis`
 --
 ALTER TABLE `spec_buffer_analysis`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `users_department`
 --
 ALTER TABLE `users_department`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- Constraints for dumped tables
 --
