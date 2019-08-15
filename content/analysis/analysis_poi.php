@@ -150,7 +150,21 @@ $(document).ready(function() {
     .addEventListener("click", function() {
         document.getElementById("myAnalysisPOI").style.width = "0";
     });
-    var limit = 2
+
+    var distances = '<?php print json_encode($distance_array) ?>'
+    distances = JSON.parse(distances)
+    let limitArr = []
+    for (let a = 0; a < distances.length; a++) {
+        limitArr.push(distances[a].length)
+    }
+    var max =  Math.max(...limitArr);
+    var limit
+    if (max > 5) {
+        limit = max/2+1
+    }
+    else {
+        limit = 5
+    }
     $('#table-pagination-lib').paging({limit:limit});
 
     var points = '<?php print json_encode($points_array) ?>'
@@ -170,11 +184,6 @@ $(document).ready(function() {
                         $('.'+none[0].className).each(function(){
                             $(this).css('display','none')
                         })
-                        // if () {
-                        //     $('.'+none[0].className).each(function(){
-                        //         $(this).css('display','table-row')
-                        //     })   
-                        // }
                     }
                     else if (block.length > none.length || block.length === none.length) {
                         $('.'+block[0].className).each(function(){
