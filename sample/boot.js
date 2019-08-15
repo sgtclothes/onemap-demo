@@ -174,7 +174,7 @@ function boot(GIS) {
             longitude
           );
           pointing.render();
-
+          $('#error-input-points').hide()
           $.addRows();
           $.each(window.counterArr, function(index, value) {
             if ($(".latitude-form-" + value).val() === "") {
@@ -192,6 +192,7 @@ function boot(GIS) {
                 ".selectbuffer-" + value,
                 "click",
                 function() {
+                  $('#error-input-buffer').hide()
                   $.get(
                     "content/template/instant_analysis/buffer.php",
                     function(data) {
@@ -204,6 +205,7 @@ function boot(GIS) {
                 ".selectdrive-" + value,
                 "click",
                 function() {
+                  $('#error-input-buffer').hide()
                   $.get(
                     "content/template/instant_analysis/driving.php",
                     function(data) {
@@ -216,6 +218,7 @@ function boot(GIS) {
                 ".selectdrive-distance-" + value,
                 "click",
                 function() {
+                  $('#error-input-buffer').hide()
                   $.get(
                     "content/template/instant_analysis/driving_distance.php",
                     function(data) {
@@ -462,6 +465,7 @@ function boot(GIS) {
         let attr = map.ObjMapView.popup.selectedFeature;
         let lat = attr.geometry.latitude;
         let lon = attr.geometry.longitude;
+        $('#error-input-points').hide()
         $.addRows();
         $.each(window.counterArr, function(index, value) {
           if ($(".latitude-form-" + value).val() === "") {
@@ -473,6 +477,7 @@ function boot(GIS) {
               ".selectbuffer-" + value,
               "click",
               function() {
+                $('#error-input-buffer').hide()
                 $.get("content/template/instant_analysis/buffer.php", function(
                   data
                 ) {
@@ -484,6 +489,7 @@ function boot(GIS) {
               ".selectdrive-" + value,
               "click",
               function() {
+                $('#error-input-buffer').hide()
                 $.get("content/template/instant_analysis/driving.php", function(
                   data
                 ) {
@@ -491,6 +497,19 @@ function boot(GIS) {
                 });
               }
             );
+            $("#form-list").delegate(
+              ".selectdrive-distance-" + value,
+              "click",
+              function() {
+                  $('#error-input-buffer').hide()
+              $.get(
+                  "content/template/instant_analysis/driving_distance.php",
+                  function(data) {
+                  $(".form-drive-distance-" + value).append(data);
+                  }
+              );
+              }
+          );
           }
         });
       }

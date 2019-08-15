@@ -170,11 +170,11 @@ $(document).ready(function() {
                         $('.'+none[0].className).each(function(){
                             $(this).css('display','none')
                         })
-                        if () {
-                            $('.'+none[0].className).each(function(){
-                                $(this).css('display','table-row')
-                            })   
-                        }
+                        // if () {
+                        //     $('.'+none[0].className).each(function(){
+                        //         $(this).css('display','table-row')
+                        //     })   
+                        // }
                     }
                     else if (block.length > none.length || block.length === none.length) {
                         $('.'+block[0].className).each(function(){

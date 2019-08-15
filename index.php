@@ -214,6 +214,12 @@ if (!isset($_SESSION['auth'])) {
                             <input type="hidden" id="created_by" name="created_by" value="<?php echo $_SESSION['auth']['id'] ?>">
                             <button type="submit" name="add" class="btn btn-primary ml-3">Save Analysis</button>
                         </div>
+                        <div id="error-input-points" class="alert alert-danger border-0 alert-dismissible" style="display: none; margin-top:5px; margin-left:5px; margin-right:5px;">
+                            <span style="font-size: 11px;" class="font-weight-semibold">Oh snap!</span> Add a latitude and longitude and try submitting again.
+                        </div>
+                        <div id="error-input-buffer" class="alert alert-danger border-0 alert-dismissible" style="display: none; margin-top:5px; margin-left:5px; margin-right:5px; margin-bottom: -10px;">
+                            <span style="font-size: 11px;" class="font-weight-semibold">Oh snap!</span> Add a buffer radius, driving time or driving distance and try submitting again.
+                        </div>
                         <div id="form-list"></div>
                     </form>
                 </div>

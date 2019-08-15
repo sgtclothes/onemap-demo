@@ -21,6 +21,7 @@ function createMarker(GIS,map){
                 $('#modal_form_input_point').modal('toggle')
                 let pointing = new GIS.Buffer.Pointing(map.ObjMapView,$latitude,$longitude)
                 pointing.render()
+                $('#error-input-points').hide()
                 $.addRows()
                 $.each(window.counterArr, function(index, value){
                     if ($(".latitude-form-"+value).val() === '') {
@@ -30,11 +31,13 @@ function createMarker(GIS,map){
                         $(".longitude-form-" + value).attr('title','Longitude '+$longitude);
 
                         $("#form-list").delegate('.selectbuffer-'+value, 'click', function() {
+                            $('#error-input-buffer').hide()
                             $.get("content/template/instant_analysis/buffer.php", function(data){ 
                                 $(".form-buffer-"+value).append(data)
                             });
                         })
                         $("#form-list").delegate('.selectdrive-'+value, 'click', function() {
+                            $('#error-input-buffer').hide()
                             $.get("content/template/instant_analysis/driving.php", function(data){ 
                                 $(".form-drive-"+value).append(data)
                             });
@@ -43,6 +46,7 @@ function createMarker(GIS,map){
                             ".selectdrive-distance-" + value,
                             "click",
                             function() {
+                                $('#error-input-buffer').hide()
                               $.get(
                                 "content/template/instant_analysis/driving_distance.php",
                                 function(data) {
