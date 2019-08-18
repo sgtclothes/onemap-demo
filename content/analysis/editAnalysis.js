@@ -56,6 +56,7 @@ function editAnalysis(GIS, map){
                         $.each(window.counterArr, function(index, value){
                             if ($(".latitude-form-"+value).val() === '') {
                                 let pointing = new GIS.Buffer.Pointing(map.ObjMapView,lat[p],lon[p])
+                                pointing.setPictureMarker()
                                 pointing.render()
                                 $(".latitude-form-"+value).css('width', '100px')
                                 $(".longitude-form-"+value).css('width', '100px')

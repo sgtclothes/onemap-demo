@@ -17,6 +17,7 @@ function createMarkerFromSite(GIS,map){
                                 $ischecked.attr('data-latitude'),
                                 $ischecked.attr('data-longitude')
                             )
+                            pointing.setPictureMarker()
                             pointing.render()
                             $('#error-input-points').hide()
 

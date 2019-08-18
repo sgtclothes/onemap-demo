@@ -20,6 +20,7 @@ function createMarker(GIS,map){
             if (latMessage == "Lat Ok" && lonMessage == "Lon Ok") {
                 $('#modal_form_input_point').modal('toggle')
                 let pointing = new GIS.Buffer.Pointing(map.ObjMapView,$latitude,$longitude)
+                pointing.setPictureMarker()
                 pointing.render()
                 $('#error-input-points').hide()
                 $.addRows()

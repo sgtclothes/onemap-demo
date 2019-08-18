@@ -126,6 +126,7 @@ function analysisPoi(GIS,map) {
                                                 latitudeArr[p],
                                                 longitudeArr[p]
                                             )
+                                            pointing.setPictureMarker()
                                             pointing.render()   
                                         }
             
@@ -209,6 +210,7 @@ function analysisPoi(GIS,map) {
                                                 latitudeArr[p],
                                                 longitudeArr[p]
                                             )
+                                            pointing.setPictureMarker()
                                             pointing.render()   
                                         }
                                         let unitnum

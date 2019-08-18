@@ -115,6 +115,7 @@ function driveTimeDistance(GIS,map){
                 })
                 $(".form-drive-distance-"+value).find('button.remove-drive-distance').each(function(){
                     $(this).on("click", function(){
+                        $('.anly-poi-'+value).attr('disabled',true)
                         let latitude = $(".latitude-form-"+value).val()
                         let longitude = $(".longitude-form-"+value).val()
 
@@ -122,24 +123,39 @@ function driveTimeDistance(GIS,map){
 
                         let unit = $(this).closest("h4").next()[0].children[1].children[1].children[1].value
                         var unitnum
+                        var unitstr
                         if (unit == "kilometers") {
                             unitnum = 6
+                            unitstr = "km"
                         } else if (unit == "miles") {
                             unitnum = 7
+                            unitstr = "mi"
                         } 
                         else {
                             unitnum = 8
+                            unitstr = "m"
                         }
 
                         let title = value+latitude+longitude+distance+unitnum
+                        let titleAnalysisPoi = "Driving Distance "+distance+" "+unitstr+" "+latitude+longitude
 
                         let graphicslayers = map.ObjMap.layers.items
-
-                        for (let i = 0; i < graphicslayers.length; i++) {
-                            if (graphicslayers[i].title == title) {
-                                map.ObjMap.remove(graphicslayers[i])
+                        let check = graphicslayers.filter(function(el) {
+                            return (
+                              el.title.includes(titleAnalysisPoi)===true ||
+                              el.title === title
+                            );
+                          });
+                        map.ObjMap.removeMany(check)
+                        $('#instant-analysis-result-row tr').each(function(){
+                            if(
+                                $(this).children()[0].innerText == latitude &&
+                                $(this).children()[1].innerText == longitude &&
+                                $(this).children()[2].innerText == "Driving Distance "+distance+" "+unitstr
+                                ) {
+                                    $(this).remove()
                             }
-                        }
+                        })
 
                         $(this)
                         .closest(".collapsible")

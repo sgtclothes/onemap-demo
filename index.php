@@ -425,7 +425,7 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td style="height:26px;">
                                         <div class="title-property">
-                                            <p><b>LAND INFO</b></p>
+                                            <p><b>PROPERTY INFO</b></p>
                                         </div>
                                     </td>
                                 </tr>

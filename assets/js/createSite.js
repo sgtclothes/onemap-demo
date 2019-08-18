@@ -35,6 +35,7 @@ function createSite(createSiteExpand, GIS, map) {
                             }
 
                             let pointing = new GIS.Buffer.Pointing(map.ObjMapView,lat,lon)
+                            pointing.setPictureMarker()
                             pointing.render()
                             $('#error-input-points').hide()
                             

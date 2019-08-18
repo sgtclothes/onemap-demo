@@ -103,6 +103,7 @@ function createMarkerFromCSV(GIS,map){
                                         $ischecked.attr('data-latitude'+key),
                                         $ischecked.attr('data-longitude'+key)
                                     )
+                                    pointing.setPictureMarker()
                                     pointing.render()
                                     $('#error-input-points').hide()
 
