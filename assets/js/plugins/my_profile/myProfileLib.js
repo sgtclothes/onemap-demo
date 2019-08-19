@@ -694,23 +694,37 @@ $(function() {
             }
         });
 
-
-    // $('#previewBtn').on('click', function() {
-    //     $('.preview').show().attr('src',p.getAsDataURL());  
-    // });
-  
     $('#uploadBtn').on('click', function() {
-        var data = p.getData();
-        console.log(data)
-        $.ajax({
-            url: "content/template/save_my_photo.php",
-            data: {data:data},
-            processData: false,
-            type: 'POST',
-            mimeType: 'multipart/form-data', 
-            success: function (data) {
-                console.log(data);
-            }
-        });
+        var formData,
+            data = p.getData();
+
+        formData = new FormData();
+        formData.append('file', data.file);
+        formData.append('cropHeight', data.cropHeight);
+        formData.append('cropWidth', data.cropWidth);
+        formData.append('x', data.x);
+        formData.append('y', data.y);
+        formData.append('newWidth', data.width);
+        formData.append('newHeight', data.height);
+        formData.append('zoom', data.zoom);
+        formData.append('originalWidth', data.originalWidth);
+        formData.append('originalHeight', data.originalHeight);
+
+        $("#uploadImage").submit(function(event){
+            event.preventDefault();
+            let user_photo = $('.user_photo').val()
+            formData.append('user_photo',user_photo)
+            $.ajax({
+                url: "content/template/save_my_photo.php",
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData:false,   
+                success: function () {
+                    p.removeImage();
+                }
+            });
+        })
     }); 
 });

@@ -7,7 +7,6 @@ if (!isset($_SESSION['auth'])) {
     ?>
     <!DOCTYPE html>
     <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -174,7 +173,18 @@ if (!isset($_SESSION['auth'])) {
                     <!-- user menu item navbar -->
                     <li class="nav-item dropdown dropdown-user">
                         <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
-                            <img src="assets/images/profile/icons-profile.png" alt="My Photo" width="25px">&nbsp;<span><?php echo "$_SESSION[name]"; ?></span>
+                            <?php
+                            $sqlphoto = "SELECT photo FROM users WHERE id=".$_SESSION['auth']['id'];
+                            $queryphoto = mysqli_query($conn,$sqlphoto);
+                            $photo = mysqli_fetch_array($queryphoto);
+                            if ($photo['photo'] === '') {
+                                $name_user_photo = "icons-profile.png";
+                            }
+                            else {
+                                $name_user_photo = $photo['photo'];
+                            }
+                            ?>
+                            <img src="assets/images/profile/<?php echo $name_user_photo; ?>" alt="My Photo" width="25px">&nbsp;<span><?php echo "$_SESSION[name]"; ?></span>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right">
