@@ -58,7 +58,24 @@ function bufferRadius(GIS,map){
                 })
                 $(".form-buffer-"+value).find('button.remove-buffer').each(function(){
                     $(this).on("click", function(){
-                        $('.anly-poi-'+value).attr('disabled',true)
+                        $(this).closest(".collapsible").next().remove()
+
+                        if($(".form-buffer-"+value)
+                            .parent('.rows')
+                            .children().eq(2)
+                            .children().length === 0 &&
+                            $(".form-drive-"+value)
+                            .parent('.rows')
+                            .children().eq(3)
+                            .children().length === 0 &&
+                            $(".form-drive-distance-"+value)
+                            .parent('.rows')
+                            .children().eq(4)
+                            .children().length === 0
+                            ) {
+                                $('.anly-poi-'+value).attr('disabled',true)
+                            }
+
                         let latitude = $(".latitude-form-"+value).val()
                         let longitude = $(".longitude-form-"+value).val()
 
