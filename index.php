@@ -38,6 +38,8 @@ if (!isset($_SESSION['auth'])) {
         <link rel="stylesheet" href="assets/css/section/popup-alert-require-text-input.css" type="text/css" />
         <link rel="stylesheet" href="assets/css/section/awesome-bootstrap-checkbox.css" type="text/css" />
         <link href="assets/css/section/fontawesome-5.0.1-all.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="assets/js/plugins/my_profile/my_profile_form.css">
         <!-- /Adding other css -->
 
         <!-- MultiSelect CSS & JS library -->
@@ -172,11 +174,11 @@ if (!isset($_SESSION['auth'])) {
                     <!-- user menu item navbar -->
                     <li class="nav-item dropdown dropdown-user">
                         <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
-                            <span><?php echo "$_SESSION[name]"; ?></span>
+                            <img src="assets/images/profile/icons-profile.png" alt="My Photo" width="25px">&nbsp;<span><?php echo "$_SESSION[name]"; ?></span>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href="#" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
+                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal_my_profile"><i class="icon-user-plus"></i> My profile</a>
                             <div class="dropdown-divider"></div>
                             <?php
                             if ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'System Administrator') {
@@ -1522,6 +1524,7 @@ if (!isset($_SESSION['auth'])) {
         include 'content/data_site.php';
         include 'content/input_point.php';
         include 'content/analysis/form_poi.php';
+        include 'content/template/my_profile.php';
         ?>
         <!-- <script src="assets/colors/app.js"></script> -->
         <script type="text/javascript" src="assets/js/plugins/collapsible/collapsible.js"></script>
@@ -1558,6 +1561,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="content/analysis/analysisPoi.js"></script>
     <script src="content/analysis/editAnalysis.js"></script>
     <script src="assets/js/plugins/tables/paginationLib.js"></script>
+    <script src="assets/js/plugins/my_profile/myProfileLib.js"></script>
     <script>
         $(document).ready(function() {
             $('#datatable-sorting').dataTable({

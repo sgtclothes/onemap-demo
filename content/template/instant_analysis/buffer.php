@@ -1,7 +1,7 @@
 <div class="collapsible" style="padding-right:5px;">
     <h4>
         Buffer
-        <button type="button" class="btn btn-sm bg-transparent alpha-pink text-pink-800 btn-icon remove-buffer ml-2" style="float:right; margin-top:-6px;" title="Delete buffer radius result"><i class="icon-minus-circle2"></i></button>
+        <button type="button" class="btn btn-sm bg-transparent alpha-pink text-pink-800 btn-icon remove-buffer ml-2" style="float:right; margin-top:-6px;" title="Delete buffer radius result"><i class="mi-delete-forever" style="font-size:20px;"></i></button>
     </h4>
     <div class="collapsible-content">
         <div class="form-group">
