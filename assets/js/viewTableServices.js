@@ -23,6 +23,7 @@ function viewTableServices(map) {
       .siblings("td")
       .find("label")
       .text();
+    let iVal = $(this).attr("value");
     let cardServices = document.getElementById("card-services");
     let content = document.createElement("DIV");
     content.setAttribute("id", "tab-content-services-" + value);
@@ -65,11 +66,22 @@ function viewTableServices(map) {
       let thSiteName = document.createElement("TH");
       thSiteName.innerHTML = "ST NAME";
       thSiteName.style.fontWeight = "bold";
-      let poi = new ESRI.FeatureLayer({
-        url:
-          "http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/" +
-          value
-      });
+
+      let featureLayer = undefined;
+
+      if (iVal == "list-poi") {
+        featureLayer = new ESRI.FeatureLayer({
+          url:
+            "http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/" +
+            value
+        });
+      } else if (iVal == "list-infrastructure") {
+        featureLayer = new ESRI.FeatureLayer({
+          url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/TEMP/UberMedia/MapServer/" +
+            value
+        });
+      }
 
       trHead.appendChild(thNumber);
       trHead.appendChild(thName);
@@ -83,12 +95,16 @@ function viewTableServices(map) {
       query.outSpatialReference = map.ObjMap.spatialReference;
       query.where = "1=1";
 
-      poi.queryFeatures(query).then(function(results) {
+      console.log(map.ObjMap.spatialReference)
+
+      featureLayer.queryFeatures(query).then(function(results) {
         displayResults(results);
       });
 
       function displayResults(results) {
         for (let i in results.features) {
+          let x = results.features[i].geometry.x;
+          let y = results.features[i].geometry.y;
           let latitude = results.features[i].geometry.latitude;
           let longitude = results.features[i].geometry.longitude;
 
@@ -96,21 +112,33 @@ function viewTableServices(map) {
           let tdNumber = document.createElement("TD");
           let a = document.createElement("A");
           a.setAttribute("name", "layer-point");
+          a.setAttribute("x", x);
+          a.setAttribute("y", y);
           a.setAttribute("latitude", latitude);
           a.setAttribute("longitude", longitude);
-          let tdName = document.createElement("TD");
-          let tdSiteName = document.createElement("TD");
 
-          tdNumber.innerHTML = Number(i) + 1;
-          a.innerHTML = results.features[i].attributes.POI_NAME;
-          a.setAttribute("href", "#");
-          tdSiteName.innerHTML = results.features[i].attributes.ST_NAME;
-
-          tdName.appendChild(a);
-          tr.appendChild(tdNumber);
-          tr.appendChild(tdName);
-          tr.appendChild(tdSiteName);
-          table.appendChild(tr);
+          if (iVal == "list-poi") {
+            let tdName = document.createElement("TD");
+            let tdSiteName = document.createElement("TD");
+            tdNumber.innerHTML = Number(i) + 1;
+            a.innerHTML = results.features[i].attributes.POI_NAME;
+            a.setAttribute("href", "#");
+            tdSiteName.innerHTML = results.features[i].attributes.ST_NAME;
+            tdName.appendChild(a);
+            tr.appendChild(tdNumber);
+            tr.appendChild(tdName);
+            tr.appendChild(tdSiteName);
+            table.appendChild(tr);
+          } else if (iVal == "list-infrastructure") {
+            let tdName = document.createElement("TD");
+            tdNumber.innerHTML = Number(i) + 1;
+            a.innerHTML = results.features[i].attributes.Name;
+            a.setAttribute("href", "#");
+            tdName.appendChild(a);
+            tr.appendChild(tdNumber);
+            tr.appendChild(tdName);
+            table.appendChild(tr);
+          }
           $("#loading-bar").hide();
         }
       }

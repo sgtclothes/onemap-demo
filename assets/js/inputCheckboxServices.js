@@ -36,8 +36,18 @@ function inputCheckboxServices(GIS, map) {
         }
       }
     }
+    let itemLayer = $(".checkbox-sub-poi")
+      .parents("td")
+      .siblings("td");
     renderLegendPoint(tableLegend, JSON.parse(localStorage.getItem("dataPOI")));
     if ($(this).prop("checked") == true) {
+      //Show item to do overlapping
+      for (let i = 0; i < itemLayer.length; i++) {
+        $(itemLayer[i]).show();
+        $(itemLayer[i]).css("height", "24px");
+        $(itemLayer[i]).css("float", "right");
+      }
+      //Show all POI
       let checked = JSON.parse(localStorage.getItem("checkedPOI"));
       if (checked !== null) {
         checked = JSON.parse(localStorage.getItem("checkedPOI"));
@@ -66,6 +76,12 @@ function inputCheckboxServices(GIS, map) {
       }
       localStorage.setItem("checkedPOI", JSON.stringify(checked));
     } else if ($(this).prop("checked") == false) {
+      //Hide item to do overlapping
+      for (let i = 0; i < itemLayer.length; i++) {
+        $(itemLayer[i]).hide();
+        $(itemLayer[i]).css("height", "24px");
+        $(itemLayer[i]).css("float", "right");
+      }
       let checked = JSON.parse(localStorage.getItem("checkedPOI"));
       if (checked !== null) {
         checked = JSON.parse(localStorage.getItem("checkedPOI"));
@@ -355,6 +371,14 @@ function inputCheckboxServices(GIS, map) {
       checked = JSON.parse(localStorage.getItem("checkedInfrastructure"));
     } else {
       checked = [];
+    }
+    let itemLayer = $(this)
+      .parents("td")
+      .siblings("td");
+    for (let i = 0; i < itemLayer.length; i++) {
+      $(itemLayer[i]).toggle();
+      $(itemLayer[i]).css("height", "24px");
+      $(itemLayer[i]).css("float", "right");
     }
     if ($(this).prop("checked") == true) {
       renderLegendPoint(
