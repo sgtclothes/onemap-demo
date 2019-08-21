@@ -47,7 +47,7 @@ else {
                                 <th>Role</th>
                                 <th>Active</th>
                                 <?php 
-                                if ($_SESSION['role']=='System Administrator' || 'Admin') {
+                                if ($_SESSION['role']=='System Administrator') {
                                     echo '<th>Action</th>';
                                 }
                                 ?>
@@ -95,8 +95,8 @@ else {
                                     ?>
                                 </td>
                                 <?php 
-                                if ($_SESSION['role']=='System Administrator' || 'Admin') {
-                                    if($user['role']!='System Administrator' || 'Admin') {
+                                if ($_SESSION['role']=='System Administrator') {
+                                    if($user['role']!='System Administrator') {
                                     ?>
                                     <td><button type=submit name=edit class='btn btn-xs bg-teal-400 btn-icon rounded-round'><i class=icon-pen2></i></button><button type=submit name=del class='btn btn-xs bg-teal-400 btn-icon rounded-round' onclick="return confirm('Are you sure to delete this data?');"><i class=icon-cancel-circle2></i></button></td>
                                     <?php

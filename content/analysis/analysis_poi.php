@@ -4,12 +4,14 @@
     $site_anly_id = $_POST['id_analysis'];
     $lat_array = array();
     $lon_array = array();
+    $points_array = array();
     $latsql = 'SELECT * FROM analysis_points WHERE analysis_id='.$site_anly_id;
     $result = $conn->query($latsql);
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
             array_push($lat_array, $row['lat']);
             array_push($lon_array, $row['lon']);
+            array_push($points_array, $row['id']);
         }
     }
     $latitude = json_encode($lat_array);
@@ -77,8 +79,8 @@
         </tbody>
     </table>
 
-    <div class='table-responsive'>
-        <table class="table table-bordered" style="font-size:12px; margin-bottom:25px; margin-right:5px;">
+    <div id="div-detail-analysis" class='table-responsive' style="margin-bottom:25px; margin-right:5px;">
+        <table id="table-pagination-lib" class="table table-bordered" style="font-size:12px;">
             <thead>
                 <tr>
                     <th colspan='3' style='text-align:center;'><b>Detail Analysis</b></th>
@@ -97,8 +99,14 @@
                     $unit = $unit_array[$i];
                     $options = $options_array[$i];
                     for ($j=0; $j < count($distance); $j++) {
+                        if (count($distance) === 1) {
+                            $class_name = 'point-only-1';
+                        }
+                        else {
+                            $class_name = strval($points_array[$i]);
+                        }
                 ?> 
-                    <tr>
+                    <tr class="<?php echo $class_name; ?>">
                         <?php
                         if (count($distance) === 1) {
                             echo '<td>'.$lat_array[$i].', '.$lon_array[$i].'</td>';
@@ -136,9 +144,102 @@
     
 </div>
 <script>
-document
-.getElementById("closeAnalysisPOI")
-.addEventListener("click", function() {
-    document.getElementById("myAnalysisPOI").style.width = "0";
+$(document).ready(function() {
+    document
+    .getElementById("closeAnalysisPOI")
+    .addEventListener("click", function() {
+        document.getElementById("myAnalysisPOI").style.width = "0";
+    });
+
+    var distances = '<?php print json_encode($distance_array) ?>'
+    distances = JSON.parse(distances)
+    let limitArr = []
+    for (let a = 0; a < distances.length; a++) {
+        limitArr.push(distances[a].length)
+    }
+    var max =  Math.max(...limitArr);
+    var limit
+    if (max > 5) {
+        limit = max/2+1
+    }
+    else {
+        limit = 5
+    }
+    $('#table-pagination-lib').paging({limit:limit});
+
+    var points = '<?php print json_encode($points_array) ?>'
+    points = JSON.parse(points)
+
+    $('.paging-nav a').each(function(){
+        $(this).on('click',function(){
+            for (let i = 0; i < points.length; i++) {
+                let none = $("."+points[i]).filter(function(){
+                    return $(this).css('display') === 'none';
+                })   
+                let block = $("."+points[i]).filter(function(){
+                    return $(this).css('display') === 'table-row';
+                })
+                if (none.length>0 && block.length>0) {
+                    if (none.length > block.length) {
+                        $('.'+none[0].className).each(function(){
+                            $(this).css('display','none')
+                        })
+                    }
+                    else if (block.length > none.length || block.length === none.length) {
+                        $('.'+block[0].className).each(function(){
+                            $(this).css('display','table-row')
+                        })
+                    }
+                }
+            }
+        })
+    })
+
+    $('#div-detail-analysis').each(function(){
+        $(this).on('mouseenter mouseleave',function(){
+            for (let i = 0; i < points.length; i++) {
+                let none = $("."+points[i]).filter(function(){
+                    return $(this).css('display') === 'none';
+                })   
+                let block = $("."+points[i]).filter(function(){
+                    return $(this).css('display') === 'table-row';
+                })
+                if (none.length>0 && block.length>0) {
+                    if (none.length > block.length) {
+                        $('.'+none[0].className).each(function(){
+                            $(this).css('display','none')
+                        })
+                    }
+                    else if (block.length > none.length || block.length === none.length) {
+                        $('.'+block[0].className).each(function(){
+                            $(this).css('display','table-row')
+                        })
+                    }
+                }
+            }
+        })
+    })
 });
 </script>
+<style>
+.paging-nav {
+  text-align: left;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.paging-nav a {
+  margin: auto 1px;
+  text-decoration: none;
+  display: inline-block;
+  padding: 1px 7px;
+  background: #7a7c80;
+  color: white;
+  border-radius: 3px;
+}
+
+.paging-nav .selected-page {
+  background: #4e5054;
+  font-weight: bold;
+}
+</style>

@@ -58,30 +58,64 @@ function bufferRadius(GIS,map){
                 })
                 $(".form-buffer-"+value).find('button.remove-buffer').each(function(){
                     $(this).on("click", function(){
+                        $(this).closest(".collapsible").next().remove()
+
+                        if($(".form-buffer-"+value)
+                            .parent('.rows')
+                            .children().eq(2)
+                            .children().length === 0 &&
+                            $(".form-drive-"+value)
+                            .parent('.rows')
+                            .children().eq(3)
+                            .children().length === 0 &&
+                            $(".form-drive-distance-"+value)
+                            .parent('.rows')
+                            .children().eq(4)
+                            .children().length === 0
+                            ) {
+                                $('.anly-poi-'+value).attr('disabled',true)
+                            }
+
                         let latitude = $(".latitude-form-"+value).val()
                         let longitude = $(".longitude-form-"+value).val()
 
                         let distance =  $(this).closest("h4").next()[0].children[0].children[1].value
                         let unit =  $(this).closest("h4").next()[0].children[1].children[1].value
                         var unitnum
+                        var unitstr
                         if (unit == "kilometers") {
                             unitnum = 3
+                            unitstr = "km"
                         } else if (unit == "miles") {
                             unitnum = 4
+                            unitstr = "mi"
                         } 
                         else {
                             unitnum = 5
+                            unitstr = "m"
                         }
 
                         let title = value+latitude+longitude+distance+unitnum
+                        let titleAnalysisPoi = "Buffer "+distance+" "+unitstr+" "+latitude+longitude
 
                         let graphicslayers = map.ObjMap.layers.items
-                        for (let i = 0; i < graphicslayers.length; i++) {
-                            if (graphicslayers[i].title === title) {
-                                // console.log(graphicslayers[i].title.substring(0, 5))
-                                map.ObjMap.remove(graphicslayers[i])
+                        let check = graphicslayers.filter(function(el) {
+                            return (
+                              el.title.includes(titleAnalysisPoi)===true ||
+                              el.title === title
+                            );
+                          });
+                        map.ObjMap.removeMany(check)
+
+                        $('#instant-analysis-result-row tr').each(function(){
+                            if(
+                                $(this).children()[0].innerText == latitude &&
+                                $(this).children()[1].innerText == longitude &&
+                                $(this).children()[2].innerText == "Buffer "+distance+" "+unitstr
+                                ) {
+                                    $(this).remove()
                             }
-                        }
+                        })
                         
                         $(this)
                         .closest(".collapsible")
@@ -116,7 +150,7 @@ function bufferRadius(GIS,map){
                                             unitnum = 'm'
                                         }
                                 
-                                        let title = "Buffer "+distance+" "+unitnum+" "+poiName
+                                        let title = "Buffer "+distance+" "+unitnum+" "+latitude.toString()+longitude.toString()+" "+poiName
                                         radiusPOI.setTitle(title)
 
                                         radiusPOI.setDistanceAndUnit(distance,unit)
@@ -124,7 +158,7 @@ function bufferRadius(GIS,map){
 
                                         let promise = new Promise(function(resolve, reject) {
                                             let layers = map.ObjMap.layers.items
-                                            let check = layers.find(o => o.title === title)
+                                            let check = layers.find(o => o.title === title && o.visible === true)
                                             if (check === undefined) {
                                                 radiusPOI.render(resolve)
                                             }
@@ -132,7 +166,7 @@ function bufferRadius(GIS,map){
 
                                         promise.then(function() {
                                             let layers = map.ObjMap.layers.items
-                                            let findPoiName = layers.find(o => o.title === title)
+                                            let findPoiName = layers.find(o => o.title === title && o.visible === true)
                                             let length = findPoiName.graphics.length
 
                                             if (length>0) {
@@ -174,26 +208,26 @@ function bufferRadius(GIS,map){
 
                                         if (unit == "minutes") {
                                             unitnum = '1'
-                                            titleLayer = "Driving Time "+distance+" "+unit+" "+poiName
+                                            titleLayer = "Driving Time "+distance+" "+unit+" "+latitude.toString()+longitude.toString()+" "+poiName
                                         } else if (unit == "hours") {
                                             unitnum = '2'
-                                            titleLayer = "Driving Time "+distance+" "+unit+" "+poiName
+                                            titleLayer = "Driving Time "+distance+" "+unit+" "+latitude.toString()+longitude.toString()+" "+poiName
                                         }
                                         else if (unit == "kilometers") {
                                             unitnum = '6'
-                                            titleLayer = "Driving Distance "+distance+" km "+poiName
+                                            titleLayer = "Driving Distance "+distance+" km "+latitude.toString()+longitude.toString()+" "+poiName
                                         } else if (unit == "miles") {
                                             unitnum = '7'
-                                            titleLayer = "Driving Distance "+distance+" mi "+poiName
+                                            titleLayer = "Driving Distance "+distance+" mi "+latitude.toString()+longitude.toString()+" "+poiName
                                         } 
                                         else {
                                             unitnum = '8'
-                                            titleLayer = "Driving Distance "+distance+" m "+poiName
+                                            titleLayer = "Driving Distance "+distance+" m "+latitude.toString()+longitude.toString()+" "+poiName
                                         }
                                         drivePOI.setTitle(titleLayer)
 
                                         let val = value.toString()
-                                        let title = val+latitude+longitude+distance+unitnum
+                                        let title = val+latitude.toString()+longitude.toString()+distance+unitnum
                                         for (let c = 0; c < graphicsLayers.length; c++) {
                                             if (graphicsLayers[c].title === title) {
                                                 drivePOI.setGeometryDriving(
@@ -203,7 +237,7 @@ function bufferRadius(GIS,map){
                                         }
                                         let promise = new Promise(function(resolve, reject) {
                                             let layers = map.ObjMap.layers.items
-                                            let check = layers.find(o => o.title === titleLayer)
+                                            let check = layers.find(o => o.title === titleLayer && o.visible === true)
                                             if (check === undefined) {
                                                 drivePOI.render(resolve) 
                                             }
@@ -211,7 +245,7 @@ function bufferRadius(GIS,map){
 
                                         promise.then(function() {
                                             let layers = map.ObjMap.layers.items
-                                            let findPoiName = layers.find(o => o.title === titleLayer)
+                                            let findPoiName = layers.find(o => o.title === titleLayer && o.visible === true)
                                             let length = findPoiName.graphics.length
 
                                             if (length>0) {
@@ -272,7 +306,7 @@ function bufferRadius(GIS,map){
                                             unitnum = 'm'
                                         }
 
-                                        let title = "Buffer "+distance+" "+unitnum+" "+poiName
+                                        let title = "Buffer "+distance+" "+unitnum+" "+latitude.toString()+longitude.toString()+" "+poiName
                                         radiusPOI.setTitle(title)
 
                                         radiusPOI.setDistanceAndUnit(distance,unit)
@@ -280,7 +314,7 @@ function bufferRadius(GIS,map){
 
                                         let promise = new Promise(function(resolve, reject) {
                                             let layers = map.ObjMap.layers.items
-                                            let check = layers.find(o => o.title === title)
+                                            let check = layers.find(o => o.title === title && o.visible === true)
                                             if (check === undefined) {
                                                 radiusPOI.render(resolve)   
                                             }
@@ -288,7 +322,7 @@ function bufferRadius(GIS,map){
 
                                         promise.then(function() {
                                             let layers = map.ObjMap.layers.items
-                                            let findPoiName = layers.find(o => o.title === title)
+                                            let findPoiName = layers.find(o => o.title === title && o.visible === true)
                                             let length = findPoiName.graphics.length
                                             
                                             if (length>0) {
@@ -330,26 +364,26 @@ function bufferRadius(GIS,map){
 
                                         if (unit == "minutes") {
                                             unitnum = '1'
-                                            titleLayer = "Driving Time "+distance+" "+unit+" "+poiName
+                                            titleLayer = "Driving Time "+distance+" "+unit+" "+latitude.toString()+longitude.toString()+" "+poiName
                                         } else if (unit == "hours") {
                                             unitnum = '2'
-                                            titleLayer = "Driving Time "+distance+" "+unit+" "+poiName
+                                            titleLayer = "Driving Time "+distance+" "+unit+" "+latitude.toString()+longitude.toString()+" "+poiName
                                         }
                                         else if (unit == "kilometers") {
                                             unitnum = '6'
-                                            titleLayer = "Driving Distance "+distance+" km "+poiName
+                                            titleLayer = "Driving Distance "+distance+" km "+latitude.toString()+longitude.toString()+" "+poiName
                                         } else if (unit == "miles") {
                                             unitnum = '7'
-                                            titleLayer = "Driving Distance "+distance+" mi "+poiName
+                                            titleLayer = "Driving Distance "+distance+" mi "+latitude.toString()+longitude.toString()+" "+poiName
                                         } 
                                         else {
                                             unitnum = '8'
-                                            titleLayer = "Driving Distance "+distance+" m "+poiName
+                                            titleLayer = "Driving Distance "+distance+" m "+latitude.toString()+longitude.toString()+" "+poiName
                                         }
                                         drivePOI.setTitle(titleLayer)
 
                                         let val = value.toString()
-                                        let title = val+latitude+longitude+distance+unitnum
+                                        let title = val+latitude.toString()+longitude.toString()+distance+unitnum
                                         for (let c = 0; c < graphicsLayers.length; c++) {
                                             if (graphicsLayers[c].title === title) {
                                                 drivePOI.setGeometryDriving(
@@ -359,7 +393,7 @@ function bufferRadius(GIS,map){
                                         }
                                         let promise = new Promise(function(resolve, reject) {
                                             let layers = map.ObjMap.layers.items
-                                            let check = layers.find(o => o.title === titleLayer)
+                                            let check = layers.find(o => o.title === titleLayer && o.visible === true)
                                             if (check === undefined) {
                                                 drivePOI.render(resolve) 
                                             }
@@ -367,7 +401,7 @@ function bufferRadius(GIS,map){
 
                                         promise.then(function() {
                                             let layers = map.ObjMap.layers.items
-                                            let findPoiName = layers.find(o => o.title === titleLayer)
+                                            let findPoiName = layers.find(o => o.title === titleLayer && o.visible === true)
                                             let length = findPoiName.graphics.length
 
                                             if (length>0) {
@@ -414,11 +448,25 @@ function bufferRadius(GIS,map){
             })
         })
         $("#closebtn").on('click',function(){
-            map.ObjMap.removeAll()
-            map.ObjMapView.graphics.removeAll()
             $('#instantAnalysisDiv').css('display', 'none')
             $('#contentAnalysisDiv').removeAttr("style")
             $('#instant-analysis-result-row').empty()
+            var layers = map.ObjMap.layers.items
+            let check = layers.filter(function(el) {
+                return (
+                  el.title.includes("Driving")===true ||
+                  el.title.includes("Buffer")===true ||
+                  el.value>=0
+                );
+              });
+            map.ObjMap.removeMany(check)
+            var graphics = map.ObjMapView.graphics.items
+            let checkPoint = graphics.filter(function(el) {
+                return (
+                  el.attributes.id !== undefined
+                );
+              });
+            map.ObjMapView.graphics.removeMany(checkPoint)
             $('div.rows').each(function(){
                 $(this).remove()
             });
@@ -538,6 +586,26 @@ function bufferRadius(GIS,map){
                         map.ObjMapView.graphics.remove(graphics[a])
                     }
                 }
+
+                // delete analysis poi and results table
+                let point = latitude.toString() + longitude.toString();
+                for (let x = 0; x < graphicslayers.length; x++) {
+                    if (
+                        graphicslayers[x].title.includes(point)===true
+                    ) {
+                        map.ObjMap.remove(graphicslayers[x])
+                    }
+                }
+
+                $('#instant-analysis-result-row tr').each(function(){
+                    if(
+                        $(this).children()[0].innerText == latitude &&
+                        $(this).children()[1].innerText == longitude
+                        ) {
+                            $(this).remove()
+                    }
+                })
+
             }
             $(this).closest("div.rows").remove();
         });

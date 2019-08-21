@@ -8,7 +8,6 @@ function submitFilterServices(convertData, map, convertCSV) {
     var lyrFields;
     var resultsLayer = new ESRI.GraphicsLayer();
     resultsLayer.removeAll();
-
     map.ObjMap.add(resultsLayer);
     map.ObjMapView.graphics.removeAll();
 

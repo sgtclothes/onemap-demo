@@ -1,12 +1,12 @@
 <div id="modal_form_poi" class="modal fade" tabindex="-1">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-scrollable">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title">Select POI</h5>
 				<button type="button" class="close" id="reset" data-dismiss="modal">&times;</button>
 			</div>
 
-            <div class="card-body">
+            <div class="modal-body">
                 <ul id="my-ul-analysis">
                     <li><span class="caret-analysis dd-nodrag">
                         <i class="icon-arrow-right32"></i>Colliers Property</span>

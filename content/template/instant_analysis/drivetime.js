@@ -112,6 +112,24 @@ function driveTime(GIS,map){
                 })
                 $(".form-drive-"+value).find('button.remove-drive').each(function(){
                     $(this).on("click", function(){
+                        $(this).closest(".collapsible").next().remove()
+
+                        if($(".form-drive-"+value)
+                            .parent('.rows')
+                            .children().eq(3)
+                            .children().length === 0 &&
+                            $(".form-drive-distance-"+value)
+                            .parent('.rows')
+                            .children().eq(4)
+                            .children().length === 0 &&
+                            $(".form-buffer-"+value)
+                            .parent('.rows')
+                            .children().eq(2)
+                            .children().length === 0
+                            ) {
+                                $('.anly-poi-'+value).attr('disabled',true)
+                            }
+
                         let latitude = $(".latitude-form-"+value).val()
                         let longitude = $(".longitude-form-"+value).val()
 
@@ -126,14 +144,24 @@ function driveTime(GIS,map){
                         }
 
                         let title = value+latitude+longitude+distance+unitnum
-
+                        let titleAnalysisPoi = "Driving Time "+distance+" "+unit+" "+latitude+longitude
                         let graphicslayers = map.ObjMap.layers.items
-
-                        for (let i = 0; i < graphicslayers.length; i++) {
-                            if (graphicslayers[i].title == title) {
-                                map.ObjMap.remove(graphicslayers[i])
+                        let check = graphicslayers.filter(function(el) {
+                            return (
+                              el.title.includes(titleAnalysisPoi)===true ||
+                              el.title === title
+                            );
+                          });
+                        map.ObjMap.removeMany(check)
+                        $('#instant-analysis-result-row tr').each(function(){
+                            if(
+                                $(this).children()[0].innerText == latitude &&
+                                $(this).children()[1].innerText == longitude &&
+                                $(this).children()[2].innerText == "Driving Time "+distance+" "+unit
+                                ) {
+                                    $(this).remove()
                             }
-                        }
+                        })
 
                         $(this)
                         .closest(".collapsible")

@@ -32,11 +32,13 @@ else {
           rel="stylesheet"
           type="text/css">
     <link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="assets/css/icons/material/styles.css">
     <link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="assets/css/limitless.css" rel="stylesheet" type="text/css">
     <link href="assets/css/layout.css" rel="stylesheet" type="text/css">
     <link href="assets/css/components.css" rel="stylesheet" type="text/css">
     <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="assets/js/plugins/my_profile/my_profile_form.css">
     <!-- /global stylesheets -->
 
     <!-- core js files -->
@@ -121,7 +123,7 @@ else {
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a href="#" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
+                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal_my_profile"><i class="icon-user-plus"></i> My profile</a>
                     <div class="dropdown-divider"></div>
                     <a href="index.php" class="dropdown-item"><i class="icon-cog5"></i> Dashboard</a>
                     <a href="logout.php" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
@@ -277,7 +279,11 @@ else {
     <!-- /main content -->
 </div>
 </div>
+<?php
+include 'content/template/my_profile.php';
+?>
 <!-- /page-content-->
+<script src="assets/js/plugins/my_profile/myProfileLib.js"></script>
 </body>
 </html>
 <?php

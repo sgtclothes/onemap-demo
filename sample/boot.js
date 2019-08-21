@@ -82,7 +82,8 @@ function boot(GIS) {
       expandIconClass: "esri-icon-organization",
       view: map.ObjMapView,
       content: createSiteDiv,
-      expanded: false
+      expanded: false,
+      collapseIconClass: "esri-icon-close"
     });
 
     createSite(createSiteExpand, GIS, map);
@@ -146,7 +147,6 @@ function boot(GIS) {
   // END of create a site
 
   map.ObjMapView.popup.actionsMenuEnabled = false;
-  console.log(map.ObjMapView.popup);
   // map.ObjMapView.popup.featureNavigationEnabled = false;
 
   // create instant analysis
@@ -173,8 +173,9 @@ function boot(GIS) {
             latitude,
             longitude
           );
+          pointing.setPictureMarker()
           pointing.render();
-
+          $('#error-input-points').hide()
           $.addRows();
           $.each(window.counterArr, function(index, value) {
             if ($(".latitude-form-" + value).val() === "") {
@@ -192,6 +193,7 @@ function boot(GIS) {
                 ".selectbuffer-" + value,
                 "click",
                 function() {
+                  $('#error-input-buffer').hide()
                   $.get(
                     "content/template/instant_analysis/buffer.php",
                     function(data) {
@@ -204,6 +206,7 @@ function boot(GIS) {
                 ".selectdrive-" + value,
                 "click",
                 function() {
+                  $('#error-input-buffer').hide()
                   $.get(
                     "content/template/instant_analysis/driving.php",
                     function(data) {
@@ -216,6 +219,7 @@ function boot(GIS) {
                 ".selectdrive-distance-" + value,
                 "click",
                 function() {
+                  $('#error-input-buffer').hide()
                   $.get(
                     "content/template/instant_analysis/driving_distance.php",
                     function(data) {
@@ -464,6 +468,15 @@ function boot(GIS) {
         let attr = map.ObjMapView.popup.selectedFeature;
         let lat = attr.geometry.latitude;
         let lon = attr.geometry.longitude;
+
+        let pointing = new GIS.Buffer.Pointing(
+          map.ObjMapView,
+          lat,
+          lon
+        );
+        pointing.setPointingPopupMarker()
+        pointing.render();
+        $('#error-input-points').hide()
         $.addRows();
         $.each(window.counterArr, function(index, value) {
           if ($(".latitude-form-" + value).val() === "") {
@@ -475,6 +488,7 @@ function boot(GIS) {
               ".selectbuffer-" + value,
               "click",
               function() {
+                $('#error-input-buffer').hide()
                 $.get("content/template/instant_analysis/buffer.php", function(
                   data
                 ) {
@@ -486,6 +500,7 @@ function boot(GIS) {
               ".selectdrive-" + value,
               "click",
               function() {
+                $('#error-input-buffer').hide()
                 $.get("content/template/instant_analysis/driving.php", function(
                   data
                 ) {
@@ -493,6 +508,19 @@ function boot(GIS) {
                 });
               }
             );
+            $("#form-list").delegate(
+              ".selectdrive-distance-" + value,
+              "click",
+              function() {
+                  $('#error-input-buffer').hide()
+              $.get(
+                  "content/template/instant_analysis/driving_distance.php",
+                  function(data) {
+                  $(".form-drive-distance-" + value).append(data);
+                  }
+              );
+              }
+          );
           }
         });
       }
@@ -1069,6 +1097,17 @@ function boot(GIS) {
     let lon = JSON.parse(
       localStorage.getItem("selectedFeatureFilterLongitude")
     );
+
+    let pointing = new GIS.Buffer.Pointing(
+      map.ObjMapView,
+      lat,
+      lon
+    );
+    pointing.setPointingPopupMarker()
+    pointing.render();
+
+    $('#error-input-points').hide()
+    $('.popupFilter').hide()
     $.addRows();
     $.each(window.counterArr, function(index, value) {
       if ($(".latitude-form-" + value).val() === "") {
@@ -1077,17 +1116,32 @@ function boot(GIS) {
         $(".latitude-form-" + value).attr("title", "Latitude " + lat);
         $(".longitude-form-" + value).attr("title", "Longitude " + lon);
         $("#form-list").delegate(".selectbuffer-" + value, "click", function() {
+          $('#error-input-buffer').hide()
           $.get("content/template/instant_analysis/buffer.php", function(data) {
             $(".form-buffer-" + value).append(data);
           });
         });
         $("#form-list").delegate(".selectdrive-" + value, "click", function() {
+          $('#error-input-buffer').hide()
           $.get("content/template/instant_analysis/driving.php", function(
             data
           ) {
             $(".form-drive-" + value).append(data);
           });
         });
+        $("#form-list").delegate(
+          ".selectdrive-distance-" + value,
+          "click",
+          function() {
+            $('#error-input-buffer').hide()
+            $.get(
+              "content/template/instant_analysis/driving_distance.php",
+              function(data) {
+                $(".form-drive-distance-" + value).append(data);
+              }
+            );
+          }
+        );
       }
     });
   });

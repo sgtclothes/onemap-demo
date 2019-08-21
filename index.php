@@ -41,6 +41,41 @@ if (!isset($_SESSION['auth'])) {
     <link rel="stylesheet" href="assets/css/section/awesome-bootstrap-checkbox.css" type="text/css" />
     <link href="assets/css/section/fontawesome-5.0.1-all.css" rel="stylesheet">
     <!-- /Adding other css -->
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Locator Logic</title>
+        <link rel="icon" href="assets/images/icons/favicon.ico">
+        <!-- global stylesheets -->
+        <!-- @fetch google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+        <link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="assets/css/icons/material/styles.css">
+        <link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="assets/css/limitless.css" rel="stylesheet" type="text/css">
+        <link href="assets/css/layout.css" rel="stylesheet" type="text/css">
+        <link href="assets/css/components.css" rel="stylesheet" type="text/css">
+        <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+        <!-- <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" /> -->
+        <link href="assets/js/plugins/tree/tree_analysis.css" rel="stylesheet" type="text/css" />
+        <link href="assets/js/plugins/tree/checkboxes.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="assets/css/jquery/jquery-ui-1.12.1.css">
+        <script src="assets/js/jquery-1.12.4.js"></script>
+        <script src="assets/js/jquery-1.12.1.js"></script>
+        <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
+        <!-- /global stylesheets -->
+
+        <!-- Adding other css -->
+        <link rel="stylesheet" href="assets/css/section/popup-alert-require-text-input.css" type="text/css" />
+        <link rel="stylesheet" href="assets/css/section/awesome-bootstrap-checkbox.css" type="text/css" />
+        <link href="assets/css/section/fontawesome-5.0.1-all.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="assets/js/plugins/my_profile/my_profile_form.css">
+        <!-- /Adding other css -->
 
     <!-- MultiSelect CSS & JS library -->
     <!-- <link href="assets/css/jquery/jquery.multiselect.css" rel="stylesheet" />
@@ -170,17 +205,28 @@ if (!isset($_SESSION['auth'])) {
 
             <span class="ml-md-3 mr-md-auto"></span>
 
-            <ul class="navbar-nav">
-                <!-- user menu item navbar -->
-                <li class="nav-item dropdown dropdown-user">
-                    <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
-                        <span><?php echo "$_SESSION[name]"; ?></span>
-                    </a>
+                <ul class="navbar-nav">
+                    <!-- user menu item navbar -->
+                    <li class="nav-item dropdown dropdown-user">
+                        <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
+                            <?php
+                            $sqlphoto = "SELECT photo FROM users WHERE id=".$_SESSION['auth']['id'];
+                            $queryphoto = mysqli_query($conn,$sqlphoto);
+                            $photo = mysqli_fetch_array($queryphoto);
+                            if ($photo['photo'] === '') {
+                                $name_user_photo = "icons-profile.png";
+                            }
+                            else {
+                                $name_user_photo = $photo['photo'];
+                            }
+                            ?>
+                            <img src="assets/images/profile/<?php echo $name_user_photo; ?>" alt="My Photo" width="25px">&nbsp;<span><?php echo "$_SESSION[name]"; ?></span>
+                        </a>
 
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a href="#" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
-                        <div class="dropdown-divider"></div>
-                        <?php
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal_my_profile"><i class="icon-user-plus"></i> My profile</a>
+                            <div class="dropdown-divider"></div>
+                            <?php
                             if ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'System Administrator') {
                                 echo "<a href=\"admin.php\" class=\"dropdown-item\"><i class=\"icon-cog5\"></i> Admin</a>";
                             }
@@ -216,8 +262,21 @@ if (!isset($_SESSION['auth'])) {
                         <input type="hidden" id="created_by" name="created_by" value="<?php echo $_SESSION['auth']['id'] ?>">
                         <button type="submit" name="add" class="btn btn-primary ml-3">Save Analysis</button>
                     </div>
-                    <div id="form-list"></div>
-                </form>
+                    <form action="" method="post" id="form-create-analysis">
+                        <div class="bottom-input-name">
+                            <input type="text" class="form-control" style="margin-left:16px; width:150px" id="name_analysis" name="name_analysis" required placeholder="Site's Name">
+                            <input type="hidden" id="created_by" name="created_by" value="<?php echo $_SESSION['auth']['id'] ?>">
+                            <button type="submit" name="add" class="btn btn-primary ml-3">Save Analysis</button>
+                        </div>
+                        <div id="error-input-points" class="alert alert-danger border-0 alert-dismissible" style="display: none; margin-top:5px; margin-left:5px; margin-right:5px;">
+                            <span style="font-size: 11px;" class="font-weight-semibold">Oh snap!</span> Add a latitude and longitude and try submitting again.
+                        </div>
+                        <div id="error-input-buffer" class="alert alert-danger border-0 alert-dismissible" style="display: none; margin-top:5px; margin-left:5px; margin-right:5px; margin-bottom: -10px;">
+                            <span style="font-size: 11px;" class="font-weight-semibold">Oh snap!</span> Add a buffer radius, driving time or driving distance and try submitting again.
+                        </div>
+                        <div id="form-list"></div>
+                    </form>
+                </div>
             </div>
         </div>
         <!-- End of the SideNav Analysis -->
@@ -1489,10 +1548,47 @@ if (!isset($_SESSION['auth'])) {
         include 'content/data_site.php';
         include 'content/input_point.php';
         include 'content/analysis/form_poi.php';
+        include 'content/template/my_profile.php';
         ?>
     <!-- <script src="assets/colors/app.js"></script> -->
     <script type="text/javascript" src="assets/js/plugins/collapsible/collapsible.js"></script>
     <script type="text/javascript" src="content/template/instant_analysis/formInstantAnalysis.js"></script>
+        <!-- <script src="assets/colors/app.js"></script> -->
+        <script type="text/javascript" src="assets/js/plugins/collapsible/collapsible.js"></script>
+        <script type="text/javascript" src="content/template/instant_analysis/formInstantAnalysis.js"></script>
+        <script>
+            var toggler = document.getElementsByClassName("caret");
+            var i;
+
+            for (i = 0; i < toggler.length; i++) {
+                toggler[i].addEventListener("click", function(click) {
+                    this.parentElement.querySelector(".nested").classList.toggle("active");
+                    this.classList.toggle("icon-rotate-90");
+                });
+            }
+        </script>
+    </body>
+    <script src="assets/js/createSite.js"></script>
+    <script src="assets/js/addPointsFromSite.js"></script>
+    <script src="assets/js/addPointsManual.js"></script>
+    <script src="assets/js/createAnalysis.js"></script>
+    <script src="assets/js/formListCSV.js"></script>
+    <script src="assets/js/submitFilterServices.js"></script>
+    <script src="assets/js/showCurrentDepartment.js"></script>
+    <script src="assets/js/inputFilter.js"></script>
+    <script src="assets/js/selectUnitSize.js"></script>
+    <script src="assets/js/multiSelect.js"></script>
+    <script src="assets/js/inputCheckboxPropertyStatus.js"></script>
+    <script src="assets/js/inputCheckboxServices.js"></script>
+    <script src="assets/js/saveDataServiceToLocalStorage.js"></script>
+    <script src="assets/js/removeFilterResults.js"></script>
+    <script src="assets/js/createOverlap.js"></script>
+    <script src="assets/js/viewTableServices.js"></script>
+    <script src="assets/js/zoomToLayer.js"></script>
+    <script src="content/analysis/analysisPoi.js"></script>
+    <script src="content/analysis/editAnalysis.js"></script>
+    <script src="assets/js/plugins/tables/paginationLib.js"></script>
+    <script src="assets/js/plugins/my_profile/myProfileLib.js"></script>
     <script>
         var toggler = document.getElementsByClassName("caret");
         var i;
