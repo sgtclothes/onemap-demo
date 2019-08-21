@@ -176,6 +176,8 @@ function boot(GIS) {
           pointing.setPictureMarker()
           pointing.render();
           $('#error-input-points').hide()
+          $('#error-down-service').hide()
+
           $.addRows();
           $.each(window.counterArr, function(index, value) {
             if ($(".latitude-form-" + value).val() === "") {
@@ -194,6 +196,7 @@ function boot(GIS) {
                 "click",
                 function() {
                   $('#error-input-buffer').hide()
+                  $('#error-down-service').hide()
                   $.get(
                     "content/template/instant_analysis/buffer.php",
                     function(data) {
@@ -207,6 +210,7 @@ function boot(GIS) {
                 "click",
                 function() {
                   $('#error-input-buffer').hide()
+                  $('#error-down-service').hide()
                   $.get(
                     "content/template/instant_analysis/driving.php",
                     function(data) {
@@ -220,6 +224,7 @@ function boot(GIS) {
                 "click",
                 function() {
                   $('#error-input-buffer').hide()
+                  $('#error-down-service').hide()
                   $.get(
                     "content/template/instant_analysis/driving_distance.php",
                     function(data) {
@@ -477,6 +482,8 @@ function boot(GIS) {
         pointing.setPointingPopupMarker()
         pointing.render();
         $('#error-input-points').hide()
+        $('#error-down-service').hide()
+
         $.addRows();
         $.each(window.counterArr, function(index, value) {
           if ($(".latitude-form-" + value).val() === "") {
@@ -489,6 +496,7 @@ function boot(GIS) {
               "click",
               function() {
                 $('#error-input-buffer').hide()
+                $('#error-down-service').hide()
                 $.get("content/template/instant_analysis/buffer.php", function(
                   data
                 ) {
@@ -501,6 +509,7 @@ function boot(GIS) {
               "click",
               function() {
                 $('#error-input-buffer').hide()
+                $('#error-down-service').hide()
                 $.get("content/template/instant_analysis/driving.php", function(
                   data
                 ) {
@@ -513,6 +522,7 @@ function boot(GIS) {
               "click",
               function() {
                   $('#error-input-buffer').hide()
+                  $('#error-down-service').hide()
               $.get(
                   "content/template/instant_analysis/driving_distance.php",
                   function(data) {
@@ -1107,6 +1117,7 @@ function boot(GIS) {
     pointing.render();
 
     $('#error-input-points').hide()
+    $('#error-down-service').hide()
     $('.popupFilter').hide()
     $.addRows();
     $.each(window.counterArr, function(index, value) {
@@ -1117,12 +1128,14 @@ function boot(GIS) {
         $(".longitude-form-" + value).attr("title", "Longitude " + lon);
         $("#form-list").delegate(".selectbuffer-" + value, "click", function() {
           $('#error-input-buffer').hide()
+          $('#error-down-service').hide()
           $.get("content/template/instant_analysis/buffer.php", function(data) {
             $(".form-buffer-" + value).append(data);
           });
         });
         $("#form-list").delegate(".selectdrive-" + value, "click", function() {
           $('#error-input-buffer').hide()
+          $('#error-down-service').hide()
           $.get("content/template/instant_analysis/driving.php", function(
             data
           ) {
@@ -1134,6 +1147,7 @@ function boot(GIS) {
           "click",
           function() {
             $('#error-input-buffer').hide()
+            $('#error-down-service').hide()
             $.get(
               "content/template/instant_analysis/driving_distance.php",
               function(data) {

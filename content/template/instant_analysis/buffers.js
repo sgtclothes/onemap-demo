@@ -448,6 +448,9 @@ function bufferRadius(GIS,map){
             })
         })
         $("#closebtn").on('click',function(){
+            $('#error-input-buffer').hide()
+            $('#error-input-points').hide()
+            $('#error-down-service').hide()
             $('#instantAnalysisDiv').css('display', 'none')
             $('#contentAnalysisDiv').removeAttr("style")
             $('#instant-analysis-result-row').empty()

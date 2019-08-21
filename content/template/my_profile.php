@@ -1,3 +1,18 @@
+<?php
+$sqlprofile = "SELECT * FROM users WHERE id=".$_SESSION['auth']['id'];
+$queryprofile = mysqli_query($conn,$sqlprofile);
+$profile = mysqli_fetch_array($queryprofile);
+if ($profile['photo'] === '') {
+    $name_user_profile = "icons-profile.png";
+    $src = "assets/images/profile/$name_user_profile";
+    $display = "display:none;";
+}
+else {
+    $name_user_profile = $profile['photo'];
+    $src = "assets/images/profile/$name_user_profile";
+    $display = "display:block;";
+}
+?>
 <div id="modal_my_profile" class="modal fade" tabindex="-1">
 	<div class="modal-dialog modal-dialog-scrollable">
 		<div class="modal-content">
@@ -14,14 +29,40 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="bottom-justified-tab1"></div>
+                    <div id="bottom-justified-tab1" class="tab-pane fade show active">
+                        <table style="border:0px;" class="table table-borderless">
+							<tbody>
+								<tr style="border:0px;">
+                                    <td rowspan='3' align='center'>
+                                        <form id="deletePhoto" action="" method="post">
+                                        <input type="hidden" class="user_id" name="user_id" value="<?php echo $_SESSION['auth']['id']; ?>">
+                                        <div class='delete-photo' style="<?php echo $display; ?>">
+                                        <button type="submit" class="btn btn-md btn-light btn-icon rounded-round ml-2"><i style="font-size:18px;" class="mi-delete-forever"></i></button>
+                                        </div>
+                                        </form>
+                                        <img class="user_photo" src="<?php echo $src; ?>" alt="My Photo" width="140px" style="border-radius: 50%; border: 3px solid #F8F8F8; box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);">
+                                    </td>
+									<td style="color:#bcbcbc;">Name</td>
+									<td><?php echo $profile['name']; ?></td>
+                                </tr>
+                                <tr style="border:0px;">
+									<td style="color:#bcbcbc;">E-mail</td>
+									<td><?php echo $profile['email']; ?></td>
+                                </tr>
+                                <tr style="border:0px;">
+									<td style="color:#bcbcbc;">E-mail</td>
+									<td><?php echo $profile['email']; ?></td>
+								</tr>
+							</tbody>
+						</table>
+                    </div>
 
                     <div id="bottom-justified-tab2" class="tab-pane fade">
                         <div class="profile">
                             <div class="photo">
                                 <form id="uploadImage" action="" method="post" enctype="multipart/form-data">
                                     <input id="file" type="file" name="file" value="" accept="image/*">
-                                    <input type="hidden" class="user_photo" name="user_photo" value="<?php echo $_SESSION['auth']['id']; ?>">
+                                    <input type="hidden" class="user_id" name="user_id" value="<?php echo $_SESSION['auth']['id']; ?>">
                                     <div class="photo__helper">
                                         <div class="photo__frame photo__frame--circle">
                                             <canvas class="photo__canvas" title="Drag Photo"></canvas>

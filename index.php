@@ -181,12 +181,14 @@ if (!isset($_SESSION['auth'])) {
                             $photo = mysqli_fetch_array($queryphoto);
                             if ($photo['photo'] === '') {
                                 $name_user_photo = "icons-profile.png";
+                                $src = "assets/images/profile/$name_user_photo";
                             }
                             else {
                                 $name_user_photo = $photo['photo'];
+                                $src = "assets/images/profile/$name_user_photo";
                             }
                             ?>
-                            <img src="assets/images/profile/<?php echo $name_user_photo; ?>" alt="My Photo" width="25px">&nbsp;<span><?php echo "$_SESSION[name]"; ?></span>
+                            <img class="user_photo" src="<?php echo $src; ?>" alt="My Photo" width="25px" style="border-radius: 50%;">&nbsp;<span><?php echo "$_SESSION[name]"; ?></span>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right">
@@ -233,6 +235,9 @@ if (!isset($_SESSION['auth'])) {
                         </div>
                         <div id="error-input-buffer" class="alert alert-danger border-0 alert-dismissible" style="display: none; margin-top:5px; margin-left:5px; margin-right:5px; margin-bottom: -10px;">
                             <span style="font-size: 11px;" class="font-weight-semibold">Oh snap!</span> Add a buffer radius, driving time or driving distance and try submitting again.
+                        </div>
+                        <div id="error-down-service" class="alert alert-danger border-0 alert-dismissible" style="display: none; margin-top:5px; margin-left:5px; margin-right:5px; margin-bottom: -10px;">
+                            <span style="font-size: 11px;" class="font-weight-semibold">Error!</span>Operation Failed. Please try again.
                         </div>
                         <div id="form-list"></div>
                     </form>

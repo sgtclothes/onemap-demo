@@ -106,15 +106,18 @@ function createMarkerFromCSV(GIS,map){
                                     pointing.setPictureMarker()
                                     pointing.render()
                                     $('#error-input-points').hide()
+                                    $('#error-down-service').hide()
 
                                     $("#form-list").delegate('.selectbuffer-'+value, 'click', function() {
                                         $('#error-input-buffer').hide()
+                                        $('#error-down-service').hide()
                                         $.get("content/template/instant_analysis/buffer.php", function(data){ 
                                             $(".form-buffer-"+value).append(data)
                                         });
                                     })
                                     $("#form-list").delegate('.selectdrive-'+value, 'click', function() {
                                         $('#error-input-buffer').hide()
+                                        $('#error-down-service').hide()
                                         $.get("content/template/instant_analysis/driving.php", function(data){ 
                                             $(".form-drive-"+value).append(data)
                                         });
@@ -124,6 +127,7 @@ function createMarkerFromCSV(GIS,map){
                                         "click",
                                         function() {
                                             $('#error-input-buffer').hide()
+                                            $('#error-down-service').hide()
                                           $.get(
                                             "content/template/instant_analysis/driving_distance.php",
                                             function(data) {

@@ -1,8 +1,12 @@
-/*DEMO*/
-.preview--rounded {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
+.delete-photo {
+    position: absolute;
+    top: 180px;
+    left: 150px;
+    color: #666666;
+    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+.delete-photo:hover {
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
 }
 /* IMMUTABLE */
 .hide {

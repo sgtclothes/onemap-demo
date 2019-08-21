@@ -23,6 +23,8 @@ function createMarker(GIS,map){
                 pointing.setPictureMarker()
                 pointing.render()
                 $('#error-input-points').hide()
+                $('#error-down-service').hide()
+
                 $.addRows()
                 $.each(window.counterArr, function(index, value){
                     if ($(".latitude-form-"+value).val() === '') {
@@ -33,12 +35,14 @@ function createMarker(GIS,map){
 
                         $("#form-list").delegate('.selectbuffer-'+value, 'click', function() {
                             $('#error-input-buffer').hide()
+                            $('#error-down-service').hide()
                             $.get("content/template/instant_analysis/buffer.php", function(data){ 
                                 $(".form-buffer-"+value).append(data)
                             });
                         })
                         $("#form-list").delegate('.selectdrive-'+value, 'click', function() {
                             $('#error-input-buffer').hide()
+                            $('#error-down-service').hide()
                             $.get("content/template/instant_analysis/driving.php", function(data){ 
                                 $(".form-drive-"+value).append(data)
                             });
@@ -48,6 +52,7 @@ function createMarker(GIS,map){
                             "click",
                             function() {
                                 $('#error-input-buffer').hide()
+                                $('#error-down-service').hide()
                               $.get(
                                 "content/template/instant_analysis/driving_distance.php",
                                 function(data) {

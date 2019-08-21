@@ -14,8 +14,10 @@ function saveAnalysis(map){
             if (formList.length === 0) {
                 $('#error-input-points').show()
                 $('#error-input-buffer').hide()
+                $('#error-down-service').hide()
             }
             else if (formBuffer === 0 && formDriveTime === 0 && formDriveDistance === 0) {
+                $('#error-down-service').hide()
                 $('#error-input-buffer').show()
             }
             else {
