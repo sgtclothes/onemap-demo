@@ -719,7 +719,6 @@ $(function() {
                 type: 'POST',
                 data: formData,
                 contentType: false,
-                cache: false,
                 processData:false,   
                 success: function () {
                     p.removeImage();
