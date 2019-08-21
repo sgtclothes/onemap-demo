@@ -342,9 +342,11 @@ function boot(GIS) {
     } else {
       open_viewer();
     }
-    
+
     if (document.getElementById("mySidenav").style.width > "0px") {
-      if (document.getElementById("mySidenav").classList.contains("panel-left")) {
+      if (
+        document.getElementById("mySidenav").classList.contains("panel-left")
+      ) {
         document.getElementById("mySidenav").classList.remove("panel-left");
         document.getElementById("mySidenav").classList.add("panel-right");
         document.getElementById("main").style.marginRight = "320px";
@@ -394,7 +396,7 @@ function boot(GIS) {
           $("#mySidenav").addClass("panel-right");
           $("#main").css("margin-right", "320px");
           $("#mySidenav").css("width", "320px");
-        } 
+        }
       }
     });
   //end of sidebar/sidenav
@@ -771,6 +773,7 @@ function boot(GIS) {
   createOverlap(GIS, map);
   viewTableServices(map);
   zoomToLayer(map);
+  expandCheckboxServices();
   // selectUnitSize();
 
   $("input[name='popup-input-min']").click(function() {
@@ -884,11 +887,32 @@ function boot(GIS) {
         })[0].graphic;
         // do something with the result graphic
         console.log(graphic);
-        // localStorage.setItem("selectedFeature", JSON.stringify(graphic));
-        // console.log(JSON.parse(localStorage.getItem("selectedFeature")))
       }
     });
   }
+
+  //Auto change size popup
+  var $element = $("#popupFilter");
+  var lastHeight = $("#popupFilter").css("width");
+  function checkForChanges() {
+    if ($element.css("width") != lastHeight) {
+      lastHeight = $element.css("width");
+      if (lastHeight < "700px" && lastHeight > "600px") {
+        $("#table-popup-colliers").css("display", "block");
+        $(".font-popup").css("font-size", "8px");
+      } else if (lastHeight >= "700px") {
+        $("#table-popup-colliers").css("display", "block");
+        $(".font-popup").css("font-size", "11px");
+      } else if (lastHeight < "600px") {
+        $("#table-popup-colliers").css("display", "none");
+      }
+    }
+    setTimeout(checkForChanges, 500);
+  }
+
+  $(document).click(function() {
+    checkForChanges();
+  });
 
   // Set up a click event handler and retrieve the screen point
   map.ObjMapView.on("click", function(evt) {
@@ -903,10 +927,15 @@ function boot(GIS) {
     // the topmost graphic from the click location
     // and display select attribute values from the
     // graphic to the user
+    if (map.ObjMapView.updating == true) {
+      console.log(map.ObjMapView.zoom);
+      console.log(map.ObjMap);
+    }
     if (response.results.length > 0) {
       function randomNumber(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
       }
+      console.log(response.results);
       localStorage.setItem(
         "selectedFeatureFilterLatitude",
         JSON.stringify(response.results[0].graphic.geometry.latitude)
@@ -915,7 +944,7 @@ function boot(GIS) {
         "selectedFeatureFilterLongitude",
         JSON.stringify(response.results[0].graphic.geometry.longitude)
       );
-      let landTotal = randomNumber(50000000, 500000000);
+      let landTotal = randomNumber(120000, 200000);
       let buildingTotal = randomNumber(50000000, 500000000);
       let landSizeSqm = randomNumber(5000, 10000);
       let buildingSizeSqm = randomNumber(5000, 20000);
@@ -926,8 +955,9 @@ function boot(GIS) {
       let attr = Object.keys(response.results[0].graphic.attributes);
       let imageUrl = response.results[0].graphic.attributes.photo;
       let propertytype = response.results[0].graphic.attributes.propertytype;
-      let lastupdate = response.results[0].graphic.attributes.lastupdate;
+      let buildingName = response.results[0].graphic.attributes.buildingname;
       let address = response.results[0].graphic.attributes.address;
+      let lastupdate = response.results[0].graphic.attributes.lastupdate;
       let d = new Date(lastupdate);
       lastupdate =
         d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
@@ -937,18 +967,43 @@ function boot(GIS) {
       if (attr.includes("propertytype")) {
         $(".popupFilter").show();
         $(".image-property").attr("src", imageUrl);
-        $("#propertytype-popup").text(propertytype);
-        $("#lastupdate-popup").text(lastupdate);
-        $("#address-popup").text("Land at " + address);
-        $("#landTotal").text(landTotal);
-        $("#landSizeSqm").text(landSizeSqm);
-        $("#landPricePerSqm").text(landPricePerSqm);
-        $("#buildingTotal").text(buildingTotal);
-        $("#buildingSizeSqm").text(buildingSizeSqm);
-        $("#totalTotal").text(buildingTotal + landTotal);
-        $("#totalSizeSqm").text(buildingSizeSqm + landSizeSqm);
-        $("#priceTotal").text(priceTotal);
-        $("#pricePerSqm").text(pricePerSqm);
+        $("#propertytype-popup").text(
+          "PROPERTY TYPE : " + propertytype.toUpperCase()
+        );
+        $("#lastupdate-popup").text("Last updated : " + lastupdate);
+        $("#buildingName-popup").text("Land at " + buildingName);
+        $("#address-popup").text(address);
+        $("#landTotal").text(
+          landTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+        );
+        $("#landSizeSqm").text(
+          landSizeSqm.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+        );
+        $("#landPricePerSqm").text(
+          landPricePerSqm.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+        );
+        $("#buildingTotal").text(
+          buildingTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+        );
+        $("#buildingSizeSqm").text(
+          buildingSizeSqm.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+        );
+        $("#totalTotal").text(
+          Number(buildingTotal + landTotal)
+            .toFixed(2)
+            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+        );
+        $("#totalSizeSqm").text(
+          Number(buildingSizeSqm + landSizeSqm)
+            .toFixed(2)
+            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+        );
+        $("#priceTotal").text(
+          priceTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+        );
+        $("#pricePerSqm").text(
+          pricePerSqm.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+        );
         $("#NJOPPercent").text(NJOPPercent);
         $(".image-property").error(function() {
           $(this).attr("src", "assets/images/no-photo.png");

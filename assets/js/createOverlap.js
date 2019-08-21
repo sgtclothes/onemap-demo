@@ -1,5 +1,5 @@
 function createOverlap(GIS, map) {
-  $(document).delegate("#buffer-layer", "change", function() {
+  $(document).delegate(".select-buffer-layer", "change", function() {
     let radiusValue = $(this).val();
     let value = $(this)
       .parents("td")
@@ -15,7 +15,6 @@ function createOverlap(GIS, map) {
 
     let query = new ESRI.Query();
     query.returnGeometry = true;
-    query.outFields = ["*"];
     query.outSpatialReference = map.ObjMap.spatialReference;
     query.where = "1=1";
     poiUrl.queryFeatures(query).then(function(results) {
@@ -30,7 +29,7 @@ function createOverlap(GIS, map) {
           results.features[i].geometry.latitude,
           results.features[i].geometry.longitude
         );
-        radius.setRadius(radiusValue);
+        radius.setRadius(0.1);
         radius.setUnit("kilometers");
         radius.create();
       }

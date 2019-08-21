@@ -440,14 +440,19 @@ td {
   border: 1px solid white;
 }
 
-/* table analysis global style */
-table .table,
-tr,
-th,
-td {
-  border: black;
+.center-popup {
+  text-align: center;
 }
-/* table analysis global style */
+
+.font-popup {
+  font-size: 11px;
+}
+
+.title-popup {
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+}
 
 td.property-item {
   width: 80px;
@@ -661,7 +666,16 @@ div.esri-popup__button.esri-popup__action {
 }
 
 .sub-table-layer {
-  padding-left: 20px;
+  padding-left: 40px;
+}
+
+.expand-layer {
+  cursor: pointer;
+}
+
+.expand-element,
+.expand-master-element {
+  display: none;
 }
 
 .item-buffer-layer {
@@ -744,6 +758,11 @@ table.dataTable {
   cursor: pointer;
 }
 
+.table-sub-property {
+  font-family: "Open Sans", sans-serif;
+  font-size: 11px;
+}
+
 .table_list_services {
   display: none;
 }
@@ -790,6 +809,6 @@ table.dataTable {
   cursor: pointer;
 }
 
-.pagination-lib li:hover{
+.pagination-lib li:hover {
   cursor: pointer;
 }
