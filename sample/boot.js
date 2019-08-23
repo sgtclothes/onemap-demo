@@ -97,7 +97,7 @@ function boot(GIS) {
       pointTheSiteEnabled = true;
       document
         .getElementById("mapDiv")
-        .setAttribute("style", "cursor:pointer;");
+        .setAttribute("style", "cursor:crosshair;");
 
       document
         .getElementById("create-site-div")
@@ -118,7 +118,7 @@ function boot(GIS) {
       pointTheSiteEnabled = !pointTheSiteEnabled;
       document
         .getElementById("mapDiv")
-        .setAttribute("style", "cursor:pointer;");
+        .setAttribute("style", "cursor:crosshair;");
       let latitude = map.ObjMapView.toMap({
         x: event.x,
         y: event.y
@@ -154,7 +154,7 @@ function boot(GIS) {
   $(document).ready(function() {
     $("#pointing-btn").click(function() {
       pointEnabled = true;
-      $("#mapDiv").attr("style", "cursor:pointer;");
+      $("#mapDiv").attr("style", "cursor:crosshair;");
       map.ObjMapView.on("click", function(event) {
         if (pointEnabled) {
           pointEnabled = !pointEnabled;
@@ -945,7 +945,7 @@ function boot(GIS) {
       function randomNumber(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
       }
-      console.log(response.results);
+      //console.log(response.results);
       localStorage.setItem(
         "selectedFeatureFilterLatitude",
         JSON.stringify(response.results[0].graphic.geometry.latitude)

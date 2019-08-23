@@ -12,6 +12,17 @@ else {
     $src = "assets/images/profile/$name_user_profile";
     $display = "display:block;";
 }
+
+$result_array = array();
+$resQuery = $conn->query(
+    'SELECT department FROM department where id in ('. implode(',',$_SESSION['departments']).')'
+);
+if ($resQuery->num_rows > 0) {
+    while($row = $resQuery->fetch_assoc()) {
+        array_push($result_array, $row['department']);
+    }
+}
+$data_department = implode(',',$result_array);
 ?>
 <div id="modal_my_profile" class="modal fade" tabindex="-1">
 	<div class="modal-dialog modal-dialog-scrollable">
@@ -25,7 +36,7 @@ else {
                 <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
                     <li class="nav-item"><a href="#bottom-justified-tab1" class="nav-link active" data-toggle="tab">My Profile</a></li>
                     <li class="nav-item"><a href="#bottom-justified-tab2" class="nav-link" data-toggle="tab">Change Photo</a></li>
-                    <li class="nav-item"><a href="#bottom-justified-tab3" class="nav-link" data-toggle="tab">Change Password</a></li>
+                    <!-- <li class="nav-item"><a href="#bottom-justified-tab3" class="nav-link" data-toggle="tab">Change Password</a></li> -->
                 </ul>
 
                 <div class="tab-content">
@@ -50,8 +61,8 @@ else {
 									<td><?php echo $profile['email']; ?></td>
                                 </tr>
                                 <tr style="border:0px;">
-									<td style="color:#bcbcbc;">E-mail</td>
-									<td><?php echo $profile['email']; ?></td>
+									<td style="color:#bcbcbc;">Department</td>
+									<td><?php echo $data_department; ?></td>
 								</tr>
 							</tbody>
 						</table>
@@ -103,7 +114,7 @@ else {
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="bottom-justified-tab3"></div>
+                    <!-- <div class="tab-pane fade" id="bottom-justified-tab3"></div> -->
                 </div>
             </div>
 		</div>

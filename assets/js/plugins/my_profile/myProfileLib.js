@@ -693,8 +693,9 @@ $(function() {
                 console.log('Error type: ' + type);
             }
         });
-
-    $('#uploadBtn').on('click', function() {
+        
+    $("#uploadImage").submit(function(event){
+        event.preventDefault();
         var formData,
             data = p.getData();
 
@@ -702,24 +703,21 @@ $(function() {
         formData.append('file', data.file);
         formData.append('base64_image', p.getAsDataURL())
 
-        $("#uploadImage").submit(function(event){
-            event.preventDefault();
-            let user_id = $('.user_id').val()
-            formData.append('user_id',user_id)
-            $.ajax({
-                url: "content/template/save_my_photo.php",
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData:false,   
-                success: function () {
-                    $('.user_photo').attr('src',p.getAsDataURL());
-                    p.removeImage();
-                    $('.delete-photo').show()
-                }
-            });
-        })
-    });
+        let user_id = $('.user_id').val()
+        formData.append('user_id',user_id)
+        $.ajax({
+            url: "content/template/save_my_photo.php",
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData:false,   
+            success: function () {
+                $('.user_photo').attr('src',p.getAsDataURL());
+                p.removeImage();
+                $('.delete-photo').show()
+            }
+        });
+    })
     
     $('#deletePhoto').submit(function(event){
         event.preventDefault();

@@ -102,18 +102,16 @@ function driveTimeDistance(GIS,map){
 
                                 catchmentPromise.then(function() {
                                     catchment.run(graphicsLayers);
-                                    $(this).closest(".text-right").prev().find('input[type=text].distance-time-distance').prop('disabled', true)
-                                    $(this).closest(".text-right").prev().find('select.select-unit-time-distance').prop('disabled', true)
-                                    $(this).closest(".text-right").prev().prev().find('select.select-driving-distance').prop('disabled', true)
-                                    $(this).prop('disabled', true)
-                                    $('.anly-poi-'+value).removeAttr('disabled')
-                                    $('#error-down-service').hide()
                                 });
-                            }).catch(function(){
-                                $('#error-down-service').show()
                             });
 
                             driveTime.render(map.ObjMapView);
+                            $(this).closest(".text-right").prev().find('input[type=text].distance-time-distance').prop('disabled', true)
+                            $(this).closest(".text-right").prev().find('select.select-unit-time-distance').prop('disabled', true)
+                            $(this).closest(".text-right").prev().prev().find('select.select-driving-distance').prop('disabled', true)
+                            $(this).prop('disabled', true)
+                            $('.anly-poi-'+value).removeAttr('disabled')
+                            $('#error-down-service').hide()
                         }
                     })
                 })

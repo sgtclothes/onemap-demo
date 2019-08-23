@@ -75,7 +75,6 @@ function driveTime(GIS,map){
 
                             let driveTimePromise = new Promise(function(resolve, reject) {
                                 driveTime.run(resolve);
-                                reject();
                             });
 
                             driveTimePromise.then(function() {
@@ -99,18 +98,16 @@ function driveTime(GIS,map){
 
                                 catchmentPromise.then(function() {
                                     catchment.run(graphicsLayers);
-                                    $(this).closest(".text-right").prev().find('input[type=text].distance-time').prop('disabled', true)
-                                    $(this).closest(".text-right").prev().find('select.select-unit-time').prop('disabled', true)
-                                    $(this).closest(".text-right").prev().prev().find('select.select-driving').prop('disabled', true)
-                                    $(this).prop('disabled', true)
-                                    $('.anly-poi-'+value).removeAttr('disabled')
-                                    $('#error-down-service').hide()
-                                })
-                            }).catch(function(){
-                                $('#error-down-service').show()
+                                });
                             });
 
                             driveTime.render(map.ObjMapView);
+                            $(this).closest(".text-right").prev().find('input[type=text].distance-time').prop('disabled', true)
+                            $(this).closest(".text-right").prev().find('select.select-unit-time').prop('disabled', true)
+                            $(this).closest(".text-right").prev().prev().find('select.select-driving').prop('disabled', true)
+                            $(this).prop('disabled', true)
+                            $('.anly-poi-'+value).removeAttr('disabled')
+                            $('#error-down-service').hide()
                         }
                     })
                 })

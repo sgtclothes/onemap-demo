@@ -174,7 +174,7 @@ else {
                         <div class="media-body">
                             <div class="media-title font-weight-semibold"><?php echo "$_SESSION[name]" ?></div>
                             <div class="font-size-xs opacity-50">
-                                <i class="icon-office font-size-sm"></i> &nbsp;<?php echo "$data" ?>
+                                <i class="icon-office font-size-sm"></i> &nbsp;<?php echo "$data"; ?>
                             </div>
                         </div>
 

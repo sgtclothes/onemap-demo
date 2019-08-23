@@ -42,8 +42,7 @@ function bufferRadius(GIS,map){
                             radius.setTitle(title)
                             radius.setUnit(unit);
                             radius.setRadius(distance);
-                            radius.setValue(value);
-                            radius.setOptions(0)
+                            radius.setOptions(value,0,latitude,longitude,unit,distance)
 
                             map.ObjMapView.popup.dockOptions.breakpoint = false
                             map.ObjMapView.popup.dockOptions.position = 'bottom-right'
@@ -105,8 +104,31 @@ function bufferRadius(GIS,map){
                               el.title === title
                             );
                           });
-                        map.ObjMap.removeMany(check)
 
+                        let filteredBuffer = check.filter(function(el) {
+                            return (
+                              el.anly !== undefined
+                            );
+                          });
+
+                        if (
+                            localStorage.getItem('deletedBuffer')
+                            !== null) {
+                            let t = JSON.parse(localStorage.getItem('deletedBuffer'))
+                            for (let i = 0; i < filteredBuffer.length; i++) {
+                                t.push(filteredBuffer[i].title)
+                            }
+                            localStorage.setItem('deletedBuffer', JSON.stringify(t))
+                        }
+                        else {
+                            let t = []
+                            for (let i = 0; i < filteredBuffer.length; i++) {
+                                t.push(filteredBuffer[i].title)
+                            }
+                            localStorage.setItem('deletedBuffer', JSON.stringify(t))
+                        }
+                        map.ObjMap.removeMany(check)
+                        
                         $('#instant-analysis-result-row tr').each(function(){
                             if(
                                 $(this).children()[0].innerText == latitude &&
@@ -134,12 +156,29 @@ function bufferRadius(GIS,map){
 
                                 for (let i = 0; i < buffer.length; i++) {
                                     if (parseInt(buffer[i].options) === 0) {
-                                        let unit = buffer[i].graphics.items[0].geometry.radiusUnit
-                                        let distance = buffer[i].graphics.items[0].geometry.radius
-                                        let latitude = buffer[i].graphics.items[0].geometry.center.latitude
-                                        let longitude = buffer[i].graphics.items[0].geometry.center.longitude
-
                                         let radiusPOI = new GIS.Analysis.BufferPOI(map.ObjMap, map.ObjMapView, layerId, poiName)
+                                        let anly = JSON.parse(buffer[i].anly)
+                                        let unit = anly.unit
+                                        let distance = anly.distance
+                                        let latitude = anly.latitude
+                                        let longitude = anly.longitude
+
+                                        let deletedBuffer = JSON.parse(localStorage.getItem('deletedBuffer'))
+
+                                        if (deletedBuffer === null) {
+                                            run()
+                                        }
+                                        else {
+                                        let findTitle = deletedBuffer.find(function(el){
+                                            return el === buffer[i].title
+                                        })
+            
+                                        if (findTitle === undefined){
+                                            run()
+                                        }
+                                        }
+
+                                        function run(){
                                         let unitnum
                                         if (unit == "kilometers") {
                                             unitnum = 'km'
@@ -194,7 +233,8 @@ function bufferRadius(GIS,map){
                                                     "overflow-x": "hidden"
                                                 })
                                             }
-                                        });   
+                                        });
+                                        }
                                     }
                                     else if (parseInt(buffer[i].options) !== 0){
                                         let drivePOI = new GIS.Analysis.BufferPOI(map.ObjMap, map.ObjMapView, layerId, poiName)
@@ -448,6 +488,9 @@ function bufferRadius(GIS,map){
             })
         })
         $("#closebtn").on('click',function(){
+            if (localStorage.getItem('deletedBuffer') !== null) {
+                localStorage.removeItem('deletedBuffer')
+            }
             $('#error-input-buffer').hide()
             $('#error-input-points').hide()
             $('#error-down-service').hide()
@@ -457,9 +500,10 @@ function bufferRadius(GIS,map){
             var layers = map.ObjMap.layers.items
             let check = layers.filter(function(el) {
                 return (
-                  el.title.includes("Driving")===true ||
+                  el.title !== null &&
+                  (el.title.includes("Driving")===true ||
                   el.title.includes("Buffer")===true ||
-                  el.value>=0
+                  el.value>=0)
                 );
               });
             map.ObjMap.removeMany(check)
@@ -511,13 +555,31 @@ function bufferRadius(GIS,map){
                 for (let s = 0; s < unit.length; s++) {
                     titleRadius.push(value+latitude+longitude+distance[s]+unit[s])
                 }
-
+                let filteredBuffer = []
                 for (let rdst = 0; rdst < titleRadius.length; rdst++) {
                     for (let h = 0; h < graphicslayers.length; h++) {
                         if (graphicslayers[h].title == titleRadius[rdst]) {
+                            filteredBuffer.push(graphicslayers[h])
                             map.ObjMap.remove(graphicslayers[h])
                         }
                     }
+                }
+
+                if (
+                    localStorage.getItem('deletedBuffer')
+                    !== null) {
+                    let t = JSON.parse(localStorage.getItem('deletedBuffer'))
+                    for (let i = 0; i < filteredBuffer.length; i++) {
+                        t.push(filteredBuffer[i].title)
+                    }
+                    localStorage.setItem('deletedBuffer', JSON.stringify(t))
+                }
+                else {
+                    let t = []
+                    for (let i = 0; i < filteredBuffer.length; i++) {
+                        t.push(filteredBuffer[i].title)
+                    }
+                    localStorage.setItem('deletedBuffer', JSON.stringify(t))
                 }
 
                 //driveTime
@@ -591,14 +653,14 @@ function bufferRadius(GIS,map){
                 }
 
                 // delete analysis poi and results table
-                let point = latitude.toString() + longitude.toString();
-                for (let x = 0; x < graphicslayers.length; x++) {
-                    if (
-                        graphicslayers[x].title.includes(point)===true
-                    ) {
-                        map.ObjMap.remove(graphicslayers[x])
-                    }
-                }
+                let point = latitude.toString()+longitude.toString();
+                let check = graphicslayers.filter(function(el) {
+                    return (
+                      el.title !== null &&
+                      el.title.includes(point)===true
+                    );
+                  });
+                map.ObjMap.removeMany(check)
 
                 $('#instant-analysis-result-row tr').each(function(){
                     if(
