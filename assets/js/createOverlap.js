@@ -29,7 +29,7 @@ function createOverlap(GIS, map) {
           results.features[i].geometry.latitude,
           results.features[i].geometry.longitude
         );
-        radius.setRadius(0.1);
+        radius.setRadius(radiusValue);
         radius.setUnit("kilometers");
         radius.create();
       }

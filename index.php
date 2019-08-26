@@ -1225,9 +1225,7 @@ if (!isset($_SESSION['auth'])) {
             </table>
             <table id="table-popup-colliers">
                 <tr>
-                    <td style="width:200px; height:240px;">
-                        <img class="image-property" src="assets/images/no-photo.png" style="vertical-align:bottom" width="100%" height="100%" />
-                    </td>
+                    <td class="image-property" style="width:200px; height:240px;"></td>
                     <td>
                         <table class="font-popup" style="height:100%">
                             <tr class="title-popup">
@@ -1291,107 +1289,107 @@ if (!isset($_SESSION['auth'])) {
                             </tr>
                             <tr class="tr-second">
                                 <td class="center-popup">IDR</td>
-                                <td style="text-align:right;" id="landTotal"></td>
-                                <td id="landSizeSqm"></td>
-                                <td></td>
-                                <td></td>
-                                <td id="landPricePerSqm"></td>
-                                <td></td>
-                                <td></td>
-                                <td id="priceTotal"></td>
-                                <td id="pricePerSqm"></td>
-                                <td id="NJOPPercent"></td>
+                                <td class="text-align-right" id="landTotal"></td>
+                                <td class="text-align-right" id="landSizeSqm"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right" id="landPricePerSqm"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right" id="priceTotal"></td>
+                                <td class="text-align-right" id="pricePerSqm"></td>
+                                <td class="text-align-right" id="NJOPPercent"></td>
                             </tr>
                             <tr class="tr-first">
                                 <td class="center-popup">USD</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
                             </tr>
                             <tr class="tr-second">
                                 <td style="font-weight:bold;">Building</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
                             </tr>
                             <tr class="tr-first">
                                 <td class="center-popup">IDR</td>
-                                <td id="buildingTotal"></td>
-                                <td id="buildingSizeSqm"></td>
-                                <td></td>
-                                <td></td>
-                                <td id="buildingPricePerSqm"></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-align-right" id="buildingTotal"></td>
+                                <td class="text-align-right" id="buildingSizeSqm"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right" id="buildingPricePerSqm"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
                             </tr>
                             <tr class="tr-second">
                                 <td class="center-popup">USD</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
                             </tr>
                             <tr class="tr-first">
                                 <td style="font-weight:bold;">Total</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
                             </tr>
                             <tr class="tr-second">
                                 <td class="center-popup">IDR</td>
-                                <td id="totalTotal"></td>
-                                <td id="totalSizeSqm"></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-align-right" id="totalTotal"></td>
+                                <td class="text-align-right" id="totalSizeSqm"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
                             </tr>
                             <tr class="tr-first">
                                 <td class="center-popup">USD</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
+                                <td class="text-align-right"></td>
                             </tr>
                             <tr>
                                 <td style="height:24px;" colspan="9"></td>

@@ -220,6 +220,7 @@ function submitFilterServices(convertData, map, convertCSV) {
     query.where = queryWhere;
 
     $("#loading-bar").show();
+    $(".popupFilter").hide();
 
     colliersProperty.queryFeatures(query).then(function(results) {
       if (results.features.length < 1) {
