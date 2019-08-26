@@ -300,6 +300,8 @@ include 'content/template/my_profile.php';
 ?>
 <!-- /page-content-->
 <script src="assets/js/plugins/my_profile/myProfileLib.js"></script>
+<script src="content/template/changePassword.js"></script>
+<script src="assets/js/plugins/md5.min.js"></script>
 </body>
 </html>
 <?php

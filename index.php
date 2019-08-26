@@ -1551,6 +1551,8 @@ if (!isset($_SESSION['auth'])) {
     <script src="content/analysis/editAnalysis.js"></script>
     <script src="assets/js/plugins/tables/paginationLib.js"></script>
     <script src="assets/js/plugins/my_profile/myProfileLib.js"></script>
+    <script src="content/template/changePassword.js"></script>
+    <script src="assets/js/plugins/md5.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#datatable-sorting').dataTable({
