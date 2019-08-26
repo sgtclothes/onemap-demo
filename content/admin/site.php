@@ -66,7 +66,15 @@
                                 <td><?php echo "$data[name]"; ?></td>
                                 <td><?php echo "$data[address]"; ?></td>
                                 <td><?php echo "$data[user]"; ?></td>
-                                <td><button type=submit name=del class='btn bg-teal-400 btn-icon rounded-round' onclick="return confirm('Are you sure to delete this data?');"><i class=icon-cancel-circle2></i></button></td>
+                                <td>
+                                <?php 
+                                if ($_SESSION['role']=='System Administrator') {
+                                ?>
+                                    <button type=submit name=del class='btn bg-teal-400 btn-icon rounded-round' onclick="return confirm('Are you sure to delete this data?');"><i class=icon-cancel-circle2></i></button>
+                                <?php
+                                }
+                                ?>
+                                </td>
                                 </form>
                             </tr>
                             <?php

@@ -100,7 +100,7 @@ function boot(GIS) {
       pointTheSiteEnabled = true;
       document
         .getElementById("mapDiv")
-        .setAttribute("style", "cursor:pointer;");
+        .setAttribute("style", "cursor:crosshair;");
 
       document
         .getElementById("create-site-div")
@@ -121,7 +121,7 @@ function boot(GIS) {
       pointTheSiteEnabled = !pointTheSiteEnabled;
       document
         .getElementById("mapDiv")
-        .setAttribute("style", "cursor:pointer;");
+        .setAttribute("style", "cursor:crosshair;");
       let latitude = map.ObjMapView.toMap({
         x: event.x,
         y: event.y
@@ -157,7 +157,7 @@ function boot(GIS) {
   $(document).ready(function() {
     $("#pointing-btn").click(function() {
       pointEnabled = true;
-      $("#mapDiv").attr("style", "cursor:pointer;");
+      $("#mapDiv").attr("style", "cursor:crosshair;");
       map.ObjMapView.on("click", function(event) {
         if (pointEnabled) {
           pointEnabled = !pointEnabled;
@@ -178,7 +178,9 @@ function boot(GIS) {
           );
           pointing.setPictureMarker();
           pointing.render();
-          $("#error-input-points").hide();
+          $('#error-input-points').hide()
+          $('#error-down-service').hide()
+
           $.addRows();
           $.each(window.counterArr, function(index, value) {
             if ($(".latitude-form-" + value).val() === "") {
@@ -196,7 +198,8 @@ function boot(GIS) {
                 ".selectbuffer-" + value,
                 "click",
                 function() {
-                  $("#error-input-buffer").hide();
+                  $('#error-input-buffer').hide()
+                  $('#error-down-service').hide()
                   $.get(
                     "content/template/instant_analysis/buffer.php",
                     function(data) {
@@ -209,7 +212,8 @@ function boot(GIS) {
                 ".selectdrive-" + value,
                 "click",
                 function() {
-                  $("#error-input-buffer").hide();
+                  $('#error-input-buffer').hide()
+                  $('#error-down-service').hide()
                   $.get(
                     "content/template/instant_analysis/driving.php",
                     function(data) {
@@ -222,7 +226,8 @@ function boot(GIS) {
                 ".selectdrive-distance-" + value,
                 "click",
                 function() {
-                  $("#error-input-buffer").hide();
+                  $('#error-input-buffer').hide()
+                  $('#error-down-service').hide()
                   $.get(
                     "content/template/instant_analysis/driving_distance.php",
                     function(data) {
@@ -475,7 +480,9 @@ function boot(GIS) {
         let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
         pointing.setPointingPopupMarker();
         pointing.render();
-        $("#error-input-points").hide();
+        $('#error-input-points').hide()
+        $('#error-down-service').hide()
+
         $.addRows();
         $.each(window.counterArr, function(index, value) {
           if ($(".latitude-form-" + value).val() === "") {
@@ -487,7 +494,8 @@ function boot(GIS) {
               ".selectbuffer-" + value,
               "click",
               function() {
-                $("#error-input-buffer").hide();
+                $('#error-input-buffer').hide()
+                $('#error-down-service').hide()
                 $.get("content/template/instant_analysis/buffer.php", function(
                   data
                 ) {
@@ -499,7 +507,8 @@ function boot(GIS) {
               ".selectdrive-" + value,
               "click",
               function() {
-                $("#error-input-buffer").hide();
+                $('#error-input-buffer').hide()
+                $('#error-down-service').hide()
                 $.get("content/template/instant_analysis/driving.php", function(
                   data
                 ) {
@@ -511,8 +520,9 @@ function boot(GIS) {
               ".selectdrive-distance-" + value,
               "click",
               function() {
-                $("#error-input-buffer").hide();
-                $.get(
+                  $('#error-input-buffer').hide()
+                  $('#error-down-service').hide()
+              $.get(
                   "content/template/instant_analysis/driving_distance.php",
                   function(data) {
                     $(".form-drive-distance-" + value).append(data);
@@ -929,6 +939,7 @@ function boot(GIS) {
       function randomNumber(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
       }
+      //console.log(response.results);
       localStorage.setItem(
         "selectedFeatureFilterLatitude",
         JSON.stringify(response.results[0].graphic.geometry.latitude)
@@ -1148,8 +1159,9 @@ function boot(GIS) {
     pointing.setPointingPopupMarker();
     pointing.render();
 
-    $("#error-input-points").hide();
-    $(".popupFilter").hide();
+    $('#error-input-points').hide()
+    $('#error-down-service').hide()
+    $('.popupFilter').hide()
     $.addRows();
     $.each(window.counterArr, function(index, value) {
       if ($(".latitude-form-" + value).val() === "") {
@@ -1158,13 +1170,15 @@ function boot(GIS) {
         $(".latitude-form-" + value).attr("title", "Latitude " + lat);
         $(".longitude-form-" + value).attr("title", "Longitude " + lon);
         $("#form-list").delegate(".selectbuffer-" + value, "click", function() {
-          $("#error-input-buffer").hide();
+          $('#error-input-buffer').hide()
+          $('#error-down-service').hide()
           $.get("content/template/instant_analysis/buffer.php", function(data) {
             $(".form-buffer-" + value).append(data);
           });
         });
         $("#form-list").delegate(".selectdrive-" + value, "click", function() {
-          $("#error-input-buffer").hide();
+          $('#error-input-buffer').hide()
+          $('#error-down-service').hide()
           $.get("content/template/instant_analysis/driving.php", function(
             data
           ) {
@@ -1175,7 +1189,8 @@ function boot(GIS) {
           ".selectdrive-distance-" + value,
           "click",
           function() {
-            $("#error-input-buffer").hide();
+            $('#error-input-buffer').hide()
+            $('#error-down-service').hide()
             $.get(
               "content/template/instant_analysis/driving_distance.php",
               function(data) {

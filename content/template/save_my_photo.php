@@ -1,23 +1,16 @@
 <?php
-header('Content-Type: image/jpeg');
-
 include '../../config/conn.php';
 $name= $_FILES['file']['name'];
-
-// Load
-$thumb = imagecreatetruecolor($_POST['newWidth'], $_POST['newHeight']);
-$source = imagecreatefromjpeg($name);
-
-// Resize
-imagecopyresized($thumb, $source, 0, 0, 0, 0, $_POST['newWidth'], $_POST['newHeight'], $_POST['originalWidth'], $_POST['originalHeight']);
-
-$id = $_POST['user_photo'];
-$targetPath = "../../assets/images/profile/Photo_Profile_".$id."_".basename($name);
-$name_file = "Photo_Profile_".$id."_".basename($name);
-print_r($_FILES['file']['size']);
-if($name_file){
-    move_uploaded_file($_FILES['file']['tmp_name'],$targetPath);
+$id = $_POST['user_id'];
+if (!file_exists('../../assets/images/profile/user_id_'.$id)) {
+    mkdir('../../assets/images/profile/user_id_'.$id, 0777, true);
 }
-
-$query="UPDATE users SET photo='$name_file' WHERE id='$id'";
+$data = $_POST["base64_image"];
+$image_array_1 = explode(";", $data);
+$image_array_2 = explode(",", $image_array_1[1]);
+$nowImage = base64_decode($image_array_2[1]);
+$targetPath = "../../assets/images/profile/user_id_".$id."/".$name;
+move_uploaded_file($_FILES['file']['tmp_name'],$targetPath);
+file_put_contents($targetPath,$nowImage);
+$query="UPDATE users SET photo='user_id_$id/$name' WHERE id='$id'";
 $upload=mysqli_query($conn,$query);

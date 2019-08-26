@@ -693,37 +693,43 @@ $(function() {
                 console.log('Error type: ' + type);
             }
         });
-
-    $('#uploadBtn').on('click', function() {
+        
+    $("#uploadImage").submit(function(event){
+        event.preventDefault();
         var formData,
             data = p.getData();
 
         formData = new FormData();
         formData.append('file', data.file);
-        formData.append('cropHeight', data.cropHeight);
-        formData.append('cropWidth', data.cropWidth);
-        formData.append('x', data.x);
-        formData.append('y', data.y);
-        formData.append('newWidth', data.width);
-        formData.append('newHeight', data.height);
-        formData.append('zoom', data.zoom);
-        formData.append('originalWidth', data.originalWidth);
-        formData.append('originalHeight', data.originalHeight);
+        formData.append('base64_image', p.getAsDataURL())
 
-        $("#uploadImage").submit(function(event){
-            event.preventDefault();
-            let user_photo = $('.user_photo').val()
-            formData.append('user_photo',user_photo)
-            $.ajax({
-                url: "content/template/save_my_photo.php",
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData:false,   
-                success: function () {
-                    p.removeImage();
-                }
-            });
-        })
-    }); 
+        let user_id = $('.user_id').val()
+        formData.append('user_id',user_id)
+        $.ajax({
+            url: "content/template/save_my_photo.php",
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData:false,   
+            success: function () {
+                $('.user_photo').attr('src',p.getAsDataURL());
+                p.removeImage();
+                $('.delete-photo').show()
+            }
+        });
+    })
+    
+    $('#deletePhoto').submit(function(event){
+        event.preventDefault();
+        let user_id = $('.user_id').val()
+        $.ajax({
+            url: "content/template/remove_my_photo.php",
+            type: 'POST',
+            data: {user_id:user_id}, 
+            success: function () {
+                $('.delete-photo').hide()
+                $('.user_photo').attr('src','assets/images/profile/icons-profile.png');
+            }
+        });
+    })
 });

@@ -78,6 +78,7 @@ function driveTimeDistance(GIS,map){
 
                             let driveTimePromise = new Promise(function(resolve, reject) {
                                 driveTime.run(resolve);
+                                reject();
                             });
 
                             driveTimePromise.then(function() {
@@ -110,6 +111,7 @@ function driveTimeDistance(GIS,map){
                             $(this).closest(".text-right").prev().prev().find('select.select-driving-distance').prop('disabled', true)
                             $(this).prop('disabled', true)
                             $('.anly-poi-'+value).removeAttr('disabled')
+                            $('#error-down-service').hide()
                         }
                     })
                 })

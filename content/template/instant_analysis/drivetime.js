@@ -107,6 +107,7 @@ function driveTime(GIS,map){
                             $(this).closest(".text-right").prev().prev().find('select.select-driving').prop('disabled', true)
                             $(this).prop('disabled', true)
                             $('.anly-poi-'+value).removeAttr('disabled')
+                            $('#error-down-service').hide()
                         }
                     })
                 })
