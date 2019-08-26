@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Intro to MapView - Create a 2D map - 4.12</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.12/esri/themes/light/main.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://js.arcgis.com/4.12/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "dojo/dom",
+        "dojo/on",
+        "dojo/query",
+        "esri/widgets/Search",
+        "dojo/domReady!"
+      ], function(Map, MapView, dom, on, query, Search) {
+        var map = new Map({
+          basemap: "streets"
+        });
+
+        var view = new MapView({
+          container: "viewDiv",
+          map: map,
+          zoom: 4,
+          center: [15, 65] // longitude, latitude
+        });
+
+        var searchWidget = new Search({
+          view: view
+        });
+
+        view.ui.add(searchWidget, {
+          position: "top-right",
+          index: 2
+        });
+        view.ui.add(document.getElementsByClassName("pointing")[0], {
+          position: "top-right",
+          index: 2
+        });
+
+        // on(dom.byId("execute"), "click", execute);
+        $(document).delegate(
+          ".esri-search__submit-button",
+          "click",
+          function() {
+            console.log("OK");
+            execute();
+          }
+        );
+
+        let buttonActive = false;
+
+        $(document).delegate("#pointing", "click", function() {
+          buttonActive = !buttonActive;
+          if (buttonActive == true) {
+            $(".pointing").text("Click Anywhere");
+            $("#viewDiv").css("cursor", "pointer");
+          }
+        });
+
+        view.on("click", function() {
+          if (buttonActive == true) {
+            buttonActive = false;
+            $("#viewDiv").css("cursor", "default");
+            $(".pointing").text("Pointing");
+          }
+        });
+
+        function execute() {
+          searchWidget.on("search-complete", function(result) {
+            if (
+              result.results &&
+              result.results.length > 0 &&
+              result.results[0].results &&
+              result.results[0].results.length > 0
+            ) {
+              var geom = result.results[0].results[0].feature.geometry;
+              console.log(
+                "Latitude : " +
+                  geom.latitude +
+                  ", Longitude : " +
+                  geom.longitude
+              );
+            } else {
+              console.log("No Results found");
+            }
+          });
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+    <button class="pointing" id="pointing">Pointing</button>
+  </body>
+</html>

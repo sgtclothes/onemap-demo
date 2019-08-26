@@ -440,15 +440,6 @@ td {
   border: 1px solid white;
 }
 
-/* table analysis global style */
-table .table,
-tr,
-th,
-td {
-  border: black;
-}
-/* table analysis global style */
-
 td.property-item {
   width: 80px;
   height: 26px;
@@ -799,7 +790,7 @@ table.dataTable {
   cursor: pointer;
 }
 
-.pagination-lib li:hover{
+.pagination-lib li:hover {
   cursor: pointer;
 }
 
@@ -820,4 +811,8 @@ table.dataTable {
 .table-sub-property {
   font-family: "Open Sans", sans-serif;
   font-size: 11px;
+}
+
+.text-align-right {
+  text-align: right;
 }

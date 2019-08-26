@@ -95,8 +95,6 @@ function viewTableServices(map) {
       query.outSpatialReference = map.ObjMap.spatialReference;
       query.where = "1=1";
 
-      console.log(map.ObjMap.spatialReference)
-
       featureLayer.queryFeatures(query).then(function(results) {
         displayResults(results);
       });
@@ -113,7 +111,7 @@ function viewTableServices(map) {
           let a = document.createElement("A");
           a.setAttribute("name", "layer-point");
           a.setAttribute("x", x);
-          a.setAttribute("y", y);
+          a.setAttribute("y", y);ss
           a.setAttribute("latitude", latitude);
           a.setAttribute("longitude", longitude);
 

@@ -1,4 +1,7 @@
 function boot(GIS) {
+  //Set highlight pointing to disable as started state
+  localStorage.setItem("pointingHighlight", null);
+
   let config = new GIS.Config(); //Define Config class
   let map = new GIS.Map(config.CenterPoint); //Define Map class
   map.setBasemap(config.Basemap); //Set basemap to Topo Vector
@@ -173,7 +176,7 @@ function boot(GIS) {
             latitude,
             longitude
           );
-          pointing.setPictureMarker()
+          pointing.setPictureMarker();
           pointing.render();
           $('#error-input-points').hide()
           $('#error-down-service').hide()
@@ -474,12 +477,8 @@ function boot(GIS) {
         let lat = attr.geometry.latitude;
         let lon = attr.geometry.longitude;
 
-        let pointing = new GIS.Buffer.Pointing(
-          map.ObjMapView,
-          lat,
-          lon
-        );
-        pointing.setPointingPopupMarker()
+        let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
+        pointing.setPointingPopupMarker();
         pointing.render();
         $('#error-input-points').hide()
         $('#error-down-service').hide()
@@ -526,11 +525,11 @@ function boot(GIS) {
               $.get(
                   "content/template/instant_analysis/driving_distance.php",
                   function(data) {
-                  $(".form-drive-distance-" + value).append(data);
+                    $(".form-drive-distance-" + value).append(data);
                   }
-              );
+                );
               }
-          );
+            );
           }
         });
       }
@@ -907,10 +906,10 @@ function boot(GIS) {
   function checkForChanges() {
     if ($element.css("width") != lastHeight) {
       lastHeight = $element.css("width");
-      if (lastHeight < "700px" && lastHeight > "600px") {
+      if (lastHeight < "800px" && lastHeight > "600px") {
         $("#table-popup-colliers").css("display", "block");
         $(".font-popup").css("font-size", "8px");
-      } else if (lastHeight >= "700px") {
+      } else if (lastHeight >= "800px") {
         $("#table-popup-colliers").css("display", "block");
         $(".font-popup").css("font-size", "11px");
       } else if (lastHeight < "600px") {
@@ -934,14 +933,9 @@ function boot(GIS) {
   });
 
   function getGraphics(response) {
-    // the topmost graphic from the click location
-    // and display select attribute values from the
-    // graphic to the user
-    if (map.ObjMapView.updating == true) {
-      console.log(map.ObjMapView.zoom);
-      console.log(map.ObjMap);
-    }
     if (response.results.length > 0) {
+      //Make temporary data dummy for popup
+      console.log(response.results);
       function randomNumber(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
       }
@@ -976,7 +970,8 @@ function boot(GIS) {
       }
       if (attr.includes("propertytype")) {
         $(".popupFilter").show();
-        $(".image-property").attr("src", imageUrl);
+        $(".image-property").css("background-image", "url(" + imageUrl + ")");
+        $(".image-property").css("background-size", "100% 100%");
         $("#propertytype-popup").text(
           "PROPERTY TYPE : " + propertytype.toUpperCase()
         );
@@ -1020,8 +1015,49 @@ function boot(GIS) {
         });
       }
 
-      var graphic = response.results[0].graphic;
-      var attributes = graphic.attributes;
+      //Highlight pointing
+      let lat = response.results[0].graphic.geometry.latitude;
+      let lon = response.results[0].graphic.geometry.longitude;
+      let posLat = lat + 0.04;
+      let posLon = lon;
+      console.log(lat);
+      console.log(lon);
+      for (let i = 0; i <= map.ObjMapView.graphics.items.length - 1; i++) {
+        if (map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
+          if (
+            map.ObjMapView.graphics.items[i].attributes.id ==
+            localStorage.getItem("pointingHighlight")
+          ) {
+            map.ObjMapView.graphics.items[i].visible = false;
+            map.ObjMapView.graphics.items.splice(i, 1);
+          }
+        }
+      }
+      localStorage.setItem(
+        "pointingHighlight",
+        lat.toString() + lon.toString()
+      );
+      let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
+      pointing.setPointingPopupMarker();
+      if (attr.includes("propertytype")) {
+        pointing.positionFixing(posLat, posLon);
+      }
+      pointing.render();
+      //End of Highlight pointing
+    } else {
+      $(".popupFilter").hide();
+      for (let i = 0; i <= map.ObjMapView.graphics.items.length - 1; i++) {
+        if (map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
+          if (
+            map.ObjMapView.graphics.items[i].attributes.id ==
+            localStorage.getItem("pointingHighlight")
+          ) {
+            map.ObjMapView.graphics.items[i].visible = false;
+            map.ObjMapView.graphics.items.splice(i, 1);
+          }
+        }
+      }
+      localStorage.setItem("pointingHighlight", null);
     }
   }
 
@@ -1086,6 +1122,17 @@ function boot(GIS) {
 
   $("#close-popup-property").click(function() {
     $(".popupFilter").hide();
+    for (let i = 0; i <= map.ObjMapView.graphics.items.length - 1; i++) {
+      if (map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
+        if (
+          map.ObjMapView.graphics.items[i].attributes.id ==
+          localStorage.getItem("pointingHighlight")
+        ) {
+          map.ObjMapView.graphics.items[i].visible = false;
+          map.ObjMapView.graphics.items.splice(i, 1);
+        }
+      }
+    }
   });
 
   $("#pointer-popup").click(function() {
@@ -1108,12 +1155,8 @@ function boot(GIS) {
       localStorage.getItem("selectedFeatureFilterLongitude")
     );
 
-    let pointing = new GIS.Buffer.Pointing(
-      map.ObjMapView,
-      lat,
-      lon
-    );
-    pointing.setPointingPopupMarker()
+    let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
+    pointing.setPointingPopupMarker();
     pointing.render();
 
     $('#error-input-points').hide()
