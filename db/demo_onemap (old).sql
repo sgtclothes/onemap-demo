@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2019 at 05:44 AM
+-- Generation Time: Aug 19, 2019 at 02:11 PM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
 
@@ -199,6 +199,7 @@ CREATE TABLE `users` (
   `name` varchar(45) CHARACTER SET latin1 NOT NULL,
   `role` enum('System Administrator','Admin','User') CHARACTER SET latin1 NOT NULL,
   `password` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `photo` text NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -208,14 +209,14 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `name`, `role`, `password`, `active`, `created_at`, `updated_at`) VALUES
-(1, 'system.administrator@locatorlogic.com', 'System Administrator', 'System Administrator', '1b3231655cebb7a1f783eddf27d254ca', 1, NULL, NULL),
-(2, 'rizal.hermawan@locatorlogic.com', 'Rizal Hermawan', 'Admin', '150fb021c56c33f82eef99253eb36ee1', 1, NULL, NULL),
-(3, 'sigit.sasongko@locatorlogic.com', 'Sigit Sasongko', 'Admin', '223a0fa8f15933d622b3c7a13f186027', 1, NULL, NULL),
-(4, 'adit@gmail.com', 'Aditya', 'User', '3bd862c0aa8fbe46cc60b2343e8d757f', 1, NULL, '2019-07-24 02:45:46'),
-(5, 'rizalhrm24@gmail.com', 'Hermawan', 'User', '0a5c2657a27501b02b270ca999b0d412', 1, NULL, NULL),
-(6, 'sesillia.pongoh@locatorlogic.com', 'Sesillia Pongoh', 'User', '827ccb0eea8a706c4c34a16891f84e7b', 1, '2019-07-29 09:17:18', NULL),
-(7, 'mike.broomell@locatorlogic.com', 'Mike Broomell', 'User', '827ccb0eea8a706c4c34a16891f84e7b', 1, '2019-08-12 10:41:49', NULL);
+INSERT INTO `users` (`id`, `email`, `name`, `role`, `password`, `photo`, `active`, `created_at`, `updated_at`) VALUES
+(1, 'system.administrator@locatorlogic.com', 'System Administrator', 'System Administrator', '1b3231655cebb7a1f783eddf27d254ca', '', 1, NULL, NULL),
+(2, 'rizal.hermawan@locatorlogic.com', 'Rizal Hermawan', 'Admin', '150fb021c56c33f82eef99253eb36ee1', 'Photo_Profile_2_logo-user-png-6.jpg', 1, NULL, NULL),
+(3, 'sigit.sasongko@locatorlogic.com', 'Sigit Sasongko', 'Admin', '223a0fa8f15933d622b3c7a13f186027', '', 1, NULL, NULL),
+(4, 'adit@gmail.com', 'Aditya', 'User', '3bd862c0aa8fbe46cc60b2343e8d757f', '', 1, NULL, '2019-07-24 02:45:46'),
+(5, 'rizalhrm24@gmail.com', 'Hermawan', 'User', '0a5c2657a27501b02b270ca999b0d412', '', 1, NULL, NULL),
+(6, 'sesillia.pongoh@locatorlogic.com', 'Sesillia Pongoh', 'User', '827ccb0eea8a706c4c34a16891f84e7b', '', 1, '2019-07-29 09:17:18', NULL),
+(7, 'mike.broomell@locatorlogic.com', 'Mike Broomell', 'User', '827ccb0eea8a706c4c34a16891f84e7b', '', 1, '2019-08-12 10:41:49', NULL);
 
 -- --------------------------------------------------------
 
