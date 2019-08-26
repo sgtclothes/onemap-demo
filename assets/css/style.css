@@ -816,3 +816,12 @@ table.dataTable {
 .text-align-right {
   text-align: right;
 }
+
+/* table analysis global style, created by rizal*/
+table .table,
+tr,
+th,
+td {
+  border: black;
+}
+/* table analysis global style */
