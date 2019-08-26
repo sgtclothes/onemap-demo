@@ -60,7 +60,13 @@ else {
                                 </td>
 								<td><?php echo "$depart[department]"; ?></td>
                                 <td><button type=submit name=edit class='btn bg-teal-400 btn-icon rounded-round'><i class=icon-pen2></i></button>
+                                <?php 
+                                if ($_SESSION['role']=='System Administrator') {
+                                ?>
                                 <button type=submit name=del class='btn bg-teal-400 btn-icon rounded-round' onclick="return confirm('Are you sure to delete this data?');"><i class=icon-cancel-circle2></i></button>
+                                <?php
+                                }
+                                ?>
                                 </td>
                                 </form>
                             </tr>

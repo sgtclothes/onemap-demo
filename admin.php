@@ -42,7 +42,10 @@ else {
     <!-- /global stylesheets -->
 
     <!-- core js files -->
-    <script src="assets/js/main/jquery.min.js"></script>
+    <!-- <script src="assets/js/main/jquery.min.js"></script> -->
+    <link rel="stylesheet" href="assets/css/jquery/jquery-ui-1.12.1.css">
+    <script src="assets/js/jquery-1.12.4.js"></script>
+    <script src="assets/js/jquery-1.12.1.js"></script>
     <script src="assets/js/main/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/loaders/blockui.min.js"></script>
     <script src="assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
@@ -119,7 +122,20 @@ else {
             <!-- user menu item navbar -->
             <li class="nav-item dropdown dropdown-user">
                 <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
-                    <span><?php echo "$_SESSION[name]" ?></span>
+                <?php
+                $sqlphoto = "SELECT photo FROM users WHERE id=".$_SESSION['auth']['id'];
+                $queryphoto = mysqli_query($conn,$sqlphoto);
+                $photo = mysqli_fetch_array($queryphoto);
+                if ($photo['photo'] === '') {
+                    $name_user_photo = "icons-profile.png";
+                    $src = "assets/images/profile/$name_user_photo";
+                }
+                else {
+                    $name_user_photo = $photo['photo'];
+                    $src = "assets/images/profile/$name_user_photo";
+                }
+                ?>
+                <img class="user_photo" src="<?php echo $src; ?>" alt="My Photo" width="25px" style="border-radius: 50%;">&nbsp;<span><?php echo "$_SESSION[name]"; ?></span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">
