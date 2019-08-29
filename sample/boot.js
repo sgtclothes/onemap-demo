@@ -477,61 +477,63 @@ function boot(GIS) {
         let lat = attr.geometry.latitude;
         let lon = attr.geometry.longitude;
 
-        let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
-        pointing.setPointingPopupMarker();
-        pointing.render();
-        $('#error-input-points').hide()
-        $('#error-down-service').hide()
+        if (attr.attributes.hasOwnProperty("id")===false) {
+          let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
+          pointing.setPointingPopupMarker();
+          pointing.render();
+          $('#error-input-points').hide()
+          $('#error-down-service').hide()
 
-        $.addRows();
-        $.each(window.counterArr, function(index, value) {
-          if ($(".latitude-form-" + value).val() === "") {
-            $(".latitude-form-" + value).val(lat);
-            $(".longitude-form-" + value).val(lon);
-            $(".latitude-form-" + value).attr("title", "Latitude " + lat);
-            $(".longitude-form-" + value).attr("title", "Longitude " + lon);
-            $("#form-list").delegate(
-              ".selectbuffer-" + value,
-              "click",
-              function() {
-                $('#error-input-buffer').hide()
-                $('#error-down-service').hide()
-                $.get("content/template/instant_analysis/buffer.php", function(
-                  data
-                ) {
-                  $(".form-buffer-" + value).append(data);
-                });
-              }
-            );
-            $("#form-list").delegate(
-              ".selectdrive-" + value,
-              "click",
-              function() {
-                $('#error-input-buffer').hide()
-                $('#error-down-service').hide()
-                $.get("content/template/instant_analysis/driving.php", function(
-                  data
-                ) {
-                  $(".form-drive-" + value).append(data);
-                });
-              }
-            );
-            $("#form-list").delegate(
-              ".selectdrive-distance-" + value,
-              "click",
-              function() {
+          $.addRows();
+          $.each(window.counterArr, function(index, value) {
+            if ($(".latitude-form-" + value).val() === "") {
+              $(".latitude-form-" + value).val(lat);
+              $(".longitude-form-" + value).val(lon);
+              $(".latitude-form-" + value).attr("title", "Latitude " + lat);
+              $(".longitude-form-" + value).attr("title", "Longitude " + lon);
+              $("#form-list").delegate(
+                ".selectbuffer-" + value,
+                "click",
+                function() {
                   $('#error-input-buffer').hide()
                   $('#error-down-service').hide()
-              $.get(
-                  "content/template/instant_analysis/driving_distance.php",
-                  function(data) {
-                    $(".form-drive-distance-" + value).append(data);
-                  }
-                );
-              }
-            );
-          }
-        });
+                  $.get("content/template/instant_analysis/buffer.php", function(
+                    data
+                  ) {
+                    $(".form-buffer-" + value).append(data);
+                  });
+                }
+              );
+              $("#form-list").delegate(
+                ".selectdrive-" + value,
+                "click",
+                function() {
+                  $('#error-input-buffer').hide()
+                  $('#error-down-service').hide()
+                  $.get("content/template/instant_analysis/driving.php", function(
+                    data
+                  ) {
+                    $(".form-drive-" + value).append(data);
+                  });
+                }
+              );
+              $("#form-list").delegate(
+                ".selectdrive-distance-" + value,
+                "click",
+                function() {
+                    $('#error-input-buffer').hide()
+                    $('#error-down-service').hide()
+                $.get(
+                    "content/template/instant_analysis/driving_distance.php",
+                    function(data) {
+                      $(".form-drive-distance-" + value).append(data);
+                    }
+                  );
+                }
+              );
+            }
+          }); 
+        }
       }
     }
   });
@@ -935,7 +937,6 @@ function boot(GIS) {
   function getGraphics(response) {
     if (response.results.length > 0) {
       //Make temporary data dummy for popup
-      console.log(response.results);
       function randomNumber(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
       }
@@ -1020,10 +1021,9 @@ function boot(GIS) {
       let lon = response.results[0].graphic.geometry.longitude;
       let posLat = lat + 0.04;
       let posLon = lon;
-      console.log(lat);
-      console.log(lon);
       for (let i = 0; i <= map.ObjMapView.graphics.items.length - 1; i++) {
-        if (map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
+        if (
+          map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
           if (
             map.ObjMapView.graphics.items[i].attributes.id ==
             localStorage.getItem("pointingHighlight")
@@ -1033,16 +1033,30 @@ function boot(GIS) {
           }
         }
       }
-      localStorage.setItem(
-        "pointingHighlight",
-        lat.toString() + lon.toString()
-      );
-      let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
-      pointing.setPointingPopupMarker();
-      if (attr.includes("propertytype")) {
-        pointing.positionFixing(posLat, posLon);
+      if (response.results[0].graphic.symbol === null) {
+        localStorage.setItem(
+          "pointingHighlight",
+          lat.toString() + lon.toString()
+        );
+        let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
+        pointing.setPointingPopupMarker();
+        if (attr.includes("propertytype")) {
+          pointing.positionFixing(posLat, posLon);
+        }
+        pointing.render();
       }
-      pointing.render();
+      else if (response.results[0].graphic.symbol.url !== "assets/images/icons/map-marker.png") {
+        localStorage.setItem(
+          "pointingHighlight",
+          lat.toString() + lon.toString()
+        );
+        let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
+        pointing.setPointingPopupMarker();
+        if (attr.includes("propertytype")) {
+          pointing.positionFixing(posLat, posLon);
+        }
+        pointing.render();
+      }
       //End of Highlight pointing
     } else {
       $(".popupFilter").hide();

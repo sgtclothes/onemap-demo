@@ -76,7 +76,7 @@ $data_department = implode(',',$result_array);
                                     <input type="hidden" class="user_id" name="user_id" value="<?php echo $_SESSION['auth']['id']; ?>">
                                     <div class="photo__helper">
                                         <div class="photo__frame photo__frame--circle">
-                                            <canvas class="photo__canvas" title="Drag Photo"></canvas>
+                                            <canvas class="photo__canvas" title="Drag/Swipe Photo"></canvas>
                                             <div class="message is-empty">
                                                 <p class="message--desktop">Drop your photo here or browse your computer.</p>
                                                 <p class="message--mobile">Tap here to select your picture.</p>
