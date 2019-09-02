@@ -25,11 +25,32 @@ if (isset($_POST['login'])) {
 			}
 		}
 		$_SESSION['departments'] = $result_array;
+		if (isset($_POST['remember-me'])) {
+			setcookie('cd_onmp', $userData['id'], time()+43200);
+			setcookie('ml_onmp', hash('sha256', $email), time()+43200);
+			setcookie('psss_onmp', $password, time()+43200);
+		}
 		header('location:index.php');
+		exit;
 	}
 	else {
 		echo "<script>alert('Invalid email and password'); location.href='login.php';</script>";
 	}
+}
+
+if (isset($_COOKIE['cd_onmp']) && isset($_COOKIE['ml_onmp']) && isset($_COOKIE['psss_onmp'])) {
+	$id = $_COOKIE['cd_onmp'];
+    $email = $_COOKIE['ml_onmp'];
+    $password = $_COOKIE['psss_onmp'];
+    $check=mysqli_query(
+		$conn,
+		"SELECT * FROM users WHERE id = '$id'"
+    );
+    $row = mysqli_fetch_assoc($check);
+    if ($email === hash('sha256', $row['email']) && $password === $row['password']) {
+		header('location:index.php');
+		exit;
+    }
 }
 ?>
 <!DOCTYPE html>

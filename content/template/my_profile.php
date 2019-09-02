@@ -76,7 +76,7 @@ $data_department = implode(',',$result_array);
                                     <input type="hidden" class="user_id" name="user_id" value="<?php echo $_SESSION['auth']['id']; ?>">
                                     <div class="photo__helper">
                                         <div class="photo__frame photo__frame--circle">
-                                            <canvas class="photo__canvas" title="Drag/Swipe Photo"></canvas>
+                                            <canvas class="photo__canvas" title="Upload your photo then swipe it"></canvas>
                                             <div class="message is-empty">
                                                 <p class="message--desktop">Drop your photo here or browse your computer.</p>
                                                 <p class="message--mobile">Tap here to select your picture.</p>
@@ -104,7 +104,7 @@ $data_department = implode(',',$result_array);
 
                                     <div class="photo__options hide">
                                         <div class="photo__zoom">
-                                            <input type="range" title="Zoom" class="zoom-handler">
+                                            <input type="range" title="Zoom your photo" class="zoom-handler">
                                             <button type="button" class="btn btn-danger remove-my-photos"><i class="mi-delete-forever"></i> Cancel</button>
                                             <button type="submit" id="uploadBtn" class="btn btn-primary">Save <i class="mi-save"></i></button>
                                         </div>
