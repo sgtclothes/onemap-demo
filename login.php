@@ -109,7 +109,7 @@ if (isset($_COOKIE['cd_onmp']) && isset($_COOKIE['ml_onmp']) && isset($_COOKIE['
 						</div>
 
 						<div>
-							<a href="#" class="txt3">
+							<a href="forgot_password.php" class="txt3">
 								Forgot Password?
 							</a>
 						</div>

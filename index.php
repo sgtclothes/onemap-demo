@@ -63,7 +63,8 @@ if (!isset($_SESSION['auth'])) {
         <script src="assets/js/jquery-1.12.1.js"></script>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4-src.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script><link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
+        <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
         <!-- /global stylesheets -->
 
         <!-- Adding other css -->

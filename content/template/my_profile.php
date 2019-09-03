@@ -130,11 +130,11 @@ $data_department = implode(',',$result_array);
                                 </div>
                                 <div class="col-md-12">
                                     <label class="col-form-label">New Password</label>
-                                    <input id="new_password" name="new_password" type="password" class="form-control" required>
+                                    <input id="new_password" name="new_password" type="password" class="form-control" minlength=5 required>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="col-form-label">Confirm New Password</label>
-                                    <input id="confirm_new_password" name="confirm_new_password" type="password" class="form-control" required>
+                                    <input id="confirm_new_password" name="confirm_new_password" type="password" class="form-control" minlength=5 required>
                                 </div>
                                 <div class="col-md-12">
                                 <div style="margin-top:15px; margin-bottom:-20px;" class="d-flex justify-content-between align-items-center">
