@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2019 at 02:11 PM
+-- Generation Time: Aug 26, 2019 at 07:56 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
 
@@ -211,7 +211,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `email`, `name`, `role`, `password`, `photo`, `active`, `created_at`, `updated_at`) VALUES
 (1, 'system.administrator@locatorlogic.com', 'System Administrator', 'System Administrator', '1b3231655cebb7a1f783eddf27d254ca', '', 1, NULL, NULL),
-(2, 'rizal.hermawan@locatorlogic.com', 'Rizal Hermawan', 'Admin', '150fb021c56c33f82eef99253eb36ee1', 'Photo_Profile_2_logo-user-png-6.jpg', 1, NULL, NULL),
+(2, 'rizal.hermawan@locatorlogic.com', 'Rizal Hermawan', 'Admin', '150fb021c56c33f82eef99253eb36ee1', 'user_id_2/Do-your-work.-Dont-be-stupid-Motivation-Wallpaper__1920x1080.jpg', 1, NULL, NULL),
 (3, 'sigit.sasongko@locatorlogic.com', 'Sigit Sasongko', 'Admin', '223a0fa8f15933d622b3c7a13f186027', '', 1, NULL, NULL),
 (4, 'adit@gmail.com', 'Aditya', 'User', '3bd862c0aa8fbe46cc60b2343e8d757f', '', 1, NULL, '2019-07-24 02:45:46'),
 (5, 'rizalhrm24@gmail.com', 'Hermawan', 'User', '0a5c2657a27501b02b270ca999b0d412', '', 1, NULL, NULL),

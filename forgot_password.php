@@ -71,21 +71,19 @@ if (isset($_POST['send_email'])) {
 														<td>&nbsp;</td>
 													</tr>
 													<tr>
-														<td align="center">
-															<table width="85%">
+														<td style="padding-left:42.5px; padding-right:42.5px;" align="center">
+															<table width="100%">
 																<tbody>
 																	<tr>
-																		<td align=
-																		"center">
+																		<td>
 																			<h2 style=
 																			"margin:0!important;font-family:Open Sans,arial,sans-serif!important;line-height:38px!important;font-weight:200!important;color:#252b33!important">
 																			Dear '.$row['name'].',</h2>
 																		</td>
 																	</tr>
 																	<tr>
-																		<td align=
-																		"center" style=
-																		"font-family:Open Sans,arial,sans-serif!important;color:#7e8890!important;">
+																		<td style=
+																		"font-family:Open Sans,arial,sans-serif!important;color:#7e8890!important;line-height:30px!important;">
 																		You can click on below button to reset your password. This password reset is only valid for the next 24 hours.</td>
 																	</tr>
 																</tbody>
@@ -122,17 +120,16 @@ if (isset($_POST['send_email'])) {
 														<td>&nbsp;</td>
 													</tr>
 													<tr>
-														<td align="center">
+														<td style="padding-right:42.5px; padding-left:45px;">
 															<table border="0"
 															cellpadding="0"
 															cellspacing="0" width=
-															"78%">
+															"100%">
 																<tbody>
 																	<tr>
-																		<td align=
-																		"center" style=
+																		<td style=
 																		"font-family:Open Sans,arial,sans-serif!important;font-size:16px!important;line-height:30px!important;font-weight:400!important;color:#7e8890!important">
-																		If you are having trouble with the button above, copy and paste the URL below into your web browser. <br><a href="http://localhost/onemap/reset.php?token='.$key.'">http://localhost/onemap/reset.php?token='.$key.'</a><br> Wishing you a pleasant day ahead!.</td>
+																		If you are having trouble with the button above, copy and paste the URL below into your web browser. <br><a href="http://localhost/onemap/reset.php?token='.$key.'">http://localhost/onemap/reset.php?token='.$key.'</a><br> Wishing you a pleasant day ahead!.<br><br>Regards,<br>Locator Logic<br></td>
 																	</tr>
 																</tbody>
 															</table>

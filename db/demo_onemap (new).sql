@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 26, 2019 at 07:56 AM
+-- Generation Time: Sep 04, 2019 at 09:35 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
 
@@ -113,6 +113,29 @@ INSERT INTO `department` (`id`, `department`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `password_reset_temp`
+--
+
+CREATE TABLE `password_reset_temp` (
+  `id` int(11) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `token` varchar(250) NOT NULL,
+  `expDate` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `password_reset_temp`
+--
+
+INSERT INTO `password_reset_temp` (`id`, `email`, `token`, `expDate`, `created_at`) VALUES
+(1, 'rizal.hermawan@locatorlogic.com', '768e78024aa8fdb9b8fe87be86f64745cc4457af14', '2019-09-05 11:48:57', '2019-09-04 04:48:57'),
+(2, 'rizal.hermawan@locatorlogic.com', '768e78024aa8fdb9b8fe87be86f647452f46ec4166', '2019-09-05 11:54:52', '2019-09-04 04:54:52'),
+(3, 'rh120ap@gmail.com', '768e78024aa8fdb9b8fe87be86f64745c7277bbf65', '2019-09-05 13:52:01', '2019-09-04 06:52:01');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `site`
 --
 
@@ -211,11 +234,11 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `email`, `name`, `role`, `password`, `photo`, `active`, `created_at`, `updated_at`) VALUES
 (1, 'system.administrator@locatorlogic.com', 'System Administrator', 'System Administrator', '1b3231655cebb7a1f783eddf27d254ca', '', 1, NULL, NULL),
-(2, 'rizal.hermawan@locatorlogic.com', 'Rizal Hermawan', 'Admin', '150fb021c56c33f82eef99253eb36ee1', 'user_id_2/Do-your-work.-Dont-be-stupid-Motivation-Wallpaper__1920x1080.jpg', 1, NULL, NULL),
+(2, 'rizal.hermawan@locatorlogic.com', 'Rizal Hermawan', 'Admin', 'b6ae4de623d5c802b4547d6c31d831e0', 'user_id_2/Do-your-work.-Dont-be-stupid-Motivation-Wallpaper__1920x1080.jpg', 1, NULL, '2019-09-04 03:47:50'),
 (3, 'sigit.sasongko@locatorlogic.com', 'Sigit Sasongko', 'Admin', '223a0fa8f15933d622b3c7a13f186027', '', 1, NULL, NULL),
 (4, 'adit@gmail.com', 'Aditya', 'User', '3bd862c0aa8fbe46cc60b2343e8d757f', '', 1, NULL, '2019-07-24 02:45:46'),
 (5, 'rizalhrm24@gmail.com', 'Hermawan', 'User', '0a5c2657a27501b02b270ca999b0d412', '', 1, NULL, NULL),
-(6, 'sesillia.pongoh@locatorlogic.com', 'Sesillia Pongoh', 'User', '827ccb0eea8a706c4c34a16891f84e7b', '', 1, '2019-07-29 09:17:18', NULL),
+(6, 'sesillia.pongoh@locatorlogic.com', 'Sesillia Pongoh', 'User', 'e10adc3949ba59abbe56e057f20f883e', 'user_id_6/0.jpg', 1, '2019-07-29 09:17:18', '2019-09-04 04:01:43'),
 (7, 'mike.broomell@locatorlogic.com', 'Mike Broomell', 'User', '827ccb0eea8a706c4c34a16891f84e7b', '', 1, '2019-08-12 10:41:49', NULL);
 
 -- --------------------------------------------------------
@@ -273,6 +296,12 @@ ALTER TABLE `department`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `password_reset_temp`
+--
+ALTER TABLE `password_reset_temp`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `site`
 --
 ALTER TABLE `site`
@@ -322,6 +351,11 @@ ALTER TABLE `analysis_points`
 ALTER TABLE `department`
   MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
+-- AUTO_INCREMENT for table `password_reset_temp`
+--
+ALTER TABLE `password_reset_temp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `site`
 --
 ALTER TABLE `site`
@@ -335,12 +369,12 @@ ALTER TABLE `spec_buffer_analysis`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `users_department`
 --
 ALTER TABLE `users_department`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- Constraints for dumped tables
 --
