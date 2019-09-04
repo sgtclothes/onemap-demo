@@ -16,8 +16,7 @@ if (isset($_POST['send_email'])) {
 		$addKey = substr(md5(uniqid(rand(),1)),3,10);
 		$key = $key . $addKey;
 		mysqli_query($conn,
-			"INSERT INTO `password_reset_temp` (``, `email`, `key`, `expDate`)
-			VALUES ('".$email."', '".$key."', '".$expDate."');"
+			"INSERT INTO `password_reset_temp` VALUES ('', '".$email."', '".$key."', '".$expDate."', NOW());"
 		);
 
 		$query=mysqli_query(
@@ -108,7 +107,7 @@ if (isset($_POST['send_email'])) {
 																		"center"
 																		valign="top">
 																			<a href=
-																			"http://get.invisionapp.com/e1t/c/*W8q197m87bTZDW3GQmLK13hZky0/*VClLHz1cdzQpW8w09wP6-dDkH0/5/f18dQhb0Sq5w4fnnwSW43BfBd1m65n7W2shn2V2MDC5CW5-qVB31mhDGsW99bMYS975cK1W4rxpl_5DQqVhV9X0H996Ls8bV43d0S64-rwcW50l_G32yBkSCW2JlhfY5K134SW7cPhlV5lK4xPW33k-n51VctNQW2MznrN5nbq6BVGXpVf3-9KlWW2RRS4L55WhgFW7dDxTN7mWsnXW7dzcsS51vDG6W1ftJ7Z1x4lQBN6Hq25xphxl5W1njMtB6GFVmfW2gvtCX3NnV4FW1nJpwv26pdfjW35y0Td26LytGVM79Bg386nYwW1kLZ4N2CDwWlVgBFGZ6NdswFW4tVp436PbN90W5rb8q2360hP2W6R8LR34TcVnQW4Zy2Z898cxBrW1m9NYf4ph-LLW37SpSR25qFdNMc2CQ-MpgQpW5wdVdL3bYqJqW7q7-Qc6kl2SyW7dr9qW72YqDyW8pnqwr34p5LqW5G0hSP5D3X_kW5BJqQx49jM9bV84rVz6PxM5dW6Q63ZP6MXGH5W4BKzDk8tf9ykN8yly0PQZnnGW2kt1qQ6jFZQYF73vnPn42Pnf5FF9yT03"
+																			"http://localhost/onemap/reset.php?token='.$key.'"
 																			style=
 																			"background-color:#3869D4;padding:14px 28px 14px 28px;border-radius:3px;line-height:18px!important;letter-spacing:0.125em;text-transform:uppercase;font-size:13px;font-family:Open Sans,Arial,sans-serif;font-weight:400;color:#ffffff;text-decoration:none;display:inline-block;line-height:18px!important"
 																			target=
@@ -133,7 +132,7 @@ if (isset($_POST['send_email'])) {
 																		<td align=
 																		"center" style=
 																		"font-family:Open Sans,arial,sans-serif!important;font-size:16px!important;line-height:30px!important;font-weight:400!important;color:#7e8890!important">
-																		If you are having trouble with the button above, copy and paste the URL below into your web browser. <br><a href="localhost/onemap/reset.php?token='.$key.'">localhost/onemap/reset.php?token='.$key.'</a><br> Wishing you a pleasant day ahead!.</td>
+																		If you are having trouble with the button above, copy and paste the URL below into your web browser. <br><a href="http://localhost/onemap/reset.php?token='.$key.'">http://localhost/onemap/reset.php?token='.$key.'</a><br> Wishing you a pleasant day ahead!.</td>
 																	</tr>
 																</tbody>
 															</table>
@@ -354,14 +353,16 @@ if (isset($_POST['send_email'])) {
 		Please note file must be available on your
 		host to be attached with this email.
 		*/
-		$mail->send();
+		if($mail->send()) {
+			echo "<script>alert('The url to reset your password has been sent by email to $email_to'); location.href='';</script>";
+		}
 	}
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Locator Logic</title>
+	<title>Forgot Password - Locator Logic</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="assets/images/icons/favicon.ico"/>
