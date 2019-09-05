@@ -46,7 +46,7 @@ if (isset($_POST['send_email'])) {
 												<tbody>
 													<tr>
 														<td width="70" align="center">
-															<a href="onemap-demo.locatorlogic.com"
+															<a href="http://onemap-demo.locatorlogic.com"
 															target="_blank"><img alt=
 															"Onemap Logo" src=
 															"https://lh3.googleusercontent.com/PQy_nE60iaIbzKUkKaBkCoaCwsaN3lHVq_Q-mNMSFwOHe_1M_qyRMtO8XRDv4psO-i9WcuEcYa6kXsFupcR2h0ZdhAz_k1esn8WwuEDth1Lad1v9Nlttk_o6B8L1d1A_BPLKMpeIKmNKV-ROhDiasRBve7K2LA0a6UHPvi5Nwj2rcJsSPzE6PJ6NS9DnVuvqGRdiSysjJ6rSbegf4hLSSE_QRZ3Szh9RPv9B8hlUk2cs-eObc-3bk5adP9eiKj2An_-Dnl4qshlaaVYK8P-FGjIEBEFH7hx95k2QkWOin9RgooeaH3d88GN1Dz1Pq78GT-3EAkCA3Fjgzx5CqAMp3jwOgqYMilKDvlOFwdtsNPI4CFiPzXs2axYP_N-9ydxO93hvq7q8yfG4CT5MzObbzInSnQPui-ldKTgS2GpxW4gBr7fnD0_w58mgRj-Sn5IcIcYyiBINMXTfafGFMHh8gH3DQ3DlB9yxhOpCUI326wuTcFGno7xDOMXs0_vgiMLAc-p-RvJW1BQ73w5OYC_d2EcQYpYv4olfKNlDtcvcziBwRy181qfYy-NyDslbS0aaJ7qVNbzPqJEqD4l36TrNm5okDu3X_urjAiosbyC7Cr5ddw0Q0lU93JCUomAVyFlFXuA5XrwDb-njVjXHinoNywsm0Qiwacg2ldcj-3RSlj7dWvwivLhncm4=w640-h153-no"
