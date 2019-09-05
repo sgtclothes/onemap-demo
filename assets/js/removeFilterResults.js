@@ -3,5 +3,7 @@ function removeFilterResults(map) {
     map.ObjMapView.graphics.removeAll();
     $(this).toggle();
     $(".popupFilter").hide();
+    $("input[name='select-property']").prop("checked", false);
+    $("input[name='marketing-scheme-input']").prop("checked", false);
   });
 }

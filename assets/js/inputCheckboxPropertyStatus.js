@@ -1,13 +1,11 @@
 function inputCheckboxPropertyStatus() {
-  let propertyAvailable = $("input[name='property-available']");
-  let propertyAvailableMaster = $(
-    "input[name='property-status-available-for-sale']"
-  );
-  let propertyValuation = $("input[name='property-valuation']");
-  let propertyValuationMaster = $("input[name='property-status-valuation']");
-  let propertySold = $("input[name='property-sold']");
-  let propertySoldMaster = $("input[name='property-status-sold']");
-  
+  let propertyAvailable = $("input[name='sub-property-for-sale']");
+  let propertyAvailableMaster = $("input[name='property-for-sale']");
+  let propertyValuation = $("input[name='sub-property-valuation']");
+  let propertyValuationMaster = $("input[name='property-valuation']");
+  let propertySold = $("input[name='sub-property-sold']");
+  let propertySoldMaster = $("input[name='property-sold']");
+
   $(propertyAvailableMaster).click(function() {
     if ($(this).prop("checked") == true) {
       for (let i = 0; i < propertyAvailable.length; i++) {
