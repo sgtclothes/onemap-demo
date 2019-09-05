@@ -108,7 +108,7 @@
                             $unit = json_encode($unit_array);
                             $options = json_encode($options_array);
                             $buffer_group = json_encode($buffer_group_array);
-                            echo "Analysis Detail of <u>$site_anly_name</u>";
+                            echo "Analysis Detail of <i>$site_anly_name</i>";
                         }
                         else {
                             echo "List of Analysis";

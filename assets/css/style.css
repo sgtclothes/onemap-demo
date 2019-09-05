@@ -828,3 +828,12 @@ table.dataTable {
 .text-align-right {
   text-align: right;
 }
+
+/* table analysis global style */
+table .table,
+tr,
+th,
+td {
+  border: black;
+}
+/* table analysis global style */

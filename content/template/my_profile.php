@@ -36,7 +36,7 @@ $data_department = implode(',',$result_array);
                 <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
                     <li class="nav-item"><a href="#bottom-justified-tab1" class="nav-link active" data-toggle="tab">My Profile</a></li>
                     <li class="nav-item"><a href="#bottom-justified-tab2" class="nav-link" data-toggle="tab">Change Photo</a></li>
-                    <!-- <li class="nav-item"><a href="#bottom-justified-tab3" class="nav-link" data-toggle="tab">Change Password</a></li> -->
+                    <li class="nav-item"><a href="#bottom-justified-tab3" class="nav-link" data-toggle="tab">Change Password</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -76,7 +76,7 @@ $data_department = implode(',',$result_array);
                                     <input type="hidden" class="user_id" name="user_id" value="<?php echo $_SESSION['auth']['id']; ?>">
                                     <div class="photo__helper">
                                         <div class="photo__frame photo__frame--circle">
-                                            <canvas class="photo__canvas" title="Drag Photo"></canvas>
+                                            <canvas class="photo__canvas" title="Upload your photo then swipe it"></canvas>
                                             <div class="message is-empty">
                                                 <p class="message--desktop">Drop your photo here or browse your computer.</p>
                                                 <p class="message--mobile">Tap here to select your picture.</p>
@@ -104,7 +104,7 @@ $data_department = implode(',',$result_array);
 
                                     <div class="photo__options hide">
                                         <div class="photo__zoom">
-                                            <input type="range" title="Zoom" class="zoom-handler">
+                                            <input type="range" title="Zoom your photo" class="zoom-handler">
                                             <button type="button" class="btn btn-danger remove-my-photos"><i class="mi-delete-forever"></i> Cancel</button>
                                             <button type="submit" id="uploadBtn" class="btn btn-primary">Save <i class="mi-save"></i></button>
                                         </div>
@@ -114,7 +114,37 @@ $data_department = implode(',',$result_array);
                         </div>
                     </div>
 
-                    <!-- <div class="tab-pane fade" id="bottom-justified-tab3"></div> -->
+                    <div id="bottom-justified-tab3" class="tab-pane fade">
+                        <form id="form-change-password" method="POST">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div id="invalid-current-password" class="alert alert-danger border-0 alert-dismissible" style="display: none; margin-bottom: -1px;">Invalid current password.
+                                    </div>
+                                    <div id="must-match" class="alert alert-danger border-0 alert-dismissible" style="display: none; margin-bottom: -1px;">The confirm password and new password must match.
+                                    </div>
+                                    <div id="password-updated" class="alert alert-success border-0 alert-dismissible" style="display: none; margin-bottom: -1px;">Password Updated Successfully.
+                                    </div>
+                                    <input type="hidden" class="user_id" name="user_id" value="<?php echo $_SESSION['auth']['id']; ?>">
+                                    <label class="col-form-label">Current Password</label>
+                                    <input id="current_password" name="current_password" type="password" class="form-control" required>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="col-form-label">New Password</label>
+                                    <input id="new_password" name="new_password" type="password" class="form-control" minlength=5 required>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="col-form-label">Confirm New Password</label>
+                                    <input id="confirm_new_password" name="confirm_new_password" type="password" class="form-control" minlength=5 required>
+                                </div>
+                                <div class="col-md-12">
+                                <div style="margin-top:15px; margin-bottom:-20px;" class="d-flex justify-content-between align-items-center">
+                                <button type="reset" id="reset-and-close" class="btn btn-danger">Cancel</button>
+                                <button type="submit" class="btn bg-teal-400">Update</button>
+                                </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 		</div>

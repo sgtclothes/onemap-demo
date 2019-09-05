@@ -1,9 +1,40 @@
 <?php
 session_start();
+include 'config/conn.php';
+if (isset($_COOKIE['cd_onmp']) && isset($_COOKIE['ml_onmp']) && isset($_COOKIE['psss_onmp'])) {
+    $id = $_COOKIE['cd_onmp'];
+    $email = $_COOKIE['ml_onmp'];
+    $password = $_COOKIE['psss_onmp'];
+    $check=mysqli_query(
+		$conn,
+		"SELECT * FROM users WHERE id = '$id'"
+    );
+    $row = mysqli_fetch_assoc($check);
+    if ($email === hash('sha256', $row['email']) && $password === $row['password']) {
+        $_SESSION['auth']['id'] = $id;
+        $_SESSION['auth']['email']=$email;
+		$_SESSION['role']=$row['role'];
+		$_SESSION['name']=$row['name'];
+		$result_array = array();
+		$resQuery = $conn->query(
+			'SELECT department_id FROM users_department WHERE user_id = ' . $row['id']
+		);
+		if ($resQuery->num_rows > 0) {
+			while($row = $resQuery->fetch_assoc()) {
+				array_push($result_array, $row['department_id']);
+			}
+		}
+		$_SESSION['departments'] = $result_array;
+    }
+    else {
+        header('Location: login.php');
+        exit;
+    }
+}
 if (!isset($_SESSION['auth'])) {
     header('Location: login.php');
+    exit;
 } else {
-    include 'config/conn.php';
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -1593,6 +1624,8 @@ if (!isset($_SESSION['auth'])) {
     <script src="content/analysis/editAnalysis.js"></script>
     <script src="assets/js/plugins/tables/paginationLib.js"></script>
     <script src="assets/js/plugins/my_profile/myProfileLib.js"></script>
+    <script src="content/template/changePassword.js"></script>
+    <script src="assets/js/plugins/md5.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#datatable-sorting').dataTable({

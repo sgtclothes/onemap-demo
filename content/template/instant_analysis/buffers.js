@@ -329,13 +329,29 @@ function bufferRadius(GIS,map){
 
                                 for (let i = 0; i < buffer.length; i++) {
                                     if (parseInt(buffer[i].options) === 0) {
-                                        let unit = buffer[i].graphics.items[0].geometry.radiusUnit
-                                        let distance = buffer[i].graphics.items[0].geometry.radius
-                                        let latitude = buffer[i].graphics.items[0].geometry.center.latitude
-                                        let longitude = buffer[i].graphics.items[0].geometry.center.longitude
+                                        let radiusPOI = new GIS.Analysis.BufferProperty(map.ObjMap, layerId, poiName)
+                                        let anly = JSON.parse(buffer[i].anly)
+                                        let unit = anly.unit
+                                        let distance = anly.distance
+                                        let latitude = anly.latitude
+                                        let longitude = anly.longitude
 
-                                        let radiusPOI = new GIS.Analysis.BufferProperty(map.ObjMap,layerId, poiName)
+                                        let deletedBuffer = JSON.parse(localStorage.getItem('deletedBuffer'))
 
+                                        if (deletedBuffer === null) {
+                                            run()
+                                        }
+                                        else {
+                                        let findTitle = deletedBuffer.find(function(el){
+                                            return el === buffer[i].title
+                                        })
+            
+                                        if (findTitle === undefined){
+                                            run()
+                                        }
+                                        }
+
+                                        function run(){
                                         let unitnum
                                         if (unit == "kilometers") {
                                             unitnum = 'km'
@@ -391,6 +407,7 @@ function bufferRadius(GIS,map){
                                                 })
                                             }
                                         });
+                                        }
                                     }
                                     else if (parseInt(buffer[i].options) !== 0){
                                         let drivePOI = new GIS.Analysis.BufferProperty(map.ObjMap,layerId, poiName)
