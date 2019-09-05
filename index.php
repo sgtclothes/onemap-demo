@@ -49,6 +49,7 @@ if (!isset($_SESSION['auth'])) {
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
         <link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="assets/css/icons/material/styles.css">
+        <link rel="stylesheet" href="assets/css/icons/fontawesome/styles.min.css">
         <link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
         <link href="assets/css/limitless.css" rel="stylesheet" type="text/css">
         <link href="assets/css/layout.css" rel="stylesheet" type="text/css">
@@ -250,11 +251,12 @@ if (!isset($_SESSION['auth'])) {
                 <div id="mySidenavChild">
                     <p id="titleSidebarAnalysis" class="title" style="padding: 50px 8px 0px 88px;"></p>
                     <p id="newTitleSidebarAnalysis" class="title" style="display:none; padding: 60px 8px 0px 75px;">Form Update Analysis</p>
-                    <div style="margin-left:60px; margin-bottom: 8px;">
+                    <div style="margin-left:38px; margin-bottom: 8px;">
                         <button type="button" id="adding-btn" title="Input Latitude & Longitude" data-toggle="modal" data-target="#modal_form_input_point" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
                         <button type="button" id="add-from-site" title="Add from Site" data-toggle="modal" data-target="#modal_form_vertical" class="btn btn-sm alpha-primary border-primary text-primary-800 btn-icon rounded-round ml-2"><i class="icon-office"></i></button>
                         <button type="button" id="add-from-csv" title="Add From CSV" class="btn btn-sm alpha-success border-success text-success-800 btn-icon rounded-round ml-2"><i class="icon-folder-open"></i></button>
                         <button type="button" title="Pointing on the Map" id="pointing-btn" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon rounded-round ml-2"><i class="icon-pin-alt"></i></button>
+                        <button type="button" title="Create Polygon" id="create-polygon" class="btn border-purple-300 alpha-purple text-purple-800 btn-icon btn-sm rounded-round ml-2"><img width="16px" height="16px" src="assets/images/polygon.png" alt=""></button>
                     </div>
                     <form action="" method="post" id="form-create-analysis">
                         <div class="bottom-input-name">
