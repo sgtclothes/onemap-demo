@@ -477,12 +477,12 @@ function boot(GIS) {
         let lat = attr.geometry.latitude;
         let lon = attr.geometry.longitude;
 
-        if (attr.attributes.hasOwnProperty("id")===false) {
+        if (attr.attributes.hasOwnProperty("id") === false) {
           let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
           pointing.setPointingPopupMarker();
           pointing.render();
-          $('#error-input-points').hide()
-          $('#error-down-service').hide()
+          $("#error-input-points").hide();
+          $("#error-down-service").hide();
 
           $.addRows();
           $.each(window.counterArr, function(index, value) {
@@ -495,35 +495,37 @@ function boot(GIS) {
                 ".selectbuffer-" + value,
                 "click",
                 function() {
-                  $('#error-input-buffer').hide()
-                  $('#error-down-service').hide()
-                  $.get("content/template/instant_analysis/buffer.php", function(
-                    data
-                  ) {
-                    $(".form-buffer-" + value).append(data);
-                  });
+                  $("#error-input-buffer").hide();
+                  $("#error-down-service").hide();
+                  $.get(
+                    "content/template/instant_analysis/buffer.php",
+                    function(data) {
+                      $(".form-buffer-" + value).append(data);
+                    }
+                  );
                 }
               );
               $("#form-list").delegate(
                 ".selectdrive-" + value,
                 "click",
                 function() {
-                  $('#error-input-buffer').hide()
-                  $('#error-down-service').hide()
-                  $.get("content/template/instant_analysis/driving.php", function(
-                    data
-                  ) {
-                    $(".form-drive-" + value).append(data);
-                  });
+                  $("#error-input-buffer").hide();
+                  $("#error-down-service").hide();
+                  $.get(
+                    "content/template/instant_analysis/driving.php",
+                    function(data) {
+                      $(".form-drive-" + value).append(data);
+                    }
+                  );
                 }
               );
               $("#form-list").delegate(
                 ".selectdrive-distance-" + value,
                 "click",
                 function() {
-                    $('#error-input-buffer').hide()
-                    $('#error-down-service').hide()
-                $.get(
+                  $("#error-input-buffer").hide();
+                  $("#error-down-service").hide();
+                  $.get(
                     "content/template/instant_analysis/driving_distance.php",
                     function(data) {
                       $(".form-drive-distance-" + value).append(data);
@@ -532,7 +534,7 @@ function boot(GIS) {
                 }
               );
             }
-          }); 
+          });
         }
       }
     }
@@ -1037,7 +1039,7 @@ function boot(GIS) {
       }
 
       //KLB Rows
-      let KLBTotalIDR = 50000000;
+      let KLBTotalIDR = landTotalIDR;
       let KLBTotalUSD = null;
       if (KLBTotalIDR !== null) {
         KLBTotalUSD = KLBTotalIDR / 14266.4;
@@ -1329,8 +1331,7 @@ function boot(GIS) {
       let posLat = lat + 0.04;
       let posLon = lon;
       for (let i = 0; i <= map.ObjMapView.graphics.items.length - 1; i++) {
-        if (
-          map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
+        if (map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
           if (
             map.ObjMapView.graphics.items[i].attributes.id ==
             localStorage.getItem("pointingHighlight")
@@ -1351,8 +1352,10 @@ function boot(GIS) {
           pointing.positionFixing(posLat, posLon);
         }
         pointing.render();
-      }
-      else if (response.results[0].graphic.symbol.url !== "assets/images/icons/map-marker.png") {
+      } else if (
+        response.results[0].graphic.symbol.url !==
+        "assets/images/icons/map-marker.png"
+      ) {
         localStorage.setItem(
           "pointingHighlight",
           lat.toString() + lon.toString()

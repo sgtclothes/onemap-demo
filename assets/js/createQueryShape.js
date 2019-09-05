@@ -7,8 +7,64 @@ function createQueryShape(GIS, map, convertCSV) {
     view: map.ObjMapView
   });
 
+  function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2 - lat1); // deg2rad below
+    var dLon = deg2rad(lon2 - lon1);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+
+  function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+  }
+
   sketch.on("create", function(event) {
-    if (event.state === "complete") {
+    $("#loading-bar").show();
+    console.log(event.state);
+    //Store point to localstorage
+    if (event.state === "start") {
+      map.ObjMapView.on("click", function(evt) {
+        let latitude = map.ObjMapView.toMap({
+          x: evt.x,
+          y: evt.y
+        }).latitude.toFixed(7);
+
+        let longitude = map.ObjMapView.toMap({
+          x: evt.x,
+          y: evt.y
+        }).longitude.toFixed(7);
+
+        localStorage.setItem(
+          "calculateLength",
+          JSON.stringify([latitude, longitude])
+        );
+        console.log(JSON.parse(localStorage.getItem("calculateLength")));
+        $("#loading-bar").hide();
+      });
+    } else if (event.state === "active") {
+      $("#loading-bar").hide();
+      let lat1 = JSON.parse(localStorage.getItem("calculateLength"))[0];
+      let lon1 = JSON.parse(localStorage.getItem("calculateLength"))[1];
+      map.ObjMapView.on("pointer-move", function(evt) {
+        let lat2 = map.ObjMapView.toMap({
+          x: evt.x,
+          y: evt.y
+        }).latitude.toFixed(7);
+        let lon2 = map.ObjMapView.toMap({
+          x: evt.x,
+          y: evt.y
+        }).longitude.toFixed(7);
+        console.log(getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2));
+      });
+    } else if (event.state === "complete") {
       $("#loading-bar").show();
       $(".popupFilter").hide();
       let colliersProperty = new ESRI.FeatureLayer({
@@ -101,8 +157,8 @@ function createQueryShape(GIS, map, convertCSV) {
         console.log("response", response);
         area = response.data.areas;
         length = response.data.lengths;
-        area = (area[0] * 4046.8564224)/1000;
-        length = length[0]/1000;
+        area = (area[0] * 4046.8564224) / 1000;
+        length = length[0] / 1000;
         console.log(area + " km" + "2".sup());
         console.log(length + " km");
         let div = document.createElement("div");
@@ -142,6 +198,7 @@ function createQueryShape(GIS, map, convertCSV) {
         div.appendChild(table);
         map.ObjMapView.ui.add(div, "bottom-right");
       });
+    } else {
     }
   });
 
@@ -240,9 +297,6 @@ function createQueryShape(GIS, map, convertCSV) {
         );
         $("#loading-bar").hide();
       }
-      console.log(event.graphic.geometry);
-      console.log("Completed");
-      console.log(event.geometry)
     }
   }
 }
