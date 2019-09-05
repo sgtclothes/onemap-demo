@@ -1,5 +1,6 @@
 function inputCheckboxServices(GIS, map) {
   let poi = $(".checkbox-poi");
+  let masterSubPOI = $(".checkbox-master-sub-poi");
   let infrastructure = $(".checkbox-infrastructure");
   let demographic = $(".checkbox-demographic");
   let subPOI = $(".checkbox-sub-poi");
@@ -41,6 +42,7 @@ function inputCheckboxServices(GIS, map) {
       .siblings("td");
     renderLegendPoint(tableLegend, JSON.parse(localStorage.getItem("dataPOI")));
     if ($(this).prop("checked") == true) {
+      $(masterSubPOI).prop("checked", true);
       //Show item to do overlapping
       for (let i = 0; i < itemLayer.length; i++) {
         $(itemLayer[i]).show();
@@ -76,6 +78,7 @@ function inputCheckboxServices(GIS, map) {
       }
       localStorage.setItem("checkedPOI", JSON.stringify(checked));
     } else if ($(this).prop("checked") == false) {
+      $(masterSubPOI).prop("checked", false);
       //Hide item to do overlapping
       for (let i = 0; i < itemLayer.length; i++) {
         $(itemLayer[i]).hide();
@@ -90,7 +93,7 @@ function inputCheckboxServices(GIS, map) {
       }
       $(".div-poi").remove();
       for (let i = 0; i < subPOI.length; i++) {
-        $(subPOI).prop("checked", false);
+        $(subPOI[i]).prop("checked", false);
       }
       for (let i in map.ObjMap.layers.items) {
         for (let j = 0; j < checked.length; j++) {
@@ -105,11 +108,143 @@ function inputCheckboxServices(GIS, map) {
     }
   });
 
+  $(masterSubPOI).click(function() {
+    let a = 0;
+    let b = 0;
+    let c = 0;
+    let d = 0;
+    if ($(this).attr("id") == "checkbox-sub-poi-bank") {
+      a = 0;
+      b = 2;
+      c = 0;
+      d = 5;
+    } else if ($(this).attr("id") == "checkbox-sub-poi-apotek") {
+      a = 3;
+      b = 5;
+      c = 6;
+      d = 11;
+    }
+    let check = [];
+    let layer;
+    let url =
+      "http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/";
+    let tableLegend = undefined;
+    if (document.getElementsByClassName("div-poi")[0] == undefined) {
+      tableLegend = makeTableLegend("LIST OF POI", "div-poi");
+    } else {
+      tableLegend = document.getElementsByClassName("div-poi")[0];
+      for (let i = a; i <= b; i++) {
+        let trSecondValue = $(subPOI[i]).attr("secondValue");
+        let trValue = $(subPOI[i]).val();
+        $("#" + trSecondValue + "-" + trValue).remove();
+        if ($(".table-div-poi").children("tr").length == 0) {
+          $(".div-poi").remove();
+        }
+      }
+    }
+    let itemLayer = $(".checkbox-sub-poi")
+      .parents("td")
+      .siblings("td");
+    if ($(this).prop("checked") == true) {
+      for (let i = a; i <= b; i++) {
+        renderLegendPoint(
+          tableLegend,
+          JSON.parse(localStorage.getItem("dataPOI")),
+          $(subPOI[i]).val()
+        );
+      }
+      // Show item to do overlapping
+      for (let i = c; i <= d; i++) {
+        $(itemLayer[i]).show();
+        $(itemLayer[i]).css("height", "24px");
+        $(itemLayer[i]).css("float", "right");
+      }
+      // Show current POI
+      let checked = JSON.parse(localStorage.getItem("checkedPOI"));
+      if (checked !== null) {
+        checked = JSON.parse(localStorage.getItem("checkedPOI"));
+      } else {
+        checked = [];
+      }
+      for (let i = a; i <= b; i++) {
+        if ($(subPOI[i]).prop("checked") == false) {
+          $(subPOI[i]).prop("checked", true);
+        }
+        layer = new GIS.Layer.ServiceLayer(
+          map.ObjMap,
+          url + $(subPOI[i]).val()
+        );
+        layer.setPopupTemplate({
+          content: "{*}"
+        });
+        layer.render();
+        $(subPOI[i]).attr(
+          "name",
+          map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
+        );
+        checked.push(
+          map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
+        );
+      }
+      console.log(checked);
+      localStorage.setItem("checkedPOI", JSON.stringify(checked));
+    } else if ($(this).prop("checked") == false) {
+      for (let i = a; i <= b; i++) {
+        $(subPOI[i]).prop("checked", false);
+      }
+      let checked = JSON.parse(localStorage.getItem("checkedPOI"));
+      if (checked !== null) {
+        checked = JSON.parse(localStorage.getItem("checkedPOI"));
+      } else {
+        checked = [];
+      }
+      for (let i = a; i <= b; i++) {
+        let index = checked.indexOf($(subPOI[i]).attr("name"));
+        checked.splice(index, 1);
+        localStorage.setItem("checkedPOI", JSON.stringify(checked));
+        let trSecondValue = $(subPOI[i]).attr("secondValue");
+        let trValue = $(subPOI[i]).val();
+        $("#" + trSecondValue + "-" + trValue).remove();
+        if ($(".table-div-poi").children("tr").length == 0) {
+          $(".div-poi").remove();
+        }
+        for (let j in map.ObjMap.layers.items) {
+          if (map.ObjMap.layers.items[j].uid == $(subPOI[i]).attr("name")) {
+            map.ObjMap.layers.items[j].visible = false;
+            map.ObjMap.layers.items.splice(j, 1);
+          }
+        }
+      }
+      // Hide item to do overlapping
+      for (let i = c; i <= d; i++) {
+        $(itemLayer[i]).hide();
+        $(itemLayer[i]).css("height", "24px");
+        $(itemLayer[i]).css("float", "right");
+      }
+      localStorage.setItem("checkedPOI", JSON.stringify(checked));
+    }
+    //Autocheck for POI
+    for (let i = 0; i < subPOI.length; i++) {
+      if ($(subPOI[i]).prop("checked") == true) {
+        check.push("checked");
+      } else if ($(subPOI[i]).prop("checked") == false) {
+        check.push("unchecked");
+      }
+    }
+    if (check.includes("unchecked")) {
+      $(poi).prop("checked", false);
+    } else {
+      $(poi).prop("checked", true);
+    }
+  });
+
   $(subPOI).click(function() {
     let layer;
     let url =
       "http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/";
     let check = [];
+    let checkMasterBank = [];
+    let checkMasterApotek = [];
     let tableLegend = undefined;
     //Show or hide item to do overlapping
     let itemLayer = $(this)
@@ -192,6 +327,7 @@ function inputCheckboxServices(GIS, map) {
         $(".table_list_services").hide();
       }
     }
+    //Autocheck for POI
     for (let i = 0; i < subPOI.length; i++) {
       if ($(subPOI[i]).prop("checked") == true) {
         check.push("checked");
@@ -203,6 +339,32 @@ function inputCheckboxServices(GIS, map) {
       $(poi).prop("checked", false);
     } else {
       $(poi).prop("checked", true);
+    }
+    //Autocheck for Sub Master Bank
+    for (let i = 0; i < 3; i++) {
+      if ($(subPOI[i]).prop("checked") == true) {
+        checkMasterBank.push("checked");
+      } else if ($(subPOI[i]).prop("checked") == false) {
+        checkMasterBank.push("unchecked");
+      }
+    }
+    if (checkMasterBank.includes("unchecked")) {
+      $(masterSubPOI[0]).prop("checked", false);
+    } else {
+      $(masterSubPOI[0]).prop("checked", true);
+    }
+    //Autocheck for Sub Master Apotek
+    for (let i = 3; i < 6; i++) {
+      if ($(subPOI[i]).prop("checked") == true) {
+        checkMasterApotek.push("checked");
+      } else if ($(subPOI[i]).prop("checked") == false) {
+        checkMasterApotek.push("unchecked");
+      }
+    }
+    if (checkMasterApotek.includes("unchecked")) {
+      $(masterSubPOI[1]).prop("checked", false);
+    } else {
+      $(masterSubPOI[1]).prop("checked", true);
     }
   });
 
@@ -530,7 +692,7 @@ function inputCheckboxServices(GIS, map) {
         JSON.parse(localStorage.getItem("dataDemographic")),
         $(this).val()
       );
-      layer = new GIS.Layer.ServiceLayer(map.ObjMap, url + $(this).val());
+      layer = new GIS.Layer.ServiceLayer(map.ObjMap, url + $(this).val()); //https://gis.locatorlogic.com/arcgis/rest/services/BPS/BPS_ONLY_2016/MapServer/722/
       layer.setPopupTemplate({
         content: "{*}"
       });

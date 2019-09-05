@@ -38,6 +38,7 @@ if (!isset($_SESSION['auth'])) {
     ?>
     <!DOCTYPE html>
     <html lang="en">
+
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -62,7 +63,7 @@ if (!isset($_SESSION['auth'])) {
         <link rel="stylesheet" href="assets/css/jquery/jquery-ui-1.12.1.css">
         <script src="assets/js/jquery-1.12.4.js"></script>
         <script src="assets/js/jquery-1.12.1.js"></script>
-        
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4-src.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
         <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
@@ -209,18 +210,17 @@ if (!isset($_SESSION['auth'])) {
                     <li class="nav-item dropdown dropdown-user">
                         <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
                             <?php
-                            $sqlphoto = "SELECT photo FROM users WHERE id=".$_SESSION['auth']['id'];
-                            $queryphoto = mysqli_query($conn,$sqlphoto);
-                            $photo = mysqli_fetch_array($queryphoto);
-                            if ($photo['photo'] === '') {
-                                $name_user_photo = "icons-profile.png";
-                                $src = "assets/images/profile/$name_user_photo";
-                            }
-                            else {
-                                $name_user_photo = $photo['photo'];
-                                $src = "assets/images/profile/$name_user_photo";
-                            }
-                            ?>
+                                $sqlphoto = "SELECT photo FROM users WHERE id=" . $_SESSION['auth']['id'];
+                                $queryphoto = mysqli_query($conn, $sqlphoto);
+                                $photo = mysqli_fetch_array($queryphoto);
+                                if ($photo['photo'] === '') {
+                                    $name_user_photo = "icons-profile.png";
+                                    $src = "assets/images/profile/$name_user_photo";
+                                } else {
+                                    $name_user_photo = $photo['photo'];
+                                    $src = "assets/images/profile/$name_user_photo";
+                                }
+                                ?>
                             <img class="user_photo" src="<?php echo $src; ?>" alt="My Photo" width="25px" style="border-radius: 50%;">&nbsp;<span><?php echo "$_SESSION[name]"; ?></span>
                         </a>
 
@@ -228,10 +228,10 @@ if (!isset($_SESSION['auth'])) {
                             <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal_my_profile"><i class="icon-user-plus"></i> My profile</a>
                             <div class="dropdown-divider"></div>
                             <?php
-                            if ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'System Administrator') {
-                                echo "<a href=\"admin.php\" class=\"dropdown-item\"><i class=\"icon-cog5\"></i> Admin</a>";
-                            }
-                            ?>
+                                if ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'System Administrator') {
+                                    echo "<a href=\"admin.php\" class=\"dropdown-item\"><i class=\"icon-cog5\"></i> Admin</a>";
+                                }
+                                ?>
                             <a id="logout" href="logout.php" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
                         </div>
                     </li>
@@ -304,64 +304,95 @@ if (!isset($_SESSION['auth'])) {
                             </table>
                             <table class="table-property">
                                 <tr>
-                                                        <td>
-                                                            <div>
-                                                                <input class="styled" type="checkbox" name="select-property" id="property-office" value="Office">
-                                                                <label for="property-office"><span></span>Office</label>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div>
-                                                                <input class="styled" type="checkbox" name="select-property" id="property-ruko" value="Ruko">
-                                                                <label for="property-ruko"><span></span>Ruko</label>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div>
-                                                                <input class="styled" type="checkbox" name="select-property" id="property-apartment" value="Apartment">
-                                                                <label for="property-apartment"><span></span>Apartment</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div>
-                                                                <input class="styled" type="checkbox" name="select-property" id="property-industrial" value="Industrial">
-                                                                <label for="property-industrial"><span></span>Industrial/Logistic</label>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div>
-                                                                <input class="styled" type="checkbox" name="select-property" id="property-shopping-center" value="Shopping Center">
-                                                                <label for="property-shopping-center"><span></span>Shopping Center</label>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div>
-                                                                <input class="styled" type="checkbox" name="select-property" id="property-house" value="House">
-                                                                <label for="property-house"><span></span>House</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div>
-                                                                <input class="styled" type="checkbox" name="select-property" id="property-data-center" value="Data Center">
-                                                                <label for="property-data-center"><span></span>Data Center</label>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div>
-                                                                <input class="styled" type="checkbox" name="select-property" id="property-others" value="Others">
-                                                                <label for="property-others"><span></span>Others</label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            
-                                                <table class="table-property">
-                            <tr>
-                                <td style="width:40px;">
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-property" id="property-office" value="Office">
+                                            <label for="property-office"><span></span>Office</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-property" id="property-ruko" value="Ruko">
+                                            <label for="property-ruko"><span></span>Ruko</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-property" id="property-apartment" value="Apartment">
+                                            <label for="property-apartment"><span></span>Apartment</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-property" id="property-industrial" value="Industrial">
+                                            <label for="property-industrial"><span></span>Industrial/Logistic</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-property" id="property-shopping-center" value="Shopping Center">
+                                            <label for="property-shopping-center"><span></span>Shopping Center</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-property" id="property-house" value="House">
+                                            <label for="property-house"><span></span>House</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-property" id="property-data-center" value="Data Center">
+                                            <label for="property-data-center"><span></span>Data Center</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-property" id="property-others" value="Others">
+                                            <label for="property-others"><span></span>Others</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-property" id="property-hotel" value="Hotel">
+                                            <label for="property-hotel"><span></span>Hotel</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td style="height:26px;">
+                                        <div class="title-property">
+                                            <p><b>MARKETING SCHEME</b></p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td style="height:26px;">
+                                        <div style="padding-top:5px; padding-left:5px; width: 100%; height: 100%; overflow:hidden;" id="strata-value" value="yes">
+                                            <label class="radio-inline">
+                                                <input type="radio" name="marketing-scheme-input" value="for-lease" /> For Lease
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="marketing-scheme-input" value="for-sale" /> For Sale
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="marketing-scheme-input" value="for-lease-and-for-sale" /> For Lease and For Sale
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td style="width:40px;">
                                         <div><b>Strata</b></div>
                                     </td>
                                     <td style="height:26px;">
@@ -370,40 +401,26 @@ if (!isset($_SESSION['auth'])) {
                                                 <input type="radio" name="strata-input" value="yes" /> Yes
                                             </label>
                                             <label class="radio-inline">
-                                            <input type="radio" name="strata-input" value="no" checked /> No
+                                                <input type="radio" name="strata-input" value="no" checked /> No
                                             </label>
                                         </div>
                                     </td>
                                 </tr>
                             </table>
-                            
-                            <table class="table-property">
+                            <table class="table-property" style="background-color: #6496e8; color:white;">
                                 <tr>
-                                    <td style="height:26px;">
-                                        <div class="title-property">
-                                            <p><b>SIZE</b></p>
-                                        </div>
+                                    <td style="width:90px;">
+                                        <div><b>SIZE</b></div>
+                                    </td>
+                                    <td style="height:20px; width:114.5px; text-align:center;">
+                                        <div><b>Min</b></div>
+                                    </td>
+                                    <td style="height:20px; text-align:center;">
+                                        <div><b>Max</b></div>
                                     </td>
                                 </tr>
                             </table>
                             <table class="table-property">
-                                <tr>
-                                    <td style="height:26px; width:90px;">
-                                        <div style="width:100%">
-                                            <p></p>
-                                        </div>
-                                    </td>
-                                    <td style="height:26px;">
-                                        <div style="width:100%; text-align:center;">
-                                            <p>Min</p>
-                                        </div>
-                                    </td>
-                                    <td style="height:26px;">
-                                        <div style="width:100%; text-align:center;">
-                                            <p>Max</p>
-                                        </div>
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td style="height:26px;">
                                         <div style="width:100%">
@@ -455,32 +472,6 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td style="height:26px;">
                                         <div class="title-property">
-                                            <p><b>MARKETING SCHEME</b></p>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="table-property">
-                                <tr>
-                                    <td style="height:26px;">
-                                        <div style="padding-top:5px; padding-left:5px; width: 100%; height: 100%; overflow:hidden;" id="strata-value" value="yes">
-                                            <label class="radio-inline">
-                                                <input type="radio" name="marketing-scheme-input" value="for-lease" /> For Lease
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="marketing-scheme-input" value="for-sale" /> For Sale
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="marketing-scheme-input" value="for-lease-and-for-sale" /> For Lease and For Sale
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="table-property">
-                                <tr>
-                                    <td style="height:26px;">
-                                        <div class="title-property">
                                             <p><b>TIME PERIOD</b></p>
                                         </div>
                                     </td>
@@ -506,227 +497,7 @@ if (!isset($_SESSION['auth'])) {
                                     </td>
                                 </tr>
                             </table>
-                            <table class="table-property">
-                                <tr>
-                                    <td style="height:26px;">
-                                        <div class="title-property">
-                                            <p><b>PROPERTY STATUS/SERVICE</b></p>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="table-property">
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px;" class="sub-property-status property-status-items">
-                                            <input id="checkbox-available-for-sale" class="property-status-available-for-sale styled" type="checkbox" name="property-status-available-for-sale">
-                                            <label for="checkbox-available-for-sale"><span></span>
-                                                <b>Property For Sale</b>
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
-                                            <input id="checkbox-available-colliers" class="property-available styled" type="checkbox" name="property-available" value="colliers">
-                                            <label for="checkbox-available-colliers"><span></span>
-                                                By Colliers
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
-                                            <input id="checkbox-available" class="property-available styled" type="checkbox" name="property-available" value="available">
-                                            <label for="checkbox-available"><span></span>
-                                                By Others
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="table-property">
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox-circle">
-                                            <input id="checkbox-sold" class="property-status-sold styled" type="checkbox" name="property-status-sold">
-                                            <label for="checkbox-sold"><span></span>
-                                                <b>Property Sold</b>
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
-                                            <input id="checkbox-sold-colliers" class="property-sold styled" type="checkbox" name="property-sold" value="colliers">
-                                            <label for="checkbox-sold-colliers"><span></span>
-                                                By Colliers
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
-                                            <input id="checkbox-sold-others" class="property-sold styled" type="checkbox" name="property-sold" value="others">
-                                            <label for="checkbox-sold-others"><span></span>
-                                                By Others
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="table-property">
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox-circle">
-                                            <input id="checkbox-valuation" class="property-status-valuation styled" type="checkbox" name="property-status-valuation">
-                                            <label for="checkbox-valuation"><span></span>
-                                                <b>Property Valuation</b>
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input id="checkbox-kjpp" class="property-valuation styled" type="checkbox" name="property-valuation" value="kjpp">
-                                            <label for="checkbox-kjpp"><span></span>
-                                                By KJPP
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input id="checkbox-valuation-others" class="property-valuation styled" type="checkbox" name="property-valuation" value="others">
-                                            <label for="checkbox-valuation-others"><span></span>
-                                                By Others
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="table-property">
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
-                                            <input id="checkbox-advisory-work" class="property-status-advisory-work styled" type="checkbox" name="property-status-advisory-work">
-                                            <label for="checkbox-advisory-work"><span></span>
-                                                <b>Property Advisory Work</b>
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="table-property">
-                                <tr>
-                                    <td>
-                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
-                                        <input id="checkbox-project" class="property-status-project styled" type="checkbox" name="property-status-project">
-                                        <label for="checkbox-project"><span></span>
-                                            <b>Project/Facilities/Property Management</b>
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="table-property">
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">    
-                                        <input id="checkbox-location" class="property-status-location styled" type="checkbox" name="property-status-location">
-                                            <label for="checkbox-location"><span></span>
-                                                <b>Property NPL/AYDA</b>
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="table-property">
-                            <tr>
-                                <td style="height:26px;">
-                                    <div class="title-property">
-                                        <p><b>CLIENT/GROUP</b></p>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="table-property">
-                            <tr>
-                                <td style="height:26px;">
-                                    <div class="title-property">
-                                        <p><b>DEPARTMENT</b></p>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="table-property">
-                            <tr>
-                                <td>
-                                    <div>
-                                        <input class="styled" type="checkbox" name="select-department" id="department-advisory" value="Advisory">
-                                        <label for="department-advisory"><span></span>Advisory</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <input class="styled" type="checkbox" name="select-department" id="department-industrial" value="Industrial">
-                                        <label for="department-industrial"><span></span>Industrial</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <input class="styled" type="checkbox" name="select-department" id="department-PM" value="PM">
-                                        <label for="department-PM"><span></span>PM</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div>
-                                        <input class="styled" type="checkbox" name="select-department" id="department-office" value="Office">
-                                        <label for="department-office"><span></span>Office</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <input class="styled" type="checkbox" name="select-department" id="department-RE" value="RE">
-                                        <label for="department-industrial"><span></span>RE</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <input class="styled" type="checkbox" name="select-department" id="department-FM" value="FM">
-                                        <label for="department-PM"><span></span>FM</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div>
-                                        <input class="styled" type="checkbox" name="select-department" id="department-residential" value="Residential">
-                                        <label for="department-residential"><span></span>Residential</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <input class="styled" type="checkbox" name="select-department" id="department-CMIS" value="CMIS">
-                                        <label for="department-CMIS"><span></span>CMIS</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <input class="styled" type="checkbox" name="select-department" id="department-REMS" value="REMS">
-                                        <label for="department-REMS"><span></span>REMS</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <table style="text-align:center;" class="table-property">
+                            <table style="text-align:center; margin-top:10px;" class="table-property">
                                 <tr>
                                     <td>
                                         <div>
@@ -742,30 +513,266 @@ if (!isset($_SESSION['auth'])) {
                                     </td>
                                 </tr>
                             </table>
-                        </table>
-                        <table class="table-property button-filter-table">
-                            <tr>
-                                <td>
-                                    <div class="button-filter-property" id="button-filter-property">
-                                        <button style="width:80px; height:30px; float:right; background-color: #7a7c80; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
-                                            <i class="mi-search"></i> Find</button>
-                                    </div>
-                                    <div class="button-filter-property button-remove-filter" id="button-filter-remove-property">
-                                        <button style="width:80px; height:30px; margin-right:10px; float:right; background-color: #d9493f; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
-                                            <i class="esri-icon-trash "></i> Clear</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="table-property">
-                            <tr>
-                                <td style="height:26px;">
-                                    <div class="title-property expand-layer">
-                                        <p><b>EXTERNAL DATA ▼</b></p>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td style="height:26px;">
+                                        <div class="title-property">
+                                            <p><b>PROPERTY STATUS/SERVICE</b></p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="sub-property-status property-status-items">
+                                            <input id="checkbox-property-for-sale" class="property-for-sale styled" type="checkbox" name="property-for-sale">
+                                            <label for="checkbox-property-for-sale"><span></span>
+                                                <b>Property For Sale</b>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
+                                            <input id="checkbox-property-for-sale-available" class="property-for-sale-available styled" type="checkbox" name="sub-property-for-sale" value="available">
+                                            <label for="checkbox-property-for-sale-available"><span></span>
+                                                By Colliers - Available
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
+                                            <input id="checkbox-property-for-sale-listing" class="property-for-sale-listing styled" type="checkbox" name="sub-property-for-sale" value="listing">
+                                            <label for="checkbox-property-for-sale-listing"><span></span>
+                                                By Colliers - Listing
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
+                                            <input id="checkbox-property-for-sale-others" class="property-for-sale-others styled" type="checkbox" name="sub-property-for-sale" value="others">
+                                            <label for="checkbox-property-for-sale-others"><span></span>
+                                                By Others
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox-circle">
+                                            <input id="checkbox-property-sold" class="property-sold styled" type="checkbox" name="property-sold">
+                                            <label for="checkbox-property-sold"><span></span>
+                                                <b>Property Sold</b>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
+                                            <input id="checkbox-property-sold-by-colliers" class="property-sold-by-colliers styled" type="checkbox" name="sub-property-sold" value="colliers">
+                                            <label for="checkbox-property-sold-by-colliers"><span></span>
+                                                By Colliers
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
+                                            <input id="checkbox-property-sold-by-others" class="property-sold-by-others styled" type="checkbox" name="sub-property-sold" value="others">
+                                            <label for="checkbox-property-sold-by-others"><span></span>
+                                                By Others
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox-circle">
+                                            <input id="checkbox-property-valuation" class="property-valuation styled" type="checkbox" name="property-valuation">
+                                            <label for="checkbox-property-valuation"><span></span>
+                                                <b>Property Valuation</b>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input id="checkbox-property-valuation-by-kjpprhr" class="property-valuation-by-kjpprhr styled" type="checkbox" name="sub-property-valuation" value="kjpprhr">
+                                            <label for="checkbox-property-valuation-by-kjpprhr"><span></span>
+                                                By KJPP RHR
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input id="checkbox-property-valuation-by-others" class="property-valuation-by-others styled" type="checkbox" name="sub-property-valuation" value="others">
+                                            <label for="checkbox-property-valuation-by-others"><span></span>
+                                                By Others
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input id="checkbox-property-advisory-work" class="property-advisory-work styled" type="checkbox" name="property-advisory-work">
+                                            <label for="checkbox-property-advisory-work"><span></span>
+                                                <b>Property Advisory Work</b>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input id="checkbox-project" class="property-project styled" type="checkbox" name="property-project">
+                                            <label for="checkbox-project"><span></span>
+                                                <b>Project/Facilities/Property Management</b>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
+                                            <input id="checkbox-property-npl-ayda" class="property-npl-ayda styled" type="checkbox" name="property-npl-ayda">
+                                            <label for="checkbox-property-npl-ayda"><span></span>
+                                                <b>Property NPL/AYDA</b>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td style="height:26px;">
+                                        <div class="title-property">
+                                            <p><b>CLIENT/GROUP</b></p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <select style="height:26px; font-size:11px; padding: 0px; margin:0px;" name="client-group" id="dropdown-client-group">
+                                    <option value="HSBC">HSBC</option>
+                                    <option value="Bank Permata">Bank Permata</option>
+                                </select>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td style="height:26px;">
+                                        <div class="title-property">
+                                            <p><b>DEPARTMENT</b></p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-department" id="department-advisory" value="Advisory">
+                                            <label for="department-advisory"><span></span>Advisory</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-department" id="department-industrial" value="Industrial">
+                                            <label for="department-industrial"><span></span>Industrial</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-department" id="department-PM" value="PM">
+                                            <label for="department-PM"><span></span>PM</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-department" id="department-office" value="Office">
+                                            <label for="department-office"><span></span>Office</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-department" id="department-RE" value="RE">
+                                            <label for="department-industrial"><span></span>Retail</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-department" id="department-FM" value="FM">
+                                            <label for="department-PM"><span></span>FM</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-department" id="department-residential" value="Residential">
+                                            <label for="department-residential"><span></span>Residential</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-department" id="department-CMIS" value="CMIS">
+                                            <label for="department-CMIS"><span></span>CMIS</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input class="styled" type="checkbox" name="select-department" id="department-REMS" value="REMS">
+                                            <label for="department-REMS"><span></span>REMS</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property button-filter-table">
+                                <tr>
+                                    <td>
+                                        <div class="button-filter-property" id="button-filter-property">
+                                            <button style="width:80px; height:30px; float:right; background-color: #7a7c80; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
+                                                <i class="mi-search"></i> Find</button>
+                                        </div>
+                                        <div class="button-filter-property button-remove-filter" id="button-filter-remove-property">
+                                            <button style="width:80px; height:30px; margin-right:10px; float:right; background-color: #d9493f; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
+                                                <i class="esri-icon-trash "></i> Clear</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td style="height:26px;">
+                                        <div class="title-property expand-layer">
+                                            <p><b>EXTERNAL DATA ▼</b></p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </li>
                         <li style="display:none">
                             <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
@@ -873,645 +880,678 @@ if (!isset($_SESSION['auth'])) {
                             </ul>
                         </li>
                         <li>
-                        <table class="table-property expand-master-element">
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer">
-                                        <i style="margin-top:-5px;" class="mi-add expand-layer"></i>
-                                        <input id="tall-1" class="checkbox-poi styled" type="checkbox" name="POI" value="POI">
-                                        <label for="tall-1"><span></span>
-                                            POI
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="table-property expand-element">
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
-                                        <input class="checkbox-sub-poi styled" type="checkbox" secondValue="043efa83c740ada85088797610dcff20" value="16" id="tall-1-1">
-                                        <label for="tall-1-1"><span></span>
-                                            Bank DKI
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <select class="select-buffer-layer" name="buffer-layer">
-                                        <option value="buffer">Buffer</option>
-                                        <option value="1">1 KM</option>
-                                        <option value="2">2 KM</option>
-                                        <option value="3">3 KM</option>
-                                        <option value="4">4 KM</option>
-                                        <option value="5">5 KM</option>
-                                        <option value="6">6 KM</option>
-                                        <option value="7">7 KM</option>
-                                        <option value="8">8 KM</option>
-                                        <option value="9">9 KM</option>
-                                        <option value="10">10 KM</option>
-                                    </select>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-poi" name="list-table" class="mi-list"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
-                                        <input class="checkbox-sub-poi styled" type="checkbox" secondValue="6d360f3944aedea7a11c30a65e2b9f81" value="27" id="tall-1-2">
-                                        <label for="tall-1-2"><span></span>
-                                            Bank Mandiri
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <select class="select-buffer-layer" name="buffer-layer">
-                                        <option value="buffer">Buffer</option>
-                                        <option value="1">1 KM</option>
-                                        <option value="2">2 KM</option>
-                                        <option value="3">3 KM</option>
-                                        <option value="4">4 KM</option>
-                                        <option value="5">5 KM</option>
-                                        <option value="6">6 KM</option>
-                                        <option value="7">7 KM</option>
-                                        <option value="8">8 KM</option>
-                                        <option value="9">9 KM</option>
-                                        <option value="10">10 KM</option>
-                                    </select>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-poi" name="list-table" class="mi-list"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
-                                        <input class="checkbox-sub-poi styled" type="checkbox" secondValue="043efa83c740ada85088797610dcff20" value="48" id="tall-1-3">
-                                        <label for="tall-1-3"><span></span>
-                                            Bank Sumut
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <select class="select-buffer-layer" name="buffer-layer">
-                                        <option value="buffer">Buffer</option>
-                                        <option value="1">1 KM</option>
-                                        <option value="2">2 KM</option>
-                                        <option value="3">3 KM</option>
-                                        <option value="4">4 KM</option>
-                                        <option value="5">5 KM</option>
-                                        <option value="6">6 KM</option>
-                                        <option value="7">7 KM</option>
-                                        <option value="8">8 KM</option>
-                                        <option value="9">9 KM</option>
-                                        <option value="10">10 KM</option>
-                                    </select>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-poi" name="list-table" class="mi-list"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
-                                        <input class="checkbox-sub-poi styled" type="checkbox" secondValue="5997da4fa19d09c66b078ecb7df5a043" value="4" id="tall-1-4">
-                                        <label for="tall-1-4"><span></span>
-                                            Apotek K24
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <select class="select-buffer-layer" name="buffer-layer">
-                                        <option value="buffer">Buffer</option>
-                                        <option value="1">1 KM</option>
-                                        <option value="2">2 KM</option>
-                                        <option value="3">3 KM</option>
-                                        <option value="4">4 KM</option>
-                                        <option value="5">5 KM</option>
-                                        <option value="6">6 KM</option>
-                                        <option value="7">7 KM</option>
-                                        <option value="8">8 KM</option>
-                                        <option value="9">9 KM</option>
-                                        <option value="10">10 KM</option>
-                                    </select>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-poi" name="list-table" class="mi-list"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
-                                        <input class="checkbox-sub-poi styled" type="checkbox" secondValue="ff5f425350108fbe0df7d0cac1764626" value="5" id="tall-1-5">
-                                        <label for="tall-1-5"><span></span>
-                                            Apotek Kimia Farma
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <select class="select-buffer-layer" name="buffer-layer">
-                                        <option value="buffer">Buffer</option>
-                                        <option value="1">1 KM</option>
-                                        <option value="2">2 KM</option>
-                                        <option value="3">3 KM</option>
-                                        <option value="4">4 KM</option>
-                                        <option value="5">5 KM</option>
-                                        <option value="6">6 KM</option>
-                                        <option value="7">7 KM</option>
-                                        <option value="8">8 KM</option>
-                                        <option value="9">9 KM</option>
-                                        <option value="10">10 KM</option>
-                                    </select>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-poi" name="list-table" class="mi-list"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
-                                        <input class="checkbox-sub-poi styled" type="checkbox" secondValue="a5b865a0a219dda0d5434ebdee20c4e7" value="7" id="tall-1-6">
-                                        <label for="tall-1-6"><span></span>
-                                            Apotek Watsons
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <select class="select-buffer-layer" name="buffer-layer">
-                                        <option value="buffer">Buffer</option>
-                                        <option value="1">1 KM</option>
-                                        <option value="2">2 KM</option>
-                                        <option value="3">3 KM</option>
-                                        <option value="4">4 KM</option>
-                                        <option value="5">5 KM</option>
-                                        <option value="6">6 KM</option>
-                                        <option value="7">7 KM</option>
-                                        <option value="8">8 KM</option>
-                                        <option value="9">9 KM</option>
-                                        <option value="10">10 KM</option>
-                                    </select>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-poi" name="list-table" class="mi-list"></i>
-                                </td>
-                            </tr>
-                        </table>
-                    </li>
-                    <li>
-                        <table class="table-property expand-master-element">
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer">
-                                        <i style="margin-top:-5px;" class="mi-add expand-layer"></i>
-                                        <input id="checkbox-infrastructure" class="checkbox-infrastructure styled" type="checkbox" name="infrastructure">
-                                        <label for="checkbox-infrastructure"><span></span>
-                                            Infrastructure
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="table-property expand-element">
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
-                                        <input class="checkbox-sub-infrastructure styled" type="checkbox" value="14" secondValue="3cd464faf714f7bd5ac83794a7a4a05d" id="tall-2-1">
-                                        <label for="tall-2-1"><span></span>
-                                            Bus Station
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <select class="select-buffer-layer" name="buffer-layer">
-                                        <option value="buffer">Buffer</option>
-                                        <option value="1">1 KM</option>
-                                        <option value="2">2 KM</option>
-                                        <option value="3">3 KM</option>
-                                        <option value="4">4 KM</option>
-                                        <option value="5">5 KM</option>
-                                        <option value="6">6 KM</option>
-                                        <option value="7">7 KM</option>
-                                        <option value="8">8 KM</option>
-                                        <option value="9">9 KM</option>
-                                        <option value="10">10 KM</option>
-                                    </select>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-infrastructure" name="list-table" class="mi-list"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
-                                        <input class="checkbox-sub-infrastructure styled" type="checkbox" value="15" secondValue="2cd615ee33f699f12f5b370f42b35338" id="tall-2-2">
-                                        <label for="tall-2-2"><span></span>
-                                            MRT Station
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <select class="select-buffer-layer" name="buffer-layer">
-                                        <option value="buffer">Buffer</option>
-                                        <option value="1">1 KM</option>
-                                        <option value="2">2 KM</option>
-                                        <option value="3">3 KM</option>
-                                        <option value="4">4 KM</option>
-                                        <option value="5">5 KM</option>
-                                        <option value="6">6 KM</option>
-                                        <option value="7">7 KM</option>
-                                        <option value="8">8 KM</option>
-                                        <option value="9">9 KM</option>
-                                        <option value="10">10 KM</option>
-                                    </select>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-infrastructure" name="list-table" class="mi-list"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
-                                        <input class="checkbox-sub-infrastructure styled" type="checkbox" value="16" secondValue="3cb6ca1379241d21cf375b3a3c9f1b70" id="tall-2-3">
-                                        <label for="tall-2-3"><span></span>
-                                            Commuter Line Station
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <select class="select-buffer-layer" name="buffer-layer">
-                                        <option value="buffer">Buffer</option>
-                                        <option value="1">1 KM</option>
-                                        <option value="2">2 KM</option>
-                                        <option value="3">3 KM</option>
-                                        <option value="4">4 KM</option>
-                                        <option value="5">5 KM</option>
-                                        <option value="6">6 KM</option>
-                                        <option value="7">7 KM</option>
-                                        <option value="8">8 KM</option>
-                                        <option value="9">9 KM</option>
-                                        <option value="10">10 KM</option>
-                                    </select>
-                                </td>
-                                <td class="item-buffer-layer">
-                                    <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-infrastructure" name="list-table" class="mi-list"></i>
-                                </td>
-                            </tr>
-                        </table>
-                    </li>
-                    <li style="margin-bottom:50px;">
-                        <table class="table-property expand-master-element">
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer">
-                                        <i style="margin-top:-5px;" class="mi-add expand-layer"></i>
-                                        <input id="checkbox-demographic" class="checkbox-demographic styled" type="checkbox" name="demographic">
-                                        <label for="checkbox-demographic"><span></span>
-                                            Demographic
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="table-property expand-element">
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
-                                        <input class="checkbox-sub-demographic styled" type="checkbox" value="4" id="tall-3-1">
-                                        <label for="tall-3-1"><span></span>
-                                            Populasi
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- End of the SideNav Viewer -->
-
-        <!-- SideNav Analysis -->
-        <div id="mySiteAnalysis" class="sidenav panel-left">
-            <div class="inline">
-                <a href="javascript:void(0)" id="closeSiteAnalysis">&times;</a>
-            </div>
-            <div id="tbl-analysis-div-parent">
-                <p style="padding: 20px 8px 0px 90px;" class="title">
-                </p>
-                <div id="tbl-analysis-div" class="table-responsive tbl">
-                    <?php include "content/analysis/site_analysis.php"; ?>
+                            <table class="table-property expand-master-element">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer">
+                                            <i style="margin-top:-5px;" class="mi-add expand-master-layer"></i>
+                                            <input id="tall-1" class="checkbox-poi styled" type="checkbox" name="POI" value="POI">
+                                            <label for="tall-1"><span></span>
+                                                POI
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property expand-element">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
+                                            <i style="margin-top:-5px;" class="mi-add expand-layer"></i>
+                                            <input id="checkbox-sub-poi-bank" class="checkbox-master-sub-poi styled" type="checkbox">
+                                            <label for="checkbox-sub-poi-bank"><span></span>
+                                                Bank
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property expand-sub-element">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer-2">
+                                            <input class="checkbox-sub-poi styled" type="checkbox" secondValue="043efa83c740ada85088797610dcff20" value="16" id="tall-1-1">
+                                            <label for="tall-1-1"><span></span>
+                                                Bank DKI
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-poi" name="list-table" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer-2">
+                                            <input class="checkbox-sub-poi styled" type="checkbox" secondValue="6d360f3944aedea7a11c30a65e2b9f81" value="27" id="tall-1-2">
+                                            <label for="tall-1-2"><span></span>
+                                                Bank Mandiri
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-poi" name="list-table" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer-2">
+                                            <input class="checkbox-sub-poi styled" type="checkbox" secondValue="043efa83c740ada85088797610dcff20" value="48" id="tall-1-3">
+                                            <label for="tall-1-3"><span></span>
+                                                Bank Sumut
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-poi" name="list-table" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property expand-element">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
+                                            <i style="margin-top:-5px;" class="mi-add expand-layer"></i>
+                                            <input id="checkbox-sub-poi-apotek" class="checkbox-master-sub-poi styled" type="checkbox">
+                                            <label for="checkbox-sub-poi-apotek"><span></span>
+                                                Apotek
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property expand-sub-element">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer-2">
+                                            <input class="checkbox-sub-poi styled" type="checkbox" secondValue="5997da4fa19d09c66b078ecb7df5a043" value="4" id="tall-1-4">
+                                            <label for="tall-1-4"><span></span>
+                                                Apotek K24
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-poi" name="list-table" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer-2">
+                                            <input class="checkbox-sub-poi styled" type="checkbox" secondValue="ff5f425350108fbe0df7d0cac1764626" value="5" id="tall-1-5">
+                                            <label for="tall-1-5"><span></span>
+                                                Apotek Kimia Farma
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-poi" name="list-table" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer-2">
+                                            <input class="checkbox-sub-poi styled" type="checkbox" secondValue="a5b865a0a219dda0d5434ebdee20c4e7" value="7" id="tall-1-6">
+                                            <label for="tall-1-6"><span></span>
+                                                Apotek Watsons
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-poi" name="list-table" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                            </table>
+                        </li>
+                        <li>
+                            <table class="table-property expand-master-element">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer">
+                                            <i style="margin-top:-5px;" class="mi-add expand-layer"></i>
+                                            <input id="checkbox-infrastructure" class="checkbox-infrastructure styled" type="checkbox" name="infrastructure">
+                                            <label for="checkbox-infrastructure"><span></span>
+                                                Infrastructure
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property expand-element">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
+                                            <input class="checkbox-sub-infrastructure styled" type="checkbox" value="14" secondValue="3cd464faf714f7bd5ac83794a7a4a05d" id="tall-2-1">
+                                            <label for="tall-2-1"><span></span>
+                                                Bus Station
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-infrastructure" name="list-table" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
+                                            <input class="checkbox-sub-infrastructure styled" type="checkbox" value="15" secondValue="2cd615ee33f699f12f5b370f42b35338" id="tall-2-2">
+                                            <label for="tall-2-2"><span></span>
+                                                MRT Station
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-infrastructure" name="list-table" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
+                                            <input class="checkbox-sub-infrastructure styled" type="checkbox" value="16" secondValue="3cb6ca1379241d21cf375b3a3c9f1b70" id="tall-2-3">
+                                            <label for="tall-2-3"><span></span>
+                                                Commuter Line Station
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <select class="select-buffer-layer" name="buffer-layer">
+                                            <option value="buffer">Buffer</option>
+                                            <option value="1">1 KM</option>
+                                            <option value="2">2 KM</option>
+                                            <option value="3">3 KM</option>
+                                            <option value="4">4 KM</option>
+                                            <option value="5">5 KM</option>
+                                            <option value="6">6 KM</option>
+                                            <option value="7">7 KM</option>
+                                            <option value="8">8 KM</option>
+                                            <option value="9">9 KM</option>
+                                            <option value="10">10 KM</option>
+                                        </select>
+                                    </td>
+                                    <td class="item-buffer-layer">
+                                        <i style="background-color: #f0f0f0; border-radius: 5px;" value="list-infrastructure" name="list-table" class="mi-list"></i>
+                                    </td>
+                                </tr>
+                            </table>
+                        </li>
+                        <li style="margin-bottom:50px;">
+                            <table class="table-property expand-master-element">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer">
+                                            <i style="margin-top:-5px;" class="mi-add expand-layer"></i>
+                                            <input id="checkbox-demographic" class="checkbox-demographic styled" type="checkbox" name="demographic">
+                                            <label for="checkbox-demographic"><span></span>
+                                                Demographic
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property expand-element">
+                                <tr>
+                                    <td>
+                                        <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer sub-table-layer">
+                                            <input class="checkbox-sub-demographic styled" type="checkbox" value="4" id="tall-3-1">
+                                            <label for="tall-3-1"><span></span>
+                                                Populasi
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <div id="myAnalysisPOI" class="sidenav panel-left">
-            <div class="inline">
-                <a href="javascript:void(0)" id="closeAnalysisPOI">&times;</a>
+            <!-- End of the SideNav Viewer -->
+
+            <!-- SideNav Analysis -->
+            <div id="mySiteAnalysis" class="sidenav panel-left">
+                <div class="inline">
+                    <a href="javascript:void(0)" id="closeSiteAnalysis">&times;</a>
+                </div>
+                <div id="tbl-analysis-div-parent">
+                    <p style="padding: 20px 8px 0px 90px;" class="title">
+                    </p>
+                    <div id="tbl-analysis-div" class="table-responsive tbl">
+                        <?php include "content/analysis/site_analysis.php"; ?>
+                    </div>
+                </div>
             </div>
-            <div>
-                <p style="padding: 20px 8px 0px 90px;" class="title"></p>
-                <div id="myAnaysisPOIList" class="table-responsive tbl"></div>
+            <div id="myAnalysisPOI" class="sidenav panel-left">
+                <div class="inline">
+                    <a href="javascript:void(0)" id="closeAnalysisPOI">&times;</a>
+                </div>
+                <div>
+                    <p style="padding: 20px 8px 0px 90px;" class="title"></p>
+                    <div id="myAnaysisPOIList" class="table-responsive tbl"></div>
+                </div>
+            </div>
+            <!-- End of the SideNav Analysis -->
+
+            <!-- Create Buffer Info -->
+            <div id="info">
+                <label class="chkLabel">Click on map to buffer</label>
+                <br />
+            </div>
+            <!-- End of Create Buffer Info -->
+
+            <!-- Setting Colors of POI -->
+            <div id="colors-div" style="display:none;">
+                <p>
+                    <input type="text" id="colors" class="input color" value="#B6BD79" />
+                </p>
+            </div>
+            <!-- End of Setting Colors of POI -->
+
+            <!-- Top bar for measurement -->
+            <div id="topbar">
+                <button class="action-button esri-icon-minus" id="distanceButton" type="button" title="Drawing distance between two or more points"></button>
+                <button class="action-button esri-icon-polygon" id="areaButton" type="button" title="Drawing Polygon (Area)"></button>
+                <!-- <button class="action-button esri-icon-erase" id="deleteGraphics" type="button" title="Delete drawing results"></button> -->
+            </div>
+            <!-- End of Top bar for measurement -->
+
+            <!-- Form Create Site -->
+            <div id="create-site-div" class="card" style="background: rgba(255,255,255,0.8); display:none; width:500px;">
+                <div class="card-header header-elements-inline">
+                    <h6 class="card-title">Create a Site</h6>
+                    <label style="align:right; margin:-5px;" class="message"></label>
+                </div>
+                <div class="card-body">
+                    <?php include 'content/create_site.php' ?>
+                </div>
+            </div>
+            <!-- End of Form Create Site -->
+
+            <!-- Popup Filter -->
+            <div id="popupFilter" class="popupFilter">
+                <table style="width:100%; font-size:11px;">
+                    <tr>
+                        <td id="propertytype-popup" style="width:600px; font-weight:bold;">
+                            PROPERTY TYPE : -
+                        </td>
+                        <td id="close-popup-property" class="close-popup-property" style="font-size:15px; font-weight:bold; float:right; padding-right:10px;">X</td>
+                    </tr>
+                    <tr>
+                        <td id="buildingName-popup">Land at Unknown</td>
+                    </tr>
+                </table>
+                <table class="table-popup-colliers" id="table-popup-colliers">
+                    <tr>
+                        <td class="image-property" style="width:200px; height:240px;"></td>
+                        <td>
+                            <table class="font-popup" style="height:100%">
+                                <tr class="title-popup">
+                                    <td colspan="8" style="background-color: #e6e6e6;">
+                                        Asking on 16-Aug-2019
+                                    </td>
+                                    <td colspan="3" style="background-color: #e6e6e6;">
+                                        NJOP
+                                    </td>
+                                </tr>
+                                <tr class="title-popup">
+                                    <td rowspan="2" style="width:50px; background-color: #e6e6e6;">
+                                    </td>
+                                    <td rowspan="2" style="width:100px; background-color: #e6e6e6;">
+                                        Total
+                                    </td>
+                                    <td colspan="3" style="background-color: #e6e6e6;">
+                                        Size
+                                    </td>
+                                    <td colspan="3" style="background-color: #e6e6e6;">
+                                        Price Per
+                                    </td>
+                                    <td colspan="2" style="width:100px; background-color: #e6e6e6;">
+                                        Price
+                                    </td>
+                                    <td rowspan="2" style="width:30px; background-color: #e6e6e6;">
+                                        %
+                                    </td>
+                                </tr>
+                                <tr class="title-popup">
+                                    <td colspan="2" style="width:60px; background-color: #e6e6e6;">
+                                        Sqm
+                                    </td>
+                                    <td style="width:100px; word-wrap:break-word; background-color: #e6e6e6;">
+                                        Units/Keys
+                                    </td>
+                                    <td colspan="2" style="width:64px; background-color: #e6e6e6;">
+                                        Sqm
+                                    </td>
+                                    <td style="width:100px; background-color: #e6e6e6;">Unit/Key</td>
+                                    <td style="width:50px; background-color: #e6e6e6;">
+                                        Total
+                                    </td>
+                                    <td style="width:50px; background-color: #e6e6e6;">
+                                        Per Sqm
+                                    </td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td style="font-weight:bold;">Land</td>
+                                    <td style="width:50px; word-wrap:break-word;"></td>
+                                    <td style="width:50px; word-wrap:break-word;" class="title-popup">Gross</td>
+                                    <td style="width:50px; word-wrap:break-word;" class="title-popup">SGA/Net</td>
+                                    <td style="width:50px; word-wrap:break-word;"></td>
+                                    <td style="width:50px; word-wrap:break-word;" class="title-popup">Gross</td>
+                                    <td style="width:50px; word-wrap:break-word;" class="title-popup">SGA/Net</td>
+                                    <td></td>
+                                    <td style="width:50px; word-wrap:break-word;"></td>
+                                    <td style="width:50px; word-wrap:break-word;"></td>
+                                    <td style="width:50px; word-wrap:break-word;"></td>
+                                </tr>
+                                <tr class="tr-second">
+                                    <td class="center-popup">IDR</td>
+                                    <td style="text-align:right;" id="landTotalIDR"></td>
+                                    <td class="text-align-right" id="landSizeSqmGrossIDR"></td>
+                                    <td class="text-align-right" id="landSizeSqmSGAIDR"></td>
+                                    <td class="text-align-right" id="landSizeUnitKeysIDR"></td>
+                                    <td class="text-align-right" id="landPricePerSqmGrossIDR"></td>
+                                    <td class="text-align-right" id="landPricePerSqmSGAIDR"></td>
+                                    <td class="text-align-right" id="landPricePerUnitKeyIDR"></td>
+                                    <td class="text-align-right" id="landPriceTotalIDR"></td>
+                                    <td class="text-align-right" id="landPricePerSqmIDR"></td>
+                                    <td class="text-align-right" id="landNJOPPercentIDR"></td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td class="center-popup">USD</td>
+                                    <td class="text-align-right" id="landTotalUSD"></td>
+                                    <td class="text-align-right" id="landSizeSqmGrossUSD"></td>
+                                    <td class="text-align-right" id="landSizeSqmSGAUSD"></td>
+                                    <td class="text-align-right" id="landSizeUnitKeysUSD"></td>
+                                    <td class="text-align-right" id="landPricePerSqmGrossUSD"></td>
+                                    <td class="text-align-right" id="landPricePerSqmSGAUSD"></td>
+                                    <td class="text-align-right" id="landPricePerUnitKeyUSD"></td>
+                                    <td class="text-align-right" id="landPriceTotalUSD"></td>
+                                    <td class="text-align-right" id="landPricePerSqmUSD"></td>
+                                    <td class="text-align-right" id="landNJOPPercentUSD"></td>
+                                </tr>
+                                <tr class="tr-second">
+                                    <td style="font-weight:bold;">Building</td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td class="center-popup">IDR</td>
+                                    <td style="text-align:right;" id="buildingTotalIDR"></td>
+                                    <td class="text-align-right" id="buildingSizeSqmGrossIDR"></td>
+                                    <td class="text-align-right" id="buildingSizeSqmSGAIDR"></td>
+                                    <td class="text-align-right" id="buildingSizeUnitKeysIDR"></td>
+                                    <td class="text-align-right" id="buildingPricePerSqmGrossIDR"></td>
+                                    <td class="text-align-right" id="buildingPricePerSqmSGAIDR"></td>
+                                    <td class="text-align-right" id="buildingPricePerUnitKeyIDR"></td>
+                                    <td class="text-align-right" id="buildingPriceTotalIDR"></td>
+                                    <td class="text-align-right" id="buildingPricePerSqmIDR"></td>
+                                    <td class="text-align-right" id="buildingNJOPPercentIDR"></td>
+                                </tr>
+                                <tr class="tr-second">
+                                    <td class="center-popup">USD</td>
+                                    <td style="text-align:right;" id="buildingTotalUSD"></td>
+                                    <td class="text-align-right" id="buildingSizeSqmGrossUSD"></td>
+                                    <td class="text-align-right" id="buildingSizeSqmSGAUSD"></td>
+                                    <td class="text-align-right" id="buildingSizeUnitKeysUSD"></td>
+                                    <td class="text-align-right" id="buildingPricePerSqmGrossUSD"></td>
+                                    <td class="text-align-right" id="buildingPricePerSqmSGAUSD"></td>
+                                    <td class="text-align-right" id="buildingPricePerUnitKeyUSD"></td>
+                                    <td class="text-align-right" id="buildingPriceTotalUSD"></td>
+                                    <td class="text-align-right" id="buildingPricePerSqmUSD"></td>
+                                    <td class="text-align-right" id="buildingNJOPPercentUSD"></td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td style="font-weight:bold;">Total</td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                    <td class="text-align-right"></td>
+                                </tr>
+                                <tr class="tr-second">
+                                    <td class="center-popup">IDR</td>
+                                    <td style="text-align:right;" id="totalTotalIDR"></td>
+                                    <td class="text-align-right" id="totalSizeSqmGrossIDR"></td>
+                                    <td class="text-align-right" id="totalSizeSqmSGAIDR"></td>
+                                    <td class="text-align-right" id="totalSizeUnitKeysIDR"></td>
+                                    <td class="text-align-right" id="totalPricePerSqmGrossIDR"></td>
+                                    <td class="text-align-right" id="totalPricePerSqmSGAIDR"></td>
+                                    <td class="text-align-right" id="totalPricePerUnitKeyIDR"></td>
+                                    <td class="text-align-right" id="totalPriceTotalIDR"></td>
+                                    <td class="text-align-right" id="totalPricePerSqmIDR"></td>
+                                    <td class="text-align-right" id="totalNJOPPercentIDR"></td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td class="center-popup">USD</td>
+                                    <td style="text-align:right;" id="totalTotalUSD"></td>
+                                    <td class="text-align-right" id="totalSizeSqmGrossUSD"></td>
+                                    <td class="text-align-right" id="totalSizeSqmSGAUSD"></td>
+                                    <td class="text-align-right" id="totalSizeUnitKeysUSD"></td>
+                                    <td class="text-align-right" id="totalPricePerSqmGrossUSD"></td>
+                                    <td class="text-align-right" id="totalPricePerSqmSGAUSD"></td>
+                                    <td class="text-align-right" id="totalPricePerUnitKeyUSD"></td>
+                                    <td class="text-align-right" id="totalPriceTotalUSD"></td>
+                                    <td class="text-align-right" id="totalPricePerSqmUSD"></td>
+                                    <td class="text-align-right" id="totalNJOPPercentUSD"></td>
+                                </tr>
+                                <tr>
+                                    <td style="height:24px;" colspan="9"></td>
+                                </tr>
+                                <tr class="title-popup">
+                                    <td style="background-color: #e6e6e6;">
+
+                                    </td>
+                                    <td style="background-color: #e6e6e6;">Total</td>
+                                    <td style="background-color: #e6e6e6;">
+                                        KLB
+                                    </td>
+                                    <td style="background-color: #e6e6e6;">
+                                        Land Sqm
+                                    </td>
+                                    <td style="width:100px; word-wrap:break-word; background-color: #e6e6e6;">
+                                        Price/Buildable Sqm
+                                    </td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td style="font-weight:bold;">KLB</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="tr-second">
+                                    <td class="center-popup">IDR</td>
+                                    <td class="text-align-right" id="KLBTotalIDR"></td>
+                                    <td class="text-align-right" id="KLBKLBIDR"></td>
+                                    <td class="text-align-right" id="KLBLandSqmIDR"></td>
+                                    <td class="text-align-right" id="KLBBuildableSqmIDR"></td>
+                                </tr>
+                                <tr class="tr-first">
+                                    <td class="center-popup">USD</td>
+                                    <td class="text-align-right" id="KLBTotalUSD"></td>
+                                    <td class="text-align-right" id="KLBKLBUSD"></td>
+                                    <td class="text-align-right" id="KLBLandSqmUSD"></td>
+                                    <td class="text-align-right" id="KLBBuildableSqmUSD"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="address-popup" class="font-popup">Unknown address</td>
+                        <td>
+                            <table class="font-popup" style="width:100%;">
+                                <tr>
+                                    <td style="width:340px;">Colliers Contact : -</td>
+                                    <td id="lastupdate-popup">Last Updated : -</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td id="pointer-popup" style="float:right; padding-top:5px; padding-right:10px; cursor:pointer;"><i class="esri-icon-map-pin"></i></td>
+                    </tr>
+                </table>
+            </div>
+            <!-- End of Popup Filter -->
+
+            <div class="content-wrapper" id="contentAnalysisDiv">
+                <div id="mapDiv"></div>
+                <div class="table_list_services"><?php include "content/table_list_services.html"; ?></div>
+                <div id="analysisDiv" style="display:none;"><?php include "content/analysis/results_table.html"; ?></div>
+                <div id="instantAnalysisDiv" style="display:none;"><?php include "content/analysis/results_table_instant.html"; ?></div>
             </div>
         </div>
-        <!-- End of the SideNav Analysis -->
-
-        <!-- Create Buffer Info -->
-        <div id="info">
-            <label class="chkLabel">Click on map to buffer</label>
-            <br />
-        </div>
-        <!-- End of Create Buffer Info -->
-
-        <!-- Setting Colors of POI -->
-        <div id="colors-div" style="display:none;">
-            <p>
-                <input type="text" id="colors" class="input color" value="#B6BD79" />
-            </p>
-        </div>
-        <!-- End of Setting Colors of POI -->
-
-        <!-- Top bar for measurement -->
-        <div id="topbar">
-            <button class="action-button esri-icon-minus" id="distanceButton" type="button" title="Drawing distance between two or more points"></button>
-            <button class="action-button esri-icon-polygon" id="areaButton" type="button" title="Drawing Polygon (Area)"></button>
-            <!-- <button class="action-button esri-icon-erase" id="deleteGraphics" type="button" title="Delete drawing results"></button> -->
-        </div>
-        <!-- End of Top bar for measurement -->
-
-        <!-- Form Create Site -->
-        <div id="create-site-div" class="card" style="background: rgba(255,255,255,0.8); display:none; width:500px;">
-            <div class="card-header header-elements-inline">
-                <h6 class="card-title">Create a Site</h6>
-                <label style="align:right; margin:-5px;" class="message"></label>
-            </div>
-            <div class="card-body">
-                <?php include 'content/create_site.php' ?>
+        <!-- /page-content-->
+        <!-- Modal drag and drop csv -->
+        <div style="display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4); align-self: center; justify-content: center;" id="dragdrop-modal">
+            <div id="info-csv" style="z-index: 2; margin-top: 25%; margin-left:30%; vertical-align: middle; line-height: 100%; font-size: 40; color: white;">
+                <p id="closeMyModal" align='right' style="margin-right:50%; cursor: default;">Close[X]</p>
+                <p>Drag your CSV File here</p>
+                <p>File must be a csv format with requirements :</p>
+                <p>1. Using separators like ","(commas), ";"(semicolons), "|"(pipes)</p>
+                <p>2. Should contains string value</p>
+                <p>3. Both header columns and value must have a same length</p>
+                <p>4. Format file name must not contain a space or it will be automatically replaced by underline</p>
             </div>
         </div>
-        <!-- End of Form Create Site -->
+        <!-- End of Modal drag and drop csv -->
 
-        <!-- Popup Filter -->
-        <div id="popupFilter" class="popupFilter">
-            <table style="width:100%; font-size:11px;">
-                <tr>
-                    <td id="propertytype-popup" style="width:600px; font-weight:bold;">
-                        PROPERTY TYPE : -
-                    </td>
-                    <td id="close-popup-property" class="close-popup-property" style="font-size:15px; font-weight:bold; float:right; padding-right:10px;">X</td>
-                </tr>
-                <tr>
-                    <td id="buildingName-popup">Land at Unknown</td>
-                </tr>
-            </table>
-            <table id="table-popup-colliers">
-                <tr>
-                    <td class="image-property" style="width:200px; height:240px;"></td>
-                    <td>
-                        <table class="font-popup" style="height:100%">
-                            <tr class="title-popup">
-                                <td colspan="8" style="background-color: #e6e6e6;">
-                                    Asking/Transaction/Valuation
-                                </td>
-                                <td colspan="3" style="background-color: #e6e6e6;">
-                                    NJOP
-                                </td>
-                            </tr>
-                            <tr class="title-popup">
-                                <td rowspan="2" style="width:100px; background-color: #e6e6e6;">
-                                    Total Price
-                                </td>
-                                <td rowspan="2" style="width:64px; background-color: #e6e6e6;">
-                                    Total
-                                </td>
-                                <td colspan="3" style="background-color: #e6e6e6;">
-                                    Size
-                                </td>
-                                <td colspan="3" style="background-color: #e6e6e6;">
-                                    Price Per
-                                </td>
-                                <td colspan="2" style="width:100px; background-color: #e6e6e6;">
-                                    Price
-                                </td>
-                                <td rowspan="2" style="width:30px; background-color: #e6e6e6;">
-                                    %
-                                </td>
-                            </tr>
-                            <tr class="title-popup">
-                                <td colspan="2" style="width:60px; background-color: #e6e6e6;">
-                                    Sqm
-                                </td>
-                                <td style="width:60px; background-color: #e6e6e6;">
-                                    Units/Keys
-                                </td>
-                                <td colspan="2" style="width:64px; background-color: #e6e6e6;">
-                                    Sqm
-                                </td>
-                                <td style="background-color: #e6e6e6;">Unit/Key</td>
-                                <td style="width:64px; background-color: #e6e6e6;">
-                                    Total
-                                </td>
-                                <td style="width:60px; background-color: #e6e6e6;">
-                                    Per Sqm
-                                </td>
-                            </tr>
-                            <tr class="tr-first">
-                                <td style="font-weight:bold;">Land</td>
-                                <td></td>
-                                <td class="title-popup">Gross</td>
-                                <td class="title-popup">SGA/Net</td>
-                                <td></td>
-                                <td class="title-popup">Gross</td>
-                                <td class="title-popup">SGA/Net</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="tr-second">
-                                <td class="center-popup">IDR</td>
-                                <td class="text-align-right" id="landTotal"></td>
-                                <td class="text-align-right" id="landSizeSqm"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right" id="landPricePerSqm"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right" id="priceTotal"></td>
-                                <td class="text-align-right" id="pricePerSqm"></td>
-                                <td class="text-align-right" id="NJOPPercent"></td>
-                            </tr>
-                            <tr class="tr-first">
-                                <td class="center-popup">USD</td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                            </tr>
-                            <tr class="tr-second">
-                                <td style="font-weight:bold;">Building</td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                            </tr>
-                            <tr class="tr-first">
-                                <td class="center-popup">IDR</td>
-                                <td class="text-align-right" id="buildingTotal"></td>
-                                <td class="text-align-right" id="buildingSizeSqm"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right" id="buildingPricePerSqm"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                            </tr>
-                            <tr class="tr-second">
-                                <td class="center-popup">USD</td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                            </tr>
-                            <tr class="tr-first">
-                                <td style="font-weight:bold;">Total</td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                            </tr>
-                            <tr class="tr-second">
-                                <td class="center-popup">IDR</td>
-                                <td class="text-align-right" id="totalTotal"></td>
-                                <td class="text-align-right" id="totalSizeSqm"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                            </tr>
-                            <tr class="tr-first">
-                                <td class="center-popup">USD</td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                                <td class="text-align-right"></td>
-                            </tr>
-                            <tr>
-                                <td style="height:24px;" colspan="9"></td>
-                            </tr>
-                            <tr class="title-popup">
-                                <td style="background-color: #e6e6e6;">
-                                    Price/Buildable Sqm
-                                </td>
-                                <td style="background-color: #e6e6e6;">KLB</td>
-                                <td style="background-color: #e6e6e6;">
-                                    Total KLB
-                                </td>
-                                <td style="background-color: #e6e6e6;">
-                                    Per KLB Sqm
-                                </td>
-                            </tr>
-                            <tr class="tr-first">
-                                <td style="font-weight:bold;">KLB</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="tr-second">
-                                <td class="center-popup">IDR</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="tr-first">
-                                <td class="center-popup">USD</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td id="address-popup" class="font-popup">Unknown address</td>
-                    <td>
-                        <table class="font-popup" style="width:100%;">
-                            <tr>
-                                <td style="width:340px;">Colliers Contact : -</td>
-                                <td id="lastupdate-popup">Last Updated : -</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td id="pointer-popup" style="float:right; padding-top:5px; padding-right:10px; cursor:pointer;"><i class="esri-icon-map-pin"></i></td>
-                </tr>
-            </table>
+        <!-- Loading bar -->
+        <div style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4);" id="loading-bar">
+            <img class="image-loading" draggable="false" style="margin-left:30%; margin-top:15%;" src="assets/images/oneMap-loading-2-hole.gif" width="500" height="300" loop>
         </div>
-        <!-- End of Popup Filter -->
-
-        <div class="content-wrapper" id="contentAnalysisDiv">
-            <div id="mapDiv"></div>
-            <div class="table_list_services"><?php include "content/table_list_services.html"; ?></div>
-            <div id="analysisDiv" style="display:none;"><?php include "content/analysis/results_table.html"; ?></div>
-            <div id="instantAnalysisDiv" style="display:none;"><?php include "content/analysis/results_table_instant.html"; ?></div>
-        </div>
-    </div>
-    <!-- /page-content-->
-    <!-- Modal drag and drop csv -->
-    <div style="display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4); align-self: center; justify-content: center;" id="dragdrop-modal">
-        <div id="info-csv" style="z-index: 2; margin-top: 25%; margin-left:30%; vertical-align: middle; line-height: 100%; font-size: 40; color: white;">
-            <p id="closeMyModal" align='right' style="margin-right:50%; cursor: default;">Close[X]</p>
-            <p>Drag your CSV File here</p>
-            <p>File must be a csv format with requirements :</p>
-            <p>1. Using separators like ","(commas), ";"(semicolons), "|"(pipes)</p>
-            <p>2. Should contains string value</p>
-            <p>3. Both header columns and value must have a same length</p>
-            <p>4. Format file name must not contain a space or it will be automatically replaced by underline</p>
-        </div>
-    </div>
-    <!-- End of Modal drag and drop csv -->
-
-    <!-- Loading bar -->
-    <div style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4);" id="loading-bar">
-        <img class="image-loading" draggable="false" style="margin-left:30%; margin-top:15%;" src="assets/images/oneMap-loading-2-hole.gif" width="500" height="300" loop>
-    </div>
-    <!-- End of loading bar -->
+        <!-- End of loading bar -->
 
         <!-- Confirm Box -->
         <div id="confirmBox">
@@ -1542,12 +1582,12 @@ if (!isset($_SESSION['auth'])) {
         </div>
         <!-- End of Form Edit POI -->
         <?php
-        include 'content/edit_poi.php';
-        include 'content/data_site.php';
-        include 'content/input_point.php';
-        include 'content/analysis/form_poi.php';
-        include 'content/template/my_profile.php';
-        ?>
+            include 'content/edit_poi.php';
+            include 'content/data_site.php';
+            include 'content/input_point.php';
+            include 'content/analysis/form_poi.php';
+            include 'content/template/my_profile.php';
+            ?>
         <!-- <script src="assets/colors/app.js"></script> -->
         <script type="text/javascript" src="assets/js/plugins/collapsible/collapsible.js"></script>
         <script type="text/javascript" src="content/template/instant_analysis/formInstantAnalysis.js"></script>
@@ -1581,6 +1621,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/viewTableServices.js"></script>
     <script src="assets/js/zoomToLayer.js"></script>
     <script src="assets/js/expandCheckboxServices.js"></script>
+    <script src="assets/js/createQueryShape.js"></script>
     <script src="content/analysis/analysisPoi.js"></script>
     <script src="content/analysis/editAnalysis.js"></script>
     <script src="assets/js/plugins/tables/paginationLib.js"></script>
