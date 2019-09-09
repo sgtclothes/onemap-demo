@@ -21,61 +21,6 @@ function boot(GIS) {
   );
   map.render(); //Map rendering
 
-  //Add Measurement to Map
-  let measureBar = document.getElementById("topbar");
-  measureBar.style.display = "block";
-  map.ObjMapView.ui.add("topbar", config.Position[1]);
-  document
-    .getElementById("distanceButton")
-    .addEventListener("click", function() {
-      map.setMeasurementActiveWidget(null);
-      if (!this.classList.contains("active")) {
-        let _this = this;
-        map.setMeasurementActiveWidget("distance");
-        setTimeout(function() {
-          let esriDirectLineClass = document.getElementsByClassName(
-            "esri-direct-line-measurement-3d"
-          )[0];
-          esriDirectLineClass.style.display = "none";
-        }, 800);
-        map.ObjMapView.on("double-click", function(event) {
-          document
-            .getElementById("mapDiv")
-            .setAttribute("style", "cursor:default;");
-          _this.classList.remove("active");
-        });
-      } else {
-        map.setMeasurementActiveWidget(null);
-      }
-    });
-
-  document.getElementById("areaButton").addEventListener("click", function() {
-    map.setMeasurementActiveWidget(null);
-    if (!this.classList.contains("active")) {
-      let _this = this;
-      map.setMeasurementActiveWidget("area");
-      setTimeout(function() {
-        let esriAreaClass = document.getElementsByClassName(
-          "esri-area-measurement-3d"
-        )[0];
-        esriAreaClass.style.display = "none";
-      }, 800);
-      map.ObjMapView.on("double-click", function(event) {
-        document
-          .getElementById("mapDiv")
-          .setAttribute("style", "cursor:default;");
-        _this.classList.remove("active");
-      });
-    } else {
-      map.setMeasurementActiveWidget(null);
-    }
-  });
-
-  // document
-  //   .getElementById("deleteGraphics")
-  //   .addEventListener("click", function() {
-  //     map.setMeasurementActiveWidget(null);
-  // })
   // Create a site
   map.ObjMapView.when(function() {
     let createSiteDiv = document.getElementById("create-site-div");
@@ -781,6 +726,7 @@ function boot(GIS) {
   multiSelect();
   inputCheckboxPropertyStatus();
   inputCheckboxServices(GIS, map);
+  inputCheckboxQueryShape(GIS, map);
   saveDataServiceToLocalStorage();
   removeFilterResults(map);
   createOverlap(GIS, map);
@@ -1525,6 +1471,12 @@ function boot(GIS) {
         );
       }
     });
+  });
+
+  $(document).delegate("#create-polygon", "click", function() {
+    $(".esri-icon-pan").removeClass("esri-sketch__button--selected");
+    $(".esri-icon-polygon").addClass("esri-sketch__button--selected");
+    // document.body.style.cursor = "crosshair";
   });
 
   //Clear the localstorage when user logout

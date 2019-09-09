@@ -441,7 +441,7 @@ td.table-property {
 }
 
 .tr-min-word-break > td {
-  width:50px;
+  width: 50px;
   word-wrap: break-word;
   display: inline-block;
 }
@@ -837,3 +837,15 @@ td {
   border: black;
 }
 /* table analysis global style */
+
+.esri-sketch__button.esri-icon-polyline,
+.esri-sketch__button.esri-icon-map-pin,
+.esri-sketch__button.esri-icon-checkbox-unchecked,
+.esri-sketch__button.esri-icon-radio-unchecked {
+  display: none;
+}
+
+.esri-sketch__section:nth-of-type(1),
+.esri-sketch__section:nth-of-type(3) {
+  display: none;
+}

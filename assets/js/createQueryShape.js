@@ -26,9 +26,63 @@ function createQueryShape(GIS, map, convertCSV) {
     return deg * (Math.PI / 180);
   }
 
+  function createListPOI() {
+    let div = document.createElement("div");
+    div.style.width = "auto";
+    div.style.height = "auto";
+    div.style.backgroundColor = "white";
+    div.style.padding = "10px";
+    let text = document.createElement("div");
+    text.innerHTML = "List of POI";
+    text.style.textAlign = "center";
+    div.appendChild(text);
+    let subPOI = $(".checkbox-sub-poi");
+    let labels = [];
+    let values = [];
+    let secondValues = [];
+    for (let i = 0; i < subPOI.length; i++) {
+      labels.push(
+        $(subPOI[i])
+          .siblings("label")
+          .text()
+      );
+      values.push($(subPOI[i]).val());
+      secondValues.push($(subPOI[i]).attr("secondValue"));
+    }
+    console.log(labels);
+    console.log(values);
+    console.log(secondValues);
+    $(div).append(
+      '<div class="property-status-items checkbox checkbox-circle checkbox-info">' +
+        '<input class="checkbox-sub-poi-query styled" type="checkbox" id="tall-1-1-colliers">' +
+        '<label for="tall-1-1-colliers"><span></span>' +
+        " Colliers Property" +
+        "</label></div>"
+    );
+    for (let i = 0; i < subPOI.length; i++) {
+      $(div).append(
+        '<div class="property-status-items checkbox checkbox-circle checkbox-info">' +
+          '<input class="checkbox-sub-poi-query styled" type="checkbox" id="tall-' +
+          values[i] +
+          '" value="' +
+          values[i] +
+          '"' +
+          ' secondValue="' +
+          secondValues[i] +
+          '"' +
+          ">" +
+          '<label for="tall-' +
+          values[i] +
+          '"><span></span>' +
+          labels[i] +
+          "</label></div>"
+      );
+    }
+    map.ObjMapView.ui.add(div, "bottom-left");
+  }
+
   sketch.on("create", function(event) {
     $("#loading-bar").show();
-    console.log(event.state);
     //Store point to localstorage
     if (event.state === "start") {
       map.ObjMapView.on("click", function(evt) {
@@ -62,9 +116,10 @@ function createQueryShape(GIS, map, convertCSV) {
           x: evt.x,
           y: evt.y
         }).longitude.toFixed(7);
-        console.log(getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2));
+        // console.log(getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2));
       });
     } else if (event.state === "complete") {
+      createListPOI();
       $("#loading-bar").show();
       $(".popupFilter").hide();
       let colliersProperty = new ESRI.FeatureLayer({
@@ -203,6 +258,7 @@ function createQueryShape(GIS, map, convertCSV) {
   });
 
   map.ObjMap.add(gLayer);
+  $("#button-analysis").append(sketch);
   map.ObjMapView.ui.add(sketch, "bottom-left");
 
   sketch.on("update", onGraphicUpdate);

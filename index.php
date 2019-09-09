@@ -5,28 +5,27 @@ if (isset($_COOKIE['cd_onmp']) && isset($_COOKIE['ml_onmp']) && isset($_COOKIE['
     $id = $_COOKIE['cd_onmp'];
     $email = $_COOKIE['ml_onmp'];
     $password = $_COOKIE['psss_onmp'];
-    $check=mysqli_query(
-		$conn,
-		"SELECT * FROM users WHERE id = '$id'"
+    $check = mysqli_query(
+        $conn,
+        "SELECT * FROM users WHERE id = '$id'"
     );
     $row = mysqli_fetch_assoc($check);
     if ($email === hash('sha256', $row['email']) && $password === $row['password']) {
         $_SESSION['auth']['id'] = $id;
-        $_SESSION['auth']['email']=$email;
-		$_SESSION['role']=$row['role'];
-		$_SESSION['name']=$row['name'];
-		$result_array = array();
-		$resQuery = $conn->query(
-			'SELECT department_id FROM users_department WHERE user_id = ' . $row['id']
-		);
-		if ($resQuery->num_rows > 0) {
-			while($row = $resQuery->fetch_assoc()) {
-				array_push($result_array, $row['department_id']);
-			}
-		}
-		$_SESSION['departments'] = $result_array;
-    }
-    else {
+        $_SESSION['auth']['email'] = $email;
+        $_SESSION['role'] = $row['role'];
+        $_SESSION['name'] = $row['name'];
+        $result_array = array();
+        $resQuery = $conn->query(
+            'SELECT department_id FROM users_department WHERE user_id = ' . $row['id']
+        );
+        if ($resQuery->num_rows > 0) {
+            while ($row = $resQuery->fetch_assoc()) {
+                array_push($result_array, $row['department_id']);
+            }
+        }
+        $_SESSION['departments'] = $result_array;
+    } else {
         header('Location: login.php');
         exit;
     }
@@ -251,12 +250,12 @@ if (!isset($_SESSION['auth'])) {
                 <div id="mySidenavChild">
                     <p id="titleSidebarAnalysis" class="title" style="padding: 50px 8px 0px 88px;"></p>
                     <p id="newTitleSidebarAnalysis" class="title" style="display:none; padding: 60px 8px 0px 75px;">Form Update Analysis</p>
-                    <div style="margin-left:38px; margin-bottom: 8px;">
+                    <div id="button-analysis" style="margin-left:38px; margin-bottom: 8px;">
                         <button type="button" id="adding-btn" title="Input Latitude & Longitude" data-toggle="modal" data-target="#modal_form_input_point" class="btn btn-sm alpha-teal border-teal text-teal-800 btn-icon rounded-round ml-2"><i class="icon-plus3"></i></button>
                         <button type="button" id="add-from-site" title="Add from Site" data-toggle="modal" data-target="#modal_form_vertical" class="btn btn-sm alpha-primary border-primary text-primary-800 btn-icon rounded-round ml-2"><i class="icon-office"></i></button>
                         <button type="button" id="add-from-csv" title="Add From CSV" class="btn btn-sm alpha-success border-success text-success-800 btn-icon rounded-round ml-2"><i class="icon-folder-open"></i></button>
                         <button type="button" title="Pointing on the Map" id="pointing-btn" class="btn btn-sm alpha-pink border-pink-400 text-pink-800 btn-icon rounded-round ml-2"><i class="icon-pin-alt"></i></button>
-                        <button type="button" title="Create Polygon" id="create-polygon" class="btn border-purple-300 alpha-purple text-purple-800 btn-icon btn-sm rounded-round ml-2"><img width="16px" height="16px" src="assets/images/polygon.png" alt=""></button>
+                        <button type="button" title="Create Polygon" id="create-polygon" class="btn border-purple-300 alpha-purple text-purple-800 btn-icon btn-sm rounded-round ml-2"><i class="esri-icon-polygon"></i></button>
                     </div>
                     <form action="" method="post" id="form-create-analysis">
                         <div class="bottom-input-name">
@@ -1264,14 +1263,6 @@ if (!isset($_SESSION['auth'])) {
             </div>
             <!-- End of Setting Colors of POI -->
 
-            <!-- Top bar for measurement -->
-            <div id="topbar">
-                <button class="action-button esri-icon-minus" id="distanceButton" type="button" title="Drawing distance between two or more points"></button>
-                <button class="action-button esri-icon-polygon" id="areaButton" type="button" title="Drawing Polygon (Area)"></button>
-                <!-- <button class="action-button esri-icon-erase" id="deleteGraphics" type="button" title="Delete drawing results"></button> -->
-            </div>
-            <!-- End of Top bar for measurement -->
-
             <!-- Form Create Site -->
             <div id="create-site-div" class="card" style="background: rgba(255,255,255,0.8); display:none; width:500px;">
                 <div class="card-header header-elements-inline">
@@ -1615,6 +1606,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/multiSelect.js"></script>
     <script src="assets/js/inputCheckboxPropertyStatus.js"></script>
     <script src="assets/js/inputCheckboxServices.js"></script>
+    <script src="assets/js/inputCheckboxQUeryShape.js"></script>
     <script src="assets/js/saveDataServiceToLocalStorage.js"></script>
     <script src="assets/js/removeFilterResults.js"></script>
     <script src="assets/js/createOverlap.js"></script>
