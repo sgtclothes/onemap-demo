@@ -21,7 +21,7 @@ function inputCheckboxServices(GIS, map) {
     return divLegend;
   }
 
-  $(poi).click(function() {
+  $(poi).click(function () {
     let layer;
     let url =
       "http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/";
@@ -42,73 +42,125 @@ function inputCheckboxServices(GIS, map) {
       .siblings("td");
     renderLegendPoint(tableLegend, JSON.parse(localStorage.getItem("dataPOI")));
     if ($(this).prop("checked") == true) {
-      $(masterSubPOI).prop("checked", true);
-      //Show item to do overlapping
-      for (let i = 0; i < itemLayer.length; i++) {
-        $(itemLayer[i]).show();
-        $(itemLayer[i]).css("height", "24px");
-        $(itemLayer[i]).css("float", "right");
-      }
-      //Show all POI
-      let checked = JSON.parse(localStorage.getItem("checkedPOI"));
-      if (checked !== null) {
-        checked = JSON.parse(localStorage.getItem("checkedPOI"));
-      } else {
-        checked = [];
-      }
-      for (let i = 0; i < subPOI.length; i++) {
-        if ($(subPOI[i]).prop("checked") == false) {
-          $(subPOI[i]).prop("checked", true);
-          layer = new GIS.Layer.ServiceLayer(
-            map.ObjMap,
-            url + $(subPOI[i]).val()
-          );
-          layer.setPopupTemplate({
-            content: "{*}"
-          });
-          layer.render();
-          $(subPOI[i]).attr(
-            "name",
-            map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
-          );
-          checked.push(
-            map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
-          );
-        }
-      }
-      localStorage.setItem("checkedPOI", JSON.stringify(checked));
-    } else if ($(this).prop("checked") == false) {
-      $(masterSubPOI).prop("checked", false);
-      //Hide item to do overlapping
-      for (let i = 0; i < itemLayer.length; i++) {
-        $(itemLayer[i]).hide();
-        $(itemLayer[i]).css("height", "24px");
-        $(itemLayer[i]).css("float", "right");
-      }
-      let checked = JSON.parse(localStorage.getItem("checkedPOI"));
-      if (checked !== null) {
-        checked = JSON.parse(localStorage.getItem("checkedPOI"));
-      } else {
-        checked = [];
-      }
-      $(".div-poi").remove();
-      for (let i = 0; i < subPOI.length; i++) {
-        $(subPOI[i]).prop("checked", false);
-      }
-      for (let i in map.ObjMap.layers.items) {
-        for (let j = 0; j < checked.length; j++) {
-          if (map.ObjMap.layers.items[i].uid == checked[j]) {
-            map.ObjMap.layers.items[i].visible = false;
-            map.ObjMap.layers.items.splice(i, 1);
+      //Check if graphicslayer is larger than 0 to make query
+      let checkGraphic = 0;
+      for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
+        for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
+          if (map.ObjMap.layers.items[i].graphics.items.length > 0) {
+            checkGraphic = 1;
           }
         }
       }
-      checked = [];
-      localStorage.setItem("checkedPOI", JSON.stringify(checked));
+      console.log(checkGraphic)
+      if (checkGraphic == 1) {
+        $("#loading-bar").show();
+        if (map.ObjMap.layers.items.length > 0) {
+          for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
+            if ("graphics" in map.ObjMap.layers.items[i]) {
+              if (map.ObjMap.layers.items[i].graphics.items.length > 0) {
+                for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
+                  let graphicsLayer = new ESRI.GraphicsLayer();
+                  map.ObjMap.add(graphicsLayer)
+                  let query = new ESRI.Query();
+                  query.returnGeometry = true;
+                  query.outFields = ["*"];
+                  query.outSpatialReference = map.ObjMap.spatialReference;
+                  query.geometry = map.ObjMap.layers.items[i].graphics.items[j].geometry
+                  for (let k = 0; k < subPOI.length; k++) {
+                    let property = new ESRI.FeatureLayer({
+                      url:
+                        url + $(subPOI[k]).val()
+                    });
+                    property.queryFeatures(query).then(function (results) {
+                      if (results.features.length < 1) {
+                        $("#loading-bar").hide();
+                      } else {
+                        results.features.forEach(function (feature) {
+                          let g = new ESRI.Graphic({
+                            geometry: feature.geometry,
+                            attributes: feature.attributes,
+                            symbol: feature.layer.renderer.symbol,
+                          });
+                          graphicsLayer.add(g);
+                        });
+                      }
+                    });
+                  }
+                }
+                console.log(JSON.parse(localStorage.getItem("dataPOI")))
+              }
+            }
+          }
+        }
+      }
     }
+    //   $(masterSubPOI).prop("checked", true);
+    //   //Show item to do overlapping
+    //   for (let i = 0; i < itemLayer.length; i++) {
+    //     $(itemLayer[i]).show();
+    //     $(itemLayer[i]).css("height", "24px");
+    //     $(itemLayer[i]).css("float", "right");
+    //   }
+    //   //Show all POI
+    //   let checked = JSON.parse(localStorage.getItem("checkedPOI"));
+    //   if (checked !== null) {
+    //     checked = JSON.parse(localStorage.getItem("checkedPOI"));
+    //   } else {
+    //     checked = [];
+    //   }
+    //   for (let i = 0; i < subPOI.length; i++) {
+    //     if ($(subPOI[i]).prop("checked") == false) {
+    //       $(subPOI[i]).prop("checked", true);
+    //       layer = new GIS.Layer.ServiceLayer(
+    //         map.ObjMap,
+    //         url + $(subPOI[i]).val()
+    //       );
+    //       layer.setPopupTemplate({
+    //         content: "{*}"
+    //       });
+    //       layer.render();
+    //       $(subPOI[i]).attr(
+    //         "name",
+    //         map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
+    //       );
+    //       checked.push(
+    //         map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
+    //       );
+    //     }
+    //   }
+    //   localStorage.setItem("checkedPOI", JSON.stringify(checked));
+    // } else if ($(this).prop("checked") == false) {
+    //   $(masterSubPOI).prop("checked", false);
+    //   //Hide item to do overlapping
+    //   for (let i = 0; i < itemLayer.length; i++) {
+    //     $(itemLayer[i]).hide();
+    //     $(itemLayer[i]).css("height", "24px");
+    //     $(itemLayer[i]).css("float", "right");
+    //   }
+    //   let checked = JSON.parse(localStorage.getItem("checkedPOI"));
+    //   if (checked !== null) {
+    //     checked = JSON.parse(localStorage.getItem("checkedPOI"));
+    //   } else {
+    //     checked = [];
+    //   }
+    //   $(".div-poi").remove();
+    //   for (let i = 0; i < subPOI.length; i++) {
+    //     $(subPOI[i]).prop("checked", false);
+    //   }
+    //   for (let i in map.ObjMap.layers.items) {
+    //     for (let j = 0; j < checked.length; j++) {
+    //       if (map.ObjMap.layers.items[i].uid == checked[j]) {
+    //         map.ObjMap.layers.items[i].visible = false;
+    //         map.ObjMap.layers.items.splice(i, 1);
+    //       }
+    //     }
+    //   }
+    //   checked = [];
+    //   localStorage.setItem("checkedPOI", JSON.stringify(checked));
+    // }
   });
 
-  $(masterSubPOI).click(function() {
+  $(masterSubPOI).click(function () {
     let a = 0;
     let b = 0;
     let c = 0;
@@ -169,24 +221,23 @@ function inputCheckboxServices(GIS, map) {
       for (let i = a; i <= b; i++) {
         if ($(subPOI[i]).prop("checked") == false) {
           $(subPOI[i]).prop("checked", true);
+          layer = new GIS.Layer.ServiceLayer(
+            map.ObjMap,
+            url + $(subPOI[i]).val()
+          );
+          layer.setPopupTemplate({
+            content: "{*}"
+          });
+          layer.render();
+          $(subPOI[i]).attr(
+            "name",
+            map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
+          );
+          checked.push(
+            map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
+          );
         }
-        layer = new GIS.Layer.ServiceLayer(
-          map.ObjMap,
-          url + $(subPOI[i]).val()
-        );
-        layer.setPopupTemplate({
-          content: "{*}"
-        });
-        layer.render();
-        $(subPOI[i]).attr(
-          "name",
-          map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
-        );
-        checked.push(
-          map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
-        );
       }
-      console.log(checked);
       localStorage.setItem("checkedPOI", JSON.stringify(checked));
     } else if ($(this).prop("checked") == false) {
       for (let i = a; i <= b; i++) {
@@ -215,6 +266,7 @@ function inputCheckboxServices(GIS, map) {
           }
         }
       }
+
       // Hide item to do overlapping
       for (let i = c; i <= d; i++) {
         $(itemLayer[i]).hide();
@@ -238,7 +290,7 @@ function inputCheckboxServices(GIS, map) {
     }
   });
 
-  $(subPOI).click(function() {
+  $(subPOI).click(function () {
     let layer;
     let url =
       "http://tig.co.id/ags/rest/services/HERE/LOKASI_JULY2018/MapServer/";
@@ -326,7 +378,7 @@ function inputCheckboxServices(GIS, map) {
       if (visibility.every(checkVisibility)) {
         $(".table_list_services").hide();
       }
-    }
+    } 
     //Autocheck for POI
     for (let i = 0; i < subPOI.length; i++) {
       if ($(subPOI[i]).prop("checked") == true) {
@@ -419,7 +471,7 @@ function inputCheckboxServices(GIS, map) {
       }
     }
     let symbol = "▲";
-    map.ObjMapView.when(function() {
+    map.ObjMapView.when(function () {
       for (let j = 0; j < label.length; j++) {
         let tr = document.createElement("TR");
         let tdName = document.createElement("TD");
@@ -437,7 +489,7 @@ function inputCheckboxServices(GIS, map) {
     });
   }
 
-  $(infrastructure).click(function() {
+  $(infrastructure).click(function () {
     let layer;
     let url =
       "https://gis.locatorlogic.com/arcgis/rest/services/TEMP/UberMedia/MapServer/";
@@ -515,7 +567,7 @@ function inputCheckboxServices(GIS, map) {
     }
   });
 
-  $(subInfrasctructure).click(function() {
+  $(subInfrasctructure).click(function () {
     let layer;
     let check = [];
     let url =
@@ -592,7 +644,7 @@ function inputCheckboxServices(GIS, map) {
     }
   });
 
-  $(demographic).click(function() {
+  $(demographic).click(function () {
     let layer;
     let url =
       "https://gis.locatorlogic.com/arcgis/rest/services/BPS/BPS_ONLY_2016/MapServer/";
@@ -664,7 +716,7 @@ function inputCheckboxServices(GIS, map) {
     }
   });
 
-  $(subDemographic).click(function() {
+  $(subDemographic).click(function () {
     let layer;
     let check = [];
     let url =

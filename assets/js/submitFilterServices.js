@@ -1,5 +1,5 @@
 function submitFilterServices(convertData, map, convertCSV) {
-  $(document).delegate("#button-filter-property", "click", function() {
+  $(document).delegate("#button-filter-property", "click", function () {
     let colliersProperty = new ESRI.FeatureLayer({
       url:
         "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/MapServer/0"
@@ -67,10 +67,10 @@ function submitFilterServices(convertData, map, convertCSV) {
     if (landMinSizeMeterValue !== "" && landMaxSizeMeterValue !== "") {
       value.push(
         "(r_k_l_sqm >= " +
-          landMinSizeMeterValue +
-          " AND r_k_l_sqm <= " +
-          landMaxSizeMeterValue +
-          ")"
+        landMinSizeMeterValue +
+        " AND r_k_l_sqm <= " +
+        landMaxSizeMeterValue +
+        ")"
       );
     } else if (landMinSizeMeterValue == "" && landMaxSizeMeterValue !== "") {
       value.push("(r_k_l_sqm = " + landMaxSizeMeterValue + ")");
@@ -82,10 +82,10 @@ function submitFilterServices(convertData, map, convertCSV) {
     if (landMinSizeUnitValue !== "" && landMaxSizeUnitValue !== "") {
       value.push(
         "(r_k_l_sqm >= " +
-          landMinSizeUnitValue +
-          " AND r_k_l_sqm <= " +
-          landMaxSizeUnitValue +
-          ")"
+        landMinSizeUnitValue +
+        " AND r_k_l_sqm <= " +
+        landMaxSizeUnitValue +
+        ")"
       );
     } else if (landMinSizeUnitValue == "" && landMaxSizeUnitValue !== "") {
       value.push("(r_k_l_sqm = " + landMaxSizeUnitValue + ")");
@@ -102,13 +102,13 @@ function submitFilterServices(convertData, map, convertCSV) {
     if (TimePeriodFromValue == "" && TimePeriodToValue !== "") {
       let PopupFromEmptyValue = $("#popup-alert-from-empty");
       $(PopupFromEmptyValue).addClass("show");
-      setTimeout(function() {
+      setTimeout(function () {
         $(PopupFromEmptyValue).removeClass("show");
       }, 2000);
     } else if (TimePeriodFromValue !== "" && TimePeriodToValue == "") {
       let PopupToEmptyValue = $("#popup-alert-to-empty");
       $(PopupToEmptyValue).addClass("show");
-      setTimeout(function() {
+      setTimeout(function () {
         $(PopupToEmptyValue).removeClass("show");
       }, 2000);
     }
@@ -116,10 +116,10 @@ function submitFilterServices(convertData, map, convertCSV) {
     if (TimePeriodFromValue !== "" && TimePeriodToValue !== "") {
       value.push(
         "(r_k_time_period between '" +
-          TimePeriodFromValue +
-          "' AND '" +
-          TimePeriodToValue +
-          "')"
+        TimePeriodFromValue +
+        "' AND '" +
+        TimePeriodToValue +
+        "')"
       );
     }
 
@@ -195,14 +195,14 @@ function submitFilterServices(convertData, map, convertCSV) {
     EsriRequest(
       "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/MapServer/0",
       layersRequest
-    ).then(function(response) {
+    ).then(function (response) {
       console.log("response", response);
       lyrFields = response.data.fields;
     });
 
     function getFldAlias(fieldName) {
       var retVal = "";
-      arrayUtils.forEach(lyrFields, function(item) {
+      arrayUtils.forEach(lyrFields, function (item) {
         if (item.name === fieldName) {
           retVal = item.alias;
           return true;
@@ -213,21 +213,55 @@ function submitFilterServices(convertData, map, convertCSV) {
 
     console.log(queryWhere);
 
-    let query = new ESRI.Query();
-    query.returnGeometry = true;
-    query.outFields = ["*"];
-    query.outSpatialReference = map.ObjMap.spatialReference;
-    query.where = queryWhere;
-
     $("#loading-bar").show();
     $(".popupFilter").hide();
-
-    colliersProperty.queryFeatures(query).then(function(results) {
-      if (results.features.length < 1) {
-        $("#loading-bar").hide();
+    let checkGraphic = 0
+    for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
+      for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
+        if (map.ObjMap.layers.items[i].graphics.items.length > 0) {
+          checkGraphic = 1
+        }
       }
-      displayResults(results);
-    });
+    }
+    console.log(map.ObjMap.layers.items)
+    if (checkGraphic == 1) {
+      if (map.ObjMap.layers.items.length > 0) {
+        for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
+          if ("graphics" in map.ObjMap.layers.items[i]) {
+            if (map.ObjMap.layers.items[i].graphics.items.length > 0) {
+              for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
+                let query = new ESRI.Query();
+                query.returnGeometry = true;
+                query.outFields = ["*"];
+                query.outSpatialReference = map.ObjMap.spatialReference;
+                query.where = queryWhere;
+                query.geometry = map.ObjMap.layers.items[i].graphics.items[j].geometry
+                colliersProperty.queryFeatures(query).then(function (results) {
+                  if (results.features.length < 1) {
+                    $("#loading-bar").hide();
+                  }
+                  displayResults(results);
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+    else {
+      console.log("OK")
+      let query = new ESRI.Query();
+      query.returnGeometry = true;
+      query.outFields = ["*"];
+      query.outSpatialReference = map.ObjMap.spatialReference;
+      query.where = queryWhere;
+      colliersProperty.queryFeatures(query).then(function (results) {
+        if (results.features.length < 1) {
+          $("#loading-bar").hide();
+        }
+        displayResults(results);
+      });
+    }
 
     // // view and print the number of results to the DOM
     function displayResults(results) {

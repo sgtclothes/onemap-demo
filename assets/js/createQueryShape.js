@@ -120,12 +120,11 @@ function createQueryShape(GIS, map, convertCSV) {
       });
     } else if (event.state === "complete") {
       createListPOI();
-      $("#loading-bar").show();
-      $(".popupFilter").hide();
       let colliersProperty = new ESRI.FeatureLayer({
         url:
           "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/MapServer/0"
       });
+      console.log(event.graphic.geometry);
       let query = new ESRI.Query();
       query.returnGeometry = true;
       query.outFields = ["*"];
@@ -253,7 +252,6 @@ function createQueryShape(GIS, map, convertCSV) {
         div.appendChild(table);
         map.ObjMapView.ui.add(div, "bottom-right");
       });
-    } else {
     }
   });
 

@@ -20,9 +20,15 @@ function boot(GIS) {
     config.Position[6]
   );
   map.render(); //Map rendering
+  var search = new ESRI.Search(
+    {
+      view: map.ObjMapView
+    },
+    "search-widget-property"
+  );
 
   // Create a site
-  map.ObjMapView.when(function() {
+  map.ObjMapView.when(function () {
     let createSiteDiv = document.getElementById("create-site-div");
     createSiteDiv.style.display = "inline-block";
 
@@ -41,7 +47,7 @@ function boot(GIS) {
   let pointTheSiteEnabled = false;
   document
     .getElementById("point-the-site")
-    .addEventListener("click", function() {
+    .addEventListener("click", function () {
       pointTheSiteEnabled = true;
       document
         .getElementById("mapDiv")
@@ -61,7 +67,7 @@ function boot(GIS) {
       }
     });
 
-  map.ObjMapView.on("click", function(event) {
+  map.ObjMapView.on("click", function (event) {
     if (pointTheSiteEnabled) {
       pointTheSiteEnabled = !pointTheSiteEnabled;
       document
@@ -99,11 +105,11 @@ function boot(GIS) {
 
   // create instant analysis
   let pointEnabled = false;
-  $(document).ready(function() {
-    $("#pointing-btn").click(function() {
+  $(document).ready(function () {
+    $("#pointing-btn").click(function () {
       pointEnabled = true;
       $("#mapDiv").attr("style", "cursor:crosshair;");
-      map.ObjMapView.on("click", function(event) {
+      map.ObjMapView.on("click", function (event) {
         if (pointEnabled) {
           pointEnabled = !pointEnabled;
           let latitude = map.ObjMapView.toMap({
@@ -127,7 +133,7 @@ function boot(GIS) {
           $("#error-down-service").hide();
 
           $.addRows();
-          $.each(window.counterArr, function(index, value) {
+          $.each(window.counterArr, function (index, value) {
             if ($(".latitude-form-" + value).val() === "") {
               $(".latitude-form-" + value).val(latitude);
               $(".longitude-form-" + value).val(longitude);
@@ -142,12 +148,12 @@ function boot(GIS) {
               $("#form-list").delegate(
                 ".selectbuffer-" + value,
                 "click",
-                function() {
+                function () {
                   $("#error-input-buffer").hide();
                   $("#error-down-service").hide();
                   $.get(
                     "content/template/instant_analysis/buffer.php",
-                    function(data) {
+                    function (data) {
                       $(".form-buffer-" + value).append(data);
                     }
                   );
@@ -156,12 +162,12 @@ function boot(GIS) {
               $("#form-list").delegate(
                 ".selectdrive-" + value,
                 "click",
-                function() {
+                function () {
                   $("#error-input-buffer").hide();
                   $("#error-down-service").hide();
                   $.get(
                     "content/template/instant_analysis/driving.php",
-                    function(data) {
+                    function (data) {
                       $(".form-drive-" + value).append(data);
                     }
                   );
@@ -170,12 +176,12 @@ function boot(GIS) {
               $("#form-list").delegate(
                 ".selectdrive-distance-" + value,
                 "click",
-                function() {
+                function () {
                   $("#error-input-buffer").hide();
                   $("#error-down-service").hide();
                   $.get(
                     "content/template/instant_analysis/driving_distance.php",
-                    function(data) {
+                    function (data) {
                       $(".form-drive-distance-" + value).append(data);
                     }
                   );
@@ -218,7 +224,7 @@ function boot(GIS) {
     document.getElementById("main").style.marginRight = "0";
   }
 
-  document.getElementById("closebtn").addEventListener("click", function() {
+  document.getElementById("closebtn").addEventListener("click", function () {
     document.getElementById("mySidenav").style.width = "0";
     if (document.getElementById("mySidenav").classList.contains("panel-left")) {
       document.getElementById("main").style.marginLeft = "0";
@@ -229,7 +235,7 @@ function boot(GIS) {
 
   document
     .getElementById("instant-analysis")
-    .addEventListener("click", function() {
+    .addEventListener("click", function () {
       let mySidenav = document.getElementById("mySidenav");
       if (
         document.getElementById("myViewer").style.width > "0px" ||
@@ -259,7 +265,7 @@ function boot(GIS) {
     });
 
   function open_viewer() {
-    setTimeout(function() {
+    setTimeout(function () {
       map.addWidget(dragCSVButton(), config.Position[6]);
     }, 1000);
     document.getElementById("myViewer").style.width = "350px";
@@ -279,7 +285,7 @@ function boot(GIS) {
     return button;
   }
 
-  document.getElementById("viewer-nav").addEventListener("click", function() {
+  document.getElementById("viewer-nav").addEventListener("click", function () {
     if (document.getElementById("myViewer").style.width > "0px") {
       $(".esri-ui-top-right")
         .children("#drag-csv")
@@ -323,14 +329,14 @@ function boot(GIS) {
 
   document
     .getElementById("closeSiteAnalysis")
-    .addEventListener("click", function() {
+    .addEventListener("click", function () {
       document.getElementById("mySiteAnalysis").style.width = "0";
       document.getElementById("main").style.marginLeft = "0";
     });
 
   document
     .getElementById("site-analysis")
-    .addEventListener("click", function() {
+    .addEventListener("click", function () {
       let viewer = document.getElementById("myViewer");
       if (viewer.style.width > "0px") {
         $(".esri-ui-top-right")
@@ -354,7 +360,7 @@ function boot(GIS) {
     });
   //end of sidebar/sidenav
 
-  document.getElementById("myModal").addEventListener("click", function() {
+  document.getElementById("myModal").addEventListener("click", function () {
     let x = document.getElementById("dragdrop-modal");
     if (x.style.display == "none") {
       x.style.display = "block";
@@ -363,7 +369,7 @@ function boot(GIS) {
     }
   });
 
-  document.getElementById("closeMyModal").addEventListener("click", function() {
+  document.getElementById("closeMyModal").addEventListener("click", function () {
     let x = document.getElementById("dragdrop-modal");
     if (x.style.display == "none") {
       x.style.display = "block";
@@ -430,7 +436,7 @@ function boot(GIS) {
           $("#error-down-service").hide();
 
           $.addRows();
-          $.each(window.counterArr, function(index, value) {
+          $.each(window.counterArr, function (index, value) {
             if ($(".latitude-form-" + value).val() === "") {
               $(".latitude-form-" + value).val(lat);
               $(".longitude-form-" + value).val(lon);
@@ -439,12 +445,12 @@ function boot(GIS) {
               $("#form-list").delegate(
                 ".selectbuffer-" + value,
                 "click",
-                function() {
+                function () {
                   $("#error-input-buffer").hide();
                   $("#error-down-service").hide();
                   $.get(
                     "content/template/instant_analysis/buffer.php",
-                    function(data) {
+                    function (data) {
                       $(".form-buffer-" + value).append(data);
                     }
                   );
@@ -453,12 +459,12 @@ function boot(GIS) {
               $("#form-list").delegate(
                 ".selectdrive-" + value,
                 "click",
-                function() {
+                function () {
                   $("#error-input-buffer").hide();
                   $("#error-down-service").hide();
                   $.get(
                     "content/template/instant_analysis/driving.php",
-                    function(data) {
+                    function (data) {
                       $(".form-drive-" + value).append(data);
                     }
                   );
@@ -467,12 +473,12 @@ function boot(GIS) {
               $("#form-list").delegate(
                 ".selectdrive-distance-" + value,
                 "click",
-                function() {
+                function () {
                   $("#error-input-buffer").hide();
                   $("#error-down-service").hide();
                   $.get(
                     "content/template/instant_analysis/driving_distance.php",
-                    function(data) {
+                    function (data) {
                       $(".form-drive-distance-" + value).append(data);
                     }
                   );
@@ -499,7 +505,7 @@ function boot(GIS) {
         "No",
         "remove-point-yes",
         "remove-point-no",
-        function() {
+        function () {
           console.log(map.ObjMapView.popup.selectedFeature);
           console.log(map.ObjMap.layers);
           // map.ObjMap.remove(map.ObjMapView.popup.selectedFeature);
@@ -528,7 +534,7 @@ function boot(GIS) {
   //   }
   // });
 
-  $(document).delegate("#drag-csv", "click", function() {
+  $(document).delegate("#drag-csv", "click", function () {
     let x = document.getElementById("dragdrop-modal");
     let infocsv = document.getElementById("info-csv");
     if (x.style.display == "none") {
@@ -621,7 +627,7 @@ function boot(GIS) {
 
   storeDatabase
     .readUserAndDepartment()
-    .then(function(result) {
+    .then(function (result) {
       let data = JSON.parse(result);
       let arrData = [];
       let groupUserDepartment = [];
@@ -658,11 +664,11 @@ function boot(GIS) {
       localStorage.setItem("usernames", JSON.stringify(usernames));
       localStorage.setItem("departments", JSON.stringify(departments));
     })
-    .then(function() {
+    .then(function () {
       showCurrentDepartment(
         JSON.parse(localStorage.getItem("groupUserDepartment"))
       );
-      storeDatabase.read().then(function(result) {
+      storeDatabase.read().then(function (result) {
         console.log(result);
         if (result !== "[]" && localStorage.length < 3) {
           let data = JSON.parse(result);
@@ -736,12 +742,12 @@ function boot(GIS) {
   createQueryShape(GIS, map, convertCSV);
   // selectUnitSize();
 
-  $("input[name='popup-input-min']").click(function() {
+  $("input[name='popup-input-min']").click(function () {
     $("#popup-alert").toggleClass("show");
   });
 
   //Toggle i-tree child
-  $(document).delegate(".i-tree", "click", function() {
+  $(document).delegate(".i-tree", "click", function () {
     $(this)
       .siblings("ul")
       .find("li")
@@ -754,14 +760,14 @@ function boot(GIS) {
   });
 
   //Toggle i-tree-layers child
-  $(document).delegate(".i-tree-layers", "click", function() {
+  $(document).delegate(".i-tree-layers", "click", function () {
     $(this)
       .siblings("ul")
       .toggle();
   });
 
   //Date Picker function to generating calendar and choose a date (Used for 'from' and 'to')
-  $(function() {
+  $(function () {
     let dateFormat = "mm/dd/yy",
       from = $("#time-period-from-value")
         .datepicker({
@@ -769,7 +775,7 @@ function boot(GIS) {
           changeMonth: true,
           changeYear: true
         })
-        .on("change", function() {
+        .on("change", function () {
           to.datepicker("option", "minDate", getDate(this));
         }),
       to = $("#time-period-to-value")
@@ -778,7 +784,7 @@ function boot(GIS) {
           changeMonth: true,
           changeYear: true
         })
-        .on("change", function() {
+        .on("change", function () {
           from.datepicker("option", "maxDate", getDate(this));
         });
 
@@ -795,7 +801,7 @@ function boot(GIS) {
   });
 
   // Generate link to Census tract details
-  map.ObjMapView.when(function() {
+  map.ObjMapView.when(function () {
     on(map.ObjMapView, "click", displayTractID);
   });
 
@@ -838,10 +844,10 @@ function boot(GIS) {
     };
 
     // Search for graphics at the clicked location
-    map.ObjMapView.hitTest(screenPoint).then(function(response) {
+    map.ObjMapView.hitTest(screenPoint).then(function (response) {
       // console.log(response)
       if (response.results.length) {
-        var graphic = response.results.filter(function(result) {
+        var graphic = response.results.filter(function (result) {
           // check if the graphic belongs to the layer of interest
           return result.graphic.layer === colliersService;
         })[0].graphic;
@@ -870,12 +876,12 @@ function boot(GIS) {
     setTimeout(checkForChanges, 500);
   }
 
-  $(document).click(function() {
+  $(document).click(function () {
     checkForChanges();
   });
 
   // Set up a click event handler and retrieve the screen point
-  map.ObjMapView.on("click", function(evt) {
+  map.ObjMapView.on("click", function (evt) {
     var screenPoint = evt.screenPoint;
 
     // the hitTest() checks to see if any graphics in the view
@@ -884,6 +890,7 @@ function boot(GIS) {
   });
 
   function getGraphics(response) {
+    console.log(response.results.length);
     if (response.results.length > 0) {
       //Make temporary data dummy for popup
       function randomNumber(min, max) {
@@ -1266,7 +1273,7 @@ function boot(GIS) {
           KLBBuildableSqmUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
         );
 
-        $(".image-property").error(function() {
+        $(".image-property").error(function () {
           $(this).attr("src", "assets/images/no-photo.png");
         });
       }
@@ -1287,6 +1294,7 @@ function boot(GIS) {
           }
         }
       }
+
       if (response.results[0].graphic.symbol === null) {
         localStorage.setItem(
           "pointingHighlight",
@@ -1315,6 +1323,45 @@ function boot(GIS) {
       }
       //End of Highlight pointing
     } else {
+      if (localStorage.getItem("startBuffer") == null) {
+        // localStorage.setItem("startBuffer", "enable")
+        // $("#loading-bar").show();
+        // createDynamicCircle(map, response.screenPoint.x, response.screenPoint.y);
+      }
+      $(".button-create-buffer").show()
+      // Get latitude and longitude
+      let latitude = map.ObjMapView.toMap({
+        x: response.screenPoint.x,
+        y: response.screenPoint.y
+      }).latitude.toFixed(7);
+      let longitude = map.ObjMapView.toMap({
+        x: response.screenPoint.x,
+        y: response.screenPoint.y
+      }).longitude.toFixed(7);
+
+      let point = new ESRI.Point();
+      point.longitude = longitude;
+      point.latitude = latitude;
+      //Save to LocalStorage
+      localStorage.setItem("livePointingLatitude", latitude);
+      localStorage.setItem("livePointingLongitude", longitude);
+      localStorage.setItem("livePointingX", map.ObjMapView.toScreen(point).x);
+      localStorage.setItem("livePointingY", map.ObjMapView.toScreen(point).y);
+      //check if previous pointing is enable
+      for (let i = 0; i < map.ObjMapView.graphics.items.length; i++) {
+        if ("livePointing" in map.ObjMapView.graphics.items[i].attributes) {
+          map.ObjMapView.graphics.items[i].visible = false;
+          map.ObjMapView.graphics.items.splice(i, 1);
+        }
+      }
+      let pointing = new GIS.Buffer.livePointing(
+        map.ObjMapView,
+        latitude,
+        longitude
+      );
+      pointing.setPictureMarker();
+      pointing.render();
+
       $(".popupFilter").hide();
       for (let i = 0; i <= map.ObjMapView.graphics.items.length - 1; i++) {
         if (map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
@@ -1331,7 +1378,39 @@ function boot(GIS) {
     }
   }
 
-  $(document).ready(function() {
+  $(document).delegate("#button-create-buffer", "click", function () {
+    let latitude = Number(localStorage.getItem("livePointingLatitude"))
+    let longitude = Number(localStorage.getItem("livePointingLongitude"))
+    let point = new ESRI.Point();
+    point.longitude = longitude;
+    point.latitude = latitude;
+    createDynamicCircle(map, map.ObjMapView.toScreen(point).x, map.ObjMapView.toScreen(point).y)
+  })
+
+
+  // var slider = document.getElementById("buffer-radius");
+  // slider.oninput = function () {
+  //   $("#buffer-radius-value").text(this.value + " km");
+  //   for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
+  //     if ("anly" in map.ObjMap.layers.items[i]) {
+  //       map.ObjMap.layers.items[i].visible = false;
+  //       map.ObjMap.layers.items.splice(i, 1);
+  //     }
+  //   }
+  //   let latitude = localStorage.getItem("livePointingLatitude");
+  //   let longitude = localStorage.getItem("livePointingLongitude");
+  //   let radius = new GIS.Buffer.Radius(
+  //     map.ObjMap,
+  //     map.ObjMapView,
+  //     latitude,
+  //     longitude
+  //   );
+  //   radius.setRadius(this.value);
+  //   radius.setUnit("kilometers");
+  //   radius.create();
+  // };
+
+  $(document).ready(function () {
     let divButton = $("<div></div>");
     let button = $("<button></button>").text("OK");
     $(button).attr("id", "button-ok-property");
@@ -1340,7 +1419,7 @@ function boot(GIS) {
     $(".ms-options").append(divButton);
   });
 
-  $("#checkbox-colliers-property").click(function() {
+  $("#checkbox-colliers-property").click(function () {
     if ($(this).prop("checked") == true) {
       map.ObjMap.add(colliersService);
     } else if ($(this).prop("checked") == false) {
@@ -1348,37 +1427,37 @@ function boot(GIS) {
     }
   });
 
-  $(document).delegate("#button-ok-property", "click", function() {
+  $(document).delegate("#button-ok-property", "click", function () {
     $(".ms-options-wrap").removeClass("ms-active");
   });
 
-  $("html").click(function() {
+  $("html").click(function () {
     let property = $(".dropdown-content-property");
     let department = $(".dropdown-content-department");
     $(property).hide();
     $(department).hide();
   });
 
-  $(".dropdown-content-property").click(function(event) {
+  $(".dropdown-content-property").click(function (event) {
     event.stopPropagation();
   });
-  $(".dropdown-content-department").click(function(event) {
+  $(".dropdown-content-department").click(function (event) {
     event.stopPropagation();
   });
-  $("#dropdown-property-div").click(function(event) {
+  $("#dropdown-property-div").click(function (event) {
     event.stopPropagation();
     $(".dropdown-content-property").toggle();
   });
-  $("#dropdown-department-div").click(function(event) {
+  $("#dropdown-department-div").click(function (event) {
     event.stopPropagation();
     $(".dropdown-content-department").toggle();
   });
 
-  $.get("popupLayout.html", function(data) {
+  $.get("popupLayout.html", function (data) {
     localStorage.setItem("popupLayout", JSON.stringify(data));
   });
 
-  $("input:radio").on("click", function(e) {
+  $("input:radio").on("click", function (e) {
     var inp = $(this);
     if (inp.is(".theone")) {
       inp.prop("checked", false).removeClass("theone");
@@ -1390,7 +1469,7 @@ function boot(GIS) {
     }
   });
 
-  $("#close-popup-property").click(function() {
+  $("#close-popup-property").click(function () {
     $(".popupFilter").hide();
     for (let i = 0; i <= map.ObjMapView.graphics.items.length - 1; i++) {
       if (map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
@@ -1405,7 +1484,7 @@ function boot(GIS) {
     }
   });
 
-  $("#pointer-popup").click(function() {
+  $("#pointer-popup").click(function () {
     let mySidenav = document.getElementById("mySidenav");
     if (
       document.getElementById("myViewer").style.width > "0px" ||
@@ -1433,23 +1512,23 @@ function boot(GIS) {
     $("#error-down-service").hide();
     $(".popupFilter").hide();
     $.addRows();
-    $.each(window.counterArr, function(index, value) {
+    $.each(window.counterArr, function (index, value) {
       if ($(".latitude-form-" + value).val() === "") {
         $(".latitude-form-" + value).val(lat);
         $(".longitude-form-" + value).val(lon);
         $(".latitude-form-" + value).attr("title", "Latitude " + lat);
         $(".longitude-form-" + value).attr("title", "Longitude " + lon);
-        $("#form-list").delegate(".selectbuffer-" + value, "click", function() {
+        $("#form-list").delegate(".selectbuffer-" + value, "click", function () {
           $("#error-input-buffer").hide();
           $("#error-down-service").hide();
-          $.get("content/template/instant_analysis/buffer.php", function(data) {
+          $.get("content/template/instant_analysis/buffer.php", function (data) {
             $(".form-buffer-" + value).append(data);
           });
         });
-        $("#form-list").delegate(".selectdrive-" + value, "click", function() {
+        $("#form-list").delegate(".selectdrive-" + value, "click", function () {
           $("#error-input-buffer").hide();
           $("#error-down-service").hide();
-          $.get("content/template/instant_analysis/driving.php", function(
+          $.get("content/template/instant_analysis/driving.php", function (
             data
           ) {
             $(".form-drive-" + value).append(data);
@@ -1458,12 +1537,12 @@ function boot(GIS) {
         $("#form-list").delegate(
           ".selectdrive-distance-" + value,
           "click",
-          function() {
+          function () {
             $("#error-input-buffer").hide();
             $("#error-down-service").hide();
             $.get(
               "content/template/instant_analysis/driving_distance.php",
-              function(data) {
+              function (data) {
                 $(".form-drive-distance-" + value).append(data);
               }
             );
@@ -1473,14 +1552,14 @@ function boot(GIS) {
     });
   });
 
-  $(document).delegate("#create-polygon", "click", function() {
+  $(document).delegate("#create-polygon", "click", function () {
     $(".esri-icon-pan").removeClass("esri-sketch__button--selected");
     $(".esri-icon-polygon").addClass("esri-sketch__button--selected");
     // document.body.style.cursor = "crosshair";
   });
 
   //Clear the localstorage when user logout
-  document.getElementById("logout").addEventListener("click", function() {
+  document.getElementById("logout").addEventListener("click", function () {
     localStorage.clear();
   });
 }

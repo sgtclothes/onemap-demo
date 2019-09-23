@@ -285,12 +285,21 @@ if (!isset($_SESSION['auth'])) {
                         <tr>
                             <td style="width:100%; height:38px;">
                                 <div class="title-layers-property">
-                                    <p><i class="mi-view-headline"></i><b>LAYERS</b></p>
+                                    <p><i class="mi-view-headline"></i><b>SEARCH PROPERTY</b></p>
                                 </div>
                             </td>
                         </tr>
                     </table>
                     <ul class="treeview">
+                        <li>
+                            <table class="table-property">
+                                <tr>
+                                    <td>
+                                        <div id="search-widget-property" style="width:100%; border:1.5px solid #6496e8; margin-bottom:10px;"></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </li>
                         <li>
                             <table class="table-property">
                                 <tr>
@@ -749,6 +758,24 @@ if (!isset($_SESSION['auth'])) {
                                     </td>
                                 </tr>
                             </table>
+                            <!-- <table class="table-property">
+                                <tr>
+                                    <td style="height:26px;">
+                                        <div class="title-property">
+                                            <p><b>BUFFER</b></p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-property">
+                                <tr>
+                                    <td>Set Radius</td>
+                                    <td>
+                                        <input id="buffer-radius" type="range" min="1" max="100" value="0">
+                                    </td>
+                                    <td id="buffer-radius-value"></td>
+                                </tr>
+                            </table> -->
                             <table class="table-property button-filter-table">
                                 <tr>
                                     <td>
@@ -759,6 +786,10 @@ if (!isset($_SESSION['auth'])) {
                                         <div class="button-filter-property button-remove-filter" id="button-filter-remove-property">
                                             <button style="width:80px; height:30px; margin-right:10px; float:right; background-color: #d9493f; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
                                                 <i class="esri-icon-trash "></i> Clear</button>
+                                        </div>
+                                        <div class="button-filter-property button-create-buffer" id="button-create-buffer">
+                                            <button style="width:120px; height:30px; margin-right:10px; float:right; background-color: #6496e8; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
+                                                <i class="mi-donut-large"></i> Create Buffer</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -1614,6 +1645,8 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/zoomToLayer.js"></script>
     <script src="assets/js/expandCheckboxServices.js"></script>
     <script src="assets/js/createQueryShape.js"></script>
+    <script src="assets/js/livePointing.js"></script>
+    <script src="assets/js/createDynamicCircle.js"></script>
     <script src="content/analysis/analysisPoi.js"></script>
     <script src="content/analysis/editAnalysis.js"></script>
     <script src="assets/js/plugins/tables/paginationLib.js"></script>
