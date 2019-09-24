@@ -1,8 +1,32 @@
 function submitFilterServices(convertData, map, convertCSV) {
   $(document).delegate("#button-filter-property", "click", function () {
-    let colliersProperty = new ESRI.FeatureLayer({
+
+    //Setting name for label service
+    let propertyTypeLabel = "propertytype"
+    let marketingSchemeLabel = "marketingScheme"
+    let strataLabel = "strata"
+    let landSqmLabel = "landSqm"
+    let buildSqmLabel = "buildSqm"
+    let timePeriodLabel = "timePeriod"
+    let departmentClientsLabel = "departmentClients"
+    let propertyForSaleLabel = "propertyForSale"
+    let propertySoldLabel = "propertySold"
+    let propertyValuationLabel = "propertyValuation"
+    let propertyAdvisoryWorkLabel = "propertyAdvisoryWork"
+    let propertyProjectLabel = "propertyProject"
+    let propertyNPLAYDALabel = "propertyNPLAYDA"
+
+    let colliersPropertyForSaleHouse = new ESRI.FeatureLayer({
       url:
-        "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/MapServer/0"
+        "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/2"
+    });
+    let colliersPropertyForSaleOffice = new ESRI.FeatureLayer({
+      url:
+        "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/1"
+    });
+    let colliersPropertySold = new ESRI.FeatureLayer({
+      url:
+        "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/0"
     });
 
     var lyrFields;
@@ -12,259 +36,283 @@ function submitFilterServices(convertData, map, convertCSV) {
     map.ObjMapView.graphics.removeAll();
 
     let property = [];
-
-    let strataValue = $("input[name='strata-input']:checked").val();
     let propertyTypeValue = $("input[name='select-property']");
     for (let i = 0; i < propertyTypeValue.length; i++) {
       if ($(propertyTypeValue[i]).prop("checked") == true) {
         property.push($(propertyTypeValue[i]).val());
       }
     }
+    let marketingSchemeValue = $("input[name='marketing-scheme-input']:checked").val()
+    let strataValue = $("input[name='strata-input']:checked").val();
     let landMinSizeMeterValue = $("#land-min-size-meter-value").val();
     let landMaxSizeMeterValue = $("#land-max-size-meter-value").val();
-    let landMinSizeUnitValue = $("#land-min-size-unit-value").val();
-    let landMaxSizeUnitValue = $("#land-max-size-unit-value").val();
-    let marketingSchemeValue = $(
-      "input[name='marketing-scheme-input']:checked"
-    ).val();
+    let buildMinSizeUnitValue = $("#build-min-size-meter-value").val();
+    let buildMaxSizeUnitValue = $("#build-max-size-meter-value").val();
     let TimePeriodFromValue = $("#time-period-from-value").val();
     let TimePeriodToValue = $("#time-period-to-value").val();
-
-    let propertyAvailable = $(".property-available");
-    let arrPropAvailable = [];
-
-    let propertySold = $(".property-sold");
-    let arrPropSold = [];
-
-    let propertyValuation = $(".property-valuation");
-    let arrPropValuation = [];
+    let departmentClients = []
+    let departmentClientsValue = $("input[name='select-department-clients']")
+    for (let i = 0; i < departmentClientsValue.length; i++) {
+      if ($(departmentClientsValue[i]).prop("checked") == true) {
+        departmentClients.push($(departmentClientsValue[i]).val());
+      }
+    }
+    let propertyForSale = []
+    let propertyForSaleValue = $("input[name='sub-property-for-sale']")
+    for (let i = 0; i < propertyForSaleValue.length; i++) {
+      if ($(propertyForSaleValue[i]).prop("checked") == true) {
+        propertyForSale.push($(propertyForSaleValue[i]).val());
+      }
+    }
+    let propertySold = []
+    let propertySoldValue = $("input[name='sub-property-sold']")
+    for (let i = 0; i < propertySoldValue.length; i++) {
+      if ($(propertySoldValue[i]).prop("checked") == true) {
+        propertySold.push($(propertySoldValue[i]).val());
+      }
+    }
+    let propertyValuation = []
+    let propertyValuationValue = $("input[name='sub-property-sold']")
+    for (let i = 0; i < propertyValuationValue.length; i++) {
+      if ($(propertyValuationValue[i]).prop("checked") == true) {
+        propertyValuation.push($(propertyValuationValue[i]).val());
+      }
+    }
+    let propertyAdvisoryWorkValue = $("input[name='property-advisory-work']:checked").val();
+    let propertyProject = $("input[name='property-project']:checked").val();
+    let propertyNPLAYDA = $("input[name='property-npl-ayda']:checked").val();
 
     let queryWhere = "";
     let value = [];
 
+    //Variable to collect feature service by rules
+    let featureService = []
+
     // Get value of property type and we register it on "value" array
-    if (property.length > 0) {
-      let q = "(";
-      for (let i = 0; i < property.length; i++) {
-        q += "(propertytype = '" + property[i] + "')";
-        if (property[i + 1] !== undefined) {
-          q += " OR ";
-        }
-      }
-      q += ")";
-      value.push(q);
-    }
+    // if (property.length > 0) {
+    //   let q = "(";
+    //   for (let i = 0; i < property.length; i++) {
+    //     q += "(" + propertyTypeLabel + " = '" + property[i] + "')";
+    //     if (property[i + 1] !== undefined) {
+    //       q += " OR ";
+    //     }
+    //   }
+    //   q += ")";
+    //   value.push(q);
+    // }
 
     //Strata will be automatically selected, so we get strata value
+    //Strata skipped
     //We set boolean value 0 = No, 1 = Yes
-    if (strataValue !== undefined) {
-      if (strataValue == "yes") strataValue = 1;
-      else if (strataValue == "no") strataValue = 0;
-      value.push("(r_k_strata = " + strataValue + ")");
-    }
+    // if (strataValue !== undefined) {
+    //   if (strataValue == "yes") strataValue = 1;
+    //   else if (strataValue == "no") strataValue = 0;
+    //   value.push("(" + strataLabel + " = " + strataValue + ")");
+    // }
+
+    // Default Marketing Scheme will be null until selected 
+    // Marketing Scheme skipped
+    // if (marketingSchemeValue !== undefined) {
+    //   if (marketingSchemeValue == "for-lease") marketingSchemeValue = "for-lease";
+    //   else if (marketingSchemeValue == "for-sale") marketingSchemeValue = "for-sale";
+    //   else if (marketingSchemeValue == "for-lease-and-for-sale") marketingSchemeValue = "for-lease-and-for-sale";
+    //   value.push("(" + marketingSchemeLabel + " = " + marketingSchemeValue + ")");
+    // }
 
     //Get value of land size meters and we register it on "value" array
-    if (landMinSizeMeterValue !== "" && landMaxSizeMeterValue !== "") {
-      value.push(
-        "(r_k_l_sqm >= " +
-        landMinSizeMeterValue +
-        " AND r_k_l_sqm <= " +
-        landMaxSizeMeterValue +
-        ")"
-      );
-    } else if (landMinSizeMeterValue == "" && landMaxSizeMeterValue !== "") {
-      value.push("(r_k_l_sqm = " + landMaxSizeMeterValue + ")");
-    } else if (landMinSizeMeterValue !== "" && landMaxSizeMeterValue == "") {
-      value.push("(r_k_l_sqm = " + landMinSizeMeterValue + ")");
-    }
+    // if (landMinSizeMeterValue !== "" && landMaxSizeMeterValue !== "") {
+    //   value.push(
+    //     "(" + landSqmLabel + " >= " +
+    //     landMinSizeMeterValue +
+    //     " AND " + landSqmLabel + " <= " +
+    //     landMaxSizeMeterValue +
+    //     ")"
+    //   );
+    // } else if (landMinSizeMeterValue == "" && landMaxSizeMeterValue !== "") {
+    //   value.push("(" + landSqmLabel + " = " + landMaxSizeMeterValue + ")");
+    // } else if (landMinSizeMeterValue !== "" && landMaxSizeMeterValue == "") {
+    //   value.push("(" + landSqmLabel + " = " + landMinSizeMeterValue + ")");
+    // }
 
-    //Get value of land size unit and we register it on "value" array
-    if (landMinSizeUnitValue !== "" && landMaxSizeUnitValue !== "") {
-      value.push(
-        "(r_k_l_sqm >= " +
-        landMinSizeUnitValue +
-        " AND r_k_l_sqm <= " +
-        landMaxSizeUnitValue +
-        ")"
-      );
-    } else if (landMinSizeUnitValue == "" && landMaxSizeUnitValue !== "") {
-      value.push("(r_k_l_sqm = " + landMaxSizeUnitValue + ")");
-    } else if (landMinSizeUnitValue !== "" && landMaxSizeUnitValue == "") {
-      value.push("(r_k_l_sqm = " + landMinSizeUnitValue + ")");
-    }
-
-    //Get value of marketing scheme and we register it on "value" array
-    if (marketingSchemeValue !== undefined) {
-      value.push("(r_k_mkscheme = " + marketingSchemeValue + ")");
-    }
+    //Get value of build size meters and we register it on "value" array
+    // if (buildMinSizeUnitValue !== "" && buildMaxSizeUnitValue !== "") {
+    //   value.push(
+    //     "(" + buildSqmLabel + " >= " +
+    //     buildMinSizeUnitValue +
+    //     " AND " + buildSqmLabel + " <= " +
+    //     buildMaxSizeUnitValue +
+    //     ")"
+    //   );
+    // } else if (buildMinSizeUnitValue == "" && buildMaxSizeUnitValue !== "") {
+    //   value.push("(" + buildSqmLabel + " = " + buildMaxSizeUnitValue + ")");
+    // } else if (buildMinSizeUnitValue !== "" && buildMaxSizeUnitValue == "") {
+    //   value.push("(" + buildSqmLabel + " = " + buildMinSizeUnitValue + ")");
+    // }
 
     //Get property time period, both from and to must not be empty
-    if (TimePeriodFromValue == "" && TimePeriodToValue !== "") {
-      let PopupFromEmptyValue = $("#popup-alert-from-empty");
-      $(PopupFromEmptyValue).addClass("show");
-      setTimeout(function () {
-        $(PopupFromEmptyValue).removeClass("show");
-      }, 2000);
-    } else if (TimePeriodFromValue !== "" && TimePeriodToValue == "") {
-      let PopupToEmptyValue = $("#popup-alert-to-empty");
-      $(PopupToEmptyValue).addClass("show");
-      setTimeout(function () {
-        $(PopupToEmptyValue).removeClass("show");
-      }, 2000);
-    }
+    // if (TimePeriodFromValue == "" && TimePeriodToValue !== "") {
+    //   let PopupFromEmptyValue = $("#popup-alert-from-empty");
+    //   $(PopupFromEmptyValue).addClass("show");
+    //   setTimeout(function () {
+    //     $(PopupFromEmptyValue).removeClass("show");
+    //   }, 2000);
+    // } else if (TimePeriodFromValue !== "" && TimePeriodToValue == "") {
+    //   let PopupToEmptyValue = $("#popup-alert-to-empty");
+    //   $(PopupToEmptyValue).addClass("show");
+    //   setTimeout(function () {
+    //     $(PopupToEmptyValue).removeClass("show");
+    //   }, 2000);
+    // }
 
-    if (TimePeriodFromValue !== "" && TimePeriodToValue !== "") {
-      value.push(
-        "(r_k_time_period between '" +
-        TimePeriodFromValue +
-        "' AND '" +
-        TimePeriodToValue +
-        "')"
-      );
-    }
+    // if (TimePeriodFromValue !== "" && TimePeriodToValue !== "") {
+    //   value.push(
+    //     "(" + timePeriodLabel + " between '" +
+    //     TimePeriodFromValue +
+    //     "' AND '" +
+    //     TimePeriodToValue +
+    //     "')"
+    //   );
+    // }
 
-    //Get property available
-    for (let i = 0; i < propertyAvailable.length; i++) {
-      if ($(propertyAvailable[i]).prop("checked") == true) {
-        arrPropAvailable.push(
-          "(r_k_p_available = '" + $(propertyAvailable[i]).val() + "')"
-        );
+    // Get value of clients and we register it on "value" array
+    // if (departmentClients.length > 0) {
+    //   let t = "(";
+    //   for (let i = 0; i < departmentClients.length; i++) {
+    //     t += "(" + departmentClientsLabel + " = '" + departmentClients[i] + "')";
+    //     if (departmentClients[i + 1] !== undefined) {
+    //       t += " OR ";
+    //     }
+    //   }
+    //   t += ")";
+    //   value.push(t);
+    // }
+
+    //Get feature service
+    if ((property.includes("Office") || property.length < 1) && (marketingSchemeValue == "for-sale" || marketingSchemeValue == undefined) && (propertyForSale.includes("available") || propertyForSale.length < 1)) {
+      if (featureService.some(feature => feature.url !== "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/1") || featureService.length < 1) {
+        featureService.push(colliersPropertyForSaleOffice)
       }
     }
-
-    var queryAvailable = "";
-    if (arrPropAvailable.length > 1) {
-      queryAvailable =
-        "(" + arrPropAvailable[0] + " OR " + arrPropAvailable[1] + ")";
-      value.push(queryAvailable);
-    } else if (arrPropAvailable.length == 1) {
-      queryAvailable = arrPropAvailable[0];
-      value.push(queryAvailable);
-    }
-
-    //Get property sold
-    for (let i = 0; i < propertySold.length; i++) {
-      if ($(propertySold[i]).prop("checked") == true) {
-        arrPropSold.push("(r_k_p_sold = '" + $(propertySold[i]).val() + "')");
+    if ((property.includes("House") || property.length < 1) && (marketingSchemeValue == "for-sale" || marketingSchemeValue == undefined) && (propertyForSale.includes("available") || propertyForSale.length < 1)) {
+      if (featureService.some(feature => feature.url !== "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/2") || featureService.length < 1) {
+        featureService.push(colliersPropertyForSaleHouse)
       }
     }
-
-    var querySold = "";
-    if (arrPropSold.length > 1) {
-      querySold = "(" + arrPropSold[0] + " OR " + arrPropSold[1] + ")";
-      value.push(querySold);
-    } else if (arrPropSold.length == 1) {
-      querySold = arrPropSold[0];
-      value.push(querySold);
-    }
-
-    //Get property valuation
-    for (let i = 0; i < propertyValuation.length; i++) {
-      if ($(propertyValuation[i]).prop("checked") == true) {
-        arrPropValuation.push(
-          "(r_k_p_valuation = '" + $(propertyValuation[i]).val() + "')"
-        );
+    if (propertySold.includes("colliers")) {
+      if (featureService.some(feature => feature.url !== "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/0") || featureService.length < 1) {
+        featureService.push(colliersPropertySold)
       }
     }
-
-    var queryValuation = "";
-    if (arrPropValuation.length > 1) {
-      queryValuation =
-        "(" + arrPropValuation[0] + " OR " + arrPropValuation[1] + ")";
-      value.push(queryValuation);
-    } else if (arrPropValuation.length == 1) {
-      queryValuation = arrPropValuation[0];
-      value.push(queryValuation);
+    if (property.length < 1 && marketingSchemeValue == undefined && propertyForSale.length < 1 && propertySold.includes("colliers")) {
+      featureService = [colliersPropertySold]
     }
-
-    //We use for to adding value to query
-    for (let i = 0; i < value.length; i++) {
-      if (i > 0) {
-        queryWhere += " AND ";
-      }
-      queryWhere += value[i];
+    if (property.length < 1 && marketingSchemeValue == undefined && propertyForSale.length < 1 && propertySold.length < 1) {
+      featureService = []
     }
+    console.log(featureService)
 
-    var layersRequest = {
-      query: {
-        f: "json"
-      },
-      responseType: "json"
-    };
+    for (let i = 0; i < featureService.length; i++) {
+      var layersRequest = {
+        query: {
+          f: "json"
+        },
+        responseType: "json"
+      };
 
-    EsriRequest(
-      "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/MapServer/0",
-      layersRequest
-    ).then(function (response) {
-      console.log("response", response);
-      lyrFields = response.data.fields;
-    });
-
-    function getFldAlias(fieldName) {
-      var retVal = "";
-      arrayUtils.forEach(lyrFields, function (item) {
-        if (item.name === fieldName) {
-          retVal = item.alias;
-          return true;
-        }
+      EsriRequest(
+        featureService[i].url,
+        layersRequest
+      ).then(function (response) {
+        console.log("response", response);
+        lyrFields = response.data.fields;
       });
-      return retVal;
-    }
 
-    console.log(queryWhere);
+      function getFldAlias(fieldName) {
+        var retVal = "";
+        arrayUtils.forEach(lyrFields, function (item) {
+          if (item.name === fieldName) {
+            retVal = item.alias;
+            return true;
+          }
+        });
+        return retVal;
+      }
 
-    $("#loading-bar").show();
-    $(".popupFilter").hide();
-    let checkGraphic = 0
-    for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
-      for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
-        if (map.ObjMap.layers.items[i].graphics.items.length > 0) {
-          checkGraphic = 1
+      $("#loading-bar").show();
+      $(".popupFilter").hide();
+      let checkGraphic = 0
+      for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
+        for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
+          if (map.ObjMap.layers.items[i].graphics.items.length > 0) {
+            checkGraphic = 1
+          }
         }
       }
-    }
-    console.log(map.ObjMap.layers.items)
-    if (checkGraphic == 1) {
-      if (map.ObjMap.layers.items.length > 0) {
-        for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
-          if ("graphics" in map.ObjMap.layers.items[i]) {
-            if (map.ObjMap.layers.items[i].graphics.items.length > 0) {
-              for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
-                let query = new ESRI.Query();
-                query.returnGeometry = true;
-                query.outFields = ["*"];
-                query.outSpatialReference = map.ObjMap.spatialReference;
-                query.where = queryWhere;
-                query.geometry = map.ObjMap.layers.items[i].graphics.items[j].geometry
-                colliersProperty.queryFeatures(query).then(function (results) {
-                  if (results.features.length < 1) {
-                    $("#loading-bar").hide();
-                  }
-                  displayResults(results);
-                });
+      if (checkGraphic == 1) {
+        if (map.ObjMap.layers.items.length > 0) {
+          for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
+            if ("graphics" in map.ObjMap.layers.items[i]) {
+              if (map.ObjMap.layers.items[i].graphics.items.length > 0) {
+                for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
+                  let query = new ESRI.Query();
+                  query.returnGeometry = true;
+                  query.outFields = ["*"];
+                  query.outSpatialReference = map.ObjMap.spatialReference;
+                  query.geometry = map.ObjMap.layers.items[i].graphics.items[j].geometry
+                  featureService[i].queryFeatures(query).then(function (results) {
+                    if (results.features.length < 1) {
+                      $("#loading-bar").hide();
+                    }
+                    displayResults(results);
+                  });
+                }
               }
             }
           }
         }
       }
+      else {
+        let query = new ESRI.Query();
+        query.returnGeometry = true;
+        query.outFields = ["*"];
+        query.outSpatialReference = map.ObjMap.spatialReference;
+        query.where = "1=1"
+        featureService[i].queryFeatures(query).then(function (results) {
+          if (results.features.length < 1) {
+            $("#loading-bar").hide();
+          } else {
+            let markerSymbol = {}
+            if (i == 0) {
+              markerSymbol = {
+                type: "picture-marker",
+                url: "assets/images/icons/OB-red.png",
+                width: "20px",
+                height: "20px"
+              };
+            } else if (i == 1) {
+              markerSymbol = {
+                type: "picture-marker",
+                url: "assets/images/icons/OB-blue.png",
+                width: "20px",
+                height: "20px"
+              };
+            }
+            results.features.forEach(function (feature) {
+              let g = new ESRI.Graphic({
+                geometry: feature.geometry,
+                attributes: feature.attributes,
+                symbol: markerSymbol,
+              });
+              resultsLayer.add(g);
+            });
+            $("#loading-bar").hide()
+          }
+        });
+      }
     }
-    else {
-      console.log("OK")
-      let query = new ESRI.Query();
-      query.returnGeometry = true;
-      query.outFields = ["*"];
-      query.outSpatialReference = map.ObjMap.spatialReference;
-      query.where = queryWhere;
-      colliersProperty.queryFeatures(query).then(function (results) {
-        if (results.features.length < 1) {
-          $("#loading-bar").hide();
-        }
-        displayResults(results);
-      });
-    }
-
     // // view and print the number of results to the DOM
     function displayResults(results) {
+      console.log(results)
       let chunkedResults = results.features;
       let attributes = [];
       let geometry = [];
@@ -278,6 +326,8 @@ function submitFilterServices(convertData, map, convertCSV) {
       for (let j in chunkedResults[0].attributes) {
         alias[j] = getFldAlias(j);
       }
+
+      console.log(alias)
 
       convertCSV.processCSVData(
         convertData.getRowofTextArray(attributes),

@@ -890,7 +890,6 @@ function boot(GIS) {
   });
 
   function getGraphics(response) {
-    console.log(response.results.length);
     if (response.results.length > 0) {
       //Make temporary data dummy for popup
       function randomNumber(min, max) {
@@ -1466,7 +1465,7 @@ function boot(GIS) {
         "theone"
       );
       inp.addClass("theone");
-    }
+    } 
   });
 
   $("#close-popup-property").click(function () {

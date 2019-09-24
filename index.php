@@ -460,17 +460,17 @@ if (!isset($_SESSION['auth'])) {
                                     </td>
                                     <td style="height:26px; text-align:center;">
                                         <div class="popup-require">
-                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="land-min-size-unit-value" />
-                                            <span class="popuptext" id="land-popup-alert-min-unit-empty">Please input min value!</span>
-                                            <span class="popuptext" id="land-popup-alert-min-unit-valid">Please input valid min value!</span>
+                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="build-min-size-meter-value" />
+                                            <span class="popuptext" id="build-popup-alert-min-meter-empty">Please input min value!</span>
+                                            <span class="popuptext" id="build-popup-alert-min-meter-valid">Please input valid min value!</span>
                                         </div>
                                     </td>
                                     <td style="height:26px; text-align:center;">
                                         <div class="popup-require">
-                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="land-max-size-unit-value" />
+                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="build-max-size-meter-value" />
                                             <div style="z-index: 1000">
-                                                <span class="popuptext" id="land-popup-alert-max-unit-empty">Please input max value!</span>
-                                                <span class="popuptext" id="land-popup-alert-max-unit-valid">Please input valid max value!</span>
+                                                <span class="popuptext" id="build-popup-alert-max-meter-empty">Please input max value!</span>
+                                                <span class="popuptext" id="build-popup-alert-max-meter-valid">Please input valid max value!</span>
                                             </div>
                                         </div>
                                     </td>
@@ -509,13 +509,13 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-department" id="department-current-clients" value="Current Clients">
+                                            <input class="styled" type="checkbox" name="select-department-clients" id="department-current-clients" value="Current Clients">
                                             <label for="department-current-clients"><span></span>Current Clients</label>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-department" id="department-previous-clients" value="Previous Clients">
+                                            <input class="styled" type="checkbox" name="select-department-clients" id="department-previous-clients" value="Previous Clients">
                                             <label for="department-previous-clients"><span></span>Previous Clients</label>
                                         </div>
                                     </td>
