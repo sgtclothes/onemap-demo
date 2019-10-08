@@ -29,8 +29,16 @@ function submitFilterServices(convertData, map, convertCSV) {
         "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/0"
     });
 
+    for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
+      if (map.ObjMap.layers.items[i].id == "colliers-property") {
+        map.ObjMap.layers.items.splice(i, 1)
+      }
+    }
+
     var lyrFields;
-    var resultsLayer = new ESRI.GraphicsLayer();
+    var resultsLayer = new ESRI.GraphicsLayer({
+      id: "colliers-property"
+    });
     resultsLayer.removeAll();
     map.ObjMap.add(resultsLayer);
     map.ObjMapView.graphics.removeAll();
@@ -211,6 +219,8 @@ function submitFilterServices(convertData, map, convertCSV) {
     }
     console.log(featureService)
 
+    let obj = map.ObjMap.layers.items.find(o => o.id === 'dynamic-buffer');
+
     for (let i = 0; i < featureService.length; i++) {
       var layersRequest = {
         query: {
@@ -240,79 +250,102 @@ function submitFilterServices(convertData, map, convertCSV) {
 
       $("#loading-bar").show();
       $(".popupFilter").hide();
-      let checkGraphic = 0
-      for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
-        for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
-          if (map.ObjMap.layers.items[i].graphics.items.length > 0) {
-            checkGraphic = 1
-          }
-        }
-      }
-      if (checkGraphic == 1) {
-        if (map.ObjMap.layers.items.length > 0) {
-          for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
-            if ("graphics" in map.ObjMap.layers.items[i]) {
-              if (map.ObjMap.layers.items[i].graphics.items.length > 0) {
-                for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
-                  let query = new ESRI.Query();
-                  query.returnGeometry = true;
-                  query.outFields = ["*"];
-                  query.outSpatialReference = map.ObjMap.spatialReference;
-                  query.geometry = map.ObjMap.layers.items[i].graphics.items[j].geometry
-                  featureService[i].queryFeatures(query).then(function (results) {
-                    if (results.features.length < 1) {
-                      $("#loading-bar").hide();
-                    }
-                    displayResults(results);
-                  });
-                }
+      if (obj != undefined) {
+        for (let i = 0; i < obj.graphics.items.length; i++) {
+          let query = new ESRI.Query();
+          query.returnGeometry = true;
+          query.outFields = ["*"];
+          query.outSpatialReference = map.ObjMap.spatialReference;
+          query.geometry = obj.graphics.items[i].geometry
+          for (let j = 0; j < featureService.length; j++) {
+            featureService[j].queryFeatures(query).then(function (results) {
+              if (results.features.length < 1) {
+                $("#loading-bar").hide();
               }
-            }
+              console.log(results)
+              displayResultsAll(results)
+            });
           }
         }
-      }
-      else {
+      } else {
         let query = new ESRI.Query();
         query.returnGeometry = true;
         query.outFields = ["*"];
         query.outSpatialReference = map.ObjMap.spatialReference;
         query.where = "1=1"
-        featureService[i].queryFeatures(query).then(function (results) {
-          if (results.features.length < 1) {
-            $("#loading-bar").hide();
-          } else {
-            let markerSymbol = {}
-            if (i == 0) {
-              markerSymbol = {
-                type: "picture-marker",
-                url: "assets/images/icons/OB-red.png",
-                width: "20px",
-                height: "20px"
-              };
-            } else if (i == 1) {
-              markerSymbol = {
-                type: "picture-marker",
-                url: "assets/images/icons/OB-blue.png",
-                width: "20px",
-                height: "20px"
-              };
+        for (let j = 0; j < featureService.length; j++) {
+          featureService[j].queryFeatures(query).then(function (results) {
+            if (results.features.length < 1) {
+              $("#loading-bar").hide();
             }
-            results.features.forEach(function (feature) {
-              let g = new ESRI.Graphic({
-                geometry: feature.geometry,
-                attributes: feature.attributes,
-                symbol: markerSymbol,
-              });
-              resultsLayer.add(g);
-            });
-            $("#loading-bar").hide()
-          }
-        });
+            console.log(results)
+            displayResultsAll(results)
+          });
+        }
       }
+      //   let checkGraphic = 0
+      //   let geometry = []
+      //   for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
+      //     for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
+      //       if (map.ObjMap.layers.items[i].graphics.items[j].geometry.type != "point") {
+      //         checkGraphic = 1
+      //         geometry.push(map.ObjMap.layers.items[i].graphics.items[j].geometry)
+      //       }
+      //     }
+      //   }
+
+      //   if (checkGraphic == 1) {
+      //     for (let i = 0; i < geometry.length; i++) {
+      //       let query = new ESRI.Query();
+      //       query.returnGeometry = true;
+      //       query.outFields = ["*"];
+      //       query.outSpatialReference = map.ObjMap.spatialReference;
+      //       query.geometry = geometry[i]
+      //       featureService[i].queryFeatures(query).then(function (results) {
+      //         if (results.features.length < 1) {
+      //           $("#loading-bar").hide();
+      //         }
+      //         console.log(results)
+      //         // displayResultsAll(results)
+      //       });
+      //     }
+      //     // if (map.ObjMap.layers.items.length > 0) {
+      //     //   for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
+      //     //     if ("graphics" in map.ObjMap.layers.items[i]) {
+      //     //       if (map.ObjMap.layers.items[i].graphics.items.length > 0) {
+      //     //         for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
+      //     //           let query = new ESRI.Query();
+      //     //           query.returnGeometry = true;
+      //     //           query.outFields = ["*"];
+      //     //           query.outSpatialReference = map.ObjMap.spatialReference;
+      //     //           query.geometry = map.ObjMap.layers.items[i].graphics.items[j].geometry
+      //     //           query.geometry = geometry
+      //     //           featureService[i].queryFeatures(query).then(function (results) {
+      //     //             if (results.features.length < 1) {
+      //     //               $("#loading-bar").hide();
+      //     //             }
+      //     //             displayResultsAll(results)
+      //     //           });
+      //     //         }
+      //     //       }
+      //     //     }
+      //     //   }
+      //     // }
+      //   }
+      //   else {
+      //     let query = new ESRI.Query();
+      //     query.returnGeometry = true;
+      //     query.outFields = ["*"];
+      //     query.outSpatialReference = map.ObjMap.spatialReference;
+      //     query.where = "1=1"
+      //     featureService[i].queryFeatures(query).then(function (results) {
+      //       console.log(results)
+      //       displayResultsAll(results)
+      //     });
+      //   }
     }
     // // view and print the number of results to the DOM
     function displayResults(results) {
-      console.log(results)
       let chunkedResults = results.features;
       let attributes = [];
       let geometry = [];
@@ -337,6 +370,39 @@ function submitFilterServices(convertData, map, convertCSV) {
         true
       );
       $("#loading-bar").hide();
+    }
+
+    function displayResultsAll(results) {
+      if (results.features.length < 1) {
+        $("#loading-bar").hide();
+      } else {
+        let markerSymbol = {}
+        if (results.features[0].attributes.property_type == "office") {
+          markerSymbol = {
+            type: "picture-marker",
+            url: "assets/images/icons/OB-red.png",
+            width: "20px",
+            height: "20px"
+          };
+        }
+        if (results.features[0].attributes.property_t == "house") {
+          markerSymbol = {
+            type: "picture-marker",
+            url: "assets/images/icons/OB-blue.png",
+            width: "20px",
+            height: "20px"
+          };
+        }
+        results.features.forEach(function (feature) {
+          let g = new ESRI.Graphic({
+            geometry: feature.geometry,
+            attributes: feature.attributes,
+            symbol: markerSymbol,
+          });
+          resultsLayer.add(g);
+        });
+        $("#loading-bar").hide()
+      }
     }
   });
 }

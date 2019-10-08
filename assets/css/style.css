@@ -884,3 +884,20 @@ td {
 .button-create-buffer {
   display: none;
 }
+
+.image-wrapper-a {
+  position: absolute;
+  background-color: white;
+  width: 100px;
+  height: auto;
+  padding: 5px;
+}
+
+.image-wrapper-a div {
+  margin-bottom: 5px;
+}
+
+.image-wrapper-a div:hover {
+  background-color: #f0f2fa;
+  cursor: default;
+}

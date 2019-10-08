@@ -74,34 +74,12 @@ if (!isset($_SESSION['auth'])) {
         <link href="assets/css/section/fontawesome-5.0.1-all.css" rel="stylesheet">
 
         <link rel="stylesheet" href="assets/js/plugins/my_profile/my_profile_form.css">
-        <!-- /Adding other css -->
 
-        <!-- MultiSelect CSS & JS library -->
-        <!-- <link href="assets/css/jquery/jquery.multiselect.css" rel="stylesheet" />
-        <script src="assets/js/jquery.multiselect.js"></script>
-        <script>
-            $(function() {
-                $('select[multiple].active.3col').multiselect({
-                    columns: 3,
-                    placeholder: 'Select Property',
-                    search: true,
-                    maxPlaceholderOpts: 2,
-                    searchOptions: {
-                        'default': 'Search Property'
-                    },
-                    selectAll: true
-                });
-
-            });
-        </script> -->
-        <!-- /MultiSelect CSS & JS library -->
-
-        <!-- core js files -->
-        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-        <!-- <script src="assets/js/main/jquery.min.js"></script> -->
         <script src="assets/js/main/bootstrap.bundle.min.js"></script>
         <script src="assets/js/plugins/loaders/blockui.min.js"></script>
         <script src="assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
+        <script type="text/javascript" src="assets\master\contextMenu.js\contextMenu.js"></script>
+        <link href="assets/master/contextMenu.js/contextMenu.css" rel="stylesheet" type="text/css" />
         <!-- /core js files -->
 
         <!-- themes & template js files -->
@@ -1548,7 +1526,7 @@ if (!isset($_SESSION['auth'])) {
             <!-- End of Popup Filter -->
 
             <div class="content-wrapper" id="contentAnalysisDiv">
-                <div id="mapDiv"></div>
+                <div id="mapDiv" class="mapDiv"></div>
                 <div class="table_list_services"><?php include "content/table_list_services.html"; ?></div>
                 <div id="analysisDiv" style="display:none;"><?php include "content/analysis/results_table.html"; ?></div>
                 <div id="instantAnalysisDiv" style="display:none;"><?php include "content/analysis/results_table_instant.html"; ?></div>
@@ -1647,6 +1625,8 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/createQueryShape.js"></script>
     <script src="assets/js/livePointing.js"></script>
     <script src="assets/js/createDynamicCircle.js"></script>
+    <script src="assets/js/createContextMenu.js"></script>
+    <script src="assets/js/selectByCTRL.js"></script>
     <script src="content/analysis/analysisPoi.js"></script>
     <script src="content/analysis/editAnalysis.js"></script>
     <script src="assets/js/plugins/tables/paginationLib.js"></script>

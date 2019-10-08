@@ -8,7 +8,7 @@ function boot(GIS) {
   map.addPrintWidget(config.PrintServiceUrl, config.Position[5]); //Adding print widget
   map.addMeasurementWidget(); //Adding measurement widget
   map.addLocateWidget(config.Position[5]); //Adding locate widget
-  map.addSearchWidget(config.Position[6]); //Adding task search to map
+  // map.addSearchWidget(config.Position[6]); //Adding task search to map
   map.addBasemapGalleryWidget(
     //Adding basemap gallery widget
     {
@@ -20,12 +20,22 @@ function boot(GIS) {
     config.Position[6]
   );
   map.render(); //Map rendering
-  var search = new ESRI.Search(
+  var search = new ESRI.Search( //Add search widget in sidenav layers
     {
       view: map.ObjMapView
     },
     "search-widget-property"
   );
+
+  search.on("search-complete", function (res) {
+    setTimeout(function () {
+      console.log("OK")
+      map.ObjMapView.goTo({
+        target: [res.results[0].results[0].extent.center.longitude, res.results[0].results[0].extent.center.latitude],
+        zoom: 17
+      });
+    }, 500)
+  })
 
   // Create a site
   map.ObjMapView.when(function () {
@@ -727,21 +737,6 @@ function boot(GIS) {
       });
     });
 
-  submitFilterServices(storeLocalStorage, map, convertCSV);
-  inputFilter(); //inputFilter to handle keyboard input specifications
-  multiSelect();
-  inputCheckboxPropertyStatus();
-  inputCheckboxServices(GIS, map);
-  inputCheckboxQueryShape(GIS, map);
-  saveDataServiceToLocalStorage();
-  removeFilterResults(map);
-  createOverlap(GIS, map);
-  viewTableServices(map);
-  zoomToLayer(map);
-  expandCheckboxServices();
-  createQueryShape(GIS, map, convertCSV);
-  // selectUnitSize();
-
   $("input[name='popup-input-min']").click(function () {
     $("#popup-alert").toggleClass("show");
   });
@@ -880,22 +875,163 @@ function boot(GIS) {
     checkForChanges();
   });
 
-  // Set up a click event handler and retrieve the screen point
-  map.ObjMapView.on("click", function (evt) {
-    var screenPoint = evt.screenPoint;
+  //---Make a parent grouplayer of buffers---//
+  let groupLayer = new ESRI.GroupLayer({
+    id: "buffers"
+  })
+  map.ObjMap.add(groupLayer);
+  //--- End of Make a parent grouplayer of buffers---//
 
-    // the hitTest() checks to see if any graphics in the view
-    // intersect the given screen point
-    map.ObjMapView.hitTest(screenPoint).then(getGraphics);
+  var ctrlPressed = false;
+  $(window).keydown(function (evt) {
+    if (evt.which == 17) { // ctrl
+      ctrlPressed = true;
+    }
+  }).keyup(function (evt) {
+    if (evt.which == 17) { // ctrl
+      ctrlPressed = false;
+    }
   });
 
+  function selectMe(mouseButton, response, groupLayer) {
+    if (ctrlPressed) {
+      if (mouseButton == 0) {
+        var selectedLayer
+        if (JSON.parse(localStorage.getItem("selectedLayer") == null)) {
+          selectedLayer = []
+        } else {
+          selectedLayer = JSON.parse(localStorage.getItem("selectedLayer"))
+        }
+        if (response.results[0].graphic.attributes == "buffer-graphics") {
+          if (selectedLayer.includes(response.results[0].graphic.layer.id)) {
+            response.results[0].graphic.symbol = {
+              type: "simple-fill",
+              color: [150, 150, 150, 0.2],
+              outline: {
+                color: "#7a7c80",
+                width: 2
+              }
+            }
+            //Splice results from selected layer
+            let index = selectedLayer.indexOf(response.results[0].graphic.layer.id)
+            selectedLayer.splice(index, 1)
+            localStorage.setItem("selectedLayer", JSON.stringify(selectedLayer))
+            console.log(JSON.parse(localStorage.getItem("selectedLayer")))
+          } else {
+            selectLayer(response)
+          }
+        } else {
+          console.log("Not a buffer")
+        }
+      }
+    } else {
+      resetSelectedGraphics(groupLayer)
+      selectLayer(response)
+    }
+  }
+
+  //---Set up a click event handler and retrieve the screen point---//
+  map.ObjMapView.on("click", function (event) {
+    $(".image-wrapper-a").remove() //Remove contextmenu
+    let point = new ESRI.Point(event.x, event.y) //Create point
+    if (event.button == 0) {
+      map.ObjMapView.hitTest(point).then(getGraphics);
+    } else if (event.button == 2) {
+      map.ObjMapView.hitTest(point).then(function (response) {
+        if (response.results.length > 0 && response.results[0].graphic.attributes == "buffer-graphics") {
+          selectLayer(response)
+          createContextMenu(map, event, condition = ["remove"])
+        } else {
+          createContextMenu(map, event, condition = ["buffer", "drivingtime"])
+        }
+      })
+    }
+  })
+
+  $(document).delegate("#contextmenu-buffer", "click", function () {
+    $(".image-wrapper-a").hide()
+    let latitude = Number(localStorage.getItem("livePointingLatitude"))
+    let longitude = Number(localStorage.getItem("livePointingLongitude"))
+    let point = new ESRI.Point();
+    point.longitude = longitude;
+    point.latitude = latitude;
+    createDynamicCircle(map, groupLayer, map.ObjMapView.toScreen(point).x, map.ObjMapView.toScreen(point).y)
+  })
+
+  $(document).delegate("#contextmenu-remove", "click", function () {
+    $('.image-wrapper-a').remove()
+    let selectedLayer = JSON.parse(localStorage.getItem("selectedLayer"))
+    console.log(selectedLayer)
+    for (let i = 0; i < selectedLayer.length; i++) {
+        for (let j = 0; j < groupLayer.layers.items.length; j++) {
+            if (groupLayer.layers.items[j].id == selectedLayer[i]) {
+                groupLayer.layers.items[j].visible = false
+                groupLayer.layers.items.splice(i, 1)
+            }
+        }
+    }
+  })
+
+  function resetSelectedGraphics(groupLayer) {
+    //Reset all selected layer to empty array
+    localStorage.setItem("selectedLayer", "[]")
+    //Reset all selected layer to normal color buffer
+    for (let i = 0; i < groupLayer.layers.items.length; i++) {
+      for (let j = 0; j < groupLayer.layers.items[i].graphics.items.length; j++) {
+        if (groupLayer.layers.items[i].graphics.items[j].attributes == "buffer-graphics") {
+          groupLayer.layers.items[i].graphics.items[j].symbol = {
+            type: "simple-fill",
+            color: [150, 150, 150, 0.2],
+            outline: {
+              color: "#7a7c80",
+              width: 2
+            }
+          }
+        }
+      }
+    }
+  }
+
+  function selectLayer(response) {
+    var selectedLayer
+    if (JSON.parse(localStorage.getItem("selectedLayer") == null)) {
+      selectedLayer = []
+    } else {
+      selectedLayer = JSON.parse(localStorage.getItem("selectedLayer"))
+    }
+    if (!selectedLayer.includes(response.results[0].graphic.layer.id)) {
+      selectedLayer.push(response.results[0].graphic.layer.id)
+    }
+    localStorage.setItem("selectedLayer", JSON.stringify(selectedLayer))
+    console.log(JSON.parse(localStorage.getItem("selectedLayer")))
+    let symbol = {
+      type: "simple-fill",
+      color: [255, 0, 0, 0.2],
+      outline: {
+        color: "#7a7c80",
+        width: 2
+      }
+    }
+    if (response.results[0].graphic.attributes == "buffer-graphics") {
+      response.results[0].graphic.symbol = symbol
+    } else {
+      console.log("Not a buffer")
+    }
+  }
+
+  //Check if layer for drawing a sketch available or not
   function getGraphics(response) {
     if (response.results.length > 0) {
-      //Make temporary data dummy for popup
-      function randomNumber(min, max) {
-        return Math.floor(Math.random() * (max - min) + min);
+      let val = response.results[0].graphic.layer.id.split("-")
+      if (val[0] == "dynamic" && val[1] == "buffer") {
+        //Reset all color graphicslayer when selecting
+        selectMe(0, response, groupLayer)
+        // resetSelectedGraphics(groupLayer)
+        //Fill selected layer with red color, get layer selected and save to localstorage
+      } else {
+        return
       }
-      //console.log(response.results);
+
       localStorage.setItem(
         "selectedFeatureFilterLatitude",
         JSON.stringify(response.results[0].graphic.geometry.latitude)
@@ -1033,7 +1169,7 @@ function boot(GIS) {
       if (lastupdate === "NaN-NaN-NaN") {
         lastupdate = "-";
       }
-      if (attr.includes("propertytype")) {
+      if (attr.includes("propertytype") || attr.includes("property_type") || attr.includes("property_t")) {
         $(".popupFilter").show();
         $(".image-property").css("background-image", "url(" + imageUrl + ")");
         $(".image-property").css("background-size", "100% 100%");
@@ -1322,11 +1458,9 @@ function boot(GIS) {
       }
       //End of Highlight pointing
     } else {
-      if (localStorage.getItem("startBuffer") == null) {
-        // localStorage.setItem("startBuffer", "enable")
-        // $("#loading-bar").show();
-        // createDynamicCircle(map, response.screenPoint.x, response.screenPoint.y);
-      }
+      localStorage.setItem("selectedLayer", "[]")
+      console.log(localStorage.getItem("selectedLayer"))
+      resetSelectedGraphics(groupLayer)
       $(".button-create-buffer").show()
       // Get latitude and longitude
       let latitude = map.ObjMapView.toMap({
@@ -1465,7 +1599,7 @@ function boot(GIS) {
         "theone"
       );
       inp.addClass("theone");
-    } 
+    }
   });
 
   $("#close-popup-property").click(function () {
@@ -1556,6 +1690,22 @@ function boot(GIS) {
     $(".esri-icon-polygon").addClass("esri-sketch__button--selected");
     // document.body.style.cursor = "crosshair";
   });
+
+  //---Set all external function here---//
+  submitFilterServices(storeLocalStorage, map, convertCSV);
+  inputFilter();
+  multiSelect();
+  inputCheckboxPropertyStatus();
+  inputCheckboxServices(GIS, map);
+  inputCheckboxQueryShape(GIS, map);
+  saveDataServiceToLocalStorage();
+  removeFilterResults(map);
+  createOverlap(GIS, map);
+  viewTableServices(map);
+  zoomToLayer(map);
+  expandCheckboxServices();
+  createQueryShape(GIS, map, convertCSV);
+  //---End of Set all external function here---//
 
   //Clear the localstorage when user logout
   document.getElementById("logout").addEventListener("click", function () {
