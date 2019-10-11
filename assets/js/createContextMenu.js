@@ -1,14 +1,17 @@
 function createContextMenu(map, event, condition) {
     let menu = []
     let strMenu = ""
-    if (condition.includes("buffer")) {
-        menu.push('<div id="contextmenu-buffer"><i class="mi-donut-large"></i>Buffer</div>')
+    if (condition.includes("radius")) {
+        menu.push('<div id="contextmenu-radius"><i class="mi-donut-large"></i>Radius</div>')
     }
     if (condition.includes("drivingtime")) {
         menu.push('<div id="contextmenu-driving"><i class="mi-access-alarms"></i>Driving Time</div>')
     }
+    if (condition.includes("analyze")) {
+        menu.push('<div id="contextmenu-analyze"><i class="mi-timeline"></i>Analyze</div>')
+    }
     if (condition.includes("remove")) {
-        menu.push('<div id="contextmenu-remove"><i class="esri-icon-trash "></i>Remove</div>')
+        menu.push('<div id="contextmenu-remove"><i class="esri-icon-trash"></i>Remove</div>')
     }
 
     for (let i = 0; i < menu.length; i++) {

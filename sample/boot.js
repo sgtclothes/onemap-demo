@@ -275,9 +275,6 @@ function boot(GIS) {
     });
 
   function open_viewer() {
-    setTimeout(function () {
-      map.addWidget(dragCSVButton(), config.Position[6]);
-    }, 1000);
     document.getElementById("myViewer").style.width = "350px";
     document.getElementById("main").style.marginLeft = "350px";
   }
@@ -858,10 +855,10 @@ function boot(GIS) {
   function checkForChanges() {
     if ($element.css("width") != lastHeight) {
       lastHeight = $element.css("width");
-      if (lastHeight < "800px" && lastHeight > "600px") {
+      if (lastHeight < "970px" && lastHeight > "600px") {
         $("#table-popup-colliers").css("display", "block");
         $(".font-popup").css("font-size", "8px");
-      } else if (lastHeight >= "800px") {
+      } else if (lastHeight >= "970px") {
         $("#table-popup-colliers").css("display", "block");
         $(".font-popup").css("font-size", "11px");
       } else if (lastHeight < "600px") {
@@ -879,8 +876,16 @@ function boot(GIS) {
   let groupLayer = new ESRI.GroupLayer({
     id: "buffers"
   })
-  map.ObjMap.add(groupLayer);
+  //Sketch to query features
+  let groupLayer2 = new ESRI.GraphicsLayer({
+    id: "polygons"
+  });
+  map.ObjMap.addMany([groupLayer, groupLayer2]);
   //--- End of Make a parent grouplayer of buffers---//
+
+  //---Declare global counter for adding grouplayer id---//
+  window.layerCounter = 0
+  //---End of Declare global counter for adding grouplayer id---//
 
   var ctrlPressed = false;
   $(window).keydown(function (evt) {
@@ -930,45 +935,91 @@ function boot(GIS) {
     }
   }
 
-  //---Set up a click event handler and retrieve the screen point---//
+  //---Check global mapview click---//
   map.ObjMapView.on("click", function (event) {
     $(".image-wrapper-a").remove() //Remove contextmenu
     let point = new ESRI.Point(event.x, event.y) //Create point
     if (event.button == 0) {
       map.ObjMapView.hitTest(point).then(getGraphics);
     } else if (event.button == 2) {
+      //---Recall selected Layer---//
+      var selectedLayer
+      if (JSON.parse(localStorage.getItem("selectedLayer") == null)) {
+        selectedLayer = []
+      } else {
+        selectedLayer = JSON.parse(localStorage.getItem("selectedLayer"))
+      }
+      //---End of Recall selected Layer---//
       map.ObjMapView.hitTest(point).then(function (response) {
         if (response.results.length > 0 && response.results[0].graphic.attributes == "buffer-graphics") {
           selectLayer(response)
-          createContextMenu(map, event, condition = ["remove"])
+          createContextMenu(map, event, condition = ["analyze", "remove"])
         } else {
-          createContextMenu(map, event, condition = ["buffer", "drivingtime"])
+          if (selectedLayer.length > 0) {
+            createContextMenu(map, event, condition = ["analyze", "remove"])
+          } else {
+            createContextMenu(map, event, condition = ["radius", "drivingtime"])
+          }
         }
       })
     }
   })
+  //---End of Check global mapview click---//
 
-  $(document).delegate("#contextmenu-buffer", "click", function () {
-    $(".image-wrapper-a").hide()
+  //--Create dynamic buffer when user click buffer in contextmenu---//
+  $(document).delegate("#contextmenu-radius", "click", function () {
+    $(".image-wrapper-a").remove() //Remove context menu
     let latitude = Number(localStorage.getItem("livePointingLatitude"))
     let longitude = Number(localStorage.getItem("livePointingLongitude"))
     let point = new ESRI.Point();
     point.longitude = longitude;
     point.latitude = latitude;
-    createDynamicCircle(map, groupLayer, map.ObjMapView.toScreen(point).x, map.ObjMapView.toScreen(point).y)
+    createDynamicCircle(layerCounter, map, groupLayer, map.ObjMapView.toScreen(point).x, map.ObjMapView.toScreen(point).y)
   })
+  //--End of Create dynamic buffer when user click buffer in contextmenu---//
+
+  //---Analyze selected buffer---//
+  $(document).delegate("#contextmenu-analyze", "click", function () {
+    $(".image-wrapper-a").remove() //Remove context menu
+    let geometry = []
+    for (let i = 0; i < groupLayer.layers.items.length; i++) {
+      for (let j = 0; j < groupLayer.layers.items[i].graphics.items.length; j++) {
+        if (groupLayer.layers.items[i].graphics.items[j].attributes == "buffer-graphics") {
+          geometry.push(groupLayer.layers.items[i].graphics.items[j].geometry)
+        }
+      }
+    }
+
+    //---Setting featureLayer url for service---//
+    let featureLayer = new ESRI.FeatureLayer(
+      "https://gis.locatorlogic.com/arcgis/rest/services/BPS/BPS_ONLY_2016/MapServer/722/"
+    );
+    //---End of Setting featureLayer url for service---//
+
+    //---Loop collected geometry---//
+    for (let i = 0; i < geometry.length; i++) {
+      let query = new ESRI.Query();
+      query.returnGeometry = true;
+      query.geometry = geometry[i];
+      query.outFields = ["*"];
+      featureLayer.queryFeatures(query).then(function (results) {
+        console.log(results)
+      })
+    }
+    //---End of Loop collected geometry---//
+  })
+  //---End of Analyze selected buffer---//
 
   $(document).delegate("#contextmenu-remove", "click", function () {
-    $('.image-wrapper-a').remove()
+    $('.image-wrapper-a').remove() //Remove context menu
     let selectedLayer = JSON.parse(localStorage.getItem("selectedLayer"))
-    console.log(selectedLayer)
     for (let i = 0; i < selectedLayer.length; i++) {
-        for (let j = 0; j < groupLayer.layers.items.length; j++) {
-            if (groupLayer.layers.items[j].id == selectedLayer[i]) {
-                groupLayer.layers.items[j].visible = false
-                groupLayer.layers.items.splice(i, 1)
-            }
+      for (let j = 0; j < groupLayer.layers.items.length; j++) {
+        if (groupLayer.layers.items[j].id == selectedLayer[i]) {
+          groupLayer.layers.items[j].visible = false
+          groupLayer.layers.items.splice(i, 1)
         }
+      }
     }
   })
 
@@ -1029,439 +1080,438 @@ function boot(GIS) {
         // resetSelectedGraphics(groupLayer)
         //Fill selected layer with red color, get layer selected and save to localstorage
       } else {
-        return
-      }
-
-      localStorage.setItem(
-        "selectedFeatureFilterLatitude",
-        JSON.stringify(response.results[0].graphic.geometry.latitude)
-      );
-      localStorage.setItem(
-        "selectedFeatureFilterLongitude",
-        JSON.stringify(response.results[0].graphic.geometry.longitude)
-      );
-
-      //Land Rows
-      let landSizeSqmGrossIDR = 5300;
-      let landSizeSqmGrossUSD = 0;
-      let landSizeSqmSGAIDR = 0;
-      let landSizeSqmSGAUSD = 0;
-      let landSizeUnitKeysIDR = 0;
-      let landSizeUnitKeysUSD = 0;
-      let landPricePerSqmGrossIDR = 2500;
-      let landPricePerSqmGrossUSD = 0;
-      let landPricePerSqmSGAIDR = 0;
-      let landPricePerSqmSGAUSD = 0;
-      let landPricePerUnitKeyIDR = 0;
-      let landPricePerUnitKeyUSD = 0;
-      let landPriceTotalIDR = 0;
-      let landPriceTotalUSD = 0;
-      let landPricePerSqmIDR = 0;
-      let landPricePerSqmUSD = 0;
-      let landNJOPPercentIDR = 0;
-      let landNJOPPercentUSD = 0;
-      let landTotalIDR = landSizeSqmGrossIDR * landPricePerSqmGrossIDR;
-      let landTotalUSD = null;
-      if (landTotalIDR !== null) {
-        landTotalUSD = landTotalIDR / 14266.4;
-        $("#landTotalIDR").css("font-weight", "bold");
-      } else if (landTotalUSD !== null) {
-        landTotalIDR = landTotalUSD * 14266.4;
-      }
-
-      //Building Rows
-      let buildingSizeSqmGrossIDR = 0;
-      let buildingSizeSqmGrossUSD = 0;
-      let buildingSizeSqmSGAIDR = 0;
-      let buildingSizeSqmSGAUSD = 0;
-      let buildingSizeUnitKeysIDR = 0;
-      let buildingSizeUnitKeysUSD = 0;
-      let buildingPricePerSqmGrossIDR = 0;
-      let buildingPricePerSqmGrossUSD = 0;
-      let buildingPricePerSqmSGAIDR = 0;
-      let buildingPricePerSqmSGAUSD = 0;
-      let buildingPricePerUnitKeyIDR = 0;
-      let buildingPricePerUnitKeyUSD = 0;
-      let buildingPriceTotalIDR = 0;
-      let buildingPriceTotalUSD = 0;
-      let buildingPricePerSqmIDR = 0;
-      let buildingPricePerSqmUSD = 0;
-      let buildingNJOPPercentIDR = 0;
-      let buildingNJOPPercentUSD = 0;
-      let buildingTotalIDR = null;
-      let buildingTotalUSD = 500;
-      if (buildingTotalIDR !== null) {
-        buildingTotalUSD = buildingTotalIDR / 14266.4;
-        $("#buildingTotalIDR").css("font-weight", "bold");
-      } else if (buildingTotalUSD !== null) {
-        buildingTotalIDR = buildingTotalUSD * 14266.4;
-      }
-
-      //Total Rows
-      let totalSizeSqmGrossIDR = 0;
-      let totalSizeSqmGrossUSD = 0;
-      let totalSizeSqmSGAIDR = 0;
-      let totalSizeSqmSGAUSD = 0;
-      let totalSizeUnitKeysIDR = 0;
-      let totalSizeUnitKeysUSD = 0;
-      let totalPricePerSqmGrossIDR = 0;
-      let totalPricePerSqmGrossUSD = 0;
-      let totalPricePerSqmSGAIDR = 0;
-      let totalPricePerSqmSGAUSD = 0;
-      let totalPricePerUnitKeyIDR = 0;
-      let totalPricePerUnitKeyUSD = 0;
-      let totalPriceTotalIDR = 0;
-      let totalPriceTotalUSD = 0;
-      let totalPricePerSqmIDR = 0;
-      let totalPricePerSqmUSD = 0;
-      let totalNJOPPercentIDR = 0;
-      let totalNJOPPercentUSD = 0;
-      let totalTotalIDR = null;
-      let totalTotalUSD = 500;
-      if (totalTotalIDR !== null) {
-        totalTotalUSD = totalTotalIDR / 14266.4;
-        $("#totalTotalIDR").css("font-weight", "bold");
-      } else if (totalTotalUSD !== null) {
-        totalTotalIDR = totalTotalUSD * 14266.4;
-        $("#totalTotalUSD").css("font-weight", "bold");
-      }
-
-      //KLB Rows
-      let KLBTotalIDR = landTotalIDR;
-      let KLBTotalUSD = null;
-      if (KLBTotalIDR !== null) {
-        KLBTotalUSD = KLBTotalIDR / 14266.4;
-        $("#KLBTotalIDR").css("font-weight", "bold");
-      } else if (KLBTotalUSD !== null) {
-        KLBTotalIDR = KLBTotalUSD * 14266.4;
-        $("#KLBTotalUSD").css("font-weight", "bold");
-      }
-      let KLBKLBIDR = 120000;
-      let KLBKLBUSD = null;
-      if (KLBKLBIDR !== null) {
-        KLBKLBUSD = KLBKLBIDR / 14266.4;
-        $("#KLBKLBIDR").css("font-weight", "bold");
-      } else if (KLBKLBUSD !== null) {
-        KLBKLBIDR = KLBKLBUSD * 14266.4;
-        $("#KLBKLBUSD").css("font-weight", "bold");
-      }
-      let KLBLandSqmIDR = 5000;
-      let KLBLandSqmUSD = null;
-      if (KLBLandSqmIDR !== null) {
-        KLBLandSqmUSD = KLBLandSqmIDR / 14266.4;
-        $("#KLBLandSqmIDR").css("font-weight", "bold");
-      } else if (KLBLandSqmUSD !== null) {
-        KLBLandSqmIDR = KLBLandSqmUSD * 14266.4;
-        $("#KLBLandSqmUSD").css("font-weight", "bold");
-      }
-      let KLBBuildableSqmIDR = KLBTotalIDR / (KLBKLBIDR * KLBLandSqmIDR);
-      let KLBBuildableSqmUSD = KLBTotalUSD / (KLBKLBUSD * KLBLandSqmUSD);
-
-      let attr = Object.keys(response.results[0].graphic.attributes);
-      let imageUrl = response.results[0].graphic.attributes.photo;
-      let propertytype = response.results[0].graphic.attributes.propertytype;
-      let buildingName = response.results[0].graphic.attributes.buildingname;
-      let address = response.results[0].graphic.attributes.address;
-      let lastupdate = response.results[0].graphic.attributes.lastupdate;
-      let d = new Date(lastupdate);
-      lastupdate =
-        d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-      if (lastupdate === "NaN-NaN-NaN") {
-        lastupdate = "-";
-      }
-      if (attr.includes("propertytype") || attr.includes("property_type") || attr.includes("property_t")) {
-        $(".popupFilter").show();
-        $(".image-property").css("background-image", "url(" + imageUrl + ")");
-        $(".image-property").css("background-size", "100% 100%");
-        $("#propertytype-popup").text(
-          "PROPERTY TYPE : " + propertytype.toUpperCase()
+        console.log(response)
+        localStorage.setItem(
+          "selectedFeatureFilterLatitude",
+          JSON.stringify(response.results[0].graphic.geometry.latitude)
         );
-        $("#lastupdate-popup").text("Last updated : " + lastupdate);
-        $("#buildingName-popup").text("Land at " + buildingName);
-        $("#address-popup").text(address);
-
-        //Land views
-        $("#landTotalIDR").text(
-          landTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landTotalUSD").text(
-          landTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landSizeSqmGrossIDR").text(
-          landSizeSqmGrossIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landSizeSqmGrossUSD").text(
-          landSizeSqmGrossUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landSizeSqmSGAIDR").text(
-          landSizeSqmSGAIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landSizeSqmSGAUSD").text(
-          landSizeSqmSGAUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landSizeUnitKeysIDR").text(
-          landSizeUnitKeysIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landSizeUnitKeysUSD").text(
-          landSizeUnitKeysUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landPricePerSqmGrossIDR").text(
-          landPricePerSqmGrossIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landPricePerSqmGrossUSD").text(
-          landPricePerSqmGrossUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landPricePerSqmSGAIDR").text(
-          landPricePerSqmSGAIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landPricePerSqmSGAUSD").text(
-          landPricePerSqmSGAUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landPricePerUnitKeyIDR").text(
-          landPricePerUnitKeyIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landPricePerUnitKeyUSD").text(
-          landPricePerUnitKeyUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landPriceTotalIDR").text(
-          landPriceTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landPriceTotalUSD").text(
-          landPriceTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landPricePerSqmIDR").text(
-          landPricePerSqmIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landPricePerSqmUSD").text(
-          landPricePerSqmUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landNJOPPercentIDR").text(
-          landNJOPPercentIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#landNJOPPercentUSD").text(
-          landNJOPPercentUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+        localStorage.setItem(
+          "selectedFeatureFilterLongitude",
+          JSON.stringify(response.results[0].graphic.geometry.longitude)
         );
 
-        //building views
-        $("#buildingTotalIDR").text(
-          buildingTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingTotalUSD").text(
-          buildingTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingSizeSqmGrossIDR").text(
-          buildingSizeSqmGrossIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingSizeSqmGrossUSD").text(
-          buildingSizeSqmGrossUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingSizeSqmSGAIDR").text(
-          buildingSizeSqmSGAIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingSizeSqmSGAUSD").text(
-          buildingSizeSqmSGAUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingSizeUnitKeysIDR").text(
-          buildingSizeUnitKeysIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingSizeUnitKeysUSD").text(
-          buildingSizeUnitKeysUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingPricePerSqmGrossIDR").text(
-          buildingPricePerSqmGrossIDR
-            .toFixed(2)
-            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingPricePerSqmGrossUSD").text(
-          buildingPricePerSqmGrossUSD
-            .toFixed(2)
-            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingPricePerSqmSGAIDR").text(
-          buildingPricePerSqmSGAIDR
-            .toFixed(2)
-            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingPricePerSqmSGAUSD").text(
-          buildingPricePerSqmSGAUSD
-            .toFixed(2)
-            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingPricePerUnitKeyIDR").text(
-          buildingPricePerUnitKeyIDR
-            .toFixed(2)
-            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingPricePerUnitKeyUSD").text(
-          buildingPricePerUnitKeyUSD
-            .toFixed(2)
-            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingPriceTotalIDR").text(
-          buildingPriceTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingPriceTotalUSD").text(
-          buildingPriceTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingPricePerSqmIDR").text(
-          buildingPricePerSqmIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingPricePerSqmUSD").text(
-          buildingPricePerSqmUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingNJOPPercentIDR").text(
-          buildingNJOPPercentIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#buildingNJOPPercentUSD").text(
-          buildingNJOPPercentUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
+        //Land Rows
+        let landSizeSqmGrossIDR = 5300;
+        let landSizeSqmGrossUSD = 0;
+        let landSizeSqmSGAIDR = 0;
+        let landSizeSqmSGAUSD = 0;
+        let landSizeUnitKeysIDR = 0;
+        let landSizeUnitKeysUSD = 0;
+        let landPricePerSqmGrossIDR = 2500;
+        let landPricePerSqmGrossUSD = 0;
+        let landPricePerSqmSGAIDR = 0;
+        let landPricePerSqmSGAUSD = 0;
+        let landPricePerUnitKeyIDR = 0;
+        let landPricePerUnitKeyUSD = 0;
+        let landPriceTotalIDR = 0;
+        let landPriceTotalUSD = 0;
+        let landPricePerSqmIDR = 0;
+        let landPricePerSqmUSD = 0;
+        let landNJOPPercentIDR = 0;
+        let landNJOPPercentUSD = 0;
+        let landTotalIDR = landSizeSqmGrossIDR * landPricePerSqmGrossIDR;
+        let landTotalUSD = null;
+        if (landTotalIDR !== null) {
+          landTotalUSD = landTotalIDR / 14266.4;
+          $("#landTotalIDR").css("font-weight", "bold");
+        } else if (landTotalUSD !== null) {
+          landTotalIDR = landTotalUSD * 14266.4;
+        }
 
-        //total views
-        $("#totalTotalIDR").text(
-          totalTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalTotalUSD").text(
-          totalTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalSizeSqmGrossIDR").text(
-          totalSizeSqmGrossIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalSizeSqmGrossUSD").text(
-          totalSizeSqmGrossUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalSizeSqmSGAIDR").text(
-          totalSizeSqmSGAIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalSizeSqmSGAUSD").text(
-          totalSizeSqmSGAUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalSizeUnitKeysIDR").text(
-          totalSizeUnitKeysIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalSizeUnitKeysUSD").text(
-          totalSizeUnitKeysUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalPricePerSqmGrossIDR").text(
-          totalPricePerSqmGrossIDR
-            .toFixed(2)
-            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalPricePerSqmGrossUSD").text(
-          totalPricePerSqmGrossUSD
-            .toFixed(2)
-            .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalPricePerSqmSGAIDR").text(
-          totalPricePerSqmSGAIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalPricePerSqmSGAUSD").text(
-          totalPricePerSqmSGAUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalPricePerUnitKeyIDR").text(
-          totalPricePerUnitKeyIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalPricePerUnitKeyUSD").text(
-          totalPricePerUnitKeyUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalPriceTotalIDR").text(
-          totalPriceTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalPriceTotalUSD").text(
-          totalPriceTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalPricePerSqmIDR").text(
-          totalPricePerSqmIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalPricePerSqmUSD").text(
-          totalPricePerSqmUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalNJOPPercentIDR").text(
-          totalNJOPPercentIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#totalNJOPPercentUSD").text(
-          totalNJOPPercentUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
+        //Building Rows
+        let buildingSizeSqmGrossIDR = 0;
+        let buildingSizeSqmGrossUSD = 0;
+        let buildingSizeSqmSGAIDR = 0;
+        let buildingSizeSqmSGAUSD = 0;
+        let buildingSizeUnitKeysIDR = 0;
+        let buildingSizeUnitKeysUSD = 0;
+        let buildingPricePerSqmGrossIDR = 0;
+        let buildingPricePerSqmGrossUSD = 0;
+        let buildingPricePerSqmSGAIDR = 0;
+        let buildingPricePerSqmSGAUSD = 0;
+        let buildingPricePerUnitKeyIDR = 0;
+        let buildingPricePerUnitKeyUSD = 0;
+        let buildingPriceTotalIDR = 0;
+        let buildingPriceTotalUSD = 0;
+        let buildingPricePerSqmIDR = 0;
+        let buildingPricePerSqmUSD = 0;
+        let buildingNJOPPercentIDR = 0;
+        let buildingNJOPPercentUSD = 0;
+        let buildingTotalIDR = null;
+        let buildingTotalUSD = 500;
+        if (buildingTotalIDR !== null) {
+          buildingTotalUSD = buildingTotalIDR / 14266.4;
+          $("#buildingTotalIDR").css("font-weight", "bold");
+        } else if (buildingTotalUSD !== null) {
+          buildingTotalIDR = buildingTotalUSD * 14266.4;
+        }
 
-        //KLB views
-        $("#KLBTotalIDR").text(
-          KLBTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#KLBTotalUSD").text(
-          KLBTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#KLBKLBIDR").text(
-          KLBKLBIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#KLBKLBUSD").text(
-          KLBKLBUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#KLBLandSqmIDR").text(
-          KLBLandSqmIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#KLBLandSqmUSD").text(
-          KLBLandSqmUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#KLBBuildableSqmIDR").text(
-          KLBBuildableSqmIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
-        $("#KLBBuildableSqmUSD").text(
-          KLBBuildableSqmUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
-        );
+        //Total Rows
+        let totalSizeSqmGrossIDR = 0;
+        let totalSizeSqmGrossUSD = 0;
+        let totalSizeSqmSGAIDR = 0;
+        let totalSizeSqmSGAUSD = 0;
+        let totalSizeUnitKeysIDR = 0;
+        let totalSizeUnitKeysUSD = 0;
+        let totalPricePerSqmGrossIDR = 0;
+        let totalPricePerSqmGrossUSD = 0;
+        let totalPricePerSqmSGAIDR = 0;
+        let totalPricePerSqmSGAUSD = 0;
+        let totalPricePerUnitKeyIDR = 0;
+        let totalPricePerUnitKeyUSD = 0;
+        let totalPriceTotalIDR = 0;
+        let totalPriceTotalUSD = 0;
+        let totalPricePerSqmIDR = 0;
+        let totalPricePerSqmUSD = 0;
+        let totalNJOPPercentIDR = 0;
+        let totalNJOPPercentUSD = 0;
+        let totalTotalIDR = null;
+        let totalTotalUSD = 500;
+        if (totalTotalIDR !== null) {
+          totalTotalUSD = totalTotalIDR / 14266.4;
+          $("#totalTotalIDR").css("font-weight", "bold");
+        } else if (totalTotalUSD !== null) {
+          totalTotalIDR = totalTotalUSD * 14266.4;
+          $("#totalTotalUSD").css("font-weight", "bold");
+        }
 
-        $(".image-property").error(function () {
-          $(this).attr("src", "assets/images/no-photo.png");
-        });
-      }
+        //KLB Rows
+        let KLBTotalIDR = landTotalIDR;
+        let KLBTotalUSD = null;
+        if (KLBTotalIDR !== null) {
+          KLBTotalUSD = KLBTotalIDR / 14266.4;
+          $("#KLBTotalIDR").css("font-weight", "bold");
+        } else if (KLBTotalUSD !== null) {
+          KLBTotalIDR = KLBTotalUSD * 14266.4;
+          $("#KLBTotalUSD").css("font-weight", "bold");
+        }
+        let KLBKLBIDR = 120000;
+        let KLBKLBUSD = null;
+        if (KLBKLBIDR !== null) {
+          KLBKLBUSD = KLBKLBIDR / 14266.4;
+          $("#KLBKLBIDR").css("font-weight", "bold");
+        } else if (KLBKLBUSD !== null) {
+          KLBKLBIDR = KLBKLBUSD * 14266.4;
+          $("#KLBKLBUSD").css("font-weight", "bold");
+        }
+        let KLBLandSqmIDR = 5000;
+        let KLBLandSqmUSD = null;
+        if (KLBLandSqmIDR !== null) {
+          KLBLandSqmUSD = KLBLandSqmIDR / 14266.4;
+          $("#KLBLandSqmIDR").css("font-weight", "bold");
+        } else if (KLBLandSqmUSD !== null) {
+          KLBLandSqmIDR = KLBLandSqmUSD * 14266.4;
+          $("#KLBLandSqmUSD").css("font-weight", "bold");
+        }
+        let KLBBuildableSqmIDR = KLBTotalIDR / (KLBKLBIDR * KLBLandSqmIDR);
+        let KLBBuildableSqmUSD = KLBTotalUSD / (KLBKLBUSD * KLBLandSqmUSD);
 
-      //Highlight pointing
-      let lat = response.results[0].graphic.geometry.latitude;
-      let lon = response.results[0].graphic.geometry.longitude;
-      let posLat = lat + 0.04;
-      let posLon = lon;
-      for (let i = 0; i <= map.ObjMapView.graphics.items.length - 1; i++) {
-        if (map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
-          if (
-            map.ObjMapView.graphics.items[i].attributes.id ==
-            localStorage.getItem("pointingHighlight")
-          ) {
-            map.ObjMapView.graphics.items[i].visible = false;
-            map.ObjMapView.graphics.items.splice(i, 1);
+        let attr = Object.keys(response.results[0].graphic.attributes);
+        console.log(attr)
+        let imageUrl = response.results[0].graphic.attributes.property_photo;
+        let propertytype = response.results[0].graphic.attributes.property_type;
+        let buildingName = response.results[0].graphic.attributes.property_name;
+        let address = response.results[0].graphic.attributes.property_address;
+        let lastupdate = response.results[0].graphic.attributes.last_update;
+        let d = new Date(lastupdate);
+        lastupdate =
+          d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+        if (lastupdate === "NaN-NaN-NaN") {
+          lastupdate = "-";
+        }
+        if (attr.includes("propertytype") || attr.includes("property_type") || attr.includes("property_t")) {
+          $(".popupFilter").show();
+          $(".image-property").css("background-image", "url(" + imageUrl + ")");
+          $(".image-property").css("background-size", "100% 100%");
+          $("#propertytype-popup").text(
+            "PROPERTY TYPE : " + propertytype.toUpperCase()
+          );
+          $("#lastupdate-popup").text("Last updated : " + lastupdate);
+          $("#buildingName-popup").text("Land at " + buildingName);
+          $("#address-popup").text(address);
+
+          //Land views
+          $("#landTotalIDR").text(
+            landTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landTotalUSD").text(
+            landTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landSizeSqmGrossIDR").text(
+            landSizeSqmGrossIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landSizeSqmGrossUSD").text(
+            landSizeSqmGrossUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landSizeSqmSGAIDR").text(
+            landSizeSqmSGAIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landSizeSqmSGAUSD").text(
+            landSizeSqmSGAUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landSizeUnitKeysIDR").text(
+            landSizeUnitKeysIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landSizeUnitKeysUSD").text(
+            landSizeUnitKeysUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landPricePerSqmGrossIDR").text(
+            landPricePerSqmGrossIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landPricePerSqmGrossUSD").text(
+            landPricePerSqmGrossUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landPricePerSqmSGAIDR").text(
+            landPricePerSqmSGAIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landPricePerSqmSGAUSD").text(
+            landPricePerSqmSGAUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landPricePerUnitKeyIDR").text(
+            landPricePerUnitKeyIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landPricePerUnitKeyUSD").text(
+            landPricePerUnitKeyUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landPriceTotalIDR").text(
+            landPriceTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landPriceTotalUSD").text(
+            landPriceTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landPricePerSqmIDR").text(
+            landPricePerSqmIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landPricePerSqmUSD").text(
+            landPricePerSqmUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landNJOPPercentIDR").text(
+            landNJOPPercentIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#landNJOPPercentUSD").text(
+            landNJOPPercentUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+
+          //building views
+          $("#buildingTotalIDR").text(
+            buildingTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingTotalUSD").text(
+            buildingTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingSizeSqmGrossIDR").text(
+            buildingSizeSqmGrossIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingSizeSqmGrossUSD").text(
+            buildingSizeSqmGrossUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingSizeSqmSGAIDR").text(
+            buildingSizeSqmSGAIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingSizeSqmSGAUSD").text(
+            buildingSizeSqmSGAUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingSizeUnitKeysIDR").text(
+            buildingSizeUnitKeysIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingSizeUnitKeysUSD").text(
+            buildingSizeUnitKeysUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingPricePerSqmGrossIDR").text(
+            buildingPricePerSqmGrossIDR
+              .toFixed(2)
+              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingPricePerSqmGrossUSD").text(
+            buildingPricePerSqmGrossUSD
+              .toFixed(2)
+              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingPricePerSqmSGAIDR").text(
+            buildingPricePerSqmSGAIDR
+              .toFixed(2)
+              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingPricePerSqmSGAUSD").text(
+            buildingPricePerSqmSGAUSD
+              .toFixed(2)
+              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingPricePerUnitKeyIDR").text(
+            buildingPricePerUnitKeyIDR
+              .toFixed(2)
+              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingPricePerUnitKeyUSD").text(
+            buildingPricePerUnitKeyUSD
+              .toFixed(2)
+              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingPriceTotalIDR").text(
+            buildingPriceTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingPriceTotalUSD").text(
+            buildingPriceTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingPricePerSqmIDR").text(
+            buildingPricePerSqmIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingPricePerSqmUSD").text(
+            buildingPricePerSqmUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingNJOPPercentIDR").text(
+            buildingNJOPPercentIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#buildingNJOPPercentUSD").text(
+            buildingNJOPPercentUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+
+          //total views
+          $("#totalTotalIDR").text(
+            totalTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalTotalUSD").text(
+            totalTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalSizeSqmGrossIDR").text(
+            totalSizeSqmGrossIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalSizeSqmGrossUSD").text(
+            totalSizeSqmGrossUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalSizeSqmSGAIDR").text(
+            totalSizeSqmSGAIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalSizeSqmSGAUSD").text(
+            totalSizeSqmSGAUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalSizeUnitKeysIDR").text(
+            totalSizeUnitKeysIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalSizeUnitKeysUSD").text(
+            totalSizeUnitKeysUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalPricePerSqmGrossIDR").text(
+            totalPricePerSqmGrossIDR
+              .toFixed(2)
+              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalPricePerSqmGrossUSD").text(
+            totalPricePerSqmGrossUSD
+              .toFixed(2)
+              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalPricePerSqmSGAIDR").text(
+            totalPricePerSqmSGAIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalPricePerSqmSGAUSD").text(
+            totalPricePerSqmSGAUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalPricePerUnitKeyIDR").text(
+            totalPricePerUnitKeyIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalPricePerUnitKeyUSD").text(
+            totalPricePerUnitKeyUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalPriceTotalIDR").text(
+            totalPriceTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalPriceTotalUSD").text(
+            totalPriceTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalPricePerSqmIDR").text(
+            totalPricePerSqmIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalPricePerSqmUSD").text(
+            totalPricePerSqmUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalNJOPPercentIDR").text(
+            totalNJOPPercentIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#totalNJOPPercentUSD").text(
+            totalNJOPPercentUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+
+          //KLB views
+          $("#KLBTotalIDR").text(
+            KLBTotalIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#KLBTotalUSD").text(
+            KLBTotalUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#KLBKLBIDR").text(
+            KLBKLBIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#KLBKLBUSD").text(
+            KLBKLBUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#KLBLandSqmIDR").text(
+            KLBLandSqmIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#KLBLandSqmUSD").text(
+            KLBLandSqmUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#KLBBuildableSqmIDR").text(
+            KLBBuildableSqmIDR.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+          $("#KLBBuildableSqmUSD").text(
+            KLBBuildableSqmUSD.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+
+          $(".image-property").error(function () {
+            $(this).attr("src", "assets/images/no-photo.png");
+          });
+        }
+
+        //Highlight pointing
+        let lat = response.results[0].graphic.geometry.latitude;
+        let lon = response.results[0].graphic.geometry.longitude;
+        let posLat = lat + 0.04;
+        let posLon = lon;
+        for (let i = 0; i <= map.ObjMapView.graphics.items.length - 1; i++) {
+          if (map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
+            if (
+              map.ObjMapView.graphics.items[i].attributes.id ==
+              localStorage.getItem("pointingHighlight")
+            ) {
+              map.ObjMapView.graphics.items[i].visible = false;
+              map.ObjMapView.graphics.items.splice(i, 1);
+            }
           }
         }
-      }
 
-      if (response.results[0].graphic.symbol === null) {
-        localStorage.setItem(
-          "pointingHighlight",
-          lat.toString() + lon.toString()
-        );
-        let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
-        pointing.setPointingPopupMarker();
-        if (attr.includes("propertytype")) {
-          pointing.positionFixing(posLat, posLon);
+        if (response.results[0].graphic.symbol === null) {
+          localStorage.setItem(
+            "pointingHighlight",
+            lat.toString() + lon.toString()
+          );
+          let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
+          pointing.setPointingPopupMarker();
+          if (attr.includes("propertytype")) {
+            pointing.positionFixing(posLat, posLon);
+          }
+          pointing.render();
+        } else if (
+          response.results[0].graphic.symbol.url !==
+          "assets/images/icons/map-marker.png"
+        ) {
+          localStorage.setItem(
+            "pointingHighlight",
+            lat.toString() + lon.toString()
+          );
+          let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
+          pointing.setPointingPopupMarker();
+          if (attr.includes("propertytype")) {
+            pointing.positionFixing(posLat, posLon);
+          }
+          pointing.render();
         }
-        pointing.render();
-      } else if (
-        response.results[0].graphic.symbol.url !==
-        "assets/images/icons/map-marker.png"
-      ) {
-        localStorage.setItem(
-          "pointingHighlight",
-          lat.toString() + lon.toString()
-        );
-        let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
-        pointing.setPointingPopupMarker();
-        if (attr.includes("propertytype")) {
-          pointing.positionFixing(posLat, posLon);
-        }
-        pointing.render();
+        //End of Highlight pointing
       }
-      //End of Highlight pointing
     } else {
       localStorage.setItem("selectedLayer", "[]")
       console.log(localStorage.getItem("selectedLayer"))
       resetSelectedGraphics(groupLayer)
-      $(".button-create-buffer").show()
       // Get latitude and longitude
       let latitude = map.ObjMapView.toMap({
         x: response.screenPoint.x,
@@ -1510,16 +1560,6 @@ function boot(GIS) {
       localStorage.setItem("pointingHighlight", null);
     }
   }
-
-  $(document).delegate("#button-create-buffer", "click", function () {
-    let latitude = Number(localStorage.getItem("livePointingLatitude"))
-    let longitude = Number(localStorage.getItem("livePointingLongitude"))
-    let point = new ESRI.Point();
-    point.longitude = longitude;
-    point.latitude = latitude;
-    createDynamicCircle(map, map.ObjMapView.toScreen(point).x, map.ObjMapView.toScreen(point).y)
-  })
-
 
   // var slider = document.getElementById("buffer-radius");
   // slider.oninput = function () {
@@ -1699,12 +1739,12 @@ function boot(GIS) {
   inputCheckboxServices(GIS, map);
   inputCheckboxQueryShape(GIS, map);
   saveDataServiceToLocalStorage();
-  removeFilterResults(map);
+  removeFilterResults(map, groupLayer, groupLayer2);
   createOverlap(GIS, map);
   viewTableServices(map);
   zoomToLayer(map);
   expandCheckboxServices();
-  createQueryShape(GIS, map, convertCSV);
+  createQueryShape(GIS, map, groupLayer2, convertCSV);
   //---End of Set all external function here---//
 
   //Clear the localstorage when user logout

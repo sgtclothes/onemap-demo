@@ -26,7 +26,6 @@ function livePointing(GIS, map) {
       pointing.render();
       $("#error-input-points").hide();
       $("#error-down-service").hide();
-      console.log(map.ObjMapView);
     } else if (event.which == 3) {
       for (let i = 0; i < map.ObjMapView.graphics.items.length; i++) {
         if ("livePointing" in map.ObjMapView.graphics.items[i].attributes) {

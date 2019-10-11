@@ -78,8 +78,6 @@ if (!isset($_SESSION['auth'])) {
         <script src="assets/js/main/bootstrap.bundle.min.js"></script>
         <script src="assets/js/plugins/loaders/blockui.min.js"></script>
         <script src="assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
-        <script type="text/javascript" src="assets\master\contextMenu.js\contextMenu.js"></script>
-        <link href="assets/master/contextMenu.js/contextMenu.css" rel="stylesheet" type="text/css" />
         <!-- /core js files -->
 
         <!-- themes & template js files -->
@@ -160,12 +158,14 @@ if (!isset($_SESSION['auth'])) {
             <div class="collapse navbar-collapse" id="navbar-mobile">
                 <ul class="navbar-nav">
                     <!-- analysis menu item navbar -->
+                    <!-- Sidenav layers -->
                     <li class="nav-item">
                         <a id="viewer-nav" href="#" class="navbar-nav-link">
                             <i class="icon-list-unordered mr-2"></i>Layers
                         </a>
                     </li>
-
+                    <!-- End of Sidenav layer -->
+                    <!-- Sidenav analysis -->
                     <li class="nav-item dropdown">
                         <a href="#" class="navbar-nav-link dropdown-toggle legitRipple" data-toggle="dropdown">
                             <i class="icon-stats-bars2 mr-2"></i>Analysis
@@ -177,6 +177,14 @@ if (!isset($_SESSION['auth'])) {
                             <a id="site-analysis" href="#" class="dropdown-item">Sites List</a>
                         </div>
                     </li>
+                    <!-- End of Sidenav analysis -->
+                    <!-- Dashboard Menu -->
+                    <li class="nav-item">
+                        <a id="menu-dashboard" href="dashboard.php" class="navbar-nav-link">
+                            <i class="mi-dashboard"></i> Dashboard
+                        </a>
+                    </li>
+                    <!-- End of Dashboard Menu -->
                     <!-- /analysis menu item navbar -->
                 </ul>
 
@@ -764,10 +772,6 @@ if (!isset($_SESSION['auth'])) {
                                         <div class="button-filter-property button-remove-filter" id="button-filter-remove-property">
                                             <button style="width:80px; height:30px; margin-right:10px; float:right; background-color: #d9493f; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
                                                 <i class="esri-icon-trash "></i> Clear</button>
-                                        </div>
-                                        <div class="button-filter-property button-create-buffer" id="button-create-buffer">
-                                            <button style="width:120px; height:30px; margin-right:10px; float:right; background-color: #6496e8; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
-                                                <i class="mi-donut-large"></i> Create Buffer</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -1626,7 +1630,6 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/livePointing.js"></script>
     <script src="assets/js/createDynamicCircle.js"></script>
     <script src="assets/js/createContextMenu.js"></script>
-    <script src="assets/js/selectByCTRL.js"></script>
     <script src="content/analysis/analysisPoi.js"></script>
     <script src="content/analysis/editAnalysis.js"></script>
     <script src="assets/js/plugins/tables/paginationLib.js"></script>

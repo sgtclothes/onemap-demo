@@ -217,9 +217,33 @@ function submitFilterServices(convertData, map, convertCSV) {
     if (property.length < 1 && marketingSchemeValue == undefined && propertyForSale.length < 1 && propertySold.length < 1) {
       featureService = []
     }
-    console.log(featureService)
 
-    let obj = map.ObjMap.layers.items.find(o => o.id === 'dynamic-buffer');
+    let buffers = map.ObjMap.findLayerById("buffers")
+    let polygons = map.ObjMap.findLayerById("polygons")
+
+    let geometryBuffers = []
+    let geometryPolygons = []
+    let geometryUnions = []
+
+    for (let i = 0; i < buffers.layers.items.length; i++) {
+      for (let j = 0; j < buffers.layers.items[i].graphics.items.length; j++) {
+        if (buffers.layers.items[i].graphics.items[j].attributes == "buffer-graphics") {
+          geometryBuffers.push(buffers.layers.items[i].graphics.items[j].geometry)
+        }
+      }
+    }
+
+    for (let i = 0; i < polygons.graphics.items.length; i++) {
+      geometryPolygons.push(polygons.graphics.items[i].geometry)
+    }
+
+    geometryUnions = geometryBuffers.concat(geometryPolygons)
+
+    console.log(buffers)
+    console.log(polygons)
+    console.log(geometryBuffers)
+    console.log(geometryPolygons)
+    console.log(geometryUnions)
 
     for (let i = 0; i < featureService.length; i++) {
       var layersRequest = {
@@ -250,13 +274,13 @@ function submitFilterServices(convertData, map, convertCSV) {
 
       $("#loading-bar").show();
       $(".popupFilter").hide();
-      if (obj != undefined) {
-        for (let i = 0; i < obj.graphics.items.length; i++) {
+      if (geometryUnions.length > 0) {
+        for (let i = 0; i < geometryUnions.length; i++) {
           let query = new ESRI.Query();
           query.returnGeometry = true;
           query.outFields = ["*"];
           query.outSpatialReference = map.ObjMap.spatialReference;
-          query.geometry = obj.graphics.items[i].geometry
+          query.geometry = geometryUnions[i]
           for (let j = 0; j < featureService.length; j++) {
             featureService[j].queryFeatures(query).then(function (results) {
               if (results.features.length < 1) {

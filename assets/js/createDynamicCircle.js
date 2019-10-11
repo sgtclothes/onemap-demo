@@ -1,5 +1,5 @@
 //Testing pointing with dynamic circle
-function createDynamicCircle(map, groupLayer, pointX, pointY) {
+function createDynamicCircle(layerCounter, map, groupLayer, pointX, pointY) {
     let sketchViewModel, pausableWatchHandle;
 
     let centerGraphic,
@@ -9,8 +9,8 @@ function createDynamicCircle(map, groupLayer, pointX, pointY) {
         centerGeometryAtStart,
         labelGraphic;
 
-    let index = groupLayer.layers.items.length
-    index = index + 1
+    let index = layerCounter + 1
+    window.layerCounter += 1
     const unit = "kilometers";
 
     // Create layers
@@ -19,8 +19,6 @@ function createDynamicCircle(map, groupLayer, pointX, pointY) {
     });
 
     groupLayer.add(graphicsLayer)
-
-    console.log(map.ObjMap)
 
     // Update UI
     setUpSketch();
@@ -239,24 +237,4 @@ function createDynamicCircle(map, groupLayer, pointX, pointY) {
             }
         });
     }
-
-    // map.ObjMapView.on("click", function (event) {
-    //     if (event.button == 0) {
-    //         let symbol = {
-    //             type: "simple-fill",
-    //             color: [150, 150, 150, 0.2],
-    //             outline: {
-    //                 color: "#7a7c80",
-    //                 width: 2
-    //             }
-    //         }
-    //         for (let i = 0; i < graphicsLayer.graphics.items.length; i++) {
-    //             if (graphicsLayer.graphics.items[i].attributes == "buffer-graphics-" + index) {
-    //                 graphicsLayer.graphics.items[i].attributes = null
-    //                 graphicsLayer.graphics.items[i].symbol = symbol
-    //             }
-    //         }
-    //     }
-    // })
-
 }
