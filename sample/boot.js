@@ -1385,6 +1385,14 @@ function boot(GIS) {
         let KLBBuildableSqmIDR = KLBTotalIDR / (KLBKLBIDR * KLBLandSqmIDR);
         let KLBBuildableSqmUSD = KLBTotalUSD / (KLBKLBUSD * KLBLandSqmUSD);
 
+        if (isFinite(KLBBuildableSqmIDR) == false) {
+          KLBBuildableSqmIDR = 0
+        }
+
+        if (isFinite(KLBBuildableSqmUSD) == false) {
+          KLBBuildableSqmUSD = 0
+        }
+
         let attr = Object.keys(response.results[0].graphic.attributes);
         let priceType = response.results[0].graphic.attributes.price_type;
         let actionDate = response.results[0].graphic.attributes.action_date;
