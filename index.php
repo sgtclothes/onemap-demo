@@ -80,6 +80,13 @@ if (!isset($_SESSION['auth'])) {
         <script src="assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
         <!-- /core js files -->
 
+        <!-- Crypto JS Files -->
+        <script src="assets\js\crypto\Barret.js"></script>
+        <script src="assets\js\crypto\BigInt.js"></script>
+        <script src="assets\js\crypto\RSA.js"></script>
+        <!-- End of Crypto JS Files-->
+
+
         <!-- themes & template js files -->
         <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
         <script src="assets/js/plugins/forms/checkboxes/form_checkboxes_radios.js"></script>
@@ -1307,7 +1314,7 @@ if (!isset($_SESSION['auth'])) {
                         <td>
                             <table class="font-popup" style="height:100%">
                                 <tr class="title-popup">
-                                    <td colspan="8" style="background-color: #e6e6e6;">
+                                    <td id="action-date-popup" colspan="8" style="background-color: #e6e6e6;">
                                         Asking on 16-Aug-2019
                                     </td>
                                     <td colspan="3" style="background-color: #e6e6e6;">
@@ -1373,8 +1380,8 @@ if (!isset($_SESSION['auth'])) {
                                     <td class="text-align-right" id="landPricePerSqmGrossIDR"></td>
                                     <td class="text-align-right" id="landPricePerSqmSGAIDR"></td>
                                     <td class="text-align-right" id="landPricePerUnitKeyIDR"></td>
-                                    <td class="text-align-right" id="landPriceTotalIDR"></td>
-                                    <td class="text-align-right" id="landPricePerSqmIDR"></td>
+                                    <td class="text-align-right" id="landNJOPPriceTotalIDR"></td>
+                                    <td class="text-align-right" id="landNJOPPricePerSqmIDR"></td>
                                     <td class="text-align-right" id="landNJOPPercentIDR"></td>
                                 </tr>
                                 <tr class="tr-first">
@@ -1386,8 +1393,8 @@ if (!isset($_SESSION['auth'])) {
                                     <td class="text-align-right" id="landPricePerSqmGrossUSD"></td>
                                     <td class="text-align-right" id="landPricePerSqmSGAUSD"></td>
                                     <td class="text-align-right" id="landPricePerUnitKeyUSD"></td>
-                                    <td class="text-align-right" id="landPriceTotalUSD"></td>
-                                    <td class="text-align-right" id="landPricePerSqmUSD"></td>
+                                    <td class="text-align-right" id="landNJOPPriceTotalUSD"></td>
+                                    <td class="text-align-right" id="landNJOPPricePerSqmUSD"></td>
                                     <td class="text-align-right" id="landNJOPPercentUSD"></td>
                                 </tr>
                                 <tr class="tr-second">
@@ -1412,8 +1419,8 @@ if (!isset($_SESSION['auth'])) {
                                     <td class="text-align-right" id="buildingPricePerSqmGrossIDR"></td>
                                     <td class="text-align-right" id="buildingPricePerSqmSGAIDR"></td>
                                     <td class="text-align-right" id="buildingPricePerUnitKeyIDR"></td>
-                                    <td class="text-align-right" id="buildingPriceTotalIDR"></td>
-                                    <td class="text-align-right" id="buildingPricePerSqmIDR"></td>
+                                    <td class="text-align-right" id="buildingNJOPPriceTotalIDR"></td>
+                                    <td class="text-align-right" id="buildingNJOPPricePerSqmIDR"></td>
                                     <td class="text-align-right" id="buildingNJOPPercentIDR"></td>
                                 </tr>
                                 <tr class="tr-second">
@@ -1425,8 +1432,8 @@ if (!isset($_SESSION['auth'])) {
                                     <td class="text-align-right" id="buildingPricePerSqmGrossUSD"></td>
                                     <td class="text-align-right" id="buildingPricePerSqmSGAUSD"></td>
                                     <td class="text-align-right" id="buildingPricePerUnitKeyUSD"></td>
-                                    <td class="text-align-right" id="buildingPriceTotalUSD"></td>
-                                    <td class="text-align-right" id="buildingPricePerSqmUSD"></td>
+                                    <td class="text-align-right" id="buildingNJOPPriceTotalUSD"></td>
+                                    <td class="text-align-right" id="buildingNJOPPricePerSqmUSD"></td>
                                     <td class="text-align-right" id="buildingNJOPPercentUSD"></td>
                                 </tr>
                                 <tr class="tr-first">
@@ -1451,8 +1458,8 @@ if (!isset($_SESSION['auth'])) {
                                     <td class="text-align-right" id="totalPricePerSqmGrossIDR"></td>
                                     <td class="text-align-right" id="totalPricePerSqmSGAIDR"></td>
                                     <td class="text-align-right" id="totalPricePerUnitKeyIDR"></td>
-                                    <td class="text-align-right" id="totalPriceTotalIDR"></td>
-                                    <td class="text-align-right" id="totalPricePerSqmIDR"></td>
+                                    <td class="text-align-right" id="totalNJOPPriceTotalIDR"></td>
+                                    <td class="text-align-right" id="totalNJOPPricePerSqmIDR"></td>
                                     <td class="text-align-right" id="totalNJOPPercentIDR"></td>
                                 </tr>
                                 <tr class="tr-first">
@@ -1464,8 +1471,8 @@ if (!isset($_SESSION['auth'])) {
                                     <td class="text-align-right" id="totalPricePerSqmGrossUSD"></td>
                                     <td class="text-align-right" id="totalPricePerSqmSGAUSD"></td>
                                     <td class="text-align-right" id="totalPricePerUnitKeyUSD"></td>
-                                    <td class="text-align-right" id="totalPriceTotalUSD"></td>
-                                    <td class="text-align-right" id="totalPricePerSqmUSD"></td>
+                                    <td class="text-align-right" id="totalNJOPPriceTotalUSD"></td>
+                                    <td class="text-align-right" id="totalNJOPPricePerSqmUSD"></td>
                                     <td class="text-align-right" id="totalNJOPPercentUSD"></td>
                                 </tr>
                                 <tr>
@@ -1515,8 +1522,8 @@ if (!isset($_SESSION['auth'])) {
                         <td>
                             <table class="font-popup" style="width:100%;">
                                 <tr>
-                                    <td style="width:340px;">Colliers Contact : -</td>
-                                    <td id="lastupdate-popup">Last Updated : -</td>
+                                    <td id="colliers-contact-popup" style="width:340px;">Colliers Contact : -</td>
+                                    <td style="width:100px;" id="lastupdate-popup">Last Updated : -</td>
                                 </tr>
                             </table>
                         </td>
@@ -1630,6 +1637,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/livePointing.js"></script>
     <script src="assets/js/createDynamicCircle.js"></script>
     <script src="assets/js/createContextMenu.js"></script>
+    <script src="assets/js/generateToken.js"></script>
     <script src="content/analysis/analysisPoi.js"></script>
     <script src="content/analysis/editAnalysis.js"></script>
     <script src="assets/js/plugins/tables/paginationLib.js"></script>
