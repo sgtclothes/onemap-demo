@@ -1,4 +1,4 @@
-function removeFilterResults(map) {
+function removeFilterResults(map, groupLayer, groupLayer2) {
   $(document).delegate("#button-filter-remove-property", "click", function () {
     //Set all external data variables
     let poi = $(".checkbox-poi");
@@ -11,16 +11,20 @@ function removeFilterResults(map) {
 
     //Remove all objects in map
     map.ObjMapView.graphics.removeAll();
-    map.ObjMap.layers.items = [];
-
-    //Set buffer localstorage
-    localStorage.removeItem("startBuffer")
+    groupLayer.removeAll()
+    groupLayer2.removeAll()
+    for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
+      let layer = map.ObjMap.layers.items[i];
+      if (layer.id !== 'buffers' && layer.id !== 'polygons') { map.ObjMap.remove(layer); }
+    }
+    console.log(map.ObjMapView.graphics)
+    console.log(map.ObjMap)
+    // map.ObjMap.layers.items = [];
 
     //Reset filter components
     $(".popupFilter").hide();
     $("input[name='select-property']").prop("checked", false);
     $("input[name='marketing-scheme-input']").prop("checked", false);
-    $(".button-create-buffer").hide()
 
     //Uncheck all External Data
     $(poi).prop("checked", false);

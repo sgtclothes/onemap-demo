@@ -74,31 +74,7 @@ if (!isset($_SESSION['auth'])) {
         <link href="assets/css/section/fontawesome-5.0.1-all.css" rel="stylesheet">
 
         <link rel="stylesheet" href="assets/js/plugins/my_profile/my_profile_form.css">
-        <!-- /Adding other css -->
 
-        <!-- MultiSelect CSS & JS library -->
-        <!-- <link href="assets/css/jquery/jquery.multiselect.css" rel="stylesheet" />
-        <script src="assets/js/jquery.multiselect.js"></script>
-        <script>
-            $(function() {
-                $('select[multiple].active.3col').multiselect({
-                    columns: 3,
-                    placeholder: 'Select Property',
-                    search: true,
-                    maxPlaceholderOpts: 2,
-                    searchOptions: {
-                        'default': 'Search Property'
-                    },
-                    selectAll: true
-                });
-
-            });
-        </script> -->
-        <!-- /MultiSelect CSS & JS library -->
-
-        <!-- core js files -->
-        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-        <!-- <script src="assets/js/main/jquery.min.js"></script> -->
         <script src="assets/js/main/bootstrap.bundle.min.js"></script>
         <script src="assets/js/plugins/loaders/blockui.min.js"></script>
         <script src="assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
@@ -182,12 +158,14 @@ if (!isset($_SESSION['auth'])) {
             <div class="collapse navbar-collapse" id="navbar-mobile">
                 <ul class="navbar-nav">
                     <!-- analysis menu item navbar -->
+                    <!-- Sidenav layers -->
                     <li class="nav-item">
                         <a id="viewer-nav" href="#" class="navbar-nav-link">
                             <i class="icon-list-unordered mr-2"></i>Layers
                         </a>
                     </li>
-
+                    <!-- End of Sidenav layer -->
+                    <!-- Sidenav analysis -->
                     <li class="nav-item dropdown">
                         <a href="#" class="navbar-nav-link dropdown-toggle legitRipple" data-toggle="dropdown">
                             <i class="icon-stats-bars2 mr-2"></i>Analysis
@@ -199,6 +177,14 @@ if (!isset($_SESSION['auth'])) {
                             <a id="site-analysis" href="#" class="dropdown-item">Sites List</a>
                         </div>
                     </li>
+                    <!-- End of Sidenav analysis -->
+                    <!-- Dashboard Menu -->
+                    <li class="nav-item">
+                        <a id="menu-dashboard" href="dashboard.php" class="navbar-nav-link">
+                            <i class="mi-dashboard"></i> Dashboard
+                        </a>
+                    </li>
+                    <!-- End of Dashboard Menu -->
                     <!-- /analysis menu item navbar -->
                 </ul>
 
@@ -460,17 +446,17 @@ if (!isset($_SESSION['auth'])) {
                                     </td>
                                     <td style="height:26px; text-align:center;">
                                         <div class="popup-require">
-                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="land-min-size-unit-value" />
-                                            <span class="popuptext" id="land-popup-alert-min-unit-empty">Please input min value!</span>
-                                            <span class="popuptext" id="land-popup-alert-min-unit-valid">Please input valid min value!</span>
+                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="build-min-size-meter-value" />
+                                            <span class="popuptext" id="build-popup-alert-min-meter-empty">Please input min value!</span>
+                                            <span class="popuptext" id="build-popup-alert-min-meter-valid">Please input valid min value!</span>
                                         </div>
                                     </td>
                                     <td style="height:26px; text-align:center;">
                                         <div class="popup-require">
-                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="land-max-size-unit-value" />
+                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="build-max-size-meter-value" />
                                             <div style="z-index: 1000">
-                                                <span class="popuptext" id="land-popup-alert-max-unit-empty">Please input max value!</span>
-                                                <span class="popuptext" id="land-popup-alert-max-unit-valid">Please input valid max value!</span>
+                                                <span class="popuptext" id="build-popup-alert-max-meter-empty">Please input max value!</span>
+                                                <span class="popuptext" id="build-popup-alert-max-meter-valid">Please input valid max value!</span>
                                             </div>
                                         </div>
                                     </td>
@@ -509,13 +495,13 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-department" id="department-current-clients" value="Current Clients">
+                                            <input class="styled" type="checkbox" name="select-department-clients" id="department-current-clients" value="Current Clients">
                                             <label for="department-current-clients"><span></span>Current Clients</label>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-department" id="department-previous-clients" value="Previous Clients">
+                                            <input class="styled" type="checkbox" name="select-department-clients" id="department-previous-clients" value="Previous Clients">
                                             <label for="department-previous-clients"><span></span>Previous Clients</label>
                                         </div>
                                     </td>
@@ -786,10 +772,6 @@ if (!isset($_SESSION['auth'])) {
                                         <div class="button-filter-property button-remove-filter" id="button-filter-remove-property">
                                             <button style="width:80px; height:30px; margin-right:10px; float:right; background-color: #d9493f; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
                                                 <i class="esri-icon-trash "></i> Clear</button>
-                                        </div>
-                                        <div class="button-filter-property button-create-buffer" id="button-create-buffer">
-                                            <button style="width:120px; height:30px; margin-right:10px; float:right; background-color: #6496e8; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
-                                                <i class="mi-donut-large"></i> Create Buffer</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -1548,7 +1530,7 @@ if (!isset($_SESSION['auth'])) {
             <!-- End of Popup Filter -->
 
             <div class="content-wrapper" id="contentAnalysisDiv">
-                <div id="mapDiv"></div>
+                <div id="mapDiv" class="mapDiv"></div>
                 <div class="table_list_services"><?php include "content/table_list_services.html"; ?></div>
                 <div id="analysisDiv" style="display:none;"><?php include "content/analysis/results_table.html"; ?></div>
                 <div id="instantAnalysisDiv" style="display:none;"><?php include "content/analysis/results_table_instant.html"; ?></div>
@@ -1647,6 +1629,7 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/createQueryShape.js"></script>
     <script src="assets/js/livePointing.js"></script>
     <script src="assets/js/createDynamicCircle.js"></script>
+    <script src="assets/js/createContextMenu.js"></script>
     <script src="content/analysis/analysisPoi.js"></script>
     <script src="content/analysis/editAnalysis.js"></script>
     <script src="assets/js/plugins/tables/paginationLib.js"></script>

@@ -1,5 +1,5 @@
 //Testing pointing with dynamic circle
-function createDynamicCircle(map, pointX, pointY) {
+function createDynamicCircle(layerCounter, map, groupLayer, pointX, pointY) {
     let sketchViewModel, pausableWatchHandle;
 
     let centerGraphic,
@@ -9,13 +9,16 @@ function createDynamicCircle(map, pointX, pointY) {
         centerGeometryAtStart,
         labelGraphic;
 
+    let index = layerCounter + 1
+    window.layerCounter += 1
     const unit = "kilometers";
 
     // Create layers
-    const graphicsLayer = new ESRI.GraphicsLayer();
-    const graphicsLayer2 = new ESRI.GraphicsLayer();
+    const graphicsLayer = new ESRI.GraphicsLayer({
+        id: "dynamic-buffer-" + index
+    });
 
-    map.ObjMap.addMany([graphicsLayer2, graphicsLayer]);
+    groupLayer.add(graphicsLayer)
 
     // Update UI
     setUpSketch();
@@ -36,13 +39,9 @@ function createDynamicCircle(map, pointX, pointY) {
     function setUpSketch() {
         sketchViewModel = new ESRI.SketchViewModel({
             view: map.ObjMapView,
-            layer: graphicsLayer
+            layer: graphicsLayer,
+            updateOnGraphicClick: false
         });
-        sketchViewModel2 = new ESRI.SketchViewModel({
-            view: map.ObjMapView,
-            layer: graphicsLayer2
-        });
-
         sketchViewModel.on("update", onMove);
     }
 
@@ -185,6 +184,7 @@ function createDynamicCircle(map, pointX, pointY) {
             });
 
             bufferGraphic = new ESRI.Graphic({
+                attributes: "buffer-graphics",
                 geometry: buffer,
                 symbol: {
                     type: "simple-fill",
@@ -199,7 +199,7 @@ function createDynamicCircle(map, pointX, pointY) {
             labelGraphic = labelLength(edgePoint, length);
 
             // Add graphics to layer
-            graphicsLayer.addMany([centerGraphic, edgeGraphic]);
+            graphicsLayer.addMany([centerGraphic, edgeGraphic, bufferGraphic, polylineGraphic, labelGraphic]);
             // once center and edge point graphics are added to the layer,
             // call sketch's update method pass in the graphics so that users
             // can just drag these graphics to adjust the buffer
@@ -208,8 +208,6 @@ function createDynamicCircle(map, pointX, pointY) {
                     tool: "move"
                 });
             }, 1000);
-
-            graphicsLayer2.addMany([bufferGraphic, polylineGraphic, labelGraphic]);
         }
         // Move the center and edge graphics to the new location returned from search
         else {
