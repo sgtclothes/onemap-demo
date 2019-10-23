@@ -84,179 +84,205 @@ function createQueryShape(GIS, map, groupLayer, convertCSV) {
   //   map.ObjMapView.ui.add(div, "bottom-left");
   // }
 
-  // sketch.on("create", function (event) {
-  //   $("#loading-bar").show();
-  //   //Store point to localstorage
-  //   if (event.state === "start") {
-  //     map.ObjMapView.on("click", function (evt) {
-  //       let latitude = map.ObjMapView.toMap({
-  //         x: evt.x,
-  //         y: evt.y
-  //       }).latitude.toFixed(7);
+  sketch.on("create", function (event) {
+    if (event.state == "complete") {
+      console.log(event)
+      let rings = event.graphic.geometry.rings[0]
+      let ringsLatLon = []
+      for (let i = 0; i < rings.length; i++) {
+        let point = new ESRI.Point({
+          x: rings[i][0],
+          y: rings[i][1]
+        })
 
-  //       let longitude = map.ObjMapView.toMap({
-  //         x: evt.x,
-  //         y: evt.y
-  //       }).longitude.toFixed(7);
+        console.log(point)
+        // let latitude = map.ObjMapView.toMap({
+        //   x: rings[i][0],
+        //   y: rings[i][1]
+        // }).latitude.toFixed(7);
 
-  //       localStorage.setItem(
-  //         "calculateLength",
-  //         JSON.stringify([latitude, longitude])
-  //       );
-  //       console.log(JSON.parse(localStorage.getItem("calculateLength")));
-  //       $("#loading-bar").hide();
-  //     });
-  //   } else if (event.state === "active") {
-  //     $("#loading-bar").hide();
-  //     let lat1 = JSON.parse(localStorage.getItem("calculateLength"))[0];
-  //     let lon1 = JSON.parse(localStorage.getItem("calculateLength"))[1];
-  //     map.ObjMapView.on("pointer-move", function (evt) {
-  //       let lat2 = map.ObjMapView.toMap({
-  //         x: evt.x,
-  //         y: evt.y
-  //       }).latitude.toFixed(7);
-  //       let lon2 = map.ObjMapView.toMap({
-  //         x: evt.x,
-  //         y: evt.y
-  //       }).longitude.toFixed(7);
-  //       // console.log(getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2));
-  //     });
-  //   } else if (event.state === "complete") {
-  //     createListPOI();
-  //     let colliersProperty = new ESRI.FeatureLayer({
-  //       url:
-  //         "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/MapServer/0"
-  //     });
-  //     console.log(event.graphic.geometry);
-  //     let query = new ESRI.Query();
-  //     query.returnGeometry = true;
-  //     query.outFields = ["*"];
-  //     query.outSpatialReference = map.ObjMap.spatialReference;
-  //     query.geometry = event.graphic.geometry;
+        // let longitude = map.ObjMapView.toMap({
+        //   x: rings[i][0],
+        //   y: rings[i][1]
+        // }).longitude.toFixed(7);
 
-  //     let queryShape = new GIS.Buffer.QueryShape(
-  //       map.ObjMap,
-  //       map.ObjMapView,
-  //       event.graphic.geometry
-  //     );
+        // ringsLatLon.push([Number(longitude), Number(latitude)])
+      }
+      console.log(JSON.stringify(rings))
+      console.log(JSON.stringify(ringsLatLon))
+    }
+    //   $("#loading-bar").show();
+    //   //Store point to localstorage
+    //   if (event.state === "start") {
+    //     map.ObjMapView.on("click", function (evt) {
+    //       let latitude = map.ObjMapView.toMap({
+    //         x: evt.x,
+    //         y: evt.y
+    //       }).latitude.toFixed(7);
 
-  //     queryShape.create();
+    //       let longitude = map.ObjMapView.toMap({
+    //         x: evt.x,
+    //         y: evt.y
+    //       }).longitude.toFixed(7);
 
-  //     colliersProperty.queryFeatures(query).then(function (results) {
-  //       if (results.features.length < 1) {
-  //         $("#loading-bar").hide();
-  //       }
-  //       displayResults(results);
-  //     });
+    //       localStorage.setItem(
+    //         "calculateLength",
+    //         JSON.stringify([latitude, longitude])
+    //       );
+    //       console.log(JSON.parse(localStorage.getItem("calculateLength")));
+    //       $("#loading-bar").hide();
+    //     });
+    //   } else if (event.state === "active") {
+    //     $("#loading-bar").hide();
+    //     let lat1 = JSON.parse(localStorage.getItem("calculateLength"))[0];
+    //     let lon1 = JSON.parse(localStorage.getItem("calculateLength"))[1];
+    //     map.ObjMapView.on("pointer-move", function (evt) {
+    //       let lat2 = map.ObjMapView.toMap({
+    //         x: evt.x,
+    //         y: evt.y
+    //       }).latitude.toFixed(7);
+    //       let lon2 = map.ObjMapView.toMap({
+    //         x: evt.x,
+    //         y: evt.y
+    //       }).longitude.toFixed(7);
+    //       // console.log(getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2));
+    //     });
+    //   } else if (event.state === "complete") {
+    //     createListPOI();
+    //     let colliersProperty = new ESRI.FeatureLayer({
+    //       url:
+    //         "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/MapServer/0"
+    //     });
+    //     console.log(event.graphic.geometry);
+    //     let query = new ESRI.Query();
+    //     query.returnGeometry = true;
+    //     query.outFields = ["*"];
+    //     query.outSpatialReference = map.ObjMap.spatialReference;
+    //     query.geometry = event.graphic.geometry;
 
-  //     function displayResults(results) {
-  //       let chunkedResults = results.features;
-  //       var lyrFields;
-  //       var layersRequest = {
-  //         query: {
-  //           f: "json"
-  //         },
-  //         responseType: "json"
-  //       };
+    //     let queryShape = new GIS.Buffer.QueryShape(
+    //       map.ObjMap,
+    //       map.ObjMapView,
+    //       event.graphic.geometry
+    //     );
 
-  //       EsriRequest(
-  //         "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/MapServer/0",
-  //         layersRequest
-  //       ).then(function (response) {
-  //         console.log("response", response);
-  //         lyrFields = response.data.fields;
-  //       });
+    //     queryShape.create();
 
-  //       function getFldAlias(fieldName) {
-  //         var retVal = "";
-  //         arrayUtils.forEach(lyrFields, function (item) {
-  //           if (item.name === fieldName) {
-  //             retVal = item.alias;
-  //             return true;
-  //           }
-  //         });
-  //         return retVal;
-  //       }
+    //     colliersProperty.queryFeatures(query).then(function (results) {
+    //       if (results.features.length < 1) {
+    //         $("#loading-bar").hide();
+    //       }
+    //       displayResults(results);
+    //     });
 
-  //       let attributes = [];
-  //       let geometry = [];
-  //       let alias = {};
+    //     function displayResults(results) {
+    //       let chunkedResults = results.features;
+    //       var lyrFields;
+    //       var layersRequest = {
+    //         query: {
+    //           f: "json"
+    //         },
+    //         responseType: "json"
+    //       };
 
-  //       for (let i in chunkedResults) {
-  //         attributes.push(chunkedResults[i].attributes);
-  //         geometry.push(chunkedResults[i].geometry);
-  //       }
+    //       EsriRequest(
+    //         "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/MapServer/0",
+    //         layersRequest
+    //       ).then(function (response) {
+    //         console.log("response", response);
+    //         lyrFields = response.data.fields;
+    //       });
 
-  //       for (let j in chunkedResults[0].attributes) {
-  //         alias[j] = getFldAlias(j);
-  //       }
+    //       function getFldAlias(fieldName) {
+    //         var retVal = "";
+    //         arrayUtils.forEach(lyrFields, function (item) {
+    //           if (item.name === fieldName) {
+    //             retVal = item.alias;
+    //             return true;
+    //           }
+    //         });
+    //         return retVal;
+    //       }
 
-  //       console.log(attributes);
+    //       let attributes = [];
+    //       let geometry = [];
+    //       let alias = {};
 
-  //       convertCSV.processCSVData(
-  //         convertData.getRowofTextArray(attributes),
-  //         "custom",
-  //         geometry,
-  //         alias,
-  //         true
-  //       );
-  //       $("#loading-bar").hide();
-  //     }
+    //       for (let i in chunkedResults) {
+    //         attributes.push(chunkedResults[i].attributes);
+    //         geometry.push(chunkedResults[i].geometry);
+    //       }
 
-  //     let rings = JSON.stringify(event.graphic.geometry.rings[0]);
-  //     var area, length;
+    //       for (let j in chunkedResults[0].attributes) {
+    //         alias[j] = getFldAlias(j);
+    //       }
 
-  //     EsriRequest(
-  //       "https://gis.locatorlogic.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/areasAndLengths?sr=102009&polygons=[%7B%22rings%22:[" +
-  //       rings +
-  //       "]%7D]&lengthUnit=9001&areaUnit=%7B%22areaUnit%22:%22esriAcres%22%7D&calculationType=preserveShape&f=json"
-  //     ).then(function (response) {
-  //       console.log("response", response);
-  //       area = response.data.areas;
-  //       length = response.data.lengths;
-  //       area = (area[0] * 4046.8564224) / 1000;
-  //       length = length[0] / 1000;
-  //       console.log(area + " km" + "2".sup());
-  //       console.log(length + " km");
-  //       let div = document.createElement("div");
-  //       div.style.fontSize = "10px";
-  //       let table = document.createElement("table");
-  //       table.style.width = "100%";
-  //       table.style.margin = "10px";
-  //       let trArea = document.createElement("tr");
-  //       let trLength = document.createElement("tr");
-  //       let tdAreaTitle = document.createElement("td");
-  //       tdAreaTitle.style.textAlign = "left";
-  //       let tdAreaResults = document.createElement("td");
-  //       tdAreaResults.style.textAlign = "left";
-  //       let tdLengthTitle = document.createElement("td");
-  //       tdLengthTitle.style.textAlign = "left";
-  //       let tdLengthResults = document.createElement("td");
-  //       tdLengthResults.style.textAlign = "left";
-  //       div.style.width = "auto";
-  //       div.style.height = "auto";
-  //       div.style.textAlign = "center";
-  //       div.style.backgroundColor = "white";
-  //       div.innerHTML = "<b>Measurement</b>";
-  //       tdAreaTitle.innerHTML = "<b>Area</b>";
-  //       tdAreaResults.innerHTML =
-  //         area.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") +
-  //         " km" +
-  //         "2".sup();
-  //       tdLengthTitle.innerHTML = "<b>Length<b/>";
-  //       tdLengthResults.innerHTML =
-  //         length.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") + " km";
-  //       trArea.appendChild(tdAreaTitle);
-  //       trArea.appendChild(tdAreaResults);
-  //       trLength.appendChild(tdLengthTitle);
-  //       trLength.appendChild(tdLengthResults);
-  //       table.appendChild(trArea);
-  //       table.appendChild(trLength);
-  //       div.appendChild(table);
-  //       map.ObjMapView.ui.add(div, "bottom-right");
-  //     });
-  //   }
-  // });
+    //       console.log(attributes);
+
+    //       convertCSV.processCSVData(
+    //         convertData.getRowofTextArray(attributes),
+    //         "custom",
+    //         geometry,
+    //         alias,
+    //         true
+    //       );
+    //       $("#loading-bar").hide();
+    //     }
+
+    //     let rings = JSON.stringify(event.graphic.geometry.rings[0]);
+    //     var area, length;
+
+    //     EsriRequest(
+    //       "https://gis.locatorlogic.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/areasAndLengths?sr=102009&polygons=[%7B%22rings%22:[" +
+    //       rings +
+    //       "]%7D]&lengthUnit=9001&areaUnit=%7B%22areaUnit%22:%22esriAcres%22%7D&calculationType=preserveShape&f=json"
+    //     ).then(function (response) {
+    //       console.log("response", response);
+    //       area = response.data.areas;
+    //       length = response.data.lengths;
+    //       area = (area[0] * 4046.8564224) / 1000;
+    //       length = length[0] / 1000;
+    //       console.log(area + " km" + "2".sup());
+    //       console.log(length + " km");
+    //       let div = document.createElement("div");
+    //       div.style.fontSize = "10px";
+    //       let table = document.createElement("table");
+    //       table.style.width = "100%";
+    //       table.style.margin = "10px";
+    //       let trArea = document.createElement("tr");
+    //       let trLength = document.createElement("tr");
+    //       let tdAreaTitle = document.createElement("td");
+    //       tdAreaTitle.style.textAlign = "left";
+    //       let tdAreaResults = document.createElement("td");
+    //       tdAreaResults.style.textAlign = "left";
+    //       let tdLengthTitle = document.createElement("td");
+    //       tdLengthTitle.style.textAlign = "left";
+    //       let tdLengthResults = document.createElement("td");
+    //       tdLengthResults.style.textAlign = "left";
+    //       div.style.width = "auto";
+    //       div.style.height = "auto";
+    //       div.style.textAlign = "center";
+    //       div.style.backgroundColor = "white";
+    //       div.innerHTML = "<b>Measurement</b>";
+    //       tdAreaTitle.innerHTML = "<b>Area</b>";
+    //       tdAreaResults.innerHTML =
+    //         area.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") +
+    //         " km" +
+    //         "2".sup();
+    //       tdLengthTitle.innerHTML = "<b>Length<b/>";
+    //       tdLengthResults.innerHTML =
+    //         length.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") + " km";
+    //       trArea.appendChild(tdAreaTitle);
+    //       trArea.appendChild(tdAreaResults);
+    //       trLength.appendChild(tdLengthTitle);
+    //       trLength.appendChild(tdLengthResults);
+    //       table.appendChild(trArea);
+    //       table.appendChild(trLength);
+    //       div.appendChild(table);
+    //       map.ObjMapView.ui.add(div, "bottom-right");
+    //     });
+    //   }
+  });
 
   // $("#button-analysis").append(sketch);
 

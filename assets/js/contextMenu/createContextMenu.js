@@ -1,8 +1,11 @@
-function createContextMenu(map, event, condition) {
+var createContextMenu = function (map, event, condition) {
     let menu = []
     let strMenu = ""
     if (condition.includes("radius")) {
         menu.push('<div id="contextmenu-radius"><i class="mi-donut-large"></i>Radius</div>')
+    }
+    if (condition.includes("polygon")) {
+        menu.push('<div id="contextmenu-polygon"><i class="mi-crop-square"></i>Polygon</div>')
     }
     if (condition.includes("drivingtime")) {
         menu.push('<div id="contextmenu-driving"><i class="mi-access-alarms"></i>Driving Time</div>')
@@ -18,19 +21,20 @@ function createContextMenu(map, event, condition) {
         strMenu += menu[i]
     }
 
-    for (let i = 0; i < map.ObjMapView.graphics.items.length; i++) {
-        if ("livePointing" in map.ObjMapView.graphics.items[i].attributes) {
-            var div = $('<div class="image-wrapper-a">')
-                .css({
-                    "left": event.x + 'px',
-                    "top": event.y + 50 + 'px'
-                })
-                .append($(
-                    strMenu
-                ))
-                .appendTo(document.body);
-        }
+    let pointer = getLayerById(map, "pointer")
+
+    if (pointer) {
+        $('<div class="image-wrapper-a">')
+            .css({
+                "left": event.x + 'px',
+                "top": event.y + 50 + 'px'
+            })
+            .append($(
+                strMenu
+            ))
+            .appendTo(document.body);
     }
+
     if ($('.image-wrapper-a').length) {
         var elem = $('.image-wrapper-a'),
             top = elem.offset().top,

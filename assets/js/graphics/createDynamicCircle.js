@@ -1,5 +1,5 @@
 //Testing pointing with dynamic circle
-function createDynamicCircle(layerCounter, map, groupLayer, pointX, pointY) {
+var createDynamicCircle = async function (map, pointX, pointY) {
     let sketchViewModel, pausableWatchHandle;
 
     let centerGraphic,
@@ -9,8 +9,9 @@ function createDynamicCircle(layerCounter, map, groupLayer, pointX, pointY) {
         centerGeometryAtStart,
         labelGraphic;
 
-    let index = layerCounter + 1
-    window.layerCounter += 1
+    let layerCounterRadius = getLocalStorage("layerCounterRadius", 0)
+    let index = Number(layerCounterRadius) + 1
+    setLocalStorage("layerCounterRadius", Number(layerCounterRadius) + 1)
     const unit = "kilometers";
 
     // Create layers
@@ -18,13 +19,11 @@ function createDynamicCircle(layerCounter, map, groupLayer, pointX, pointY) {
         id: "dynamic-buffer-" + index
     });
 
-    groupLayer.add(graphicsLayer)
+    groupLayerRadius.add(graphicsLayer)
+    console.log(groupLayerRadius)
 
     // Update UI
-    setUpSketch();
-    setTimeout(function () {
-        $("#loading-bar").hide();
-    }, 1000)
+    await setUpSketch();
 
     pausableWatchHandle = ESRI.watchUtils.pausable(
         map.ObjMapView,
@@ -35,6 +34,8 @@ function createDynamicCircle(layerCounter, map, groupLayer, pointX, pointY) {
             }
         }
     );
+
+    $("#loading-bar").hide()
 
     function setUpSketch() {
         sketchViewModel = new ESRI.SketchViewModel({
@@ -222,6 +223,7 @@ function createDynamicCircle(layerCounter, map, groupLayer, pointX, pointY) {
     // Label polyline with its length
     function labelLength(geom, length) {
         return new ESRI.Graphic({
+            attributes: "label-graphics",
             geometry: geom,
             symbol: {
                 type: "text",

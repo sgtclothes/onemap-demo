@@ -1619,7 +1619,6 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/addPointsManual.js"></script>
     <script src="assets/js/createAnalysis.js"></script>
     <script src="assets/js/formListCSV.js"></script>
-    <script src="assets/js/submitFilterServices.js"></script>
     <script src="assets/js/showCurrentDepartment.js"></script>
     <script src="assets/js/inputFilter.js"></script>
     <script src="assets/js/selectUnitSize.js"></script>
@@ -1628,16 +1627,55 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/inputCheckboxServices.js"></script>
     <script src="assets/js/inputCheckboxQUeryShape.js"></script>
     <script src="assets/js/saveDataServiceToLocalStorage.js"></script>
-    <script src="assets/js/removeFilterResults.js"></script>
     <script src="assets/js/createOverlap.js"></script>
     <script src="assets/js/viewTableServices.js"></script>
     <script src="assets/js/zoomToLayer.js"></script>
     <script src="assets/js/expandCheckboxServices.js"></script>
     <script src="assets/js/createQueryShape.js"></script>
     <script src="assets/js/livePointing.js"></script>
-    <script src="assets/js/createDynamicCircle.js"></script>
-    <script src="assets/js/createContextMenu.js"></script>
     <script src="assets/js/generateToken.js"></script>
+
+    <!-- Filter -->
+    <script src="assets/js/filter/submitFilterServices.js"></script>
+    <script src="assets/js/filter/removeFilterResults.js"></script>
+    <!-- End of Filter -->
+
+    <!-- LocalStorage -->
+    <script src="assets/js/localStorage/localStorage.js"></script>
+    <!-- End of LocalStorage -->
+
+    <!-- Graphics -->
+    <script src="assets/js/graphics/selectGraphics.js"></script>
+    <script src="assets/js/graphics/removeGraphics.js"></script>
+    <script src="assets/js/graphics/createDynamicCircle.js"></script>
+    <script src="assets/js/graphics/createDynamicPolygon.js"></script>
+    <script src="assets/js/graphics/createSketch.js"></script>
+    <script src="assets/js/getInfo/getGraphicsInfo.js"></script>
+    <!-- End of Graphics -->
+
+    <!-- Map Action -->
+    <script src="assets/js/mapView/mapViewClick.js"></script>
+    <script src="assets/js/mapView/convertScreenPoint.js"></script>
+    <!-- End of Map Action -->
+
+    <!-- Context Menu Action -->
+    <script src="assets/js/contextMenu/createContextMenu.js"></script>
+    <script src="assets/js/contextMenu/analyzeClick.js"></script>
+    <script src="assets/js/contextMenu/radiusClick.js"></script>
+    <script src="assets/js/contextMenu/removeClick.js"></script>
+    <script src="assets/js/contextMenu/polygonClick.js"></script>
+    <!-- End of Context Menu Action -->
+
+    <!-- Geometry Services -->
+    <script src="assets/js/geometryServiceAPI/getProjectionPoint.js"></script>
+    <script src="assets/js/geometryServiceAPI/getIntersectPolygons.js"></script>
+    <script src="assets/js/geometryServiceAPI/getAreaAndLengthPolygons.js"></script>
+    <!-- End of Geometry Services -->
+
+    <!-- Query -->
+    <script src="assets/js/query/query.js"></script>
+    <!-- End of Query -->
+
     <script src="content/analysis/analysisPoi.js"></script>
     <script src="content/analysis/editAnalysis.js"></script>
     <script src="assets/js/plugins/tables/paginationLib.js"></script>

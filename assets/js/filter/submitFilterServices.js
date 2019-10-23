@@ -218,30 +218,30 @@ function submitFilterServices(convertData, map, convertCSV) {
       featureService = []
     }
 
-    let buffers = map.ObjMap.findLayerById("buffers")
+    let radius = map.ObjMap.findLayerById("radius")
     let polygons = map.ObjMap.findLayerById("polygons")
 
-    let geometryBuffers = []
+    let geometryRadius = []
     let geometryPolygons = []
     let geometryUnions = []
 
-    for (let i = 0; i < buffers.layers.items.length; i++) {
-      for (let j = 0; j < buffers.layers.items[i].graphics.items.length; j++) {
-        if (buffers.layers.items[i].graphics.items[j].attributes == "buffer-graphics") {
-          geometryBuffers.push(buffers.layers.items[i].graphics.items[j].geometry)
-        }
+    getItemsGroupLayer(radius).forEach(ele => {
+      if (ele.attributes == "buffer-graphics") {
+        geometryRadius.push(ele.geometry)
       }
-    }
+    });
 
-    for (let i = 0; i < polygons.graphics.items.length; i++) {
-      geometryPolygons.push(polygons.graphics.items[i].geometry)
-    }
+    getItemsGroupLayer(polygons).forEach(ele => {
+      if (ele.attributes == "polygon-graphics") {
+        geometryPolygons.push(ele.geometry)
+      }
+    });
 
-    geometryUnions = geometryBuffers.concat(geometryPolygons)
+    geometryUnions = geometryRadius.concat(geometryPolygons)
 
-    console.log(buffers)
+    console.log(radius)
     console.log(polygons)
-    console.log(geometryBuffers)
+    console.log(geometryRadius)
     console.log(geometryPolygons)
     console.log(geometryUnions)
 
@@ -286,12 +286,12 @@ function submitFilterServices(convertData, map, convertCSV) {
               if (results.features.length < 1) {
                 $("#loading-bar").hide();
               }
-              console.log(results)
               displayResultsAll(results)
             });
           }
         }
       } else {
+        console.log("without geometry")
         let query = new ESRI.Query();
         query.returnGeometry = true;
         query.outFields = ["*"];
@@ -302,7 +302,6 @@ function submitFilterServices(convertData, map, convertCSV) {
             if (results.features.length < 1) {
               $("#loading-bar").hide();
             }
-            console.log(results)
             displayResultsAll(results)
           });
         }
