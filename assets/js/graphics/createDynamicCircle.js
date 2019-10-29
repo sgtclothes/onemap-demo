@@ -20,7 +20,6 @@ var createDynamicCircle = async function (map, pointX, pointY) {
     });
 
     groupLayerRadius.add(graphicsLayer)
-    console.log(groupLayerRadius)
 
     // Update UI
     await setUpSketch();
@@ -185,8 +184,13 @@ var createDynamicCircle = async function (map, pointX, pointY) {
             });
 
             bufferGraphic = new ESRI.Graphic({
-                attributes: "buffer-graphics",
+                attributes: { test: "TTT" },
+                selector: "buffer-graphics",
                 geometry: buffer,
+                popupTemplate: {
+                    title: "Coba",
+                    content: "test"
+                },
                 symbol: {
                     type: "simple-fill",
                     color: [150, 150, 150, 0.2],
@@ -196,6 +200,8 @@ var createDynamicCircle = async function (map, pointX, pointY) {
                     }
                 }
             });
+
+            console.log(graphicsLayer)
 
             labelGraphic = labelLength(edgePoint, length);
 

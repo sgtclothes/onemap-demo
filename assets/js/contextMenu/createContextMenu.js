@@ -1,14 +1,11 @@
 var createContextMenu = function (map, event, condition) {
     let menu = []
     let strMenu = ""
-    if (condition.includes("radius")) {
-        menu.push('<div id="contextmenu-radius"><i class="mi-donut-large"></i>Radius</div>')
+    if (condition.includes("measurement")) {
+        menu.push('<div id="contextmenu-measurement"><i class="mi-straighten"></i>Measurement<i class="mi-keyboard-arrow-right"></i></div>')
     }
-    if (condition.includes("polygon")) {
-        menu.push('<div id="contextmenu-polygon"><i class="mi-crop-square"></i>Polygon</div>')
-    }
-    if (condition.includes("drivingtime")) {
-        menu.push('<div id="contextmenu-driving"><i class="mi-access-alarms"></i>Driving Time</div>')
+    if (condition.includes("draw")) {
+        menu.push('<div id="contextmenu-draw"><i class="mi-bubble-chart"></i>Draw<i class="mi-keyboard-arrow-right"></i></div>')
     }
     if (condition.includes("analyze")) {
         menu.push('<div id="contextmenu-analyze"><i class="mi-timeline"></i>Analyze</div>')
@@ -24,7 +21,7 @@ var createContextMenu = function (map, event, condition) {
     let pointer = getLayerById(map, "pointer")
 
     if (pointer) {
-        $('<div class="image-wrapper-a">')
+        let imageWrapper = $('<div class="image-wrapper-a">')
             .css({
                 "left": event.x + 'px',
                 "top": event.y + 50 + 'px'
@@ -32,6 +29,12 @@ var createContextMenu = function (map, event, condition) {
             .append($(
                 strMenu
             ))
+        $('<div style="float:left" class="contextmenu-container">')
+            .css({
+                "width": "auto",
+                "height": "auto"
+            })
+            .append($(imageWrapper))
             .appendTo(document.body);
     }
 
@@ -42,10 +45,44 @@ var createContextMenu = function (map, event, condition) {
             width = elem.width(),
             height = elem.height()
         if (left + width > $("#mapDiv").width()) {
-            $(elem).css("left", event.x - 100)
+            $(elem).css("left", event.x - 150)
         }
         if (top + height > $("#mapDiv").height()) {
             $(elem).css("top", event.y - 10)
         }
     }
+
+    if ($('#subcontextmenum').length) {
+        var elem = $('#subcontextmenum'),
+            top = elem.offset().top,
+            left = elem.offset().left,
+            width = elem.width(),
+            height = elem.height()
+        if (left + width > $("#mapDiv").width()) {
+            $(elem).css("left", event.x - 150)
+        }
+        if (top + height > $("#mapDiv").height()) {
+            $(elem).css("top", event.y - 10)
+        }
+    }
+
+    if ($('#subcontextmenud').length) {
+        var elem = $('#subcontextmenud'),
+            top = elem.offset().top,
+            left = elem.offset().left,
+            width = elem.width(),
+            height = elem.height()
+        if (left + width > $("#mapDiv").width()) {
+            $(elem).css("left", event.x - 150)
+        }
+        if (top + height > $("#mapDiv").height()) {
+            $(elem).css("top", event.y - 10)
+        }
+    }
+}
+
+var closeContextMenu = function () {
+    $('body').click(function (evt) {
+        $(".contextmenu-container").remove()
+    });
 }

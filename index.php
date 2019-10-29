@@ -80,13 +80,6 @@ if (!isset($_SESSION['auth'])) {
         <script src="assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
         <!-- /core js files -->
 
-        <!-- Crypto JS Files -->
-        <script src="assets\js\crypto\Barret.js"></script>
-        <script src="assets\js\crypto\BigInt.js"></script>
-        <script src="assets\js\crypto\RSA.js"></script>
-        <!-- End of Crypto JS Files-->
-
-
         <!-- themes & template js files -->
         <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
         <script src="assets/js/plugins/forms/checkboxes/form_checkboxes_radios.js"></script>
@@ -1614,7 +1607,6 @@ if (!isset($_SESSION['auth'])) {
             }
         </script>
     </body>
-    <script src="assets/js/createSite.js"></script>
     <script src="assets/js/addPointsFromSite.js"></script>
     <script src="assets/js/addPointsManual.js"></script>
     <script src="assets/js/createAnalysis.js"></script>
@@ -1633,12 +1625,32 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/expandCheckboxServices.js"></script>
     <script src="assets/js/createQueryShape.js"></script>
     <script src="assets/js/livePointing.js"></script>
-    <script src="assets/js/generateToken.js"></script>
+
+    <!-- Crypto -->
+    <script src="assets/js/crypto/Barret.js"></script>
+    <script src="assets/js/crypto/BigInt.js"></script>
+    <script src="assets/js/crypto/RSA.js"></script>
+    <script src="assets/js/crypto/generateToken.js"></script>
+    <script src="assets/js/crypto/generatePOI.js"></script>
+    <script src="assets/js/crypto/generateClassifications.js"></script>
+    <!-- End of Crypto -->
+
+    <!-- Window -->
+    <script src="assets/js/window/setWindowVariables.js"></script>
+    <!-- End of Window -->
+
+    <!-- Site -->
+    <script src="assets/js/site/createSite.js"></script>
+    <!-- End of Site -->
 
     <!-- Filter -->
     <script src="assets/js/filter/submitFilterServices.js"></script>
     <script src="assets/js/filter/removeFilterResults.js"></script>
     <!-- End of Filter -->
+
+    <!-- Data -->
+    <script src="assets/js/data/getColliersData.js"></script>
+    <!-- End of Data -->
 
     <!-- LocalStorage -->
     <script src="assets/js/localStorage/localStorage.js"></script>
@@ -1648,22 +1660,38 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/graphics/selectGraphics.js"></script>
     <script src="assets/js/graphics/removeGraphics.js"></script>
     <script src="assets/js/graphics/createDynamicCircle.js"></script>
-    <script src="assets/js/graphics/createDynamicPolygon.js"></script>
+    <script src="assets/js/graphics/createDrivingTime.js"></script>
+    <script src="assets/js/graphics/createDrivingDistance.js"></script>
+    <script src="assets/js/graphics/createPoint.js"></script>
+    <script src="assets/js/graphics/createPolygon.js"></script>
+    <script src="assets/js/graphics/createRectangle.js"></script>
     <script src="assets/js/graphics/createSketch.js"></script>
-    <script src="assets/js/getInfo/getGraphicsInfo.js"></script>
+    <script src="assets/js/graphics/getGraphicsInfo.js"></script>
     <!-- End of Graphics -->
+
+    <!-- Registers for layer -->
+    <script src="assets/js/registers/register.js"></script>
+    <!-- End of Registers for layer -->
 
     <!-- Map Action -->
     <script src="assets/js/mapView/mapViewClick.js"></script>
+    <script src="assets/js/mapView/mapViewWhenReady.js"></script>
     <script src="assets/js/mapView/convertScreenPoint.js"></script>
     <!-- End of Map Action -->
 
     <!-- Context Menu Action -->
     <script src="assets/js/contextMenu/createContextMenu.js"></script>
-    <script src="assets/js/contextMenu/analyzeClick.js"></script>
-    <script src="assets/js/contextMenu/radiusClick.js"></script>
-    <script src="assets/js/contextMenu/removeClick.js"></script>
-    <script src="assets/js/contextMenu/polygonClick.js"></script>
+    <script src="assets/js/contextMenu/action/analyzeClick.js"></script>
+    <script src="assets/js/contextMenu/draw/radiusClick.js"></script>
+    <script src="assets/js/contextMenu/draw/drivingtimeClick.js"></script>
+    <script src="assets/js/contextMenu/draw/drivingdistanceClick.js"></script>
+    <script src="assets/js/contextMenu/action/removeClick.js"></script>
+    <script src="assets/js/contextMenu/measurement/pointClick.js"></script>
+    <script src="assets/js/contextMenu/measurement/polygonClick.js"></script>
+    <script src="assets/js/contextMenu/measurement/rectangleClick.js"></script>
+    <script src="assets/js/contextMenu/measurement/polylineClick.js"></script>
+    <script src="assets/js/contextMenu/hover/measurementHover.js"></script>
+    <script src="assets/js/contextMenu/hover/drawHover.js"></script>
     <!-- End of Context Menu Action -->
 
     <!-- Geometry Services -->

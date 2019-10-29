@@ -31,16 +31,18 @@ function submitFilterServices(convertData, map, convertCSV) {
 
     for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
       if (map.ObjMap.layers.items[i].id == "colliers-property") {
-        map.ObjMap.layers.items.splice(i, 1)
+        map.ObjMap.layers.items[i].removeAll()
       }
     }
 
     var lyrFields;
+
     var resultsLayer = new ESRI.GraphicsLayer({
-      id: "colliers-property"
+      id: "colliers-property-"
     });
+
     resultsLayer.removeAll();
-    map.ObjMap.add(resultsLayer);
+    groupLayerProperty.add(resultsLayer);
     map.ObjMapView.graphics.removeAll();
 
     let property = [];
@@ -220,30 +222,50 @@ function submitFilterServices(convertData, map, convertCSV) {
 
     let radius = map.ObjMap.findLayerById("radius")
     let polygons = map.ObjMap.findLayerById("polygons")
+    let drivingTime = map.ObjMap.findLayerById("driving-time")
+    let drivingDistance = map.ObjMap.findLayerById("driving-distance")
+    let rectangles = map.ObjMap.findLayerById("rectangles")
+
+    console.log(rectangles)
 
     let geometryRadius = []
     let geometryPolygons = []
+    let geometryDrivingTime = []
+    let geometryDrivingDistance = []
+    let geometryRectangles = []
     let geometryUnions = []
 
     getItemsGroupLayer(radius).forEach(ele => {
-      if (ele.attributes == "buffer-graphics") {
+      if (ele.selector == "buffer-graphics") {
         geometryRadius.push(ele.geometry)
       }
     });
 
     getItemsGroupLayer(polygons).forEach(ele => {
-      if (ele.attributes == "polygon-graphics") {
+      if (ele.selector == "polygon-graphics") {
         geometryPolygons.push(ele.geometry)
       }
     });
 
-    geometryUnions = geometryRadius.concat(geometryPolygons)
+    getItemsGroupLayer(drivingTime).forEach(ele => {
+      if (ele.selector == "drivetime-graphics") {
+        geometryDrivingTime.push(ele.geometry)
+      }
+    });
 
-    console.log(radius)
-    console.log(polygons)
-    console.log(geometryRadius)
-    console.log(geometryPolygons)
-    console.log(geometryUnions)
+    getItemsGroupLayer(drivingDistance).forEach(ele => {
+      if (ele.selector == "drivedistance-graphics") {
+        geometryDrivingDistance.push(ele.geometry)
+      }
+    });
+
+    getItemsGroupLayer(rectangles).forEach(ele => {
+      if (ele.selector == "rectangle-graphics") {
+        geometryRectangles.push(ele.geometry)
+      }
+    });
+
+    geometryUnions = geometryRadius.concat(geometryPolygons, geometryDrivingTime, geometryDrivingDistance, geometryRectangles)
 
     for (let i = 0; i < featureService.length; i++) {
       var layersRequest = {
@@ -275,6 +297,7 @@ function submitFilterServices(convertData, map, convertCSV) {
       $("#loading-bar").show();
       $(".popupFilter").hide();
       if (geometryUnions.length > 0) {
+        console.log("with geometry")
         for (let i = 0; i < geometryUnions.length; i++) {
           let query = new ESRI.Query();
           query.returnGeometry = true;
@@ -306,93 +329,6 @@ function submitFilterServices(convertData, map, convertCSV) {
           });
         }
       }
-      //   let checkGraphic = 0
-      //   let geometry = []
-      //   for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
-      //     for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
-      //       if (map.ObjMap.layers.items[i].graphics.items[j].geometry.type != "point") {
-      //         checkGraphic = 1
-      //         geometry.push(map.ObjMap.layers.items[i].graphics.items[j].geometry)
-      //       }
-      //     }
-      //   }
-
-      //   if (checkGraphic == 1) {
-      //     for (let i = 0; i < geometry.length; i++) {
-      //       let query = new ESRI.Query();
-      //       query.returnGeometry = true;
-      //       query.outFields = ["*"];
-      //       query.outSpatialReference = map.ObjMap.spatialReference;
-      //       query.geometry = geometry[i]
-      //       featureService[i].queryFeatures(query).then(function (results) {
-      //         if (results.features.length < 1) {
-      //           $("#loading-bar").hide();
-      //         }
-      //         console.log(results)
-      //         // displayResultsAll(results)
-      //       });
-      //     }
-      //     // if (map.ObjMap.layers.items.length > 0) {
-      //     //   for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
-      //     //     if ("graphics" in map.ObjMap.layers.items[i]) {
-      //     //       if (map.ObjMap.layers.items[i].graphics.items.length > 0) {
-      //     //         for (let j = 0; j < map.ObjMap.layers.items[i].graphics.items.length; j++) {
-      //     //           let query = new ESRI.Query();
-      //     //           query.returnGeometry = true;
-      //     //           query.outFields = ["*"];
-      //     //           query.outSpatialReference = map.ObjMap.spatialReference;
-      //     //           query.geometry = map.ObjMap.layers.items[i].graphics.items[j].geometry
-      //     //           query.geometry = geometry
-      //     //           featureService[i].queryFeatures(query).then(function (results) {
-      //     //             if (results.features.length < 1) {
-      //     //               $("#loading-bar").hide();
-      //     //             }
-      //     //             displayResultsAll(results)
-      //     //           });
-      //     //         }
-      //     //       }
-      //     //     }
-      //     //   }
-      //     // }
-      //   }
-      //   else {
-      //     let query = new ESRI.Query();
-      //     query.returnGeometry = true;
-      //     query.outFields = ["*"];
-      //     query.outSpatialReference = map.ObjMap.spatialReference;
-      //     query.where = "1=1"
-      //     featureService[i].queryFeatures(query).then(function (results) {
-      //       console.log(results)
-      //       displayResultsAll(results)
-      //     });
-      //   }
-    }
-    // // view and print the number of results to the DOM
-    function displayResults(results) {
-      let chunkedResults = results.features;
-      let attributes = [];
-      let geometry = [];
-      let alias = {};
-
-      for (let i in chunkedResults) {
-        attributes.push(chunkedResults[i].attributes);
-        geometry.push(chunkedResults[i].geometry);
-      }
-
-      for (let j in chunkedResults[0].attributes) {
-        alias[j] = getFldAlias(j);
-      }
-
-      console.log(alias)
-
-      convertCSV.processCSVData(
-        convertData.getRowofTextArray(attributes),
-        "custom",
-        geometry,
-        alias,
-        true
-      );
-      $("#loading-bar").hide();
     }
 
     function displayResultsAll(results) {
@@ -424,52 +360,11 @@ function submitFilterServices(convertData, map, convertCSV) {
           });
           resultsLayer.add(g);
         });
+
+        sortID(map, "colliers-property", "colliers-property-")
+        registerAttributes(map, "colliers-property", "colliers-property-attr", "*")
         $("#loading-bar").hide()
       }
     }
   });
 }
-
-// function validateDate(value) {
-//   let dateformat = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
-//   // Match the date format through regular expression
-//   if (value.match(dateformat)) {
-//     //Test which seperator is used '/' or '-'
-//     let opera1 = value.split("/");
-//     let opera2 = value.split("-");
-//     lopera1 = opera1.length;
-//     lopera2 = opera2.length;
-//     // Extract the string into month, date and year
-//     if (lopera1 > 1) {
-//       var pdate = value.split("/");
-//     } else if (lopera2 > 1) {
-//       var pdate = value.split("-");
-//     }
-//     let dd = parseInt(pdate[0]);
-//     let mm = parseInt(pdate[1]);
-//     let yy = parseInt(pdate[2]);
-//     // Create list of days of a month [assume there is no leap year by default]
-//     let ListofDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-//     if (mm == 1 || mm > 2) {
-//       if (dd > ListofDays[mm - 1]) {
-//         return false;
-//       }
-//     }
-//     if (mm == 2) {
-//       let lyear = false;
-//       if ((!(yy % 4) && yy % 100) || !(yy % 400)) {
-//         lyear = true;
-//       }
-//       if (lyear == false && dd >= 29) {
-//         return false;
-//       }
-//       if (lyear == true && dd > 29) {
-//         return false;
-//       }
-//     } else {
-//       return true;
-//     }
-//   } else {
-//     return false;
-//   }
-// }

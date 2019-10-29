@@ -1,0 +1,35 @@
+<div class="form-group">
+  <label style="text-align: center">Driving Data</label>
+  <select class="select-driving-mini form-control" required name="options">
+    <option>Please Select</option>
+    <option value="1">Live</option>
+    <option value="2">Typical</option>
+    <option value="3">Historical</option>
+  </select>
+</div>
+
+<div style="display: none" class="driving-historical-mini">
+  <div class="form-group">
+    <label>Distance</label>
+    <input
+      type="text"
+      class="distance-time-mini number-mask-time form-control"
+      required
+      name="distance"
+    />
+  </div>
+
+  <div class="form-group">
+    <label>Unit</label>
+    <select class="select-unit-time-mini form-control" required name="unit">
+      <option value="minutes">Minutes</option>
+      <option value="hours">Hours</option>
+    </select>
+  </div>
+</div>
+
+<div class="text-center">
+  <button type="button" class="btn btn-primary btn-create-drive-time-mini">
+    OK
+  </button>
+</div>

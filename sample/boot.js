@@ -1,11 +1,6 @@
 function boot(GIS) {
-  //Set GIS to window to make it accessable anywhere
-  window.GIS = GIS
-  //Set localstorage
-  setStartLocalStorage()
-  localStorage.setItem("pointingHighlight", null);
-  localStorage.setItem("geometryRings", null)
-
+  window.GIS = GIS //Set GIS to window to make it accessable anywhere
+  setStartLocalStorage() //Set localstorage
   let config = new GIS.Config(); //Define Config class
   let map = new GIS.Map(config.CenterPoint); //Define Map class
   map.setBasemap(config.Basemap); //Set basemap to Topo Vector
@@ -24,6 +19,9 @@ function boot(GIS) {
     config.Position[6]
   );
   map.render(); //Map rendering
+
+  setWindowVariables(map)
+
   var search = new ESRI.Search( //Add search widget in sidenav layers
     {
       view: map.ObjMapView
@@ -41,24 +39,8 @@ function boot(GIS) {
     }, 500)
   })
 
-  // Create a site
-  map.ObjMapView.when(function () {
-    let createSiteDiv = document.getElementById("create-site-div");
-    createSiteDiv.style.display = "inline-block";
+  mapViewWhenReady(map, config)
 
-    let createSiteExpand = new ESRI.Expand({
-      expandIconClass: "esri-icon-organization",
-      view: map.ObjMapView,
-      content: createSiteDiv,
-      expanded: false,
-      collapseIconClass: "esri-icon-close"
-    });
-
-    createSite(createSiteExpand, GIS, map);
-    map.ObjMapView.ui.add(createSiteExpand, config.Position[6]);
-  });
-
-  let pointTheSiteEnabled = false;
   document
     .getElementById("point-the-site")
     .addEventListener("click", function () {
@@ -81,135 +63,11 @@ function boot(GIS) {
       }
     });
 
-  map.ObjMapView.on("click", function (event) {
-    if (pointTheSiteEnabled) {
-      pointTheSiteEnabled = !pointTheSiteEnabled;
-      document
-        .getElementById("mapDiv")
-        .setAttribute("style", "cursor:crosshair;");
-      let latitude = map.ObjMapView.toMap({
-        x: event.x,
-        y: event.y
-      }).latitude.toFixed(7);
-
-      let longitude = map.ObjMapView.toMap({
-        x: event.x,
-        y: event.y
-      }).longitude.toFixed(7);
-
-      document.getElementById("lat-site").value = latitude;
-      document.getElementById("lon-site").value = longitude;
-      document
-        .getElementById("create-site-div")
-        .setAttribute(
-          "style",
-          "background: rgba(255, 255, 255, 0.8) none repeat scroll 0% 0%; display:inline-block; width: 500px;"
-        );
-    }
-    if (pointTheSiteEnabled == false) {
-      document
-        .getElementById("mapDiv")
-        .setAttribute("style", "cursor:default;");
-    }
-  });
-  // END of create a site
-
   map.ObjMapView.popup.actionsMenuEnabled = false;
   // map.ObjMapView.popup.featureNavigationEnabled = false;
 
   // create instant analysis
-  let pointEnabled = false;
-  $(document).ready(function () {
-    $("#pointing-btn").click(function () {
-      pointEnabled = true;
-      $("#mapDiv").attr("style", "cursor:crosshair;");
-      map.ObjMapView.on("click", function (event) {
-        if (pointEnabled) {
-          pointEnabled = !pointEnabled;
-          let latitude = map.ObjMapView.toMap({
-            x: event.x,
-            y: event.y
-          }).latitude.toFixed(7);
 
-          let longitude = map.ObjMapView.toMap({
-            x: event.x,
-            y: event.y
-          }).longitude.toFixed(7);
-
-          let pointing = new GIS.Buffer.Pointing(
-            map.ObjMapView,
-            latitude,
-            longitude
-          );
-          pointing.setPictureMarker();
-          pointing.render();
-          $("#error-input-points").hide();
-          $("#error-down-service").hide();
-
-          $.addRows();
-          $.each(window.counterArr, function (index, value) {
-            if ($(".latitude-form-" + value).val() === "") {
-              $(".latitude-form-" + value).val(latitude);
-              $(".longitude-form-" + value).val(longitude);
-              $(".latitude-form-" + value).attr(
-                "title",
-                "Latitude " + latitude
-              );
-              $(".longitude-form-" + value).attr(
-                "title",
-                "Longitude " + longitude
-              );
-              $("#form-list").delegate(
-                ".selectbuffer-" + value,
-                "click",
-                function () {
-                  $("#error-input-buffer").hide();
-                  $("#error-down-service").hide();
-                  $.get(
-                    "content/template/instant_analysis/buffer.php",
-                    function (data) {
-                      $(".form-buffer-" + value).append(data);
-                    }
-                  );
-                }
-              );
-              $("#form-list").delegate(
-                ".selectdrive-" + value,
-                "click",
-                function () {
-                  $("#error-input-buffer").hide();
-                  $("#error-down-service").hide();
-                  $.get(
-                    "content/template/instant_analysis/driving.php",
-                    function (data) {
-                      $(".form-drive-" + value).append(data);
-                    }
-                  );
-                }
-              );
-              $("#form-list").delegate(
-                ".selectdrive-distance-" + value,
-                "click",
-                function () {
-                  $("#error-input-buffer").hide();
-                  $("#error-down-service").hide();
-                  $.get(
-                    "content/template/instant_analysis/driving_distance.php",
-                    function (data) {
-                      $(".form-drive-distance-" + value).append(data);
-                    }
-                  );
-                }
-              );
-            }
-          });
-        }
-        if (pointEnabled == false) {
-          $("#mapDiv").attr("style", "cursor:default;");
-        }
-      });
-    });
-  });
   createMarker(GIS, map);
   createMarkerFromSite(GIS, map);
   createMarkerFromCSV(GIS, map);
@@ -222,21 +80,6 @@ function boot(GIS) {
   driveTime(GIS, map);
   driveTimeDistance(GIS, map);
   saveAnalysis(map);
-
-  // sidebar/sidenav
-  function openNav() {
-    document.getElementById("mySidenav").style.width = "320px";
-    document.getElementById("main").style.marginLeft = "320px";
-    document.getElementById("mySidenav").classList.add("panel-left");
-    document.getElementById("main").style.marginRight = "0";
-  }
-
-  function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-    document.getElementById("mySidenav").classList.add("panel-left");
-    document.getElementById("main").style.marginRight = "0";
-  }
 
   document.getElementById("closebtn").addEventListener("click", function () {
     document.getElementById("mySidenav").style.width = "0";
@@ -270,22 +113,46 @@ function boot(GIS) {
         }
       } else {
         if (mySidenav.style.width > "0px") {
-          closeNav();
+          toggleNav("close")
           document.getElementById("form-filter").style.display = "none";
         } else {
-          openNav();
+          toggleNav("open");
         }
       }
     });
 
-  function open_viewer() {
-    document.getElementById("myViewer").style.width = "350px";
-    document.getElementById("main").style.marginLeft = "350px";
+  var toggleNav = function (toggle) {
+    if (toggle == "open") {
+      document.getElementById("mySidenav").style.width = "320px";
+      document.getElementById("main").style.marginLeft = "320px";
+      document.getElementById("mySidenav").classList.add("panel-left");
+      document.getElementById("main").style.marginRight = "0";
+    } else if (toggle == "close") {
+      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+      document.getElementById("mySidenav").classList.add("panel-left");
+      document.getElementById("main").style.marginRight = "0";
+    }
   }
 
-  function close_viewer() {
-    document.getElementById("myViewer").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
+  var toggleViewer = function (toggle) {
+    if (toggle == "open") {
+      document.getElementById("myViewer").style.width = "350px";
+      document.getElementById("main").style.marginLeft = "350px";
+    } else if (toggle == "close") {
+      document.getElementById("myViewer").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  }
+
+  var toggleSiteAnalysis = function (toggle) {
+    if (toggle == "open") {
+      document.getElementById("mySiteAnalysis").style.width = "320px";
+      document.getElementById("main").style.marginLeft = "320px";
+    } else if (toggle == "close") {
+      document.getElementById("mySiteAnalysis").style.width = "0px";
+      document.getElementById("main").style.marginLeft = "0px";
+    }
   }
 
   function dragCSVButton() {
@@ -301,16 +168,16 @@ function boot(GIS) {
       $(".esri-ui-top-right")
         .children("#drag-csv")
         .remove();
-      close_viewer();
+      toggleViewer("close");
     } else if (
       document.getElementById("mySiteAnalysis").style.width > "0px" ||
       document.getElementById("myAnalysisPOI").style.width > "0px"
     ) {
       document.getElementById("mySiteAnalysis").style.width = "0";
       document.getElementById("myAnalysisPOI").style.width = "0";
-      open_viewer();
+      toggleViewer("open");
     } else {
-      open_viewer();
+      toggleViewer("open");
     }
 
     if (document.getElementById("mySidenav").style.width > "0px") {
@@ -329,12 +196,12 @@ function boot(GIS) {
 
   var siteAnalysis = document.getElementById("mySiteAnalysis");
   function open_site_analysis() {
-    siteAnalysis.style.width = "320px";
+    document.getElementById("mySiteAnalysis").style.width = "320px";
     document.getElementById("main").style.marginLeft = "320px";
   }
 
   function close_site_analysis() {
-    siteAnalysis.style.width = "0";
+    document.getElementById("mySiteAnalysis").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
   }
 
@@ -353,12 +220,12 @@ function boot(GIS) {
         $(".esri-ui-top-right")
           .children("#drag-csv")
           .remove();
-        close_viewer();
-        open_site_analysis();
-      } else if (siteAnalysis.style.width > "0px") {
-        close_site_analysis();
+        toggleViewer("close");
+        toggleSiteAnalysis("open");
+      } else if (document.getElementById("mySiteAnalysis").style.width > "0px") {
+        toggleSiteAnalysis("close")
       } else {
-        open_site_analysis();
+        toggleSiteAnalysis("open")
       }
       if (document.getElementById("mySidenav").style.width > "0px") {
         if ($("#mySidenav").hasClass("panel-left")) {
@@ -430,7 +297,7 @@ function boot(GIS) {
           mySidenav.classList.remove("panel-left");
         }
       } else {
-        openNav();
+        toggleNav("open")
       }
 
       var S = map.ObjMapView.popup.title;
@@ -876,25 +743,33 @@ function boot(GIS) {
     checkForChanges();
   });
 
-  //---Make a parent grouplayer of radius and polygons---//
-  window.groupLayerRadius = new ESRI.GroupLayer({
-    id: "radius"
-  })
-  window.groupLayerPolygons = new ESRI.GroupLayer({
-    id: "polygons"
-  });
-  window.groupLayers = [groupLayerRadius, groupLayerPolygons]
-  map.ObjMap.addMany([groupLayerRadius, groupLayerPolygons]);
-  //--- End of Make a parent grouplayer of radius and polygons---//
-
   mapViewClick(map)
+  createSketch(map)
+
+  closeContextMenu() // Close context menu
 
   //---Context Menu Action---//
   radiusClick(map)
+  drivingtimeClick(map)
+  drivingdistanceClick(map)
+  pointClick(map)
   polygonClick(map)
-  analyzeClick()
+  polylineClick(map)
+  rectangleClick(map)
+  generateToken().then(function (token) {
+    console.log(token)
+    // generatePOI(token)
+    analyzeClick(token)
+  })
   removeClick(map)
+
+  window.hoveredMeasurement = false
+  window.hoveredDraw = false
+  measurementHover(["point", "polygon", "polyline", "rectangle"])
+  drawHover(["radius", "drivingtime", "drivingdistance"])
   //---End of Context Menu Action---//
+
+  removeFilterResults(map);
 
   // var slider = document.getElementById("buffer-radius");
   // slider.oninput = function () {
@@ -1005,7 +880,7 @@ function boot(GIS) {
         mySidenav.classList.remove("panel-left");
       }
     } else {
-      openNav();
+      toggleNav("open")
     }
     let lat = JSON.parse(localStorage.getItem("selectedFeatureFilterLatitude"));
     let lon = JSON.parse(
@@ -1074,12 +949,10 @@ function boot(GIS) {
   inputCheckboxServices(GIS, map);
   inputCheckboxQueryShape(GIS, map);
   saveDataServiceToLocalStorage();
-  removeFilterResults(map, groupLayerRadius, groupLayerPolygons);
   createOverlap(GIS, map);
   viewTableServices(map);
   zoomToLayer(map);
   expandCheckboxServices();
-  generateToken()
   //---End of Set all external function here---//
 
   //Clear the localstorage when user logout

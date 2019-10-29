@@ -20,3 +20,13 @@ var removeGraphicsByObj = function (map, value) {
         }
     }
 }
+
+var removeAllGraphicsById = function (map, id) {
+    let layer = undefined
+    for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
+        if (map.ObjMap.layers.items[i].id == id) {
+            layer = map.ObjMap.layers.items[i]
+        }
+    }
+    layer.removeAll()
+}

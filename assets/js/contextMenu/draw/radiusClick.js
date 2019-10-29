@@ -1,6 +1,8 @@
 var radiusClick = function (map) {
     $(document).delegate("#contextmenu-radius", "click", function () {
         $(".image-wrapper-a").remove() //Remove context menu
+        $("#subcontextmenum").remove()
+        $("#subcontextmenud").remove()
         $("#loading-bar").show()
         let latitude = Number(getLocalStorage("livePointingLatitude", ""))
         let longitude = Number(getLocalStorage("livePointingLongitude", ""))

@@ -1,10 +1,9 @@
 var getGraphicsInfo = function (response, map) {
     if (response.results.length > 0) {
         let val = response.results[0].graphic.layer.id.split("-")
-        console.log(val)
-        if (val[0] == "dynamic" && (val[1] == "buffer" || val[1] == "polygon")) {
+        if ((val[0] == "dynamic" && (val[1] == "buffer" || val[1] == "polygon")) || (val[0] == "drive" && (val[1] == "time" || val[1] == "distance")) || (val[0] == "rectangle")) {
             selectMe(0, response)
-        } else {
+        } else if (val[0] == "colliers" && val[1] == "property") {
             localStorage.setItem(
                 "selectedFeatureFilterLatitude",
                 JSON.stringify(response.results[0].graphic.geometry.latitude)
@@ -13,9 +12,9 @@ var getGraphicsInfo = function (response, map) {
                 "selectedFeatureFilterLongitude",
                 JSON.stringify(response.results[0].graphic.geometry.longitude)
             );
-
             getColliersData(response)
-
+        }
+        else {
             //Highlight pointing
             let lat = response.results[0].graphic.geometry.latitude;
             let lon = response.results[0].graphic.geometry.longitude;

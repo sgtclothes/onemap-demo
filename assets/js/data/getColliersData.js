@@ -1,4 +1,4 @@
-function colliersData(response) {
+var getColliersData = function (response) {
     //Land Rows
     let landSizeSqmGrossIDR = 0
     let landSizeSqmGrossUSD = 0

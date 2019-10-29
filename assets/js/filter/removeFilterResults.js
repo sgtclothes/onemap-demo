@@ -1,4 +1,4 @@
-function removeFilterResults(map, groupLayer, groupLayer2, sketch) {
+function removeFilterResults(map) {
   $(document).delegate("#button-filter-remove-property", "click", function () {
     //Set all external data variables
     let poi = $(".checkbox-poi");
@@ -12,27 +12,14 @@ function removeFilterResults(map, groupLayer, groupLayer2, sketch) {
     //Remove all objects in map
     map.ObjMapView.graphics.removeAll();
     setStartLocalStorage()
-    groupLayer.removeAll()
-    groupLayer2.removeAll()
 
-    //---Re-create graphicsLayer for polygons---//
-    var layerCounterPolygons = getLocalStorage("layerCounterPolygons", 0)
-    var index = Number(layerCounterPolygons) + 1
-    setLocalStorage("layerCounterPolygons", Number(layerCounterPolygons) + 1)
-    var graphicsLayer = new ESRI.GraphicsLayer({
-      id: "dynamic-polygon-" + index
-    })
-    groupLayerPolygons.add(graphicsLayer)
-    sketch.layer = map.ObjMap.findLayerById("dynamic-polygon-" + index)
-    //---End of Re-create graphicsLayer for polygons---//
-
-    for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
-      let layer = map.ObjMap.layers.items[i];
-      if (layer.id !== 'radius' && layer.id !== 'polygons') { map.ObjMap.remove(layer); }
+    //Reset all grouplayers
+    for (let i = 0; i < groupLayers.length; i++) {
+      groupLayers[i].removeAll()
     }
-    console.log(map.ObjMapView.graphics)
-    console.log(map.ObjMap)
-    // map.ObjMap.layers.items = [];
+
+    //Close contextmenu
+    $(".contextmenu-container").remove()
 
     //Reset filter components
     $(".popupFilter").hide();
