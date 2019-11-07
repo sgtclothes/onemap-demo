@@ -1,0 +1,270 @@
+<!-- Popup Filter -->
+<div id="popupFilter" class="popupFilter">
+  <table style="width:100%; font-size:11px;">
+    <tr>
+      <td id="propertytype-popup" style="width:600px; font-weight:bold;">
+        PROPERTY TYPE : -
+      </td>
+      <td id="btn-previous-popup" class="indent-popup-pagination-200">◄</td>
+      <td class="indent-popup-pagination-150" id="page-number-popup">1</td>
+      <td id="btn-next-popup" class="indent-popup-pagination-100">►</td>
+      <td
+        id="close-popup-property"
+        class="close-popup-property"
+        style="font-size:15px; font-weight:bold; float:right; padding-right:10px;"
+      >
+        X
+      </td>
+    </tr>
+    <tr>
+      <td id="buildingName-popup">Land at Unknown</td>
+    </tr>
+  </table>
+
+  <table class="table-popup-colliers" id="table-popup-colliers">
+    <tr>
+      <td class="image-property" style="width:200px; height:240px;"></td>
+      <td>
+        <table class="font-popup" style="height:100%">
+          <tr class="title-popup">
+            <td
+              id="action-date-popup"
+              colspan="8"
+              style="background-color: #e6e6e6;"
+            >
+              Status unknown
+            </td>
+            <td colspan="3" style="background-color: #e6e6e6;">
+              NJOP
+            </td>
+          </tr>
+          <tr class="title-popup">
+            <td rowspan="2" style="width:50px; background-color: #e6e6e6;"></td>
+            <td rowspan="2" style="width:100px; background-color: #e6e6e6;">
+              Total
+            </td>
+            <td colspan="3" style="background-color: #e6e6e6;">
+              Size
+            </td>
+            <td colspan="3" style="background-color: #e6e6e6;">
+              Price Per
+            </td>
+            <td colspan="2" style="width:100px; background-color: #e6e6e6;">
+              Price
+            </td>
+            <td rowspan="2" style="width:30px; background-color: #e6e6e6;">
+              %
+            </td>
+          </tr>
+          <tr class="title-popup">
+            <td colspan="2" style="width:60px; background-color: #e6e6e6;">
+              Sqm
+            </td>
+            <td
+              style="width:100px; word-wrap:break-word; background-color: #e6e6e6;"
+            >
+              Units/Keys
+            </td>
+            <td colspan="2" style="width:64px; background-color: #e6e6e6;">
+              Sqm
+            </td>
+            <td style="width:100px; background-color: #e6e6e6;">Unit/Key</td>
+            <td style="width:50px; background-color: #e6e6e6;">
+              Total
+            </td>
+            <td style="width:50px; background-color: #e6e6e6;">
+              Per Sqm
+            </td>
+          </tr>
+          <tr class="tr-first">
+            <td style="font-weight:bold;">Land</td>
+            <td style="width:50px; word-wrap:break-word;"></td>
+            <td style="width:50px; word-wrap:break-word;" class="title-popup">
+              Gross
+            </td>
+            <td style="width:50px; word-wrap:break-word;" class="title-popup">
+              SGA/Net
+            </td>
+            <td style="width:50px; word-wrap:break-word;"></td>
+            <td style="width:50px; word-wrap:break-word;" class="title-popup">
+              Gross
+            </td>
+            <td style="width:50px; word-wrap:break-word;" class="title-popup">
+              SGA/Net
+            </td>
+            <td></td>
+            <td style="width:50px; word-wrap:break-word;"></td>
+            <td style="width:50px; word-wrap:break-word;"></td>
+            <td style="width:50px; word-wrap:break-word;"></td>
+          </tr>
+          <tr class="tr-second">
+            <td class="center-popup">IDR</td>
+            <td style="text-align:right;" id="landTotalIDR"></td>
+            <td class="text-align-right" id="landSizeSqmGrossIDR"></td>
+            <td class="text-align-right" id="landSizeSqmSGAIDR"></td>
+            <td class="text-align-right" id="landSizeUnitKeysIDR"></td>
+            <td class="text-align-right" id="landPricePerSqmGrossIDR"></td>
+            <td class="text-align-right" id="landPricePerSqmSGAIDR"></td>
+            <td class="text-align-right" id="landPricePerUnitKeyIDR"></td>
+            <td class="text-align-right" id="landNJOPPriceTotalIDR"></td>
+            <td class="text-align-right" id="landNJOPPricePerSqmIDR"></td>
+            <td class="text-align-right" id="landNJOPPercentIDR"></td>
+          </tr>
+          <tr class="tr-first">
+            <td class="center-popup">USD</td>
+            <td class="text-align-right" id="landTotalUSD"></td>
+            <td class="text-align-right" id="landSizeSqmGrossUSD"></td>
+            <td class="text-align-right" id="landSizeSqmSGAUSD"></td>
+            <td class="text-align-right" id="landSizeUnitKeysUSD"></td>
+            <td class="text-align-right" id="landPricePerSqmGrossUSD"></td>
+            <td class="text-align-right" id="landPricePerSqmSGAUSD"></td>
+            <td class="text-align-right" id="landPricePerUnitKeyUSD"></td>
+            <td class="text-align-right" id="landNJOPPriceTotalUSD"></td>
+            <td class="text-align-right" id="landNJOPPricePerSqmUSD"></td>
+            <td class="text-align-right" id="landNJOPPercentUSD"></td>
+          </tr>
+          <tr class="tr-second">
+            <td style="font-weight:bold;">Building</td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+          </tr>
+          <tr class="tr-first">
+            <td class="center-popup">IDR</td>
+            <td style="text-align:right;" id="buildingTotalIDR"></td>
+            <td class="text-align-right" id="buildingSizeSqmGrossIDR"></td>
+            <td class="text-align-right" id="buildingSizeSqmSGAIDR"></td>
+            <td class="text-align-right" id="buildingSizeUnitKeysIDR"></td>
+            <td class="text-align-right" id="buildingPricePerSqmGrossIDR"></td>
+            <td class="text-align-right" id="buildingPricePerSqmSGAIDR"></td>
+            <td class="text-align-right" id="buildingPricePerUnitKeyIDR"></td>
+            <td class="text-align-right" id="buildingNJOPPriceTotalIDR"></td>
+            <td class="text-align-right" id="buildingNJOPPricePerSqmIDR"></td>
+            <td class="text-align-right" id="buildingNJOPPercentIDR"></td>
+          </tr>
+          <tr class="tr-second">
+            <td class="center-popup">USD</td>
+            <td style="text-align:right;" id="buildingTotalUSD"></td>
+            <td class="text-align-right" id="buildingSizeSqmGrossUSD"></td>
+            <td class="text-align-right" id="buildingSizeSqmSGAUSD"></td>
+            <td class="text-align-right" id="buildingSizeUnitKeysUSD"></td>
+            <td class="text-align-right" id="buildingPricePerSqmGrossUSD"></td>
+            <td class="text-align-right" id="buildingPricePerSqmSGAUSD"></td>
+            <td class="text-align-right" id="buildingPricePerUnitKeyUSD"></td>
+            <td class="text-align-right" id="buildingNJOPPriceTotalUSD"></td>
+            <td class="text-align-right" id="buildingNJOPPricePerSqmUSD"></td>
+            <td class="text-align-right" id="buildingNJOPPercentUSD"></td>
+          </tr>
+          <tr class="tr-first">
+            <td style="font-weight:bold;">Total</td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+            <td class="text-align-right"></td>
+          </tr>
+          <tr class="tr-second">
+            <td class="center-popup">IDR</td>
+            <td style="text-align:right;" id="totalTotalIDR"></td>
+            <td class="text-align-right" id="totalSizeSqmGrossIDR"></td>
+            <td class="text-align-right" id="totalSizeSqmSGAIDR"></td>
+            <td class="text-align-right" id="totalSizeUnitKeysIDR"></td>
+            <td class="text-align-right" id="totalPricePerSqmGrossIDR"></td>
+            <td class="text-align-right" id="totalPricePerSqmSGAIDR"></td>
+            <td class="text-align-right" id="totalPricePerUnitKeyIDR"></td>
+            <td class="text-align-right" id="totalNJOPPriceTotalIDR"></td>
+            <td class="text-align-right" id="totalNJOPPricePerSqmIDR"></td>
+            <td class="text-align-right" id="totalNJOPPercentIDR"></td>
+          </tr>
+          <tr class="tr-first">
+            <td class="center-popup">USD</td>
+            <td style="text-align:right;" id="totalTotalUSD"></td>
+            <td class="text-align-right" id="totalSizeSqmGrossUSD"></td>
+            <td class="text-align-right" id="totalSizeSqmSGAUSD"></td>
+            <td class="text-align-right" id="totalSizeUnitKeysUSD"></td>
+            <td class="text-align-right" id="totalPricePerSqmGrossUSD"></td>
+            <td class="text-align-right" id="totalPricePerSqmSGAUSD"></td>
+            <td class="text-align-right" id="totalPricePerUnitKeyUSD"></td>
+            <td class="text-align-right" id="totalNJOPPriceTotalUSD"></td>
+            <td class="text-align-right" id="totalNJOPPricePerSqmUSD"></td>
+            <td class="text-align-right" id="totalNJOPPercentUSD"></td>
+          </tr>
+          <tr>
+            <td style="height:24px;" colspan="9"></td>
+          </tr>
+          <tr class="title-popup">
+            <td style="background-color: #e6e6e6;"></td>
+            <td style="background-color: #e6e6e6;">Total</td>
+            <td style="background-color: #e6e6e6;">
+              KLB
+            </td>
+            <td style="background-color: #e6e6e6;">
+              Land Sqm
+            </td>
+            <td
+              style="width:100px; word-wrap:break-word; background-color: #e6e6e6;"
+            >
+              Price/Buildable Sqm
+            </td>
+          </tr>
+          <tr class="tr-first">
+            <td style="font-weight:bold;">KLB</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr class="tr-second">
+            <td class="center-popup">IDR</td>
+            <td class="text-align-right" id="KLBTotalIDR"></td>
+            <td class="text-align-right" id="KLBKLBIDR"></td>
+            <td class="text-align-right" id="KLBLandSqmIDR"></td>
+            <td class="text-align-right" id="KLBBuildableSqmIDR"></td>
+          </tr>
+          <tr class="tr-first">
+            <td class="center-popup">USD</td>
+            <td class="text-align-right" id="KLBTotalUSD"></td>
+            <td class="text-align-right" id="KLBKLBUSD"></td>
+            <td class="text-align-right" id="KLBLandSqmUSD"></td>
+            <td class="text-align-right" id="KLBBuildableSqmUSD"></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td id="address-popup" class="font-popup">Unknown address</td>
+      <td>
+        <table class="font-popup" style="width:100%;">
+          <tr>
+            <td id="colliers-contact-popup" style="width:340px;">
+              Colliers Contact : -
+            </td>
+            <td style="width:100px;" id="lastupdate-popup">Last Updated : -</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td
+        id="pointer-popup"
+        style="float:right; padding-top:5px; padding-right:10px; cursor:pointer;"
+      >
+        <i class="esri-icon-map-pin"></i>
+      </td>
+    </tr>
+  </table>
+</div>
+<!-- End of Popup Filter -->

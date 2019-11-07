@@ -14,6 +14,7 @@ var createDrivingTime = function (map) {
 var fillParameterDrivingTime = function (map) {
     let div = document.createElement("DIV")
     div.style.backgroundColor = "white"
+    div.style.borderRadius = "10px"
     div.style.width = "auto"
     div.style.padding = "5px"
     div.style.height = "auto"

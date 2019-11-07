@@ -139,23 +139,48 @@ var graphicsBehavior = function (map, event) {
         hoveredMeasurement = false
         hoveredDraw = false
         map.ObjMapView.hitTest(point).then(function (response) {
-            getGraphicsInfo(response, map)
+            if (response.results.length > 0) {
+                if ("analyzed" in response.results[0].graphic) {
+                    console.log("Target Analyzed")
+                } else {
+                    console.log(response)
+                    getGraphicsInfo(response, map)
+                }
+            } else {
+                getGraphicsInfo(response, map)
+            }
         });
     } else if (event.button == 2) {
         hoveredMeasurement = false
         hoveredDraw = false
         var selectedLayer = JSON.parse(localStorage.getItem("selectedLayer"))
         map.ObjMapView.hitTest(point).then(function (response) {
-            if (response.results.length > 0 && (response.results[0].graphic.selector == "buffer-graphics" || response.results[0].graphic.selector == "polygon-graphics" || response.results[0].graphic.selector == "rectangle-graphics" || response.results[0].graphic.selector == "drivetime-graphics" || response.results[0].graphic.selector == "drivedistance-graphics")) {
-                selectLayer(response)
-                createContextMenu(map, event, condition = ["analyze", "remove"])
-            } else {
-                if (selectedLayer.length > 0) {
-                    createContextMenu(map, event, condition = ["analyze", "remove"])
+            if (response.results.length > 0) {
+                if ("analyzed" in response.results[0].graphic) {
+                    resetSelectedGraphics()
+                    setLocalStorage("selectedLayer", JSON.stringify([response.results[0].graphic.layer.id]))
+                    console.log(JSON.parse(getLocalStorage("selectedLayer", [])))
+                    setLocalStorage("selectedLayerID", response.results[0].graphic.layer.id)
+                    createContextMenu(map, event, condition = ["view-popup", "remove"])
                 } else {
-                    createContextMenu(map, event, condition = ["measurement", "draw"])
+                    contextMenuNormal(response, map, event, selectedLayer)
                 }
+            } else {
+                contextMenuNormal(response, map, event, selectedLayer)
             }
         })
+    }
+}
+
+var contextMenuNormal = function (response, map, event, selectedLayer) {
+    if (response.results.length > 0 && (response.results[0].graphic.selector == "buffer-graphics" || response.results[0].graphic.selector == "polygon-graphics" || response.results[0].graphic.selector == "rectangle-graphics" || response.results[0].graphic.selector == "drivetime-graphics" || response.results[0].graphic.selector == "drivedistance-graphics")) {
+        selectLayer(response)
+        createContextMenu(map, event, condition = ["analyze", "remove"])
+    } else {
+        if (selectedLayer.length > 0) {
+            createContextMenu(map, event, condition = ["analyze", "remove"])
+        } else {
+            createContextMenu(map, event, condition = ["measurement", "draw"])
+        }
     }
 }

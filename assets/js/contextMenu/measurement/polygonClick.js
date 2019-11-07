@@ -13,19 +13,30 @@ var polygonClick = function (map) {
         point.longitude = longitude;
         point.latitude = latitude;
 
-        sketch.create("polygon", { mode: "hybrid" });
+        let palette = {
+            handleWidth: 2,
+            pathWidth: 2,
+            pathPrimaryColor: [255, 0, 0],
+            pathSecondaryColor: [255, 0, 0],
+            handleColor: [255, 0, 0]
+        }
 
-        sketch.on("create", async function (event) {
-            if (event.state === "complete" || event.state === "cancel") {
+        let measurePolygon = new ESRI.AreaMeasurement2D({
+            view: map.ObjMapView
+        });
+
+        // measurePolygon.viewModel.palette = palette
+
+        console.log(measurePolygon)
+
+        // skip the initial 'new measurement' button
+        measurePolygon.viewModel.newMeasurement();
+        measurePolygon.watch("viewModel.state", function (state) {
+            if (state == "measured") {
                 $("#hold-polygon").remove()
-                await createPolygon(event.graphic.geometry).then(function () {
-                    sortID(map, "polygons", "dynamic-polygon-")
-                    registerAttributes(map, "polygons", "polygon-graphics", 0)
-                    delete window.sketch
-                    createSketch(map)
-                })
+                $("body").css("cursor", "default")
             }
-        })
+        });
     })
 }
 

@@ -20,6 +20,7 @@ function removeFilterResults(map) {
 
     //Close contextmenu
     $(".contextmenu-container").remove()
+    $(".legendProperty").remove()
 
     //Reset filter components
     $(".popupFilter").hide();

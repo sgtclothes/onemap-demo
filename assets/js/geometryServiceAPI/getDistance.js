@@ -15,8 +15,7 @@ async function getDistanceBetweenPoint(point1, point2) {
         url,
         layersRequest
     ).then(function (response) {
-        console.log(response)
-        // results.push([response.data.areas, response.data.lengths])
+        results.push(response)
     });
     return results
 }

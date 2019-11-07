@@ -6,6 +6,9 @@ function inputCheckboxServices(GIS, map) {
   let subPOI = $(".checkbox-sub-poi");
   let subInfrasctructure = $(".checkbox-sub-infrastructure");
   let subDemographic = $(".checkbox-sub-demographic");
+  let graphicsLayer = new ESRI.GraphicsLayer({
+    id: "poi-"
+  })
 
   function makeTableLegend(titleText, className) {
     let divLegend = document.createElement("DIV");
@@ -221,21 +224,41 @@ function inputCheckboxServices(GIS, map) {
       for (let i = a; i <= b; i++) {
         if ($(subPOI[i]).prop("checked") == false) {
           $(subPOI[i]).prop("checked", true);
-          layer = new GIS.Layer.ServiceLayer(
-            map.ObjMap,
-            url + $(subPOI[i]).val()
-          );
-          layer.setPopupTemplate({
-            content: "{*}"
-          });
-          layer.render();
-          $(subPOI[i]).attr(
-            "name",
-            map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
-          );
-          checked.push(
-            map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
-          );
+          if (checkGraphicsExist(map).length < 1) {
+            layer = new GIS.Layer.ServiceLayer(
+              map.ObjMap,
+              url + $(subPOI[i]).val()
+            );
+            layer.setPopupTemplate({
+              content: "{*}"
+            });
+            layer.render();
+            $(subPOI[i]).attr(
+              "name",
+              map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
+            );
+            checked.push(
+              map.ObjMap.layers.items[map.ObjMap.layers.items.length - 1].uid
+            );
+          } else {
+            console.log($(subPOI[i]).val())
+            layer = new ESRI.FeatureLayer({
+              url: url + $(subPOI[i]).val()
+            })
+            for (let j = 0; j < checkGraphicsExist(map).length; j++) {
+              console.log(layer)
+              let query = new ESRI.Query();
+              query.returnGeometry = true;
+              query.outFields = ["*"];
+              query.outSpatialReference = map.ObjMap.spatialReference;
+              query.geometry = checkGraphicsExist(map)[j]
+              query.where = "1=1"
+              layer.queryFeatures(query).then(async function (results) {
+                await displayResultsGraphics(map, results, graphicsLayer, groupLayerPOI, layer.renderer.symbol)
+                console.log(results)
+              })
+            }
+          }
         }
       }
       localStorage.setItem("checkedPOI", JSON.stringify(checked));
@@ -378,7 +401,7 @@ function inputCheckboxServices(GIS, map) {
       if (visibility.every(checkVisibility)) {
         $(".table_list_services").hide();
       }
-    } 
+    }
     //Autocheck for POI
     for (let i = 0; i < subPOI.length; i++) {
       if ($(subPOI[i]).prop("checked") == true) {

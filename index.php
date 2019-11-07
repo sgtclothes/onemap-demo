@@ -300,19 +300,19 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-property" id="property-office" value="Office">
+                                            <input class="styled" type="checkbox" name="select-property" id="property-office" value="office">
                                             <label for="property-office"><span></span>Office</label>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-property" id="property-ruko" value="Ruko">
+                                            <input class="styled" type="checkbox" name="select-property" id="property-ruko" value="ruko">
                                             <label for="property-ruko"><span></span>Ruko</label>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-property" id="property-apartment" value="Apartment">
+                                            <input class="styled" type="checkbox" name="select-property" id="property-apartment" value="apartment">
                                             <label for="property-apartment"><span></span>Apartment</label>
                                         </div>
                                     </td>
@@ -320,19 +320,19 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-property" id="property-industrial" value="Industrial">
+                                            <input class="styled" type="checkbox" name="select-property" id="property-industrial" value="industrial/logistic">
                                             <label for="property-industrial"><span></span>Industrial/Logistic</label>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-property" id="property-shopping-center" value="Shopping Center">
+                                            <input class="styled" type="checkbox" name="select-property" id="property-shopping-center" value="shopping center">
                                             <label for="property-shopping-center"><span></span>Shopping Center</label>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-property" id="property-house" value="House">
+                                            <input class="styled" type="checkbox" name="select-property" id="property-house" value="house">
                                             <label for="property-house"><span></span>House</label>
                                         </div>
                                     </td>
@@ -340,19 +340,19 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-property" id="property-data-center" value="Data Center">
+                                            <input class="styled" type="checkbox" name="select-property" id="property-data-center" value="data center">
                                             <label for="property-data-center"><span></span>Data Center</label>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-property" id="property-others" value="Others">
+                                            <input class="styled" type="checkbox" name="select-property" id="property-others" value="others">
                                             <label for="property-others"><span></span>Others</label>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input class="styled" type="checkbox" name="select-property" id="property-hotel" value="Hotel">
+                                            <input class="styled" type="checkbox" name="select-property" id="property-hotel" value="hotel">
                                             <label for="property-hotel"><span></span>Hotel</label>
                                         </div>
                                     </td>
@@ -776,7 +776,7 @@ if (!isset($_SESSION['auth'])) {
                                     </td>
                                 </tr>
                             </table>
-                            <table class="table-property">
+                            <table class="table-property master-expand-external-data">
                                 <tr>
                                     <td style="height:26px;">
                                         <div class="title-property expand-layer">
@@ -786,7 +786,7 @@ if (!isset($_SESSION['auth'])) {
                                 </tr>
                             </table>
                         </li>
-                        <li style="display:none">
+                        <!-- <li style="display:none">
                             <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
                                 <input id="checkbox-colliers-property" class="styled" type="checkbox" value="colliers-property">
                                 <label for="checkbox-colliers-property"><span></span>
@@ -890,9 +890,10 @@ if (!isset($_SESSION['auth'])) {
                                     </ul>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li>
-                            <table class="table-property expand-master-element">
+                            <table style="display:none;" lass="table-property" id="table-external-data"></table>
+                            <!-- <table class="table-property expand-master-element">
                                 <tr>
                                     <td>
                                         <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info table-layer">
@@ -1230,7 +1231,7 @@ if (!isset($_SESSION['auth'])) {
                                         </div>
                                     </td>
                                 </tr>
-                            </table>
+                            </table> -->
                         </li>
                     </ul>
                 </div>
@@ -1288,247 +1289,6 @@ if (!isset($_SESSION['auth'])) {
             </div>
             <!-- End of Form Create Site -->
 
-            <!-- Popup Filter -->
-            <div id="popupFilter" class="popupFilter">
-                <table style="width:100%; font-size:11px;">
-                    <tr>
-                        <td id="propertytype-popup" style="width:600px; font-weight:bold;">
-                            PROPERTY TYPE : -
-                        </td>
-                        <td id="close-popup-property" class="close-popup-property" style="font-size:15px; font-weight:bold; float:right; padding-right:10px;">X</td>
-                    </tr>
-                    <tr>
-                        <td id="buildingName-popup">Land at Unknown</td>
-                    </tr>
-                </table>
-                <table class="table-popup-colliers" id="table-popup-colliers">
-                    <tr>
-                        <td class="image-property" style="width:200px; height:240px;"></td>
-                        <td>
-                            <table class="font-popup" style="height:100%">
-                                <tr class="title-popup">
-                                    <td id="action-date-popup" colspan="8" style="background-color: #e6e6e6;">
-                                        Asking on 16-Aug-2019
-                                    </td>
-                                    <td colspan="3" style="background-color: #e6e6e6;">
-                                        NJOP
-                                    </td>
-                                </tr>
-                                <tr class="title-popup">
-                                    <td rowspan="2" style="width:50px; background-color: #e6e6e6;">
-                                    </td>
-                                    <td rowspan="2" style="width:100px; background-color: #e6e6e6;">
-                                        Total
-                                    </td>
-                                    <td colspan="3" style="background-color: #e6e6e6;">
-                                        Size
-                                    </td>
-                                    <td colspan="3" style="background-color: #e6e6e6;">
-                                        Price Per
-                                    </td>
-                                    <td colspan="2" style="width:100px; background-color: #e6e6e6;">
-                                        Price
-                                    </td>
-                                    <td rowspan="2" style="width:30px; background-color: #e6e6e6;">
-                                        %
-                                    </td>
-                                </tr>
-                                <tr class="title-popup">
-                                    <td colspan="2" style="width:60px; background-color: #e6e6e6;">
-                                        Sqm
-                                    </td>
-                                    <td style="width:100px; word-wrap:break-word; background-color: #e6e6e6;">
-                                        Units/Keys
-                                    </td>
-                                    <td colspan="2" style="width:64px; background-color: #e6e6e6;">
-                                        Sqm
-                                    </td>
-                                    <td style="width:100px; background-color: #e6e6e6;">Unit/Key</td>
-                                    <td style="width:50px; background-color: #e6e6e6;">
-                                        Total
-                                    </td>
-                                    <td style="width:50px; background-color: #e6e6e6;">
-                                        Per Sqm
-                                    </td>
-                                </tr>
-                                <tr class="tr-first">
-                                    <td style="font-weight:bold;">Land</td>
-                                    <td style="width:50px; word-wrap:break-word;"></td>
-                                    <td style="width:50px; word-wrap:break-word;" class="title-popup">Gross</td>
-                                    <td style="width:50px; word-wrap:break-word;" class="title-popup">SGA/Net</td>
-                                    <td style="width:50px; word-wrap:break-word;"></td>
-                                    <td style="width:50px; word-wrap:break-word;" class="title-popup">Gross</td>
-                                    <td style="width:50px; word-wrap:break-word;" class="title-popup">SGA/Net</td>
-                                    <td></td>
-                                    <td style="width:50px; word-wrap:break-word;"></td>
-                                    <td style="width:50px; word-wrap:break-word;"></td>
-                                    <td style="width:50px; word-wrap:break-word;"></td>
-                                </tr>
-                                <tr class="tr-second">
-                                    <td class="center-popup">IDR</td>
-                                    <td style="text-align:right;" id="landTotalIDR"></td>
-                                    <td class="text-align-right" id="landSizeSqmGrossIDR"></td>
-                                    <td class="text-align-right" id="landSizeSqmSGAIDR"></td>
-                                    <td class="text-align-right" id="landSizeUnitKeysIDR"></td>
-                                    <td class="text-align-right" id="landPricePerSqmGrossIDR"></td>
-                                    <td class="text-align-right" id="landPricePerSqmSGAIDR"></td>
-                                    <td class="text-align-right" id="landPricePerUnitKeyIDR"></td>
-                                    <td class="text-align-right" id="landNJOPPriceTotalIDR"></td>
-                                    <td class="text-align-right" id="landNJOPPricePerSqmIDR"></td>
-                                    <td class="text-align-right" id="landNJOPPercentIDR"></td>
-                                </tr>
-                                <tr class="tr-first">
-                                    <td class="center-popup">USD</td>
-                                    <td class="text-align-right" id="landTotalUSD"></td>
-                                    <td class="text-align-right" id="landSizeSqmGrossUSD"></td>
-                                    <td class="text-align-right" id="landSizeSqmSGAUSD"></td>
-                                    <td class="text-align-right" id="landSizeUnitKeysUSD"></td>
-                                    <td class="text-align-right" id="landPricePerSqmGrossUSD"></td>
-                                    <td class="text-align-right" id="landPricePerSqmSGAUSD"></td>
-                                    <td class="text-align-right" id="landPricePerUnitKeyUSD"></td>
-                                    <td class="text-align-right" id="landNJOPPriceTotalUSD"></td>
-                                    <td class="text-align-right" id="landNJOPPricePerSqmUSD"></td>
-                                    <td class="text-align-right" id="landNJOPPercentUSD"></td>
-                                </tr>
-                                <tr class="tr-second">
-                                    <td style="font-weight:bold;">Building</td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                </tr>
-                                <tr class="tr-first">
-                                    <td class="center-popup">IDR</td>
-                                    <td style="text-align:right;" id="buildingTotalIDR"></td>
-                                    <td class="text-align-right" id="buildingSizeSqmGrossIDR"></td>
-                                    <td class="text-align-right" id="buildingSizeSqmSGAIDR"></td>
-                                    <td class="text-align-right" id="buildingSizeUnitKeysIDR"></td>
-                                    <td class="text-align-right" id="buildingPricePerSqmGrossIDR"></td>
-                                    <td class="text-align-right" id="buildingPricePerSqmSGAIDR"></td>
-                                    <td class="text-align-right" id="buildingPricePerUnitKeyIDR"></td>
-                                    <td class="text-align-right" id="buildingNJOPPriceTotalIDR"></td>
-                                    <td class="text-align-right" id="buildingNJOPPricePerSqmIDR"></td>
-                                    <td class="text-align-right" id="buildingNJOPPercentIDR"></td>
-                                </tr>
-                                <tr class="tr-second">
-                                    <td class="center-popup">USD</td>
-                                    <td style="text-align:right;" id="buildingTotalUSD"></td>
-                                    <td class="text-align-right" id="buildingSizeSqmGrossUSD"></td>
-                                    <td class="text-align-right" id="buildingSizeSqmSGAUSD"></td>
-                                    <td class="text-align-right" id="buildingSizeUnitKeysUSD"></td>
-                                    <td class="text-align-right" id="buildingPricePerSqmGrossUSD"></td>
-                                    <td class="text-align-right" id="buildingPricePerSqmSGAUSD"></td>
-                                    <td class="text-align-right" id="buildingPricePerUnitKeyUSD"></td>
-                                    <td class="text-align-right" id="buildingNJOPPriceTotalUSD"></td>
-                                    <td class="text-align-right" id="buildingNJOPPricePerSqmUSD"></td>
-                                    <td class="text-align-right" id="buildingNJOPPercentUSD"></td>
-                                </tr>
-                                <tr class="tr-first">
-                                    <td style="font-weight:bold;">Total</td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                    <td class="text-align-right"></td>
-                                </tr>
-                                <tr class="tr-second">
-                                    <td class="center-popup">IDR</td>
-                                    <td style="text-align:right;" id="totalTotalIDR"></td>
-                                    <td class="text-align-right" id="totalSizeSqmGrossIDR"></td>
-                                    <td class="text-align-right" id="totalSizeSqmSGAIDR"></td>
-                                    <td class="text-align-right" id="totalSizeUnitKeysIDR"></td>
-                                    <td class="text-align-right" id="totalPricePerSqmGrossIDR"></td>
-                                    <td class="text-align-right" id="totalPricePerSqmSGAIDR"></td>
-                                    <td class="text-align-right" id="totalPricePerUnitKeyIDR"></td>
-                                    <td class="text-align-right" id="totalNJOPPriceTotalIDR"></td>
-                                    <td class="text-align-right" id="totalNJOPPricePerSqmIDR"></td>
-                                    <td class="text-align-right" id="totalNJOPPercentIDR"></td>
-                                </tr>
-                                <tr class="tr-first">
-                                    <td class="center-popup">USD</td>
-                                    <td style="text-align:right;" id="totalTotalUSD"></td>
-                                    <td class="text-align-right" id="totalSizeSqmGrossUSD"></td>
-                                    <td class="text-align-right" id="totalSizeSqmSGAUSD"></td>
-                                    <td class="text-align-right" id="totalSizeUnitKeysUSD"></td>
-                                    <td class="text-align-right" id="totalPricePerSqmGrossUSD"></td>
-                                    <td class="text-align-right" id="totalPricePerSqmSGAUSD"></td>
-                                    <td class="text-align-right" id="totalPricePerUnitKeyUSD"></td>
-                                    <td class="text-align-right" id="totalNJOPPriceTotalUSD"></td>
-                                    <td class="text-align-right" id="totalNJOPPricePerSqmUSD"></td>
-                                    <td class="text-align-right" id="totalNJOPPercentUSD"></td>
-                                </tr>
-                                <tr>
-                                    <td style="height:24px;" colspan="9"></td>
-                                </tr>
-                                <tr class="title-popup">
-                                    <td style="background-color: #e6e6e6;">
-
-                                    </td>
-                                    <td style="background-color: #e6e6e6;">Total</td>
-                                    <td style="background-color: #e6e6e6;">
-                                        KLB
-                                    </td>
-                                    <td style="background-color: #e6e6e6;">
-                                        Land Sqm
-                                    </td>
-                                    <td style="width:100px; word-wrap:break-word; background-color: #e6e6e6;">
-                                        Price/Buildable Sqm
-                                    </td>
-                                </tr>
-                                <tr class="tr-first">
-                                    <td style="font-weight:bold;">KLB</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr class="tr-second">
-                                    <td class="center-popup">IDR</td>
-                                    <td class="text-align-right" id="KLBTotalIDR"></td>
-                                    <td class="text-align-right" id="KLBKLBIDR"></td>
-                                    <td class="text-align-right" id="KLBLandSqmIDR"></td>
-                                    <td class="text-align-right" id="KLBBuildableSqmIDR"></td>
-                                </tr>
-                                <tr class="tr-first">
-                                    <td class="center-popup">USD</td>
-                                    <td class="text-align-right" id="KLBTotalUSD"></td>
-                                    <td class="text-align-right" id="KLBKLBUSD"></td>
-                                    <td class="text-align-right" id="KLBLandSqmUSD"></td>
-                                    <td class="text-align-right" id="KLBBuildableSqmUSD"></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="address-popup" class="font-popup">Unknown address</td>
-                        <td>
-                            <table class="font-popup" style="width:100%;">
-                                <tr>
-                                    <td id="colliers-contact-popup" style="width:340px;">Colliers Contact : -</td>
-                                    <td style="width:100px;" id="lastupdate-popup">Last Updated : -</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td id="pointer-popup" style="float:right; padding-top:5px; padding-right:10px; cursor:pointer;"><i class="esri-icon-map-pin"></i></td>
-                    </tr>
-                </table>
-            </div>
-            <!-- End of Popup Filter -->
-
             <div class="content-wrapper" id="contentAnalysisDiv">
                 <div id="mapDiv" class="mapDiv"></div>
                 <div class="table_list_services"><?php include "content/table_list_services.html"; ?></div>
@@ -1556,14 +1316,6 @@ if (!isset($_SESSION['auth'])) {
             <img class="image-loading" draggable="false" style="margin-left:30%; margin-top:15%;" src="assets/images/oneMap-loading-2-hole.gif" width="500" height="300" loop>
         </div>
         <!-- End of loading bar -->
-
-        <!-- Confirm Box -->
-        <div id="confirmBox">
-            <div class="message"></div>
-            <button id="first" class="first">Use Database</button>
-            <button id="second" class="second">Use Web Storage</button>
-        </div>
-        <!-- End of Confirm Box -->
 
         <!-- Form Edit POI -->
         <div id="poi">
@@ -1607,6 +1359,11 @@ if (!isset($_SESSION['auth'])) {
             }
         </script>
     </body>
+
+    <!-- Window -->
+    <script src="assets/js/window/setWindowVariables.js"></script>
+    <!-- End of Window -->
+
     <script src="assets/js/addPointsFromSite.js"></script>
     <script src="assets/js/addPointsManual.js"></script>
     <script src="assets/js/createAnalysis.js"></script>
@@ -1635,10 +1392,6 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/crypto/generateClassifications.js"></script>
     <!-- End of Crypto -->
 
-    <!-- Window -->
-    <script src="assets/js/window/setWindowVariables.js"></script>
-    <!-- End of Window -->
-
     <!-- Site -->
     <script src="assets/js/site/createSite.js"></script>
     <!-- End of Site -->
@@ -1646,11 +1399,24 @@ if (!isset($_SESSION['auth'])) {
     <!-- Filter -->
     <script src="assets/js/filter/submitFilterServices.js"></script>
     <script src="assets/js/filter/removeFilterResults.js"></script>
+    <link rel="stylesheet" href="assets/js/filter/legend/resultsLegend.css">
     <!-- End of Filter -->
 
     <!-- Data -->
     <script src="assets/js/data/getColliersData.js"></script>
+    <script src="assets/js/data/consumePOI.js"></script>
+    <script src="assets/js/data/paginationColliersPopup.js"></script>
+    <script src="assets/js/data/popup/popupFilter.js"></script>
+    <link rel="stylesheet" href="assets/js/data/popup/popupFilter.css">
     <!-- End of Data -->
+
+    <!-- Images -->
+    <script src="assets/js/images/image.js"></script>
+    <!-- End of Images -->
+
+    <!-- Request -->
+    <script src="assets/js/request/request.js"></script>
+    <!-- End of Request -->
 
     <!-- LocalStorage -->
     <script src="assets/js/localStorage/localStorage.js"></script>
@@ -1658,6 +1424,7 @@ if (!isset($_SESSION['auth'])) {
 
     <!-- Graphics -->
     <script src="assets/js/graphics/selectGraphics.js"></script>
+    <script src="assets/js/graphics/displayResultsGraphics.js"></script>
     <script src="assets/js/graphics/removeGraphics.js"></script>
     <script src="assets/js/graphics/createDynamicCircle.js"></script>
     <script src="assets/js/graphics/createDrivingTime.js"></script>
@@ -1675,6 +1442,7 @@ if (!isset($_SESSION['auth'])) {
 
     <!-- Map Action -->
     <script src="assets/js/mapView/mapViewClick.js"></script>
+    <script src="assets/js/mapView/mapViewPointerMove.js"></script>
     <script src="assets/js/mapView/mapViewWhenReady.js"></script>
     <script src="assets/js/mapView/convertScreenPoint.js"></script>
     <!-- End of Map Action -->
@@ -1682,27 +1450,36 @@ if (!isset($_SESSION['auth'])) {
     <!-- Context Menu Action -->
     <script src="assets/js/contextMenu/createContextMenu.js"></script>
     <script src="assets/js/contextMenu/action/analyzeClick.js"></script>
-    <script src="assets/js/contextMenu/draw/radiusClick.js"></script>
-    <script src="assets/js/contextMenu/draw/drivingtimeClick.js"></script>
-    <script src="assets/js/contextMenu/draw/drivingdistanceClick.js"></script>
+    <script src="assets/js/contextMenu/action/viewPopupAnalyzedClick.js"></script>
+    <link rel="stylesheet" href="assets/js/contextMenu/action/popup/viewPopupAnalyzed.css">
+    <link rel="stylesheet" href="assets/js/contextMenu/action/popup/subViewPopupAnalyzed.css">
+    <script src="assets/js/contextMenu/analyze/radiusClick.js"></script>
+    <script src="assets/js/contextMenu/analyze/drivingtimeClick.js"></script>
+    <script src="assets/js/contextMenu/analyze/drivingdistanceClick.js"></script>
+    <script src="assets/js/contextMenu/analyze/manualClick.js"></script>
     <script src="assets/js/contextMenu/action/removeClick.js"></script>
     <script src="assets/js/contextMenu/measurement/pointClick.js"></script>
     <script src="assets/js/contextMenu/measurement/polygonClick.js"></script>
     <script src="assets/js/contextMenu/measurement/rectangleClick.js"></script>
     <script src="assets/js/contextMenu/measurement/polylineClick.js"></script>
     <script src="assets/js/contextMenu/hover/measurementHover.js"></script>
-    <script src="assets/js/contextMenu/hover/drawHover.js"></script>
+    <script src="assets/js/contextMenu/hover/analyzeHover.js"></script>
     <!-- End of Context Menu Action -->
 
     <!-- Geometry Services -->
     <script src="assets/js/geometryServiceAPI/getProjectionPoint.js"></script>
     <script src="assets/js/geometryServiceAPI/getIntersectPolygons.js"></script>
     <script src="assets/js/geometryServiceAPI/getAreaAndLengthPolygons.js"></script>
+    <script src="assets/js/geometryServiceAPI/getDistance.js"></script>
     <!-- End of Geometry Services -->
 
     <!-- Query -->
     <script src="assets/js/query/query.js"></script>
     <!-- End of Query -->
+
+    <!-- Viewer -->
+    <script src="assets/js/viewer/viewer.js"></script>
+    <!-- End of Viewer -->
 
     <script src="content/analysis/analysisPoi.js"></script>
     <script src="content/analysis/editAnalysis.js"></script>

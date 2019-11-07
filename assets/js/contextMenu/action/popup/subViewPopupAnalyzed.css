@@ -1,0 +1,13 @@
+.table-bordered-analyzed tr,
+.table-bordered-analyzed td,
+.table-bordered-analyzed th {
+  border: 1px solid black;
+}
+
+#close-sub-popup-analyzed {
+  cursor: pointer;
+}
+
+.view-property-analyzed {
+  cursor: pointer;
+}

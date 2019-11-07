@@ -1,0 +1,14 @@
+.legendProperty {
+  background-color: white;
+  width: 130px;
+}
+
+.titleLegendProperty {
+  width: 100%;
+  font-size: 10px;
+  text-align: center;
+  background-color: #6496e8;
+  margin: 0px;
+  font-weight: bold;
+  color: #ffffff;
+}

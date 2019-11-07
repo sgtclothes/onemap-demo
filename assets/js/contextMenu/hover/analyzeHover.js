@@ -1,5 +1,5 @@
-var drawHover = function (condition) {
-    $(document).on('mouseenter mouseleave', "#contextmenu-draw", function (event) {
+var analyzeHover = function (condition) {
+    $(document).on('mouseenter mouseleave', "#contextmenu-analyze-polygon", function (event) {
         if (event.type === 'mouseenter') {
             if (!hoveredDraw) {
                 hoveredDraw = true
@@ -19,6 +19,10 @@ var drawHover = function (condition) {
                 if (condition.includes("drivingdistance")) {
                     menu.push('<div id="contextmenu-driving-distance"><i class="mi-refresh"></i>Driving Distance</div>')
                 }
+                if (condition.includes("manual")) {
+                    menu.push('<div id="contextmenu-manual"><i class="mi-mode-edit"></i>Manual</div>')
+                }
+
                 for (let i = 0; i < menu.length; i++) {
                     strMenu += menu[i]
                 }

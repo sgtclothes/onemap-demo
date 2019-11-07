@@ -1,8 +1,8 @@
-function boot(GIS) {
+async function boot(GIS) {
   window.GIS = GIS //Set GIS to window to make it accessable anywhere
   setStartLocalStorage() //Set localstorage
   let config = new GIS.Config(); //Define Config class
-  let map = new GIS.Map(config.CenterPoint); //Define Map class
+  let map = new GIS.Map(config.CenterPoint, 'gray'); //Define Map class
   map.setBasemap(config.Basemap); //Set basemap to Topo Vector
   map.addPrintWidget(config.PrintServiceUrl, config.Position[5]); //Adding print widget
   map.addMeasurementWidget(); //Adding measurement widget
@@ -20,7 +20,21 @@ function boot(GIS) {
   );
   map.render(); //Map rendering
 
-  setWindowVariables(map)
+  await setWindowVariables(map)
+
+  // $.get("assets/js/contextMenu/action/popup/subViewPopupAnalyzed.html", function (data) {
+  //   $(".page-content").append(data);
+  // });
+
+  // $.get("assets/js/contextMenu/action/popup/viewPopupAnalyzed.html", function (data) {
+  //   $(".page-content").append(data);
+  // });
+
+  // $.get("assets/js/data/popup/popupFilter.html", function (data) {
+  //   $(".page-content").append(data);
+  // });
+
+
 
   var search = new ESRI.Search( //Add search widget in sidenav layers
     {
@@ -135,16 +149,6 @@ function boot(GIS) {
     }
   }
 
-  var toggleViewer = function (toggle) {
-    if (toggle == "open") {
-      document.getElementById("myViewer").style.width = "350px";
-      document.getElementById("main").style.marginLeft = "350px";
-    } else if (toggle == "close") {
-      document.getElementById("myViewer").style.width = "0";
-      document.getElementById("main").style.marginLeft = "0";
-    }
-  }
-
   var toggleSiteAnalysis = function (toggle) {
     if (toggle == "open") {
       document.getElementById("mySiteAnalysis").style.width = "320px";
@@ -162,37 +166,6 @@ function boot(GIS) {
     button.innerHTML = "Drag CSV";
     return button;
   }
-
-  document.getElementById("viewer-nav").addEventListener("click", function () {
-    if (document.getElementById("myViewer").style.width > "0px") {
-      $(".esri-ui-top-right")
-        .children("#drag-csv")
-        .remove();
-      toggleViewer("close");
-    } else if (
-      document.getElementById("mySiteAnalysis").style.width > "0px" ||
-      document.getElementById("myAnalysisPOI").style.width > "0px"
-    ) {
-      document.getElementById("mySiteAnalysis").style.width = "0";
-      document.getElementById("myAnalysisPOI").style.width = "0";
-      toggleViewer("open");
-    } else {
-      toggleViewer("open");
-    }
-
-    if (document.getElementById("mySidenav").style.width > "0px") {
-      if (
-        document.getElementById("mySidenav").classList.contains("panel-left")
-      ) {
-        document.getElementById("mySidenav").classList.remove("panel-left");
-        document.getElementById("mySidenav").classList.add("panel-right");
-        document.getElementById("main").style.marginRight = "320px";
-        document
-          .getElementById("mySidenav")
-          .setAttribute("style", "width:320px;");
-      }
-    }
-  });
 
   var siteAnalysis = document.getElementById("mySiteAnalysis");
   function open_site_analysis() {
@@ -494,140 +467,120 @@ function boot(GIS) {
     "user_data"
   );
 
-  let storeLocalStorage = new GIS.Buffer.LocalStorage(
-    map.ObjMapView,
-    convertCSV
-  );
-  let viewer = new GIS.Buffer.Viewer(map.ObjMapView, convertCSV);
-  viewer.renderTreeview();
-  viewer.selectItem();
-  viewer.filterData();
+  // let storeLocalStorage = new GIS.Buffer.LocalStorage(
+  //   map.ObjMapView,
+  //   convertCSV
+  // );
+  // let viewer = new GIS.Buffer.Viewer(map.ObjMapView, convertCSV);
+  // viewer.renderTreeview();
+  // viewer.selectItem();
+  // viewer.filterData();
 
-  storeDatabase
-    .readUserAndDepartment()
-    .then(function (result) {
-      let data = JSON.parse(result);
-      let arrData = [];
-      let groupUserDepartment = [];
-      let userIds = [];
-      let usernames = [];
-      let departments = [];
-      let count = 1;
-      for (var i = 0; i < data.length; i++) {
-        if (count % 3 == 0) {
-          arrData.push(data[i]);
-          groupUserDepartment.push(arrData);
-          arrData = [];
-        } else {
-          arrData.push(data[i]);
-        }
-        count++;
-      }
-      for (let i in groupUserDepartment) {
-        if (userIds.includes(groupUserDepartment[i][0]) == false) {
-          userIds.push(groupUserDepartment[i][0]);
-        }
-        if (usernames.includes(groupUserDepartment[i][1]) == false) {
-          usernames.push(groupUserDepartment[i][1]);
-        }
-        if (departments.includes(groupUserDepartment[i][2]) == false) {
-          departments.push(groupUserDepartment[i][2]);
-        }
-      }
-      localStorage.setItem(
-        "groupUserDepartment",
-        JSON.stringify(groupUserDepartment)
-      );
-      localStorage.setItem("userIds", JSON.stringify(userIds));
-      localStorage.setItem("usernames", JSON.stringify(usernames));
-      localStorage.setItem("departments", JSON.stringify(departments));
-    })
-    .then(function () {
-      showCurrentDepartment(
-        JSON.parse(localStorage.getItem("groupUserDepartment"))
-      );
-      storeDatabase.read().then(function (result) {
-        console.log(result);
-        if (result !== "[]" && localStorage.length < 3) {
-          let data = JSON.parse(result);
-          console.log(data);
-          for (let i in data) {
-            let tempCreatedBy = [];
-            let tempColor = [];
-            let tempLength = [];
-            let tempData = [];
-            if (data[i] instanceof Array) {
-              for (let j in data[i]) {
-                tempColor.push(data[i][j].color);
-                tempCreatedBy.push(data[i][j].created_by);
-                delete data[i][j].id;
-                delete data[i][j].color;
-                delete data[i][j].created_by;
-              }
-              tempLength = storeDatabase.countMultipleElements(tempCreatedBy);
-              tempCreatedBy = [...new Set(tempCreatedBy)];
-              tempColor = [...new Set(tempColor)];
-              let length = data[i].length;
-              let count = 0;
-              for (let k = 0; k < length; k++) {
-                for (let j = 0; j < tempLength.length; j++) {
-                  if (count == tempLength[j] - 1) {
-                    convertCSV.setColor(JSON.parse(tempColor[j]));
-                    convertCSV.setCreatedBy(tempCreatedBy[j]);
-                    tempColor.splice(0, 1);
-                    tempCreatedBy.splice(0, 1);
-                    tempData.push(data[i][k]);
-                    convertCSV.processCSVData(
-                      storeLocalStorage.getRowofTextArray(tempData),
-                      false
-                    );
-                    tempData = [];
-                    count = 0;
-                    k = k + 1;
-                    map.ObjMapView.graphics.items = [];
-                  }
-                }
-                tempData.push(data[i][k]);
-                count = count + 1;
-              }
-            } else {
-              let s = data[i];
-              let removeCreatedBy = s.slice(0, s.lastIndexOf("_"));
-              let removeStorage = removeCreatedBy.slice(
-                0,
-                removeCreatedBy.lastIndexOf("_")
-              );
-              convertCSV.setNameFile(removeStorage);
-            }
-          }
-        }
-        console.log(JSON.parse(localStorage.getItem("data")));
-      });
-    });
+  // storeDatabase
+  //   .readUserAndDepartment()
+  //   .then(function (result) {
+  //     let data = JSON.parse(result);
+  //     let arrData = [];
+  //     let groupUserDepartment = [];
+  //     let userIds = [];
+  //     let usernames = [];
+  //     let departments = [];
+  //     let count = 1;
+  //     for (var i = 0; i < data.length; i++) {
+  //       if (count % 3 == 0) {
+  //         arrData.push(data[i]);
+  //         groupUserDepartment.push(arrData);
+  //         arrData = [];
+  //       } else {
+  //         arrData.push(data[i]);
+  //       }
+  //       count++;
+  //     }
+  //     for (let i in groupUserDepartment) {
+  //       if (userIds.includes(groupUserDepartment[i][0]) == false) {
+  //         userIds.push(groupUserDepartment[i][0]);
+  //       }
+  //       if (usernames.includes(groupUserDepartment[i][1]) == false) {
+  //         usernames.push(groupUserDepartment[i][1]);
+  //       }
+  //       if (departments.includes(groupUserDepartment[i][2]) == false) {
+  //         departments.push(groupUserDepartment[i][2]);
+  //       }
+  //     }
+  //     localStorage.setItem(
+  //       "groupUserDepartment",
+  //       JSON.stringify(groupUserDepartment)
+  //     );
+  //     localStorage.setItem("userIds", JSON.stringify(userIds));
+  //     localStorage.setItem("usernames", JSON.stringify(usernames));
+  //     localStorage.setItem("departments", JSON.stringify(departments));
+  //   })
+  //   .then(function () {
+  //     showCurrentDepartment(
+  //       JSON.parse(localStorage.getItem("groupUserDepartment"))
+  //     );
+  //     storeDatabase.read().then(function (result) {
+  //       console.log(result);
+  //       if (result !== "[]" && localStorage.length < 3) {
+  //         let data = JSON.parse(result);
+  //         console.log(data);
+  //         for (let i in data) {
+  //           let tempCreatedBy = [];
+  //           let tempColor = [];
+  //           let tempLength = [];
+  //           let tempData = [];
+  //           if (data[i] instanceof Array) {
+  //             for (let j in data[i]) {
+  //               tempColor.push(data[i][j].color);
+  //               tempCreatedBy.push(data[i][j].created_by);
+  //               delete data[i][j].id;
+  //               delete data[i][j].color;
+  //               delete data[i][j].created_by;
+  //             }
+  //             tempLength = storeDatabase.countMultipleElements(tempCreatedBy);
+  //             tempCreatedBy = [...new Set(tempCreatedBy)];
+  //             tempColor = [...new Set(tempColor)];
+  //             let length = data[i].length;
+  //             let count = 0;
+  //             for (let k = 0; k < length; k++) {
+  //               for (let j = 0; j < tempLength.length; j++) {
+  //                 if (count == tempLength[j] - 1) {
+  //                   convertCSV.setColor(JSON.parse(tempColor[j]));
+  //                   convertCSV.setCreatedBy(tempCreatedBy[j]);
+  //                   tempColor.splice(0, 1);
+  //                   tempCreatedBy.splice(0, 1);
+  //                   tempData.push(data[i][k]);
+  //                   convertCSV.processCSVData(
+  //                     storeLocalStorage.getRowofTextArray(tempData),
+  //                     false
+  //                   );
+  //                   tempData = [];
+  //                   count = 0;
+  //                   k = k + 1;
+  //                   map.ObjMapView.graphics.items = [];
+  //                 }
+  //               }
+  //               tempData.push(data[i][k]);
+  //               count = count + 1;
+  //             }
+  //           } else {
+  //             let s = data[i];
+  //             let removeCreatedBy = s.slice(0, s.lastIndexOf("_"));
+  //             let removeStorage = removeCreatedBy.slice(
+  //               0,
+  //               removeCreatedBy.lastIndexOf("_")
+  //             );
+  //             convertCSV.setNameFile(removeStorage);
+  //           }
+  //         }
+  //       }
+  //       console.log(JSON.parse(localStorage.getItem("data")));
+  //     });
+  //   });
 
-  $("input[name='popup-input-min']").click(function () {
-    $("#popup-alert").toggleClass("show");
-  });
-
-  //Toggle i-tree child
-  $(document).delegate(".i-tree", "click", function () {
-    $(this)
-      .siblings("ul")
-      .find("li")
-      .toggle();
-    $(this)
-      .siblings("div")
-      .children()
-      .find("li")
-      .toggle();
-  });
-
-  //Toggle i-tree-layers child
-  $(document).delegate(".i-tree-layers", "click", function () {
-    $(this)
-      .siblings("ul")
-      .toggle();
-  });
+  // $("input[name='popup-input-min']").click(function () {
+  //   $("#popup-alert").toggleClass("show");
+  // });
 
   //Date Picker function to generating calendar and choose a date (Used for 'from' and 'to')
   $(function () {
@@ -676,50 +629,6 @@ function boot(GIS) {
     label: "OK"
   };
 
-  let colliersServicePopupTemplate = {
-    title: "Colliers Property",
-    content: "{*}",
-    id: "collierspopup"
-  };
-
-  let colliersRenderer = {
-    type: "simple",
-    symbol: {
-      type: "picture-marker",
-      url: "assets/images/icons/OB-blue.png",
-      width: "20px",
-      height: "20px"
-    }
-  };
-
-  let colliersService = new ESRI.FeatureLayer({
-    url:
-      "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliers_onemap_data_dummy1/FeatureServer/0",
-    outFields: ["*"],
-    popupTemplate: colliersServicePopupTemplate,
-    renderer: colliersRenderer
-  });
-
-  function displayTractID(event) {
-    var screenPoint = {
-      x: event.x,
-      y: event.y
-    };
-
-    // Search for graphics at the clicked location
-    map.ObjMapView.hitTest(screenPoint).then(function (response) {
-      // console.log(response)
-      if (response.results.length) {
-        var graphic = response.results.filter(function (result) {
-          // check if the graphic belongs to the layer of interest
-          return result.graphic.layer === colliersService;
-        })[0].graphic;
-        // do something with the result graphic
-        console.log(graphic);
-      }
-    });
-  }
-
   //Auto change size popup
   var $element = $("#popupFilter");
   var lastHeight = $("#popupFilter").css("width");
@@ -752,24 +661,24 @@ function boot(GIS) {
   radiusClick(map)
   drivingtimeClick(map)
   drivingdistanceClick(map)
-  pointClick(map)
+  manualClick(map)
   polygonClick(map)
   polylineClick(map)
-  rectangleClick(map)
-  generateToken().then(function (token) {
-    console.log(token)
-    // generatePOI(token)
-    analyzeClick(token)
-  })
+  analyzeClick(token)
   removeClick(map)
+
+  viewPopupAnalyzedClick(map)
 
   window.hoveredMeasurement = false
   window.hoveredDraw = false
-  measurementHover(["point", "polygon", "polyline", "rectangle"])
-  drawHover(["radius", "drivingtime", "drivingdistance"])
+  measurementHover(["polygon", "polyline"])
+  analyzeHover(["radius", "drivingtime", "drivingdistance", "manual"])
   //---End of Context Menu Action---//
 
+  submitFilterServices(map);
   removeFilterResults(map);
+
+  consumePOI(map)
 
   // var slider = document.getElementById("buffer-radius");
   // slider.oninput = function () {
@@ -942,7 +851,6 @@ function boot(GIS) {
   });
 
   //---Set all external function here---//
-  submitFilterServices(storeLocalStorage, map, convertCSV);
   inputFilter();
   multiSelect();
   inputCheckboxPropertyStatus();

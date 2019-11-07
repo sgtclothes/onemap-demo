@@ -13,27 +13,30 @@ var polylineClick = function (map) {
         point.longitude = longitude;
         point.latitude = latitude;
 
-        sketch.create("polyline", { mode: "hybrid" });
+        let palette = {
+            handleWidth: 2,
+            pathWidth: 2,
+            pathPrimaryColor: [255, 0, 0],
+            pathSecondaryColor: [255, 0, 0],
+            handleColor: [255, 0, 0]
+        }
 
-        sketch.on("create", async function (event) {
-            if (event.state === "active") {
-                map.ObjMapView.on("click", function () {
-                    console.log(event.graphic.geometry)
-                })
-            }
-            if (event.state === "complete" || event.state === "cancel") {
+        let measurePolyline = new ESRI.DistanceMeasurement2D({
+            view: map.ObjMapView
+        });
+
+        measurePolyline.viewModel.palette = palette
+
+        console.log(measurePolyline)
+
+        // skip the initial 'new measurement' button
+        measurePolyline.viewModel.newMeasurement();
+        measurePolyline.watch("viewModel.state", function (state) {
+            if (state == "measured") {
                 $("#hold-polyline").remove()
-                // await createPolygon(event.graphic.geometry).then(function () {
-                //     sortID(map, "polygons", "dynamic-polygon-")
-                //     registerAttributes(map, "polygons", "polygon-graphics", 0)
-                //     delete window.sketch
-                //     createSketch(map)
-                // })
-                console.log(JSON.stringify(event.graphic.geometry.paths[0]))
-                delete window.sketch
-                createSketch(map)
+                $("body").css("cursor", "")
             }
-        })
+        });
     })
 }
 

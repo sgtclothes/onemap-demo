@@ -30,3 +30,13 @@ var removeAllGraphicsById = function (map, id) {
     }
     layer.removeAll()
 }
+
+var removeSpecificLayerById = function (map, groupLayer, id) {
+    let layer = undefined
+    for (let i = 0; i < groupLayer.layers.items.length; i++) {
+        if (groupLayer.layers.items[i].id == id) {
+            layer = groupLayer.layers.items[i]
+        }
+    }
+    console.log(layer)
+}

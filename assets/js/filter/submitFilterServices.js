@@ -1,9 +1,9 @@
-function submitFilterServices(convertData, map, convertCSV) {
-  $(document).delegate("#button-filter-property", "click", function () {
+function submitFilterServices(map) {
+  $(document).delegate("#button-filter-property", "click", async function () {
 
     //Setting name for label service
-    let propertyTypeLabel = "propertytype"
-    let marketingSchemeLabel = "marketingScheme"
+    let propertyTypeLabel = "property_type"
+    let marketingSchemeLabel = "marketing_scheme"
     let strataLabel = "strata"
     let landSqmLabel = "landSqm"
     let buildSqmLabel = "buildSqm"
@@ -16,33 +16,19 @@ function submitFilterServices(convertData, map, convertCSV) {
     let propertyProjectLabel = "propertyProject"
     let propertyNPLAYDALabel = "propertyNPLAYDA"
 
-    let colliersPropertyForSaleHouse = new ESRI.FeatureLayer({
-      url:
-        "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/2"
-    });
-    let colliersPropertyForSaleOffice = new ESRI.FeatureLayer({
-      url:
-        "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/1"
-    });
-    let colliersPropertySold = new ESRI.FeatureLayer({
-      url:
-        "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/0"
-    });
-
     for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
       if (map.ObjMap.layers.items[i].id == "colliers-property") {
         map.ObjMap.layers.items[i].removeAll()
       }
     }
 
-    var lyrFields;
-
-    var resultsLayer = new ESRI.GraphicsLayer({
+    var graphicsLayer = new ESRI.GraphicsLayer({
       id: "colliers-property-"
     });
 
-    resultsLayer.removeAll();
-    groupLayerProperty.add(resultsLayer);
+    var lyrFields;
+
+    graphicsLayer.removeAll();
     map.ObjMapView.graphics.removeAll();
 
     let property = [];
@@ -99,17 +85,19 @@ function submitFilterServices(convertData, map, convertCSV) {
     let featureService = []
 
     // Get value of property type and we register it on "value" array
-    // if (property.length > 0) {
-    //   let q = "(";
-    //   for (let i = 0; i < property.length; i++) {
-    //     q += "(" + propertyTypeLabel + " = '" + property[i] + "')";
-    //     if (property[i + 1] !== undefined) {
-    //       q += " OR ";
-    //     }
-    //   }
-    //   q += ")";
-    //   value.push(q);
-    // }
+    if (property.length > 0) {
+      let q = "(";
+      for (let i = 0; i < property.length; i++) {
+        q += "(lower(" + propertyTypeLabel + ") = '" + property[i] + "')";
+        if (property[i + 1] !== undefined) {
+          q += " OR ";
+        }
+      }
+      q += ")";
+      value.push(q);
+    }
+
+    console.log(value)
 
     //Strata will be automatically selected, so we get strata value
     //Strata skipped
@@ -122,12 +110,21 @@ function submitFilterServices(convertData, map, convertCSV) {
 
     // Default Marketing Scheme will be null until selected 
     // Marketing Scheme skipped
-    // if (marketingSchemeValue !== undefined) {
-    //   if (marketingSchemeValue == "for-lease") marketingSchemeValue = "for-lease";
-    //   else if (marketingSchemeValue == "for-sale") marketingSchemeValue = "for-sale";
-    //   else if (marketingSchemeValue == "for-lease-and-for-sale") marketingSchemeValue = "for-lease-and-for-sale";
-    //   value.push("(" + marketingSchemeLabel + " = " + marketingSchemeValue + ")");
-    // }
+    if (marketingSchemeValue !== undefined) {
+      if (marketingSchemeValue == "for-lease") marketingSchemeValue = "for lease";
+      else if (marketingSchemeValue == "for-sale") marketingSchemeValue = "for sale";
+      else if (marketingSchemeValue == "for-lease-and-for-sale") marketingSchemeValue = "for sale";
+      value.push("(lower(" + marketingSchemeLabel + ") = '" + marketingSchemeValue + "'))");
+    }
+
+    for (let i = 0; i < value.length; i++) {
+      queryWhere += "(" + value[i] + ")"
+      if (value[i + 1] !== undefined) {
+        queryWhere += " AND "
+      }
+    }
+
+    console.log(queryWhere)
 
     //Get value of land size meters and we register it on "value" array
     // if (landMinSizeMeterValue !== "" && landMaxSizeMeterValue !== "") {
@@ -198,173 +195,128 @@ function submitFilterServices(convertData, map, convertCSV) {
     // }
 
     //Get feature service
-    if ((property.includes("Office") || property.length < 1) && (marketingSchemeValue == "for-sale" || marketingSchemeValue == undefined) && (propertyForSale.includes("available") || propertyForSale.length < 1)) {
-      if (featureService.some(feature => feature.url !== "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/1") || featureService.length < 1) {
-        featureService.push(colliersPropertyForSaleOffice)
-      }
-    }
-    if ((property.includes("House") || property.length < 1) && (marketingSchemeValue == "for-sale" || marketingSchemeValue == undefined) && (propertyForSale.includes("available") || propertyForSale.length < 1)) {
-      if (featureService.some(feature => feature.url !== "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/2") || featureService.length < 1) {
-        featureService.push(colliersPropertyForSaleHouse)
-      }
-    }
-    if (propertySold.includes("colliers")) {
-      if (featureService.some(feature => feature.url !== "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/0") || featureService.length < 1) {
-        featureService.push(colliersPropertySold)
-      }
-    }
-    if (property.length < 1 && marketingSchemeValue == undefined && propertyForSale.length < 1 && propertySold.includes("colliers")) {
-      featureService = [colliersPropertySold]
-    }
-    if (property.length < 1 && marketingSchemeValue == undefined && propertyForSale.length < 1 && propertySold.length < 1) {
-      featureService = []
-    }
+    featureService.push(colliersPropertyStaging)
 
-    let radius = map.ObjMap.findLayerById("radius")
-    let polygons = map.ObjMap.findLayerById("polygons")
-    let drivingTime = map.ObjMap.findLayerById("driving-time")
-    let drivingDistance = map.ObjMap.findLayerById("driving-distance")
-    let rectangles = map.ObjMap.findLayerById("rectangles")
+    var layersRequest = {
+      query: {
+        f: "json"
+      },
+      responseType: "json"
+    };
 
-    console.log(rectangles)
-
-    let geometryRadius = []
-    let geometryPolygons = []
-    let geometryDrivingTime = []
-    let geometryDrivingDistance = []
-    let geometryRectangles = []
-    let geometryUnions = []
-
-    getItemsGroupLayer(radius).forEach(ele => {
-      if (ele.selector == "buffer-graphics") {
-        geometryRadius.push(ele.geometry)
-      }
+    await EsriRequest(
+      featureService[0].url,
+      layersRequest
+    ).then(function (response) {
+      console.log("response", response);
+      lyrFields = response.data.fields;
     });
 
-    getItemsGroupLayer(polygons).forEach(ele => {
-      if (ele.selector == "polygon-graphics") {
-        geometryPolygons.push(ele.geometry)
-      }
-    });
-
-    getItemsGroupLayer(drivingTime).forEach(ele => {
-      if (ele.selector == "drivetime-graphics") {
-        geometryDrivingTime.push(ele.geometry)
-      }
-    });
-
-    getItemsGroupLayer(drivingDistance).forEach(ele => {
-      if (ele.selector == "drivedistance-graphics") {
-        geometryDrivingDistance.push(ele.geometry)
-      }
-    });
-
-    getItemsGroupLayer(rectangles).forEach(ele => {
-      if (ele.selector == "rectangle-graphics") {
-        geometryRectangles.push(ele.geometry)
-      }
-    });
-
-    geometryUnions = geometryRadius.concat(geometryPolygons, geometryDrivingTime, geometryDrivingDistance, geometryRectangles)
-
-    for (let i = 0; i < featureService.length; i++) {
-      var layersRequest = {
-        query: {
-          f: "json"
-        },
-        responseType: "json"
-      };
-
-      EsriRequest(
-        featureService[i].url,
-        layersRequest
-      ).then(function (response) {
-        console.log("response", response);
-        lyrFields = response.data.fields;
-      });
-
-      function getFldAlias(fieldName) {
-        var retVal = "";
-        arrayUtils.forEach(lyrFields, function (item) {
-          if (item.name === fieldName) {
-            retVal = item.alias;
-            return true;
-          }
-        });
-        return retVal;
-      }
-
-      $("#loading-bar").show();
-      $(".popupFilter").hide();
-      if (geometryUnions.length > 0) {
-        console.log("with geometry")
-        for (let i = 0; i < geometryUnions.length; i++) {
-          let query = new ESRI.Query();
-          query.returnGeometry = true;
-          query.outFields = ["*"];
-          query.outSpatialReference = map.ObjMap.spatialReference;
-          query.geometry = geometryUnions[i]
-          for (let j = 0; j < featureService.length; j++) {
-            featureService[j].queryFeatures(query).then(function (results) {
-              if (results.features.length < 1) {
-                $("#loading-bar").hide();
-              }
-              displayResultsAll(results)
-            });
-          }
+    function getFldAlias(fieldName) {
+      var retVal = "";
+      arrayUtils.forEach(lyrFields, function (item) {
+        if (item.name === fieldName) {
+          retVal = item.alias;
+          return true;
         }
-      } else {
-        console.log("without geometry")
+      });
+      return retVal;
+    }
+
+    $("#loading-bar").show();
+    $(".popupFilter").hide();
+    if (checkGraphicsExist(map).length > 0) {
+      console.log("with geometry")
+      for (let i = 0; i < checkGraphicsExist(map).length; i++) {
         let query = new ESRI.Query();
         query.returnGeometry = true;
         query.outFields = ["*"];
         query.outSpatialReference = map.ObjMap.spatialReference;
-        query.where = "1=1"
+        query.geometry = checkGraphicsExist(map)[i]
+        if (value.length < 1) {
+          query.where = "1=1"
+        } else {
+          query.where = queryWhere
+        }
         for (let j = 0; j < featureService.length; j++) {
-          featureService[j].queryFeatures(query).then(function (results) {
+          featureService[0].queryFeatures(query).then(function (results) {
             if (results.features.length < 1) {
               $("#loading-bar").hide();
             }
-            displayResultsAll(results)
+            displayResultsGraphics(map, results, graphicsLayer, groupLayerProperty)
           });
         }
       }
-    }
-
-    function displayResultsAll(results) {
-      if (results.features.length < 1) {
-        $("#loading-bar").hide();
+    } else {
+      console.log("without geometry")
+      let query = new ESRI.Query();
+      query.returnGeometry = true;
+      query.outFields = ["*"];
+      query.outSpatialReference = map.ObjMap.spatialReference;
+      if (value.length < 1) {
+        query.where = "1=1"
       } else {
-        let markerSymbol = {}
-        if (results.features[0].attributes.property_type == "office") {
-          markerSymbol = {
-            type: "picture-marker",
-            url: "assets/images/icons/OB-red.png",
-            width: "20px",
-            height: "20px"
-          };
-        }
-        if (results.features[0].attributes.property_t == "house") {
-          markerSymbol = {
-            type: "picture-marker",
-            url: "assets/images/icons/OB-blue.png",
-            width: "20px",
-            height: "20px"
-          };
-        }
-        results.features.forEach(function (feature) {
-          let g = new ESRI.Graphic({
-            geometry: feature.geometry,
-            attributes: feature.attributes,
-            symbol: markerSymbol,
-          });
-          resultsLayer.add(g);
-        });
-
-        sortID(map, "colliers-property", "colliers-property-")
-        registerAttributes(map, "colliers-property", "colliers-property-attr", "*")
-        $("#loading-bar").hide()
+        query.where = queryWhere
       }
+      await featureService[0].queryFeatures(query).then(async function (results) {
+        if (results.features.length < 1) {
+          $("#loading-bar").hide();
+        }
+        await $.get("assets/js/filter/legend/resultsLegend.html", function (data) {
+          map.ObjMapView.ui.add($(data)[0], "bottom-right");
+        });
+        await displayResultsGraphics(map, results, graphicsLayer, groupLayerProperty)
+        await displayLegendProperty("LIST COLLIERS PROPERTIES", results)
+        $("#loading-bar").hide();
+      });
     }
   });
+}
+
+var checkGraphicsExist = function (map) {
+  let radius = getLayerById(map, "radius")
+  let polygons = getLayerById(map, "polygons")
+  let drivingTime = getLayerById(map, "driving-time")
+  let drivingDistance = getLayerById(map, "driving-distance")
+  let rectangles = getLayerById(map, "rectangles")
+
+  let geometryRadius = []
+  let geometryPolygons = []
+  let geometryDrivingTime = []
+  let geometryDrivingDistance = []
+  let geometryRectangles = []
+  let geometryUnions = []
+
+  getItemsGroupLayer(radius).forEach(ele => {
+    if (ele.selector == "buffer-graphics") {
+      geometryRadius.push(ele.geometry)
+    }
+  });
+
+  getItemsGroupLayer(polygons).forEach(ele => {
+    if (ele.selector == "polygon-graphics") {
+      geometryPolygons.push(ele.geometry)
+    }
+  });
+
+  getItemsGroupLayer(drivingTime).forEach(ele => {
+    if (ele.selector == "drivetime-graphics") {
+      geometryDrivingTime.push(ele.geometry)
+    }
+  });
+
+  getItemsGroupLayer(drivingDistance).forEach(ele => {
+    if (ele.selector == "drivedistance-graphics") {
+      geometryDrivingDistance.push(ele.geometry)
+    }
+  });
+
+  getItemsGroupLayer(rectangles).forEach(ele => {
+    if (ele.selector == "rectangle-graphics") {
+      geometryRectangles.push(ele.geometry)
+    }
+  });
+
+  geometryUnions = geometryRadius.concat(geometryPolygons, geometryDrivingTime, geometryDrivingDistance, geometryRectangles)
+  return geometryUnions
 }

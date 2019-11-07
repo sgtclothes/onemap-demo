@@ -4,7 +4,6 @@ var analyzeClick = function (token) {
         $("#loading-bar").show() //Add loading bar
         let geometry = []
         let shapeRings = []
-        let textArea = []
         let shapeAreas = []
         let resultUnion = undefined
 
@@ -16,10 +15,8 @@ var analyzeClick = function (token) {
 
         let intersectResults = []
         let areaLengthResults = []
-        let areaIntersects = []
 
         let areaVillages = []
-        let villagesPopulation = []
         let attributes = []
 
         let selectedLayer = JSON.parse(getLocalStorage("selectedLayer", []))
@@ -68,22 +65,13 @@ var analyzeClick = function (token) {
             await areaVillages.push(results)
         })
 
-        await queryGeometryGetAttributes(featureLayer, geometry, "populasi").then(async function (results) {
-            await villagesPopulation.push(results)
-        })
-
         await queryGeometryGetAttributes(featureLayer, geometry, "*").then(async function (results) {
             await attributes.push(results)
         })
 
-        console.log(villagesPopulation)
-        console.log(attributes)
-
         await unionAttributes(attributes, token).then(function (results) {
             resultUnion = results
         })
-
-        console.log(resultUnion)
 
         await queryGeometryGetRings(featureLayer, geometry, "").then(async function (results) {
             for (let i = 0; i < results.length; i++) {
@@ -135,7 +123,6 @@ var analyzeClick = function (token) {
             let areas = []
             let areaIntersect = []
             let populations = []
-            let total = 0
 
             for (let j = 0; j < areaLengthResults[i].length; j++) {
                 for (let k = 0; k < areaLengthResults[i][j].length; k++) {
@@ -145,18 +132,121 @@ var analyzeClick = function (token) {
             for (let j = 0; j < areaVillages[0][i].length; j++) {
                 areas.push(areaVillages[0][i][j])
             }
-            for (let j = 0; j < villagesPopulation[0][i].length; j++) {
-                populations.push(villagesPopulation[0][i][j])
+
+            let firstClass = resultUnion[0]
+            let secondClass = resultUnion[1]
+            let thirdClass = resultUnion[2]
+            let average = thirdClass["average"]
+            let min = thirdClass["min"]
+            let max = thirdClass["max"]
+
+            let finalResultsFirst = []
+            let finalResultsSecond = []
+            let finalResultsThird = []
+            let tempAvGRes = []
+            let tempMinRes = []
+            let tempMaxRes = []
+
+            for (let j = 0; j < firstClass.length; j++) {
+                finalResultsFirst.push([])
+                for (let k = 0; k < areas.length; k++) {
+                    let result = {}
+                    for (let key in firstClass[j]) {
+                        result[key] = calculateIntersectFeatures(firstClass[j][key], areas[k], areaIntersect[k])
+                    }
+                    if (finalResultsFirst[j].length < 1) {
+                        finalResultsFirst[j] = result
+                    } else {
+                        finalResultsFirst[j] = Object.keys(finalResultsFirst[j]).concat(Object.keys(result)).reduce(function (obj, s) {
+                            obj[s] = (finalResultsFirst[j][s] || 0) + (result[s] || 0);
+                            if (k == areas.length - 1) {
+                                obj[s] = Math.round(obj[s])
+                            }
+                            return obj;
+                        }, {})
+                    }
+                }
             }
 
-            for (let j = 0; j < areas.length; j++) {
-                total += Math.round(calculateIntersectFeatures(populations[j], areas[j], areaIntersect[j]))
+            for (let j = 0; j < secondClass.length; j++) {
+                finalResultsSecond.push([])
+                for (let k = 0; k < areas.length; k++) {
+                    let result = {}
+                    for (let key in secondClass[j]) {
+                        result[key] = calculateIntersectFeatures(secondClass[j][key], areas[k], areaIntersect[k])
+                    }
+
+                    if (finalResultsSecond[j].length < 1) {
+                        finalResultsSecond[j] = result
+                    } else {
+                        finalResultsSecond[j] = Object.keys(finalResultsSecond[j]).concat(Object.keys(result)).reduce(function (obj, s) {
+                            obj[s] = (finalResultsSecond[j][s] || 0) + (result[s] || 0);
+                            return obj;
+                        }, {})
+                    }
+                }
             }
 
-            console.log("total " + i + " : " + total)
+            for (let j = 0; j < average.length; j++) {
+                tempAvGRes.push([])
+                for (let k = 0; k < areas.length; k++) {
+                    let result = {}
+                    for (let key in average[j]) {
+                        result[key] = calculateIntersectFeatures(average[j][key], areas[k], areaIntersect[k])
+                    }
 
+                    if (tempAvGRes[j].length < 1) {
+                        tempAvGRes[j] = result
+                    } else {
+                        tempAvGRes[j] = Object.keys(tempAvGRes[j]).concat(Object.keys(result)).reduce(function (obj, s) {
+                            obj[s] = (tempAvGRes[j][s] || 0) + (result[s] || 0);
+                            return obj;
+                        }, {})
+                    }
+                }
+            }
+
+            for (let j = 0; j < min.length; j++) {
+                tempMinRes.push([])
+                for (let k = 0; k < areas.length; k++) {
+                    let result = {}
+                    for (let key in min[j]) {
+                        result[key] = calculateIntersectFeatures(min[j][key], areas[k], areaIntersect[k])
+                    }
+
+                    if (tempMinRes[j].length < 1) {
+                        tempMinRes[j] = result
+                    } else {
+                        tempMinRes[j] = Object.keys(tempMinRes[j]).concat(Object.keys(result)).reduce(function (obj, s) {
+                            obj[s] = (tempMinRes[j][s] || 0) + (result[s] || 0);
+                            return obj;
+                        }, {})
+                    }
+                }
+            }
+
+            for (let j = 0; j < max.length; j++) {
+                tempMaxRes.push([])
+                for (let k = 0; k < areas.length; k++) {
+                    let result = {}
+                    for (let key in max[j]) {
+                        result[key] = calculateIntersectFeatures(max[j][key], areas[k], areaIntersect[k])
+                    }
+
+                    if (tempMaxRes[j].length < 1) {
+                        tempMaxRes[j] = result
+                    } else {
+                        tempMaxRes[j] = Object.keys(tempMaxRes[j]).concat(Object.keys(result)).reduce(function (obj, s) {
+                            obj[s] = (tempMaxRes[j][s] || 0) + (result[s] || 0);
+                            return obj;
+                        }, {})
+                    }
+                }
+            }
+
+            finalResultsThird = [tempAvGRes, tempMinRes, tempMaxRes]
+            setTargetToAnalyzed(finalResultsFirst, finalResultsSecond, finalResultsThird)
         }
-
         $("#loading-bar").hide()
     })
 }
@@ -207,7 +297,7 @@ var unionAttributes = async function (attributes, token) {
         mergeSecondClass.push([])
         for (let s = 0; s < data[i].length; s++) {
             if (mergeSecondClass[i].length < 1) {
-                mergeSecondClass[i] = data[i][s][0]
+                mergeSecondClass[i] = data[i][s][1]
             } else {
                 mergeSecondClass[i] = Object.keys(mergeSecondClass[i]).concat(Object.keys(data[i][s][1])).reduce(function (obj, k) {
                     obj[k] = (mergeSecondClass[i][k] || 0) + (data[i][s][1][k] || 0);
@@ -222,7 +312,6 @@ var unionAttributes = async function (attributes, token) {
     let min = []
     let max = []
     let average = []
-    console.log(data)
     for (let i = 0; i < data.length; i++) {
         min.push([])
         max.push([])
@@ -251,15 +340,6 @@ var unionAttributes = async function (attributes, token) {
                 }, {})
             }
 
-            // if (min[i][key] > data[i][s][2][key]) {
-            //     min[i][key] = data[i][s][2][key]
-            //     console.log(key + " : " + min[i][key])
-            // }
-            // if (max[i][key] < data[i][s][2][key]) {
-            //     max[i][key] = data[i][s][2][key]
-            //     console.log(key + " : " + max[i][key])
-            // }
-
             if (average[i].length < 1) {
                 average[i] = data[i][s][2]
             } else {
@@ -279,10 +359,6 @@ var unionAttributes = async function (attributes, token) {
         max: max,
         average: average
     }
-
-    console.log(mergeFirstClass)
-    console.log(mergeSecondClass)
-    console.log(mergeThirdClass)
 
     return [mergeFirstClass, mergeSecondClass, mergeThirdClass]
 }
@@ -323,20 +399,36 @@ var compareAttributes = async function (attributes, token) {
     return [firstClass, secondClass, thirdClass, fourthClass]
 }
 
-function isEmpty(obj) {
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key))
-            return false;
-    }
-    return true;
-}
 
-// Array.prototype.diff = function (arr2) {
-//     var ret = [];
-//     for (var i in this) {
-//         if (arr2.indexOf(this[i]) > -1) {
-//             ret.push(this[i]);
-//         }
-//     }
-//     return ret;
-// };
+var setTargetToAnalyzed = function (res1, res2, res3) {
+    let selectedLayer = JSON.parse(getLocalStorage("selectedLayer", []))
+    let symbol = {
+        type: "simple-fill",
+        color: [0, 0, 255, 0.2],
+        outline: {
+            color: "#7a7c80",
+            width: 2
+        }
+    }
+    let obj = {}
+    for (let s = 0; s < groupLayers.length; s++) {
+        for (let i = 0; i < groupLayers[s].layers.items.length; i++) {
+            for (let k = 0; k < selectedLayer.length; k++) {
+                if (groupLayers[s].layers.items[i].id == selectedLayer[k]) {
+                    obj = {
+                        firstClass: res1[k],
+                        secondClass: res2[k],
+                        thirdClass: {
+                            average: res3[0][k],
+                            min: res3[1][k],
+                            max: res3[2][k]
+                        }
+                    }
+                    groupLayers[s].layers.items[i].graphics.items[0].symbol = symbol
+                    groupLayers[s].layers.items[i].graphics.items[0].attributes = obj
+                    console.log(groupLayers[s].layers.items[i].graphics.items[0])
+                }
+            }
+        }
+    }
+}

@@ -5,10 +5,13 @@ var createContextMenu = function (map, event, condition) {
         menu.push('<div id="contextmenu-measurement"><i class="mi-straighten"></i>Measurement<i class="mi-keyboard-arrow-right"></i></div>')
     }
     if (condition.includes("draw")) {
-        menu.push('<div id="contextmenu-draw"><i class="mi-bubble-chart"></i>Draw<i class="mi-keyboard-arrow-right"></i></div>')
+        menu.push('<div id="contextmenu-analyze-polygon"><i class="mi-bubble-chart"></i>Analyze<i class="mi-keyboard-arrow-right"></i></div>')
     }
     if (condition.includes("analyze")) {
         menu.push('<div id="contextmenu-analyze"><i class="mi-timeline"></i>Analyze</div>')
+    }
+    if (condition.includes("view-popup")) {
+        menu.push('<div id="contextmenu-view-popup"><i class="mi-speaker-notes"></i>View Popup</div>')
     }
     if (condition.includes("remove")) {
         menu.push('<div id="contextmenu-remove"><i class="esri-icon-trash"></i>Remove</div>')

@@ -24,7 +24,7 @@ var selectLayer = function (response) {
             width: 2
         }
     }
-    if (response.results[0].graphic.selector == "buffer-graphics" || response.results[0].graphic.selector == "polygon-graphics") {
+    if (response.results[0].graphic.selector == "buffer-graphics" || response.results[0].graphic.selector == "polygon-graphics" || response.results[0].graphic.selector == "rectangle-graphics" || response.results[0].graphic.selector == "drivetime-graphics" || response.results[0].graphic.selector == "drivedistance-graphics") {
         response.results[0].graphic.symbol = symbol
     } else {
         console.log("Not a polygon")
@@ -68,7 +68,7 @@ var resetSelectedGraphics = function () {
     for (let s = 0; s < groupLayers.length; s++) {
         for (let i = 0; i < groupLayers[s].layers.items.length; i++) {
             for (let j = 0; j < groupLayers[s].layers.items[i].graphics.items.length; j++) {
-                if (groupLayers[s].layers.items[i].graphics.items[j].selector == "buffer-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "polygon-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "rectangle-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "drivetime-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "drivedistance-graphics") {
+                if ((groupLayers[s].layers.items[i].graphics.items[j].selector == "buffer-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "polygon-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "rectangle-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "drivetime-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "drivedistance-graphics") && ("analyzed" in groupLayers[s].layers.items[i].graphics.items[j] == false)) {
                     groupLayers[s].layers.items[i].graphics.items[j].symbol = {
                         type: "simple-fill",
                         color: [150, 150, 150, 0.2],

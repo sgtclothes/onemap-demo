@@ -1,18 +1,29 @@
-var getGraphicsInfo = function (response, map) {
+var getGraphicsInfo = async function (response, map) {
     if (response.results.length > 0) {
         let val = response.results[0].graphic.layer.id.split("-")
         if ((val[0] == "dynamic" && (val[1] == "buffer" || val[1] == "polygon")) || (val[0] == "drive" && (val[1] == "time" || val[1] == "distance")) || (val[0] == "rectangle")) {
             selectMe(0, response)
         } else if (val[0] == "colliers" && val[1] == "property") {
-            localStorage.setItem(
+            setLocalStorage(
                 "selectedFeatureFilterLatitude",
                 JSON.stringify(response.results[0].graphic.geometry.latitude)
             );
-            localStorage.setItem(
+            setLocalStorage(
                 "selectedFeatureFilterLongitude",
                 JSON.stringify(response.results[0].graphic.geometry.longitude)
             );
-            getColliersData(response)
+
+            $("#loading-bar").show()
+            toggleViewer("close")
+
+            let features = map.ObjMapView.popup.features
+            map.ObjMapView.popup.visible = false
+
+            await $.get("assets/js/data/popup/popupFilter.html", function (data) {
+                $(".page-content").append(data);
+            });
+
+            await paginationColliersPopup(map, features)
         }
         else {
             //Highlight pointing

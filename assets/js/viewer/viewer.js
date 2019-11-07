@@ -1,0 +1,39 @@
+var toggleViewer = function (toggle) {
+    if (toggle == "open") {
+        $("#myViewer").css("width", "350px")
+        $("#main").css("margin-left", "350px")
+    } else if (toggle == "close") {
+        $("#myViewer").css("width", "0")
+        $("#main").css("margin-left", "0")
+    }
+}
+
+$(document).delegate(".master-expand-external-data", "click", function () {
+    $("#table-external-data").toggle()
+})
+
+$(document).delegate("#viewer-nav", "click", function () {
+    if ($("#myViewer").css("width") > "0px") {
+        toggleViewer("close");
+    } else if (
+        $("#mySiteAnalysis").css("width") > "0px" ||
+        $("#myAnalysisPOI").css("width") > "0px"
+    ) {
+        $("#mySiteAnalysis").css("width") = "0";
+        $("#myAnalysisPOI").css("width") = "0";
+        toggleViewer("open");
+    } else {
+        toggleViewer("open");
+    }
+
+    if ($("#mySidenav").css("width") > "0px") {
+        if (
+            $("#mySidenav").hasClass("panel-left")
+        ) {
+            $("#mySidenav").removeClass("panel-left");
+            $("#mySidenav").addClass("panel-right");
+            $("#main").css("margin-right") = "320px";
+            $("#mySidenav").attr("style", "width:320px;");
+        }
+    }
+});
