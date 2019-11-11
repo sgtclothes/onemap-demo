@@ -19,14 +19,20 @@ function generateToken() {
 
 
     return new Promise((resolve, reject) => {
-        $.ajax({
-            url: "https://139.162.2.92:6443/arcgis/tokens/generateToken",
-            type: "post",
-            data: data,
-            success: function (response) {
-                resolve(JSON.parse(response).token)
-            }
-        })
+        var ajaxPost = function () {
+            $.ajax({
+                url: "https://139.162.2.92:6443/arcgis/tokens/generateToken",
+                type: "post",
+                data: data,
+                success: function (response) {
+                    resolve(JSON.parse(response).token)
+                },
+                error: function (xhr, status, error) {
+                    setTimeout(ajaxPost(), 200);
+                }
+            })
+        }
+        ajaxPost()
     })
 
 }

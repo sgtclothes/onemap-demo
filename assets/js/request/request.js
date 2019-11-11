@@ -16,3 +16,24 @@ var makeEsriRequest = async function (url, layersRequest) {
     });
     return results
 }
+
+var makeEsriRequestPOST = async function (url, points) {
+    let results = undefined
+    let layersRequest = {
+        query: {
+            f: "json",
+            geometries: '{"rings":[' + points + ']}',
+            geometryType: "esriGeometryPolygon"
+        },
+        responseType: "json",
+        usePost: true
+    };
+    await EsriRequest(
+        url,
+        layersRequest
+    ).then(function (response) {
+        console.log(response)
+        results = response
+    });
+    return results
+}

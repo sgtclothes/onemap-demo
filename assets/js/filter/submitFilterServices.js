@@ -223,8 +223,31 @@ function submitFilterServices(map) {
       return retVal;
     }
 
+    let propertyList = ["office", "house", "ruko", "industrial/logistic", "data center", "shopping center", "apartment", "hotel", "others"]
+    let punctuations = [/\s/g, "&", "'", ".", "/"]
+    let tr = $(".tableLegendProperty").find("tr")
+    for (let i = 0; i < propertyList.length; i++) {
+      propertyList[i] = punctuationFixer(punctuations, "_", propertyList[i])
+      for (let j = 0; j < tr.length; j++) {
+        if ($(tr[j]).attr("id").split("-")[2] == propertyList[i]) {
+          $(tr[j]).remove()
+        }
+      }
+    }
+
+
+    for (let j = 0; j < property.length; j++) {
+      if (displayedLegend.includes(property[j])) {
+        let index = displayedLegend.indexOf(property[j])
+        displayedLegend.splice(index, 1)
+      }
+    }
+
+    console.log(displayedLegend)
+
     $("#loading-bar").show();
     $(".popupFilter").hide();
+    let res = undefined
     if (checkGraphicsExist(map).length > 0) {
       console.log("with geometry")
       for (let i = 0; i < checkGraphicsExist(map).length; i++) {
@@ -238,15 +261,29 @@ function submitFilterServices(map) {
         } else {
           query.where = queryWhere
         }
-        for (let j = 0; j < featureService.length; j++) {
-          featureService[0].queryFeatures(query).then(function (results) {
-            if (results.features.length < 1) {
-              $("#loading-bar").hide();
-            }
-            displayResultsGraphics(map, results, graphicsLayer, groupLayerProperty)
-          });
-        }
+        await featureService[0].queryFeatures(query).then(async function (results) {
+          console.log(results)
+          if (results.features.length < 1) {
+            $("#loading-bar").hide();
+          }
+          await displayResultsGraphics(map, results, graphicsLayer, groupLayerProperty)
+          await displayLegendProperty(map, "LIST DATA", results)
+          $("#loading-bar").hide();
+        });
       }
+      // console.log(res)
+      // for (let j = 0; j < property.length; j++) {
+      //   if (displayedLegend.length < 1) {
+      //     displayedLegend.push(property[j])
+      //     await displayLegendProperty(map, "LIST DATA", res)
+      //   } else {
+      //     if (!displayedLegend.includes(property[j])) {
+      //       console.log(property[j])
+      //       displayedLegend.push(property[j])
+      //       await displayLegendProperty(map, "LIST DATA", res)
+      //     }
+      //   }
+      // }
     } else {
       console.log("without geometry")
       let query = new ESRI.Query();
@@ -262,11 +299,8 @@ function submitFilterServices(map) {
         if (results.features.length < 1) {
           $("#loading-bar").hide();
         }
-        await $.get("assets/js/filter/legend/resultsLegend.html", function (data) {
-          map.ObjMapView.ui.add($(data)[0], "bottom-right");
-        });
         await displayResultsGraphics(map, results, graphicsLayer, groupLayerProperty)
-        await displayLegendProperty("LIST COLLIERS PROPERTIES", results)
+        await displayLegendProperty(map, "LIST COLLIERS PROPERTIES", results)
         $("#loading-bar").hide();
       });
     }

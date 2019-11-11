@@ -10,6 +10,11 @@ var toggleViewer = function (toggle) {
 
 $(document).delegate(".master-expand-external-data", "click", function () {
     $("#table-external-data").toggle()
+    if ($("#table-external-data").css("display") == "table") {
+        $(this).find("div").css("margin-bottom", "0px")
+    } else {
+        $(this).find("div").css("margin-bottom", "20px")
+    }
 })
 
 $(document).delegate("#viewer-nav", "click", function () {

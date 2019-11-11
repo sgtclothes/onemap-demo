@@ -1,21 +1,23 @@
 var paginationColliersPopup = function (map, objJson) {
-    getColliersData(map, objJson[0].attributes)
+    let features = objJson.features
+    getColliersData(map, features[0].attributes)
+    map.ObjMapView.popup.visible = false
     $("#loading-bar").hide()
     var records_per_page = 1;
 
-    checkPage(objJson)
-    changePage(currentPagePopup, records_per_page, objJson)
+    checkPage(features)
+    changePage(currentPagePopup, records_per_page, features)
 
     $("#btn-previous-popup").click(function () {
-        prevPage(currentPagePopup, records_per_page, objJson)
-        checkPage(objJson)
-        getColliersData(map, objJson[currentPagePopup - 1].attributes)
+        prevPage(currentPagePopup, records_per_page, features)
+        checkPage(features)
+        getColliersData(map, features[currentPagePopup - 1].attributes)
     })
 
     $("#btn-next-popup").click(function () {
-        nextPage(currentPagePopup, records_per_page, objJson)
-        checkPage(objJson)
-        getColliersData(map, objJson[currentPagePopup - 1].attributes)
+        nextPage(currentPagePopup, records_per_page, features)
+        checkPage(features)
+        getColliersData(map, features[currentPagePopup - 1].attributes)
     })
 
 }

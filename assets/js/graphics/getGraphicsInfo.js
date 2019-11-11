@@ -14,16 +14,17 @@ var getGraphicsInfo = async function (response, map) {
             );
 
             $("#loading-bar").show()
+            $("#popupFilter").remove()
+            window.currentPagePopup = 1
             toggleViewer("close")
 
-            let features = map.ObjMapView.popup.features
-            map.ObjMapView.popup.visible = false
+            let popup = map.ObjMapView.popup
 
             await $.get("assets/js/data/popup/popupFilter.html", function (data) {
                 $(".page-content").append(data);
             });
 
-            await paginationColliersPopup(map, features)
+            await paginationColliersPopup(map, popup)
         }
         else {
             //Highlight pointing

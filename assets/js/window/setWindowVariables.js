@@ -1,9 +1,11 @@
 var setWindowVariables = async function (map) {
     window.token = undefined
+    window.legendOverflow = false
+    window.displayedLegend = []
     await generateToken().then(function (token) {
+        console.log(token)
         window.token = token
     })
-    console.log(token)
     window.pointTheSiteEnabled = false;
     window.pointEnabled = false;
     window.currentPagePopup = 1;

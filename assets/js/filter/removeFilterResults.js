@@ -28,26 +28,12 @@ function removeFilterResults(map) {
     $("input[name='marketing-scheme-input']").prop("checked", false);
 
     //Uncheck all External Data
-    $(poi).prop("checked", false);
-    $(infrastructure).prop("checked", false);
-    $(demographic).prop("checked", false);
-    for (let i = 0; i < masterSubPOI.length; i++) {
-      $(masterSubPOI[i]).prop("checked", false);
-    }
-    for (let i = 0; i < subPOI.length; i++) {
-      $(subPOI[i]).prop("checked", false);
-    }
-    for (let i = 0; i < subInfrasctructure.length; i++) {
-      $(subInfrasctructure[i]).prop("checked", false);
-    }
-    for (let i = 0; i < subDemographic.length; i++) {
-      $(subDemographic[i]).prop("checked", false);
+    let inputExternalData = $("#table-external-data").find("input[type='checkbox']")
+    for (let i = 0; i < inputExternalData.length; i++) {
+      $(inputExternalData).prop("checked", false)
     }
 
-    //Remove item buffer for overlap
-    $(".item-buffer-layer").remove();
-
-    //Remove legend if available
-    $(".div-poi").remove();
+    //Remove Legend if showed
+    $(".legendProperty").remove()
   });
 }

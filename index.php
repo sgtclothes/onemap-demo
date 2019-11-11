@@ -779,7 +779,7 @@ if (!isset($_SESSION['auth'])) {
                             <table class="table-property master-expand-external-data">
                                 <tr>
                                     <td style="height:26px;">
-                                        <div class="title-property expand-layer">
+                                        <div style="margin-bottom:20px;" class="title-property expand-layer">
                                             <p><b>EXTERNAL DATA ▼</b></p>
                                         </div>
                                     </td>
@@ -892,7 +892,7 @@ if (!isset($_SESSION['auth'])) {
                             </ul>
                         </li> -->
                         <li>
-                            <table style="display:none;" lass="table-property" id="table-external-data"></table>
+                            <table style="display:none;" class="table-property" id="table-external-data"></table>
                             <!-- <table class="table-property expand-master-element">
                                 <tr>
                                     <td>
@@ -1313,7 +1313,7 @@ if (!isset($_SESSION['auth'])) {
 
         <!-- Loading bar -->
         <div style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4);" id="loading-bar">
-            <img class="image-loading" draggable="false" style="margin-left:30%; margin-top:15%;" src="assets/images/oneMap-loading-2-hole.gif" width="500" height="300" loop>
+            <img class="image-loading" draggable="false" style="margin-left:30%; margin-top:15%;  opacity: 0.5; filter: alpha(opacity=50);" src="assets/images/oneMap-loading-2-hole.gif" width="500" height="300" loop>
         </div>
         <!-- End of loading bar -->
 

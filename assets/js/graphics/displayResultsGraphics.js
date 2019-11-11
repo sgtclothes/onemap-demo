@@ -13,7 +13,7 @@ var displayResultsGraphics = function (map, results, graphicsLayer, groupLayer, 
             let markerSymbol = undefined
             if (results.features[i].attributes.hasOwnProperty("property_type")) {
                 property = results.features[i].attributes.property_type.toLowerCase()
-                markerSymbol = getMarkerSymbol(propertyType)
+                markerSymbol = getMarkerSymbol(property)
             } else {
                 property = "symbol"
                 markerSymbol = getMarkerSymbol(property, renderer)
@@ -37,42 +37,96 @@ var displayResultsGraphics = function (map, results, graphicsLayer, groupLayer, 
         }
         sortID(map, "colliers-property", "colliers-property-")
         registerAttributes(map, "colliers-property", "colliers-property-attr", "*")
-        $("#loading-bar").hide()
     }
 }
 
-var displayLegendProperty = function (title, results) {
+var displayLegendProperty = async function (map, title, results, kTag, renderer, index) {
     let imgUrl = []
+    let choice = undefined
+    let obj = {}
+    let property = undefined
+    let tableLegend = $(".tableLegendProperty")
+    if (tableLegend.length < 1) {
+        await $.get("assets/js/filter/legend/resultsLegend.html", function (data) {
+            map.ObjMapView.ui.add($(data)[0], "bottom-right");
+        });
+    }
+    $(".titleLegendProperty").text(title)
     if (results.features.length < 1) {
         $("#loading-bar").hide();
-        $("#legendProperty").remove()
+        if (renderer.hasOwnProperty("url")) {
+            choice = "external data icon"
+            obj = {
+                name: kTag,
+                type: kTag,
+                url: renderer.url
+            }
+        } else if (renderer.hasOwnProperty("color")) {
+            choice = "external data mark"
+            obj = {
+                name: kTag,
+                type: kTag,
+                color: renderer.color
+            }
+        }
+        imgUrl.push(obj)
     } else {
-        $(".titleLegendProperty").text(title)
         for (let i = 0; i < results.features.length; i++) {
-            let propertyType = results.features[i].attributes.property_type.toLowerCase()
-            let markerSymbol = getMarkerSymbol(propertyType)
-            let obj = {
-                type: propertyType,
-                url: markerSymbol.url
+            if (results.features[i].attributes.hasOwnProperty("property_type")) {
+                choice = "external data icon"
+                property = results.features[i].attributes.property_type.toLowerCase()
+                markerSymbol = getMarkerSymbol(property)
+                obj = {
+                    name: property,
+                    type: "colliers-property-" + property,
+                    url: markerSymbol.url
+                }
+            } else {
+                if (renderer.hasOwnProperty("url")) {
+                    choice = "external data icon"
+                    obj = {
+                        name: kTag,
+                        type: kTag,
+                        url: renderer.url
+                    }
+                } else if (renderer.hasOwnProperty("color")) {
+                    choice = "external data mark"
+                    obj = {
+                        name: kTag,
+                        type: kTag,
+                        color: renderer.color
+                    }
+                }
             }
             imgUrl.push(obj)
         }
 
         imgUrl = removeDuplicates(imgUrl, "type")
-
-        for (let i = 0; i < imgUrl.length; i++) {
-            if (imgUrl[i].type.includes("/")) {
-                let index = imgUrl[i].type.indexOf("/")
-                imgUrl[i].type = imgUrl[i].type.replace(/\//ig, "-")
-            }
-            $(".tableLegendProperty").append("<tr id=" + imgUrl[i].type + "-" + i + ">")
-            $("#" + imgUrl[i].type + "-" + i).append("<td id=" + imgUrl[i].type + "-img-" + i + " style='padding-left:5px;'>")
-            $("#" + imgUrl[i].type + "-img-" + i).append("<img style='width:14px; height:14px;' src=" + imgUrl[i].url + ">")
-            $("#" + imgUrl[i].type + "-" + i).append("<td id=" + imgUrl[i].type + "-text-" + i + " style='font-size:9px;'>")
-            $("#" + imgUrl[i].type + "-text-" + i).text(imgUrl[i].type)
-        }
-
     }
+
+    for (let i = 0; i < imgUrl.length; i++) {
+        let punctuations = [/\s/g, "&", "'", ".", "/"]
+        imgUrl[i].type_id = punctuationFixer(punctuations, "_", imgUrl[i].type)
+        if (!kTag) {
+            index = i
+        }
+        $(".tableLegendProperty").append("<tr style='padding-right:5px; padding-left:5px;' id=" + imgUrl[i].type_id + "-" + index + ">")
+        $("#" + imgUrl[i].type_id + "-" + index).append("<td id=" + imgUrl[i].type_id + "-img-" + index + " style='padding-left:5px;'>")
+        if (choice == "external data icon") {
+            $("#" + imgUrl[i].type_id + "-img-" + index).append("<img style='width:14px; height:14px;' src=" + imgUrl[i].url + ">")
+        } else if (choice == "external data mark") {
+            $("#" + imgUrl[i].type_id + "-img-" + index).append("<span style='display:inline-block; border-radius:50%; width:14px; height:14px; background-color:rgb(" + imgUrl[i].color[0] + "," + imgUrl[i].color[1] + "," + imgUrl[i].color[2] + ")' src=" + imgUrl[i].url + "></span>")
+        }
+        $("#" + imgUrl[i].type_id + "-" + index).append("<td id=" + imgUrl[i].type_id + "-text-" + index + " style='font-size:9px;'>")
+        $("#" + imgUrl[i].type_id + "-text-" + index).text(imgUrl[i].name)
+        if ($(".tableLegendProperty").find("tr").length > 4 && legendOverflow == false) {
+            window.legendOverflow = true
+            let height = $(".tableLegendProperty").css("height")
+            $(".div-tableLegendProperty").css("height", height)
+            $(".div-tableLegendProperty").css("overflow-y", "auto")
+        }
+    }
+
 }
 
 var getMarkerSymbol = function (propertyType, renderer) {
