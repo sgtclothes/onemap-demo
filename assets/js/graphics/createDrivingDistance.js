@@ -29,6 +29,10 @@ var fillParameterDrivingDistance = function (map) {
 
 var startDrivingDistance = function (map, longitude, latitude) {
 
+    $(document).delegate("#driving-distance-div", "click", function () {
+        actionElement("#hold-driving-distance", "remove")
+    })
+
     //Fill driving distance data
     $(document).delegate(".select-driving-distance-mini", "change", function () {
         if ($(this).val() == 3) {

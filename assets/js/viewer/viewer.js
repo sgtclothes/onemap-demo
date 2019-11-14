@@ -1,5 +1,6 @@
 var toggleViewer = function (toggle) {
     if (toggle == "open") {
+        actionElement(".popupFilter", "remove")
         $("#myViewer").css("width", "350px")
         $("#main").css("margin-left", "350px")
     } else if (toggle == "close") {

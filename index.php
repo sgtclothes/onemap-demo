@@ -62,9 +62,6 @@ if (!isset($_SESSION['auth'])) {
         <link rel="stylesheet" href="assets/css/jquery/jquery-ui-1.12.1.css">
         <script src="assets/js/jquery-1.12.4.js"></script>
         <script src="assets/js/jquery-1.12.1.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4-src.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
         <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
         <!-- /global stylesheets -->
 
@@ -126,9 +123,6 @@ if (!isset($_SESSION['auth'])) {
         <script src="content/template/instant_analysis/buffers.js"></script>
         <script src="content/template/instant_analysis/drivetimeDistance.js"></script>
         <script src="content/template/instant_analysis/drivetime.js"></script>
-        <script src="sample/serviceLayerPOI.js"></script>
-        <script src="sample/serviceLayerInfrastructure.js"></script>
-        <script src="sample/serviceLayerDemographic.js"></script>
     </head>
 
     <body id="main" class="navbar-top sidebar-main-hidden">
@@ -423,14 +417,14 @@ if (!isset($_SESSION['auth'])) {
                                     </td>
                                     <td style="height:26px; text-align:center;">
                                         <div class="popup-require">
-                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="land-min-size-meter-value" />
+                                            <input class="floatTextBoxWithRange" style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="land-min-size-meter-value" />
                                             <span class="popuptext" id="land-popup-alert-min-meter-empty">Please input min value!</span>
                                             <span class="popuptext" id="land-popup-alert-min-meter-valid">Please input valid min value!</span>
                                         </div>
                                     </td>
                                     <td style="height:26px; text-align:center;">
                                         <div class="popup-require">
-                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="land-max-size-meter-value" />
+                                            <input class="floatTextBoxWithRange" style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="land-max-size-meter-value" />
                                             <div style="z-index: 1000">
                                                 <span class="popuptext" id="land-popup-alert-max-meter-empty">Please input max value!</span>
                                                 <span class="popuptext" id="land-popup-alert-max-meter-valid">Please input valid max value!</span>
@@ -446,14 +440,14 @@ if (!isset($_SESSION['auth'])) {
                                     </td>
                                     <td style="height:26px; text-align:center;">
                                         <div class="popup-require">
-                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="build-min-size-meter-value" />
+                                            <input class="floatTextBoxWithRange" style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="build-min-size-meter-value" />
                                             <span class="popuptext" id="build-popup-alert-min-meter-empty">Please input min value!</span>
                                             <span class="popuptext" id="build-popup-alert-min-meter-valid">Please input valid min value!</span>
                                         </div>
                                     </td>
                                     <td style="height:26px; text-align:center;">
                                         <div class="popup-require">
-                                            <input style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="build-max-size-meter-value" />
+                                            <input class="floatTextBoxWithRange" style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="build-max-size-meter-value" />
                                             <div style="z-index: 1000">
                                                 <span class="popuptext" id="build-popup-alert-max-meter-empty">Please input max value!</span>
                                                 <span class="popuptext" id="build-popup-alert-max-meter-valid">Please input valid max value!</span>
@@ -476,7 +470,7 @@ if (!isset($_SESSION['auth'])) {
                                     <td style="width:38.45px;">From</td>
                                     <td style="width:70px;">
                                         <div class="popup-require">
-                                            <input style="width:100%; border-radius:10px; text-align:center;" type="text" id="time-period-from-value" />
+                                            <input style="width:100%; border-radius:10px; text-align:center;" type="text" readonly="readonly" id="time-period-from-value" />
                                             <span class="popuptext" id="popup-alert-from-empty">Please input from value!</span>
                                             <span class="popuptext" id="popup-alert-from-valid">Please input valid from value!</span>
                                         </div>
@@ -484,7 +478,7 @@ if (!isset($_SESSION['auth'])) {
                                     <td style="text-align: center; width:38.45px;">To</td>
                                     <td style="width:70px;">
                                         <div class="popup-require">
-                                            <input style="width:100%; border-radius:10px; text-align:center;" type="text" id="time-period-to-value" />
+                                            <input style="width:100%; border-radius:10px; text-align:center;" type="text" readonly="readonly" id="time-period-to-value" />
                                             <span class="popuptext" id="popup-alert-to-empty">Please input to value!</span>
                                             <span class="popuptext" id="popup-alert-to-valid">Please input valid to value!</span>
                                         </div>
@@ -1313,7 +1307,7 @@ if (!isset($_SESSION['auth'])) {
 
         <!-- Loading bar -->
         <div style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4);" id="loading-bar">
-            <img class="image-loading" draggable="false" style="margin-left:30%; margin-top:15%;  opacity: 0.5; filter: alpha(opacity=50);" src="assets/images/oneMap-loading-2-hole.gif" width="500" height="300" loop>
+            <img class="image-loading" draggable="false" style="margin-left:30%; margin-top:15%;" src="assets/images/oneMap-loading-2-hole.gif" width="500" height="300" loop>
         </div>
         <!-- End of loading bar -->
 
@@ -1361,7 +1355,7 @@ if (!isset($_SESSION['auth'])) {
     </body>
 
     <!-- Window -->
-    <script src="assets/js/window/setWindowVariables.js"></script>
+    <script src="assets/js/window/window.js"></script>
     <!-- End of Window -->
 
     <script src="assets/js/addPointsFromSite.js"></script>
@@ -1369,7 +1363,6 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/createAnalysis.js"></script>
     <script src="assets/js/formListCSV.js"></script>
     <script src="assets/js/showCurrentDepartment.js"></script>
-    <script src="assets/js/inputFilter.js"></script>
     <script src="assets/js/selectUnitSize.js"></script>
     <script src="assets/js/multiSelect.js"></script>
     <script src="assets/js/inputCheckboxPropertyStatus.js"></script>
@@ -1383,32 +1376,49 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/createQueryShape.js"></script>
     <script src="assets/js/livePointing.js"></script>
 
+    <!-- Loading -->
+    <script src="assets/js/loading/loading.js"></script>
+    <!--End of loading -->
+
+    <!-- Legend -->
+    <script src="assets/js/legend/legend.js"></script>
+    <!--End of legend -->
+
+    <!-- Layer -->
+    <script src="assets/js/layer/layer.js"></script>
+    <!-- End of Layer -->
+
     <!-- Crypto -->
-    <script src="assets/js/crypto/Barret.js"></script>
-    <script src="assets/js/crypto/BigInt.js"></script>
-    <script src="assets/js/crypto/RSA.js"></script>
-    <script src="assets/js/crypto/generateToken.js"></script>
-    <script src="assets/js/crypto/generatePOI.js"></script>
-    <script src="assets/js/crypto/generateClassifications.js"></script>
+    <script src="assets/js/crypt/Barret.js"></script>
+    <script src="assets/js/crypt/BigInt.js"></script>
+    <script src="assets/js/crypt/RSA.js"></script>
+    <script src="assets/js/crypt/token.js"></script>
     <!-- End of Crypto -->
+
+    <!-- Jquery own function -->
+    <script src="assets/js/jqueryOwnFunction/jqueryOwnFunction.js"></script>
+    <!-- End of Jquery own function -->
 
     <!-- Site -->
     <script src="assets/js/site/createSite.js"></script>
     <!-- End of Site -->
 
     <!-- Filter -->
-    <script src="assets/js/filter/submitFilterServices.js"></script>
-    <script src="assets/js/filter/removeFilterResults.js"></script>
+    <script src="assets/js/filter/filter.js"></script>
     <link rel="stylesheet" href="assets/js/filter/legend/resultsLegend.css">
     <!-- End of Filter -->
 
     <!-- Data -->
-    <script src="assets/js/data/getColliersData.js"></script>
-    <script src="assets/js/data/consumePOI.js"></script>
-    <script src="assets/js/data/paginationColliersPopup.js"></script>
+    <script src="assets/js/data/colliersData.js"></script>
+    <script src="assets/js/data/externalData.js"></script>
+    <script src="assets/js/data/pagination.js"></script>
     <script src="assets/js/data/popup/popupFilter.js"></script>
     <link rel="stylesheet" href="assets/js/data/popup/popupFilter.css">
     <!-- End of Data -->
+
+    <!-- Input -->
+    <script src="assets/js/input/input.js"></script>
+    <!-- End of Input -->
 
     <!-- Images -->
     <script src="assets/js/images/image.js"></script>
@@ -1441,36 +1451,22 @@ if (!isset($_SESSION['auth'])) {
     <!-- End of Registers for layer -->
 
     <!-- Map Action -->
-    <script src="assets/js/mapView/mapViewClick.js"></script>
-    <script src="assets/js/mapView/mapViewPointerMove.js"></script>
-    <script src="assets/js/mapView/mapViewWhenReady.js"></script>
-    <script src="assets/js/mapView/convertScreenPoint.js"></script>
+    <script src="assets/js/mapView/mapView.js"></script>
     <!-- End of Map Action -->
 
     <!-- Context Menu Action -->
-    <script src="assets/js/contextMenu/createContextMenu.js"></script>
-    <script src="assets/js/contextMenu/action/analyzeClick.js"></script>
-    <script src="assets/js/contextMenu/action/viewPopupAnalyzedClick.js"></script>
-    <link rel="stylesheet" href="assets/js/contextMenu/action/popup/viewPopupAnalyzed.css">
-    <link rel="stylesheet" href="assets/js/contextMenu/action/popup/subViewPopupAnalyzed.css">
-    <script src="assets/js/contextMenu/analyze/radiusClick.js"></script>
-    <script src="assets/js/contextMenu/analyze/drivingtimeClick.js"></script>
-    <script src="assets/js/contextMenu/analyze/drivingdistanceClick.js"></script>
-    <script src="assets/js/contextMenu/analyze/manualClick.js"></script>
-    <script src="assets/js/contextMenu/action/removeClick.js"></script>
-    <script src="assets/js/contextMenu/measurement/pointClick.js"></script>
-    <script src="assets/js/contextMenu/measurement/polygonClick.js"></script>
-    <script src="assets/js/contextMenu/measurement/rectangleClick.js"></script>
-    <script src="assets/js/contextMenu/measurement/polylineClick.js"></script>
-    <script src="assets/js/contextMenu/hover/measurementHover.js"></script>
-    <script src="assets/js/contextMenu/hover/analyzeHover.js"></script>
+    <script src="assets/js/contextMenu/contextMenu.js"></script>
+    <script src="assets/js/contextMenu/action/action.js"></script>
+    <script src="assets/js/contextMenu/analyze/analyze.js"></script>
+    <link rel="stylesheet" href="assets/js/contextMenu/action/popup/result/viewPopupAnalyzed.css">
+    <link rel="stylesheet" href="assets/js/contextMenu/action/popup/result/subViewPopupAnalyzed.css">
+    <link rel="stylesheet" href="assets/js/contextMenu/action/popup/config/configPopup.css">
+    <script src="assets/js/contextMenu/measurement/measurement.js"></script>
+    <script src="assets/js/contextMenu/hover/hover.js"></script>
     <!-- End of Context Menu Action -->
 
     <!-- Geometry Services -->
-    <script src="assets/js/geometryServiceAPI/getProjectionPoint.js"></script>
-    <script src="assets/js/geometryServiceAPI/getIntersectPolygons.js"></script>
-    <script src="assets/js/geometryServiceAPI/getAreaAndLengthPolygons.js"></script>
-    <script src="assets/js/geometryServiceAPI/getDistance.js"></script>
+    <script src="assets/js/geometryServiceAPI/geometryServiceAPI.js"></script>
     <!-- End of Geometry Services -->
 
     <!-- Query -->

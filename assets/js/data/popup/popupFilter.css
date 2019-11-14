@@ -2,7 +2,7 @@
   position: absolute;
   z-index: 10;
   background-color: white;
-  display: block;
+  display: none;
   width: 900px;
   height: auto;
   right: 0;

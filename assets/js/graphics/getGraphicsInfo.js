@@ -4,6 +4,9 @@ var getGraphicsInfo = async function (response, map) {
         if ((val[0] == "dynamic" && (val[1] == "buffer" || val[1] == "polygon")) || (val[0] == "drive" && (val[1] == "time" || val[1] == "distance")) || (val[0] == "rectangle")) {
             selectMe(0, response)
         } else if (val[0] == "colliers" && val[1] == "property") {
+            var latitude = undefined
+            var longitude = undefined
+            var res = undefined
             setLocalStorage(
                 "selectedFeatureFilterLatitude",
                 JSON.stringify(response.results[0].graphic.geometry.latitude)
@@ -13,18 +16,47 @@ var getGraphicsInfo = async function (response, map) {
                 JSON.stringify(response.results[0].graphic.geometry.longitude)
             );
 
-            $("#loading-bar").show()
+            loading("show")
             $("#popupFilter").remove()
             window.currentPagePopup = 1
             toggleViewer("close")
 
-            let popup = map.ObjMapView.popup
+            for (let i = 0; i < response.results.length; i++) {
+                if (response.results[i].graphic.selector == "colliers-property-attr") {
+                    longitude = response.results[i].graphic.geometry.longitude
+                    latitude = response.results[i].graphic.geometry.latitude
+                }
+                let point = new ESRI.Point()
+                point.longitude = longitude
+                point.latitude = latitude
+
+                var queryWhere = undefined
+                if (propertyServiceStatusValue.length > 0) {
+                    let a = "("
+                    for (let i = 0; i < propertyServiceStatusValue.length; i++) {
+                        a += propertyServiceStatusValue[i]
+                        if (propertyServiceStatusValue[i + 1] !== undefined) {
+                            a += " OR "
+                        }
+                    }
+                    a += ")"
+                    queryWhere = a
+                } else {
+                    queryWhere = ""
+                }
+
+                console.log(map.ObjMapView.popup)
+
+                await processQuery(map, colliersPropertyStaging, queryWhere, ["*"], point, "esriGeometryPoint").then(function (results) {
+                    res = results.features
+                })
+            }
 
             await $.get("assets/js/data/popup/popupFilter.html", function (data) {
                 $(".page-content").append(data);
             });
 
-            await paginationColliersPopup(map, popup)
+            await paginationColliersPopup(map, res)
         }
         else {
             //Highlight pointing
@@ -113,40 +145,3 @@ var getGraphicsInfo = async function (response, map) {
     }
 }
 
-var getItemsGroupLayer = function (layer) {
-    let results = []
-    for (let i = 0; i < layer.layers.items.length; i++) {
-        if (layer.layers.items[i].graphics.items.length > 0) {
-            for (let j = 0; j < layer.layers.items[i].graphics.items.length; j++) {
-                results.push(layer.layers.items[i].graphics.items[j])
-            }
-        }
-    }
-    return results
-}
-
-var getLayerById = function (map, id) {
-    let layer = undefined
-    for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
-        if (map.ObjMap.layers.items[i].id == id) {
-            layer = map.ObjMap.layers.items[i]
-        }
-    }
-    return layer
-}
-
-var getNestedLayerById = function (map, id, nested_id) {
-    let layer = undefined
-    for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
-        if (map.ObjMap.layers.items[i].id == id) {
-            if (map.ObjMap.layers.items[i].layers.items.length > 0) {
-                for (let j = 0; j < map.ObjMap.layers.items[i].layers.items.length; j++) {
-                    if (map.ObjMap.layers.items[i].layers.items[j].id == nested_id) {
-                        layer = map.ObjMap.layers.items[i].layers.items[j]
-                    }
-                }
-            }
-        }
-    }
-    return layer
-}

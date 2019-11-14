@@ -47,3 +47,27 @@ async function queryGeometryGetRings(featureLayer, geometry, outFields) {
     }
     return resultsFinal
 }
+
+var processQuery = async function (map, featureService, where, outFields, readGeometry, geometryType) {
+    loading("show")
+    var query = new ESRI.Query();
+    var res = undefined
+    query.returnGeometry = true;
+    query.outFields = outFields;
+    query.outSpatialReference = map.ObjMap.spatialReference;
+    if (readGeometry) {
+        query.geometry = readGeometry
+    }
+    if (geometryType) {
+        query.geometryType = geometryType
+    }
+    if (where == "") {
+        query.where = "1=1"
+    } else {
+        query.where = where
+    }
+    await featureService.queryFeatures(query).then(function (results) {
+        res = results
+    })
+    return res
+}

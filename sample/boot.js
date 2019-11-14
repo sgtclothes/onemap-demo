@@ -22,7 +22,7 @@ async function boot(GIS) {
 
   await setWindowVariables(map)
 
-  // $.get("assets/js/contextMenu/action/popup/subViewPopupAnalyzed.html", function (data) {
+  // $.get("assets/js/contextMenu/action/popup/config/configPopup.html", function (data) {
   //   $(".page-content").append(data);
   // });
 
@@ -607,7 +607,6 @@ async function boot(GIS) {
     function getDate(element) {
       var date;
       try {
-        console.log(dateFormat);
         date = $.datepicker.parseDate(dateFormat, element.value);
       } catch (error) {
         date = null;
@@ -615,6 +614,12 @@ async function boot(GIS) {
       return date;
     }
   });
+
+  // ESRI.watchUtils.watch(map.ObjMapView, "zoom", function () {
+  //   ESRI.watchUtils.whenFalseOnce(map.ObjMapView, "updating", function (result) {
+  //     console.log(result)
+  //   });
+  // });
 
   // Generate link to Census tract details
   map.ObjMapView.when(function () {

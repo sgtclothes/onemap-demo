@@ -129,6 +129,106 @@ var displayLegendProperty = async function (map, title, results, kTag, renderer,
 
 }
 
+var displayResultsGraphicsPropertyColliers = async function (map, results) {
+    //---Custom variables
+    var features = results.features
+    var graphicsLayer = new ESRI.GraphicsLayer({
+        id: "colliers-property-"
+    })
+    groupLayerProperty.add(graphicsLayer)
+    var attributes = []
+    //---
+    if (features.length < 1) {
+        loading("hide")
+    } else {
+        loading("show")
+        for (let i = 0; i < features.length; i++) {
+            attributes.push(features[i].attributes)
+        }
+        for (let i = 0; i < features.length; i++) {
+            var g
+            var property = undefined
+            var markerSymbol = undefined
+            property = features[i].attributes.property_type.toLowerCase()
+            markerSymbol = getMarkerSymbol(property)
+            var point = new ESRI.Point()
+            if (features[i].geometry.longitude == undefined && features[i].geometry.latitude == undefined) {
+                point.longitude = features[i].geometry.x
+                point.latitude = features[i].geometry.y
+            } else {
+                point.longitude = features[i].geometry.longitude
+                point.latitude = features[i].geometry.latitude
+            }
+            var template = {};
+            g = new ESRI.Graphic({
+                geometry: point,
+                attributes: attributes[i],
+                symbol: markerSymbol,
+                popupTemplate: template
+            });
+            graphicsLayer.add(g);
+        }
+        await sortID(map, "colliers-property", "colliers-property-")
+        await registerAttributes(map, "colliers-property", "colliers-property-attr", "*")
+    }
+}
+
+var displayLegendPropertyColliers = async function (map, title) {
+    var layer = getLayerById(map, "colliers-property").layers.items
+    var property = []
+
+    for (let i = 0; i < layer.length; i++) {
+        for (let j = 0; j < layer[i].graphics.items.length; j++) {
+            if (layer[i].graphics.items[j].attributes.property_type.toLowerCase() == "land" || layer[i].graphics.items[j].attributes.property_type.toLowerCase() == "land, industrial/logistic" || layer[i].graphics.items[j].attributes.property_type.toLowerCase() == " " || layer[i].graphics.items[j].attributes.property_type.toLowerCase() == "land, office") {
+                layer[i].graphics.items[j].attributes.property_type = "others"
+            }
+            property.push({
+                type: layer[i].graphics.items[j].attributes.property_type.toLowerCase()
+            })
+        }
+    }
+
+    property = removeDuplicates(property, "type")
+
+    var imgUrl = []
+    var obj = {}
+    var markerSymbol = undefined
+
+    if (property.length > 0) {
+        await checkLegend(map, ".tableLegendProperty", "assets/js/filter/legend/resultsLegend.html")
+        await setTitleLegend(".titleLegendProperty", title)
+    }
+
+    for (let i = 0; i < property.length; i++) {
+        markerSymbol = getMarkerSymbol(property[i].type)
+        obj = {
+            name: property[i].type,
+            type: "colliers-property-" + property[i].type,
+            url: markerSymbol.url
+        }
+        imgUrl.push(obj)
+    }
+
+    imgUrl = removeDuplicates(imgUrl, "type")
+
+    for (let i = 0; i < imgUrl.length; i++) {
+        var index = i
+        let punctuations = [/\s/g, "&", "'", ".", "/"]
+        imgUrl[i].type_id = punctuationFixer(punctuations, "_", imgUrl[i].type)
+        $(".tableLegendProperty").append("<tr style='padding-right:5px; padding-left:5px;' id=" + imgUrl[i].type_id + "-" + index + ">")
+        $("#" + imgUrl[i].type_id + "-" + index).append("<td id=" + imgUrl[i].type_id + "-img-" + index + " style='padding-left:5px;'>")
+        $("#" + imgUrl[i].type_id + "-img-" + index).append("<img style='width:14px; height:14px;' src=" + imgUrl[i].url + ">")
+        $("#" + imgUrl[i].type_id + "-" + index).append("<td id=" + imgUrl[i].type_id + "-text-" + index + " style='font-size:9px;'>")
+        $("#" + imgUrl[i].type_id + "-text-" + index).text(imgUrl[i].name)
+        if ($(".tableLegendProperty").find("tr").length > 4 && legendOverflow == false) {
+            window.legendOverflow = true
+            let height = $(".tableLegendProperty").css("height")
+            $(".div-tableLegendProperty").css("height", height)
+            $(".div-tableLegendProperty").css("overflow-y", "auto")
+        }
+    }
+}
+
 var getMarkerSymbol = function (propertyType, renderer) {
     let markerSymbol = {}
     if (propertyType == "office") {
