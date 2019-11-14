@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.9.0.1
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 04, 2019 at 09:35 AM
--- Server version: 10.1.10-MariaDB
--- PHP Version: 7.0.3
+-- Generation Time: Nov 14, 2019 at 11:26 PM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.1.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -30,7 +32,7 @@ CREATE TABLE `analysis` (
   `id` int(8) NOT NULL,
   `name` varchar(75) CHARACTER SET latin1 NOT NULL,
   `created_by` int(4) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -121,7 +123,7 @@ CREATE TABLE `password_reset_temp` (
   `email` varchar(50) NOT NULL,
   `token` varchar(250) NOT NULL,
   `expDate` datetime NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -146,7 +148,7 @@ CREATE TABLE `site` (
   `name` varchar(50) CHARACTER SET latin1 NOT NULL,
   `address` text CHARACTER SET latin1 NOT NULL,
   `created_by` int(4) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -173,7 +175,7 @@ CREATE TABLE `spec_buffer_analysis` (
   `distance` float NOT NULL,
   `unit` varchar(15) CHARACTER SET latin1 NOT NULL,
   `options` int(1) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -223,7 +225,7 @@ CREATE TABLE `users` (
   `role` enum('System Administrator','Admin','User') CHARACTER SET latin1 NOT NULL,
   `password` varchar(255) CHARACTER SET latin1 NOT NULL,
   `photo` text NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -340,41 +342,49 @@ ALTER TABLE `users_department`
 --
 ALTER TABLE `analysis`
   MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT for table `analysis_points`
 --
 ALTER TABLE `analysis_points`
   MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
 --
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
   MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT for table `password_reset_temp`
 --
 ALTER TABLE `password_reset_temp`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `site`
 --
 ALTER TABLE `site`
   MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
 --
 -- AUTO_INCREMENT for table `spec_buffer_analysis`
 --
 ALTER TABLE `spec_buffer_analysis`
   MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
 --
 -- AUTO_INCREMENT for table `users_department`
 --
 ALTER TABLE `users_department`
   MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
 --
 -- Constraints for dumped tables
 --
@@ -409,6 +419,7 @@ ALTER TABLE `spec_buffer_analysis`
 ALTER TABLE `users_department`
   ADD CONSTRAINT `fk_users_department_to_department` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_users_department_to_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -1,5 +1,6 @@
 var mapViewClick = function (map) {
     map.ObjMapView.on("click", function (event) {
+        console.log(map.ObjMapView.popup)
         actionElement("#hold-driving-time", "remove")
         actionElement("#hold-driving-distance", "remove")
         actionElement(".esri-popup", "hide")
@@ -142,6 +143,7 @@ var graphicsBehavior = function (map, event) {
         hoveredMeasurement = false
         hoveredDraw = false
         map.ObjMapView.hitTest(point).then(function (response) {
+            console.log(response)
             if (response.results.length > 0) {
                 if ("analyzed" in response.results[0].graphic) {
                     console.log("Target Analyzed")

@@ -45,8 +45,6 @@ var getGraphicsInfo = async function (response, map) {
                     queryWhere = ""
                 }
 
-                console.log(map.ObjMapView.popup)
-
                 await processQuery(map, colliersPropertyStaging, queryWhere, ["*"], point, "esriGeometryPoint").then(function (results) {
                     res = results.features
                 })
@@ -58,53 +56,55 @@ var getGraphicsInfo = async function (response, map) {
 
             await paginationColliersPopup(map, res)
         }
-        else {
-            //Highlight pointing
-            let lat = response.results[0].graphic.geometry.latitude;
-            let lon = response.results[0].graphic.geometry.longitude;
-            let posLat = lat + 0.04;
-            let posLon = lon;
-            for (let i = 0; i < map.ObjMapView.graphics.items.length; i++) {
+        // else {
+        //     //Highlight pointing
+        //     let lat = response.results[0].graphic.geometry.latitude;
+        //     let lon = response.results[0].graphic.geometry.longitude;
+        //     let posLat = lat + 0.04;
+        //     let posLon = lon;
+        //     for (let i = 0; i < map.ObjMapView.graphics.items.length; i++) {
 
-                if (map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
-                    if (
-                        map.ObjMapView.graphics.items[i].attributes.id ==
-                        localStorage.getItem("pointingHighlight")
-                    ) {
-                        map.ObjMapView.graphics.items[i].visible = false;
-                        map.ObjMapView.graphics.items.splice(i, 1);
-                    }
-                }
-            }
+        //         if (map.ObjMapView.graphics.items[i].attributes.hasOwnProperty("id")) {
+        //             if (
+        //                 map.ObjMapView.graphics.items[i].attributes.id ==
+        //                 localStorage.getItem("pointingHighlight")
+        //             ) {
+        //                 map.ObjMapView.graphics.items[i].visible = false;
+        //                 map.ObjMapView.graphics.items.splice(i, 1);
+        //             }
+        //         }
+        //     }
 
-            if (response.results[0].graphic.symbol === null) {
-                localStorage.setItem(
-                    "pointingHighlight",
-                    lat.toString() + lon.toString()
-                );
-                let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
-                pointing.setPointingPopupMarker();
-                if (attr.includes("propertytype")) {
-                    pointing.positionFixing(posLat, posLon);
-                }
-                pointing.render();
-            } else if (
-                response.results[0].graphic.symbol.url !==
-                "assets/images/icons/map-marker.png"
-            ) {
-                localStorage.setItem(
-                    "pointingHighlight",
-                    lat.toString() + lon.toString()
-                );
-                let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
-                pointing.setPointingPopupMarker();
-                if (attr.includes("propertytype") || attr.includes("property_type") || attr.includes("property_t")) {
-                    pointing.positionFixing(posLat, posLon);
-                }
-                pointing.render();
-            }
-            //End of Highlight pointing
-        }
+        //     if (response.results[0].graphic.symbol === null) {
+        //         localStorage.setItem(
+        //             "pointingHighlight",
+        //             lat.toString() + lon.toString()
+        //         );
+        //         let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
+        //         pointing.setPointingPopupMarker();
+        //         if (attr.includes("propertytype")) {
+        //             pointing.positionFixing(posLat, posLon);
+        //         }
+        //         pointing.render();
+        //     } else if (
+        //         response.results[0].graphic.symbol.url !==
+        //         "assets/images/icons/map-marker.png"
+        //     ) {
+        //         localStorage.setItem(
+        //             "pointingHighlight",
+        //             lat.toString() + lon.toString()
+        //         );
+        //         let pointing = new GIS.Buffer.Pointing(map.ObjMapView, lat, lon);
+        //         pointing.setPointingPopupMarker();
+        //         if (attr.includes("propertytype") || attr.includes("property_type") || attr.includes("property_t")) {
+        //             pointing.positionFixing(posLat, posLon);
+        //         } else {
+
+        //         }
+        //         pointing.render();
+        //     }
+        //     //End of Highlight pointing
+        // }
     } else {
         resetSelectedGraphics(groupLayers)
         // Get longitude and latitude

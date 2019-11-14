@@ -20,10 +20,13 @@ var createPolygon = async function (geometry) {
         }
     };
 
+    var template = {}
+
     var polygonGraphic = new ESRI.Graphic({
         geometry: polygon,
         geometry_3857: geometry,
-        symbol: fillSymbol
+        symbol: fillSymbol,
+        popupTemplate: template
     });
 
     var graphicsLayer = new ESRI.GraphicsLayer()

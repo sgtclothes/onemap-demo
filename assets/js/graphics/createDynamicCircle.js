@@ -18,7 +18,11 @@ var createDynamicCircle = async function (map, pointX, pointY) {
     const graphicsLayer = new ESRI.GraphicsLayer({
         id: "dynamic-buffer-" + index
     });
+    const graphicsLayer2 = new ESRI.GraphicsLayer({
+        id: "dynamic-buffer-" + index + "-h"
+    });
 
+    groupLayerPolygons.add(graphicsLayer2)
     groupLayerRadius.add(graphicsLayer)
 
     // Update UI
@@ -39,7 +43,7 @@ var createDynamicCircle = async function (map, pointX, pointY) {
     function setUpSketch() {
         sketchViewModel = new ESRI.SketchViewModel({
             view: map.ObjMapView,
-            layer: graphicsLayer,
+            layer: graphicsLayer2,
             updateOnGraphicClick: false
         });
         sketchViewModel.on("update", onMove);
@@ -142,6 +146,8 @@ var createDynamicCircle = async function (map, pointX, pointY) {
                 spatialReference: map.ObjMapView.spatialReference
             });
 
+            var template = {};
+
             // get the length of the initial polyline and create buffer
             const length = ESRI.geometryEngine.geodesicLength(polyline, unit);
             const buffer = ESRI.geometryEngine.geodesicBuffer(
@@ -163,7 +169,8 @@ var createDynamicCircle = async function (map, pointX, pointY) {
                 symbol: pointSymbol,
                 attributes: {
                     center: "center"
-                }
+                },
+                popupTemplate: template
             });
 
             edgeGraphic = new ESRI.Graphic({
@@ -171,7 +178,8 @@ var createDynamicCircle = async function (map, pointX, pointY) {
                 symbol: pointSymbol,
                 attributes: {
                     edge: "edge"
-                }
+                },
+                popupTemplate: template
             });
 
             polylineGraphic = new ESRI.Graphic({
@@ -180,17 +188,14 @@ var createDynamicCircle = async function (map, pointX, pointY) {
                     type: "simple-line",
                     color: [122, 124, 128, 1],
                     width: 2.5
-                }
+                },
+                popupTemplate: template
             });
 
             bufferGraphic = new ESRI.Graphic({
-                attributes: { test: "TTT" },
                 selector: "buffer-graphics",
                 geometry: buffer,
-                popupTemplate: {
-                    title: "Coba",
-                    content: "test"
-                },
+                popupTemplate: template,
                 symbol: {
                     type: "simple-fill",
                     color: [150, 150, 150, 0.2],
@@ -201,12 +206,11 @@ var createDynamicCircle = async function (map, pointX, pointY) {
                 }
             });
 
-            console.log(graphicsLayer)
-
             labelGraphic = labelLength(edgePoint, length);
 
             // Add graphics to layer
-            graphicsLayer.addMany([centerGraphic, edgeGraphic, bufferGraphic, polylineGraphic, labelGraphic]);
+            graphicsLayer2.addMany([centerGraphic, edgeGraphic]);
+            // graphicsLayer.add(bufferGraphic)
             // once center and edge point graphics are added to the layer,
             // call sketch's update method pass in the graphics so that users
             // can just drag these graphics to adjust the buffer
@@ -215,6 +219,10 @@ var createDynamicCircle = async function (map, pointX, pointY) {
                     tool: "move"
                 });
             }, 1000);
+
+            graphicsLayer.addMany([
+                bufferGraphic
+            ]);
         }
         // Move the center and edge graphics to the new location returned from search
         else {
@@ -228,6 +236,7 @@ var createDynamicCircle = async function (map, pointX, pointY) {
 
     // Label polyline with its length
     function labelLength(geom, length) {
+        var template = {};
         return new ESRI.Graphic({
             attributes: "label-graphics",
             geometry: geom,
@@ -242,7 +251,8 @@ var createDynamicCircle = async function (map, pointX, pointY) {
                     size: 14,
                     family: "sans-serif"
                 }
-            }
+            },
+            popupTemplate: template
         });
     }
 }

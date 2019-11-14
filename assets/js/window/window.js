@@ -38,12 +38,12 @@ var setWindowVariables = async function (map) {
     window.groupLayerRectangles = new ESRI.GroupLayer({
         id: "rectangles"
     });
-    window.groupLayers = [groupLayerRadius, groupLayerDrivingTime, groupLayerDrivingDistance, groupLayerPoints, groupLayerPolygons, groupLayerPolylines, groupLayerRectangles, groupLayerProperty, groupLayerExternalData]
+    window.groupLayers = [groupLayerRadius, groupLayerDrivingTime, groupLayerDrivingDistance, groupLayerPoints, groupLayerPolygons, groupLayerPolylines, groupLayerRectangles, groupLayerExternalData, groupLayerProperty]
     window.groupLayerID = []
     for (let i = 0; i < groupLayers.length; i++) {
         groupLayerID[i] = groupLayers[i].id
     }
-    map.ObjMap.addMany([groupLayerRadius, groupLayerDrivingTime, groupLayerDrivingDistance, groupLayerPoints, groupLayerPolygons, groupLayerPolylines, groupLayerRectangles, groupLayerProperty, groupLayerExternalData]);
+    map.ObjMap.addMany([groupLayerRadius, groupLayerDrivingTime, groupLayerDrivingDistance, groupLayerPoints, groupLayerPolygons, groupLayerPolylines, groupLayerRectangles, groupLayerExternalData, groupLayerProperty]);
     //--- End of Make a parent grouplayer of radius and polygons---//
 
     //---Make window for featureLayer---//
