@@ -26,9 +26,6 @@ var generateToken = function () {
                 data: data,
                 success: function (response) {
                     resolve(JSON.parse(response).token)
-                },
-                error: function (xhr, status, error) {
-                    setTimeout(ajaxPost(), 200);
                 }
             })
         }

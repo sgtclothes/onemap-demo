@@ -860,7 +860,6 @@ async function boot(GIS) {
   multiSelect();
   inputCheckboxPropertyStatus();
   inputCheckboxServices(GIS, map);
-  inputCheckboxQueryShape(GIS, map);
   saveDataServiceToLocalStorage();
   createOverlap(GIS, map);
   viewTableServices(map);
