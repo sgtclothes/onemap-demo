@@ -98,10 +98,13 @@ var processDrivingDistance = function (map, longitude, latitude, unit, distance)
             }
         };
 
+        var template = {}
+
         var polygonGraphic = new ESRI.Graphic({
             geometry: polygon,
             geometry_3857: resultGraphics[0].geometry,
-            symbol: fillSymbol
+            symbol: fillSymbol,
+            popupTemplate: template
         });
 
         var graphicsLayer = new ESRI.GraphicsLayer({

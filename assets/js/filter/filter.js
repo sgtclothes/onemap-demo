@@ -256,7 +256,7 @@ var submitFilterServices = function (map) {
 
             if (checkGraphicsExist(map).length > 0) {
                 for (let i = 0; i < checkGraphicsExist(map).length; i++) {
-                    await processQuery(map, featureService[0], queryWhere, ["property_type"], checkGraphicsExist(map)[i]).then(async function (results) {
+                    await processQuery(map, featureService[0], queryWhere, ["*"], checkGraphicsExist(map)[i]).then(async function (results) {
                         if (results.features.length < 1) {
                             loading("hide")
                             actionElement(".legendProperty", "remove")
@@ -268,10 +268,10 @@ var submitFilterServices = function (map) {
                 await setTimeout(async () => {
                     loading("hide")
                     await displayLegendPropertyColliers(map, "LIST DATA", property)
-                }, 100);
+                }, 10000);
                 checkHeightLegend()
             } else {
-                await processQuery(map, featureService[0], queryWhere, ["property_type"]).then(async function (results) {
+                await processQuery(map, featureService[0], queryWhere, ["*"]).then(async function (results) {
                     if (results.features.length < 1) {
                         loading("hide")
                         actionElement(".legendProperty", "remove")
@@ -282,7 +282,7 @@ var submitFilterServices = function (map) {
                 await setTimeout(async () => {
                     loading("hide")
                     await displayLegendPropertyColliers(map, "LIST DATA", property)
-                }, 100);
+                }, 10000);
                 checkHeightLegend()
             }
         }
@@ -306,31 +306,32 @@ var checkGraphicsExist = function (map) {
 
     getItemsGroupLayer(radius).forEach(ele => {
         if (ele.selector == "buffer-graphics") {
-            geometryRadius.push(ele.geometry)
+            ele.geometry.dynamic = "yes"
+            geometryRadius.push(ele)
         }
     });
 
     getItemsGroupLayer(polygons).forEach(ele => {
         if (ele.selector == "polygon-graphics") {
-            geometryPolygons.push(ele.geometry)
+            geometryPolygons.push(ele)
         }
     });
 
     getItemsGroupLayer(drivingTime).forEach(ele => {
         if (ele.selector == "drivetime-graphics") {
-            geometryDrivingTime.push(ele.geometry)
+            geometryDrivingTime.push(ele)
         }
     });
 
     getItemsGroupLayer(drivingDistance).forEach(ele => {
         if (ele.selector == "drivedistance-graphics") {
-            geometryDrivingDistance.push(ele.geometry)
+            geometryDrivingDistance.push(ele)
         }
     });
 
     getItemsGroupLayer(rectangles).forEach(ele => {
         if (ele.selector == "rectangle-graphics") {
-            geometryRectangles.push(ele.geometry)
+            geometryRectangles.push(ele)
         }
     });
 
@@ -352,6 +353,7 @@ var removeFilterResults = function (map) {
         //Close contextmenu
         actionElement(".contextmenu-container", "remove")
         actionElement(".legendProperty", "remove")
+        actionElement("#label-radius", "remove")
         window.displayedLegend = []
         window.legendOverflow = false
         $(".div-tableLegendProperty").css("height", "auto")
@@ -367,5 +369,7 @@ var removeFilterResults = function (map) {
         for (let i = 0; i < inputExternalData.length; i++) {
             $(inputExternalData).prop("checked", false)
         }
+
+        console.log($("#label-radius"))
     });
 }

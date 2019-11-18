@@ -23,7 +23,6 @@ var registerAttributes = function (map, layer, attributes, cursor) {
         for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
             if (map.ObjMap.layers.items[i].id == layer) {
                 for (let j = 0; j < map.ObjMap.layers.items[i].layers.items.length; j++) {
-                    console.log(map.ObjMap.layers.items[i].layers.items[j].graphics.items[cursor])
                     map.ObjMap.layers.items[i].layers.items[j].graphics.items[cursor].selector = attributes
                 }
             }

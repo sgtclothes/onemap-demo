@@ -88,3 +88,25 @@ var getProjectionPoint = async function (points, inSR, outSR) {
     });
     return projectedPoints
 }
+
+var getProjectionGeometryPoint = async function (points, inSR, outSR) {
+    var projectedPoints = []
+    var url = "https://gis.locatorlogic.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/project"
+    var layersRequest = {
+        query: {
+            f: "json",
+            inSR: inSR,
+            outSR: outSR,
+            geometries: '{"geometryType":"esriGeometryPoint","geometries":[{ "x":' + points.x + ',' + '"y":' + points.y + '}]}'
+        },
+        responseType: "json",
+        usePost: true
+    };
+    await EsriRequest(
+        url,
+        layersRequest
+    ).then(function (response) {
+        projectedPoints.push(response.data.geometries[0])
+    });
+    return projectedPoints
+}

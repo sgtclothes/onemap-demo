@@ -56,7 +56,16 @@ var processQuery = async function (map, featureService, where, outFields, readGe
     query.outFields = outFields;
     query.outSpatialReference = map.ObjMap.spatialReference;
     if (readGeometry) {
-        query.geometry = readGeometry
+        // if (readGeometry.geometry.dynamic) {
+        //     if (readGeometry.geometry.dynamic == "yes") {
+        //         await convertDynamicToStatic(map, readGeometry)
+        //         query.geometry = readGeometry.geometry
+        //     }
+        // } else {
+        //     query.geometry = readGeometry.geometry
+        // }
+
+        query.geometry = readGeometry.geometry
     }
     if (geometryType) {
         query.geometryType = geometryType

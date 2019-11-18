@@ -6,6 +6,9 @@ var setWindowVariables = async function (map) {
         console.log(token)
         window.token = token
     })
+    await getRoles().then(function(roles) {
+        console.log(roles)
+    })
     window.pointTheSiteEnabled = false;
     window.pointEnabled = false;
     window.currentPagePopup = 1;
@@ -38,12 +41,18 @@ var setWindowVariables = async function (map) {
     window.groupLayerRectangles = new ESRI.GroupLayer({
         id: "rectangles"
     });
-    window.groupLayers = [groupLayerRadius, groupLayerDrivingTime, groupLayerDrivingDistance, groupLayerPoints, groupLayerPolygons, groupLayerPolylines, groupLayerRectangles, groupLayerExternalData, groupLayerProperty]
+    window.groupLayerMeasurements = new ESRI.GroupLayer({
+        id: "measurements"
+    })
+    window.groupLayerLabels = new ESRI.GroupLayer({
+        id: "labels"
+    })
+    window.groupLayers = [groupLayerLabels, groupLayerMeasurements, groupLayerRadius, groupLayerDrivingTime, groupLayerDrivingDistance, groupLayerPoints, groupLayerPolygons, groupLayerPolylines, groupLayerRectangles, groupLayerExternalData, groupLayerProperty]
     window.groupLayerID = []
     for (let i = 0; i < groupLayers.length; i++) {
         groupLayerID[i] = groupLayers[i].id
     }
-    map.ObjMap.addMany([groupLayerRadius, groupLayerDrivingTime, groupLayerDrivingDistance, groupLayerPoints, groupLayerPolygons, groupLayerPolylines, groupLayerRectangles, groupLayerExternalData, groupLayerProperty]);
+    map.ObjMap.addMany([groupLayerLabels, groupLayerMeasurements, groupLayerRadius, groupLayerDrivingTime, groupLayerDrivingDistance, groupLayerPoints, groupLayerPolygons, groupLayerPolylines, groupLayerRectangles, groupLayerExternalData, groupLayerProperty]);
     //--- End of Make a parent grouplayer of radius and polygons---//
 
     //---Make window for featureLayer---//
@@ -67,7 +76,7 @@ var setWindowVariables = async function (map) {
     //---Feature Layer for all POI ---//
     window.POIFeatureLayer = new ESRI.FeatureLayer({
         url:
-            "https://139.162.2.92:6443/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/2"
+            "https://gis.locatorlogic.com/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/2"
     });
     //---End of Feature Layer for all POI ---//
 }

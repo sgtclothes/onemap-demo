@@ -1,7 +1,7 @@
 var generateToken = function () {
     setMaxDigits(67);
-    var username = "xl"
-    var password = "xlaxiata2019"
+    var username = "sigit.sasongko"
+    var password = "31081995"
     var client = "requestip"
     var expiration = "60"
     var f = "json"
@@ -21,11 +21,16 @@ var generateToken = function () {
     return new Promise((resolve, reject) => {
         var ajaxPost = function () {
             $.ajax({
-                url: "https://139.162.2.92:6443/arcgis/tokens/generateToken",
+                url: "https://gis.locatorlogic.com/arcgis/tokens/generateToken",
                 type: "post",
                 data: data,
                 success: function (response) {
-                    resolve(JSON.parse(response).token)
+                    var last2 = JSON.parse(response).token.slice(-2);
+                    if (last2 == "..") {
+                        ajaxPost()
+                    } else {
+                        resolve(JSON.parse(response).token)
+                    }
                 }
             })
         }

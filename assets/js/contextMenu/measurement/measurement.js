@@ -58,12 +58,16 @@ var polygonClick = function (map) {
             view: map.ObjMapView
         });
 
+        console.log(measurePolygon)
+
         // skip the initial 'new measurement' button
         measurePolygon.viewModel.newMeasurement();
         measurePolygon.watch("viewModel.state", function (state) {
             if (state == "measured") {
                 $("#hold-polygon").remove()
                 $("body").css("cursor", "default")
+                console.log(state)
+                console.log(map.ObjMap)
             }
         });
     })

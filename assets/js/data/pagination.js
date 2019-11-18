@@ -1,5 +1,5 @@
-var paginationColliersPopup = async function (map, objJson) {
-    features = objJson
+var paginationColliersPopup = async function (map, features) {
+    console.log(features)
     await getColliersData(map, features[0].attributes)
     $(".popupFilter").css("display", "block")
     var records_per_page = 1;

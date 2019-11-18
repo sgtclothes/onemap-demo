@@ -116,6 +116,7 @@ if (!isset($_SESSION['auth'])) {
             let user = "<?= $dbuser ?>"
             let pass = "<?= $dbpass ?>"
             window.created_by = "<?= $_SESSION['auth']['id'] ?>"
+            localStorage.setItem("created_by", created_by)
         </script>
 
         <script src="sample/boot.js"></script>
@@ -208,7 +209,8 @@ if (!isset($_SESSION['auth'])) {
                             <div class="dropdown-divider"></div>
                             <?php
                                 if ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'System Administrator') {
-                                    echo "<a href=\"admin.php\" class=\"dropdown-item\"><i class=\"icon-cog5\"></i> Admin</a>";
+                                    // echo "<a href=\"admin.php\" class=\"dropdown-item\"><i class=\"icon-cog5\"></i> Admin</a>";
+                                    echo "<a href='admin\index.html' class='dropdown-item'><i class='icon-cog5'></i> Admin</a>";
                                 }
                                 ?>
                             <a id="logout" href="logout.php" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
@@ -1380,9 +1382,17 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/loading/loading.js"></script>
     <!--End of loading -->
 
+    <!-- Widget -->
+    <script src="assets/js/widget/widget.js"></script>
+    <!-- End of widget -->
+
     <!-- Legend -->
     <script src="assets/js/legend/legend.js"></script>
     <!--End of legend -->
+
+    <!-- Graphics -->
+    <script src="assets/js/graphics/convertDynamicToStatic.js"></script>
+    <!-- End of Graphics -->
 
     <!-- Layer -->
     <script src="assets/js/layer/layer.js"></script>
@@ -1437,14 +1447,20 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/graphics/displayResultsGraphics.js"></script>
     <script src="assets/js/graphics/removeGraphics.js"></script>
     <script src="assets/js/graphics/createDynamicCircle.js"></script>
+    <script src="assets/js/graphics/createCircle.js"></script>
     <script src="assets/js/graphics/createDrivingTime.js"></script>
     <script src="assets/js/graphics/createDrivingDistance.js"></script>
     <script src="assets/js/graphics/createPoint.js"></script>
     <script src="assets/js/graphics/createPolygon.js"></script>
     <script src="assets/js/graphics/createRectangle.js"></script>
     <script src="assets/js/graphics/createSketch.js"></script>
+    <script src="assets/js/graphics/createLabel.js"></script>
     <script src="assets/js/graphics/getGraphicsInfo.js"></script>
     <!-- End of Graphics -->
+
+    <!-- Roles -->
+    <script src="assets/js/roles/roles.js"></script>
+    <!-- End of Roles -->
 
     <!-- Registers for layer -->
     <script src="assets/js/registers/register.js"></script>

@@ -34,26 +34,8 @@ async function boot(GIS) {
   //   $(".page-content").append(data);
   // });
 
-
-
-  var search = new ESRI.Search( //Add search widget in sidenav layers
-    {
-      view: map.ObjMapView
-    },
-    "search-widget-property"
-  );
-
-  search.on("search-complete", function (res) {
-    setTimeout(function () {
-      console.log("OK")
-      map.ObjMapView.goTo({
-        target: [res.results[0].results[0].extent.center.longitude, res.results[0].results[0].extent.center.latitude],
-        zoom: 17
-      });
-    }, 500)
-  })
-
   mapViewWhenReady(map, config)
+  widgetCollection(map)
 
   document
     .getElementById("point-the-site")

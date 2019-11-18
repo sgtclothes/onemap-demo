@@ -17,17 +17,19 @@ var makeEsriRequest = async function (url, layersRequest) {
     return results
 }
 
-var makeEsriRequestPOST = async function (url, points) {
+var makeEsriRequestPOST = async function (url, layersRequest) {
     let results = undefined
-    let layersRequest = {
-        query: {
-            f: "json",
-            geometries: '{"rings":[' + points + ']}',
-            geometryType: "esriGeometryPolygon"
-        },
-        responseType: "json",
-        usePost: true
-    };
+    if (layersRequest == undefined) {
+        layersRequest = {
+            query: {
+                f: "json",
+                geometries: '{"rings":[' + points + ']}',
+                geometryType: "esriGeometryPolygon"
+            },
+            responseType: "json",
+            usePost: true
+        };
+    }
     await EsriRequest(
         url,
         layersRequest

@@ -5,10 +5,10 @@
   display: none;
   width: 900px;
   height: auto;
-  right: 0;
+  margin: auto;
   margin-top: 20px;
-  margin-right: 20px;
-  margin-left: 20px;
+  right: 0;
+  left: 0;
   box-shadow: 2px 5px #888888;
   padding: 10px;
   border-radius: 10px;

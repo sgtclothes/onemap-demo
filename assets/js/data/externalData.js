@@ -90,7 +90,6 @@ var consumePOI = async function (map) {
                 } else {
                     consumeServicesExternalData(map, $(this))
                 }
-                console.log(map.ObjMap)
                 checkValue = detectChecked("checked", $(this), checkValue, index)
                 changeStateMasterCheckBox($(this), checkValue, index)
             }
@@ -130,7 +129,7 @@ var consumePOI = async function (map) {
 
 var getPOI = async function () {
     var results = undefined
-    var url = "https://139.162.2.92:6443/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/2/query?where=1=1&outFields=*&token=" + token
+    var url = "https://gis.locatorlogic.com/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/2/query?where=1=1&outFields=*&token=" + token
     await EsriRequest(
         url, { query: { f: "json" }, responseType: "json" }
     ).then(function (response) {
@@ -318,8 +317,8 @@ var changeStateMasterCheckBox = function (object, checkValue, index) {
     }
 }
 
-var consumeServicesExternalData = async function (map, object, geometry) {
-
+var consumeServicesExternalData = async function (map, object, layer) {
+    console.log(layer)
     loading("show")
     let geo = undefined
 
@@ -356,21 +355,45 @@ var consumeServicesExternalData = async function (map, object, geometry) {
             $(object[i]).attr("tempid", id)
         }
 
-        console.log(geometry)
+        var layersRequest = {
+            query: {
+                f: "json",
+                where: where,
+                outFields: ["*"],
+                token: token
+            },
+            responseType: "json",
+            usePost: true
+        };
 
-        await makeEsriRequest("https://139.162.2.92:6443/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/2/query?where=" + where + "&outFields=*&token=" + token).then(function (results) {
+        await makeEsriRequestPOST("https://gis.locatorlogic.com/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/2/query", layersRequest).then(function (results) {
             image.url = image.url + results.data.features[0].attributes.imagename
         })
 
-        if (geometry) {
+        if (layer) {
 
-            if (geometry.spatialReference.wkid == "102100") {
-                await getProjectionPoint(JSON.stringify(geometry.rings[0]), "3857", "4326").then(function (results) {
+            if (layer.geometry.spatialReference.wkid == "102100") {
+                await getProjectionPoint(JSON.stringify(layer.geometry.rings[0]), "3857", "4326").then(function (results) {
                     geo = "{'rings':[" + JSON.stringify(results) + "]}"
                 })
             } else {
-                geo = "{'rings':[" + JSON.stringify(geometry.rings[0]) + "]}"
+                geo = "{'rings':[" + JSON.stringify(layer.geometry.rings[0]) + "]}"
+                console.log(where)
+                console.log(geo)
             }
+
+            var layersRequest2 = {
+                query: {
+                    f: "json",
+                    where: where,
+                    geometry: geo,
+                    geometryType: "esriGeometryPolygon",
+                    outFields: ["*"],
+                    token: token
+                },
+                responseType: "json",
+                usePost: true
+            };
 
             let punctuations = ["{"]
             geo = punctuationFixer(punctuations, "%7B", geo)
@@ -389,15 +412,17 @@ var consumeServicesExternalData = async function (map, object, geometry) {
             punctuations = ["}"]
             geo = punctuationFixer(punctuations, "%7D", geo)
 
-            await makeEsriRequestPOST("https://139.162.2.92:6443/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/0/query?outFields=*&geometryType=esriGeometryPolygon&geometry=" + geo + "&where=" + where + "&token=" + token).then(function (results) {
+            await makeEsriRequestPOST("https://gis.locatorlogic.com/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/0/query", layersRequest2).then(function (results) {
                 res = results.data
             })
 
         } else {
-            await makeEsriRequest("https://139.162.2.92:6443/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/0/query?where=" + where + "&outFields=*&token=" + token).then(function (results) {
+            await makeEsriRequestPOST("https://gis.locatorlogic.com/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/0/query", layersRequest).then(function (results) {
                 res = results.data
             })
         }
+
+        console.log(res)
 
         await renderImage(map, res, graphicsLayer, groupLayerExternalData, image, kTag[kTag.length - 1], index, record)
     }

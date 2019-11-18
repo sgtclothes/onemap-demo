@@ -491,7 +491,10 @@ var removeClick = function (map) {
                         groupLayers[s].layers.items.splice(j, 1)
 
                         if (key[1] == "buffer") {
+                            var layer = getNestedLayerById(map, "labels", "label-" + key[0] + "-" + key[1] + "-" + key[2])
+                            getLayerById(map, "labels").remove(layer)
                             sortID(map, "radius", "dynamic-buffer-")
+                            sortID(map, "labels", "label-dynamic-buffer-")
                         }
                         if (key[1] == "polygon") {
                             sortID(map, "polygons", "dynamic-polygon-")

@@ -6,7 +6,7 @@ var getGraphicsInfo = async function (response, map) {
         } else if (val[0] == "colliers" && val[1] == "property") {
             var latitude = undefined
             var longitude = undefined
-            var res = undefined
+            var res = []
             setLocalStorage(
                 "selectedFeatureFilterLatitude",
                 JSON.stringify(response.results[0].graphic.geometry.latitude)
@@ -21,40 +21,46 @@ var getGraphicsInfo = async function (response, map) {
             window.currentPagePopup = 1
             toggleViewer("close")
 
-            for (let i = 0; i < response.results.length; i++) {
-                if (response.results[i].graphic.selector == "colliers-property-attr") {
-                    longitude = response.results[i].graphic.geometry.longitude
-                    latitude = response.results[i].graphic.geometry.latitude
-                }
-                let point = new ESRI.Point()
-                point.longitude = longitude
-                point.latitude = latitude
+            // for (let i = 0; i < response.results.length; i++) {
+            //     if (response.results[i].graphic.selector == "colliers-property-attr") {
+            //         longitude = response.results[i].graphic.geometry.longitude
+            //         latitude = response.results[i].graphic.geometry.latitude
+            //     }
+            //     var point = new ESRI.Point()
+            //     point.longitude = longitude
+            //     point.latitude = latitude
 
-                var queryWhere = undefined
-                if (propertyServiceStatusValue.length > 0) {
-                    let a = "("
-                    for (let i = 0; i < propertyServiceStatusValue.length; i++) {
-                        a += propertyServiceStatusValue[i]
-                        if (propertyServiceStatusValue[i + 1] !== undefined) {
-                            a += " OR "
-                        }
-                    }
-                    a += ")"
-                    queryWhere = a
-                } else {
-                    queryWhere = ""
-                }
+            //     var graphic = new ESRI.Graphic({
+            //         geometry: point
+            //     })
 
-                await processQuery(map, colliersPropertyStaging, queryWhere, ["*"], point, "esriGeometryPoint").then(function (results) {
-                    res = results.features
-                })
-            }
+            //     var queryWhere = undefined
+            //     if (propertyServiceStatusValue.length > 0) {
+            //         let a = "("
+            //         for (let i = 0; i < propertyServiceStatusValue.length; i++) {
+            //             a += propertyServiceStatusValue[i]
+            //             if (propertyServiceStatusValue[i + 1] !== undefined) {
+            //                 a += " OR "
+            //             }
+            //         }
+            //         a += ")"
+            //         queryWhere = a
+            //     } else {
+            //         queryWhere = ""
+            //     }
 
-            await $.get("assets/js/data/popup/popupFilter.html", function (data) {
-                $(".page-content").append(data);
-            });
+            //     await processQuery(map, colliersPropertyStaging, queryWhere, ["*"], graphic, "esriGeometryPoint").then(function (results) {
+            //         res = results.features
+            //     })
+            // }
 
-            await paginationColliersPopup(map, res)
+            await setTimeout(async function () {
+                res = await getPopupColliersFeatures(map, res)
+                await $.get("assets/js/data/popup/popupFilter.html", function (data) {
+                    $(".page-content").append(data);
+                });
+                await paginationColliersPopup(map, res)
+            }, 1000)
         }
         // else {
         //     //Highlight pointing
@@ -145,3 +151,11 @@ var getGraphicsInfo = async function (response, map) {
     }
 }
 
+var getPopupColliersFeatures = function (map, res) {
+    for (let i = 0; i < map.ObjMapView.popup.features.length; i++) {
+        if (map.ObjMapView.popup.features[i].selector == "colliers-property-attr") {
+            res.push(map.ObjMapView.popup.features[i])
+        }
+    }
+    return res
+}
