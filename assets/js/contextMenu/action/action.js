@@ -25,14 +25,7 @@ var analyzeClick = function (token) {
                 for (let j = 0; j < groupLayers[s].layers.items[i].graphics.items.length; j++) {
                     for (let k = 0; k < selectedLayer.length; k++) {
                         if (groupLayers[s].layers.items[i].id == selectedLayer[k]) {
-                            if (groupLayers[s].layers.items[i].graphics.items[j].selector == "buffer-graphics") {
-                                groupLayers[s].layers.items[i].graphics.items[j].analyzed = true
-                                geometry.push(groupLayers[s].layers.items[i].graphics.items[j].geometry)
-                                shapeRings.push(groupLayers[s].layers.items[i].graphics.items[j].geometry.rings[0])
-                                await getAreaAndLengthPolygons(JSON.stringify(groupLayers[s].layers.items[i].graphics.items[j].geometry.rings[0])).then(async function (res) {
-                                    shapeAreas.push(res[0][0])
-                                })
-                            } else if (groupLayers[s].layers.items[i].graphics.items[j].selector == "polygon-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "rectangle-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "drivetime-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "drivedistance-graphics") {
+                            if (groupLayers[s].layers.items[i].graphics.items[j].selector == "buffer-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "polygon-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "rectangle-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "drivetime-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "drivedistance-graphics") {
                                 groupLayers[s].layers.items[i].graphics.items[j].analyzed = true
                                 geometry.push(groupLayers[s].layers.items[i].graphics.items[j].geometry_3857)
                                 await getProjectionPoint(JSON.stringify(groupLayers[s].layers.items[i].graphics.items[j].geometry.rings[0]), "4326", "3857").then(async function (res) {
@@ -54,6 +47,8 @@ var analyzeClick = function (token) {
                 projectedRings.push(results)
             })
         }
+
+        console.log(projectedRings)
 
         //Setting featureLayer url for service
         let featureLayer = new ESRI.FeatureLayer(
@@ -463,7 +458,7 @@ var generateClassifications = async function (token) {
 
 var getClassifications = async function (token, sumclass) {
     var results = undefined
-    var url = "https://139.162.2.92:6443/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/1/query?where=sumclass=" + sumclass + "&outFileds=*&token=" + token
+    var url = "https://gis.locatorlogic.com/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/1/query?where=sumclass=" + sumclass + "&outFileds=*&token=" + token
     await EsriRequest(
         url, { query: { f: "json" }, responseType: "json" }
     ).then(function (response) {
@@ -497,6 +492,9 @@ var removeClick = function (map) {
                             sortID(map, "labels", "label-dynamic-buffer-")
                         }
                         if (key[1] == "polygon") {
+                            var layer = getNestedLayerById(map, "labels", "label-" + key[0] + "-" + key[1] + "-" + key[2])
+                            getLayerById(map, "labels").remove(layer)
+                            sortID(map, "labels", "label-dynamic-polygon-")
                             sortID(map, "polygons", "dynamic-polygon-")
                         }
                         if (key[0] == "point") {

@@ -11,6 +11,8 @@
   background-color: white;
   border-radius: 10px;
   box-shadow: 5px 10px #888888;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 .header-config-popup-analyze {

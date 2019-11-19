@@ -267,7 +267,7 @@ var submitFilterServices = function (map) {
                 }
                 await setTimeout(async () => {
                     loading("hide")
-                    await displayLegendPropertyColliers(map, "LIST DATA", property)
+                    await displayLegendPropertyColliers(map, "LEGEND", property)
                 }, 10000);
                 checkHeightLegend()
             } else {
@@ -281,7 +281,7 @@ var submitFilterServices = function (map) {
                 })
                 await setTimeout(async () => {
                     loading("hide")
-                    await displayLegendPropertyColliers(map, "LIST DATA", property)
+                    await displayLegendPropertyColliers(map, "LEGEND", property)
                 }, 10000);
                 checkHeightLegend()
             }

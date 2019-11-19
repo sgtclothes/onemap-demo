@@ -1,12 +1,12 @@
 var getGraphicsInfo = async function (response, map) {
     if (response.results.length > 0) {
+        var res = []
         let val = response.results[0].graphic.layer.id.split("-")
         if ((val[0] == "dynamic" && (val[1] == "buffer" || val[1] == "polygon")) || (val[0] == "drive" && (val[1] == "time" || val[1] == "distance")) || (val[0] == "rectangle")) {
+            actionElement(".esri-popup", "hide")
             selectMe(0, response)
         } else if (val[0] == "colliers" && val[1] == "property") {
-            var latitude = undefined
-            var longitude = undefined
-            var res = []
+            actionElement(".esri-popup", "hide")
             setLocalStorage(
                 "selectedFeatureFilterLatitude",
                 JSON.stringify(response.results[0].graphic.geometry.latitude)
@@ -19,40 +19,6 @@ var getGraphicsInfo = async function (response, map) {
             loading("show")
             $("#popupFilter").remove()
             window.currentPagePopup = 1
-            toggleViewer("close")
-
-            // for (let i = 0; i < response.results.length; i++) {
-            //     if (response.results[i].graphic.selector == "colliers-property-attr") {
-            //         longitude = response.results[i].graphic.geometry.longitude
-            //         latitude = response.results[i].graphic.geometry.latitude
-            //     }
-            //     var point = new ESRI.Point()
-            //     point.longitude = longitude
-            //     point.latitude = latitude
-
-            //     var graphic = new ESRI.Graphic({
-            //         geometry: point
-            //     })
-
-            //     var queryWhere = undefined
-            //     if (propertyServiceStatusValue.length > 0) {
-            //         let a = "("
-            //         for (let i = 0; i < propertyServiceStatusValue.length; i++) {
-            //             a += propertyServiceStatusValue[i]
-            //             if (propertyServiceStatusValue[i + 1] !== undefined) {
-            //                 a += " OR "
-            //             }
-            //         }
-            //         a += ")"
-            //         queryWhere = a
-            //     } else {
-            //         queryWhere = ""
-            //     }
-
-            //     await processQuery(map, colliersPropertyStaging, queryWhere, ["*"], graphic, "esriGeometryPoint").then(function (results) {
-            //         res = results.features
-            //     })
-            // }
 
             await setTimeout(async function () {
                 res = await getPopupColliersFeatures(map, res)
@@ -61,6 +27,18 @@ var getGraphicsInfo = async function (response, map) {
                 });
                 await paginationColliersPopup(map, res)
             }, 1000)
+        } else if (val[0] == "external" && val[1] == "data") {
+            actionElement("#loading-bar", "show")
+            await setTimeout(async function () {
+                res = await getExternalDataGraphics(map, res)
+                map.ObjMapView.popup.features = res
+                await setTimeout(async function () {
+                    actionElement("#loading-bar", "hide")
+                    await actionElement(".esri-popup", "show")
+                }, 1000)
+            }, 1000)
+        } else {
+            actionElement(".esri-popup", "hide")
         }
         // else {
         //     //Highlight pointing
@@ -154,6 +132,15 @@ var getGraphicsInfo = async function (response, map) {
 var getPopupColliersFeatures = function (map, res) {
     for (let i = 0; i < map.ObjMapView.popup.features.length; i++) {
         if (map.ObjMapView.popup.features[i].selector == "colliers-property-attr") {
+            res.push(map.ObjMapView.popup.features[i])
+        }
+    }
+    return res
+}
+
+var getExternalDataGraphics = function (map, res) {
+    for (let i = 0; i < map.ObjMapView.popup.features.length; i++) {
+        if (map.ObjMapView.popup.features[i].selector == "external-data-graphics") {
             res.push(map.ObjMapView.popup.features[i])
         }
     }

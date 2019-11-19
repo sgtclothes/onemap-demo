@@ -1,13 +1,19 @@
 <!-- Popup Filter -->
 <div id="popupFilter" class="popupFilter">
-  <table style="width:100%; font-size:11px;">
+  <table style="width:100%; font-size:9px;">
     <tr>
-      <td id="propertytype-popup" style="width:600px; font-weight:bold;">
+      <td id="propertytype-popup" style="width:300px; font-weight:bold;">
         PROPERTY TYPE : -
       </td>
-      <td id="btn-previous-popup" class="indent-popup-pagination-200">◄</td>
-      <td class="indent-popup-pagination-150" id="page-number-popup">1</td>
-      <td id="btn-next-popup" class="indent-popup-pagination-100">►</td>
+      <td class="pagination-colliers">
+        <div id="btn-previous-popup" style="width:10px; cursor: pointer;">
+          ◄
+        </div>
+      </td>
+      <td id="page-number-popup"><div>1</div></td>
+      <td>
+        <div style="width:10px; cursor: pointer;" id="btn-next-popup">►</div>
+      </td>
       <td
         id="close-popup-property"
         class="close-popup-property"
@@ -16,8 +22,14 @@
         X
       </td>
     </tr>
+  </table>
+
+  <table style="width:100%; font-size:9px;">
     <tr>
       <td id="buildingName-popup">Land at Unknown</td>
+      <td style="float: right; width:150px;" id="exchange-rate-popup">
+        Exchange Rate : Unknown
+      </td>
     </tr>
   </table>
 
@@ -25,7 +37,7 @@
     <tr>
       <td class="image-property" style="width:200px; height:240px;"></td>
       <td>
-        <table class="font-popup" style="height:100%">
+        <table class="font-popup" style="height:auto; font-size: 9px;">
           <tr class="title-popup">
             <td
               id="action-date-popup"
@@ -39,8 +51,8 @@
             </td>
           </tr>
           <tr class="title-popup">
-            <td rowspan="2" style="width:50px; background-color: #e6e6e6;"></td>
-            <td rowspan="2" style="width:100px; background-color: #e6e6e6;">
+            <td rowspan="2" style="width:auto; background-color: #e6e6e6;"></td>
+            <td rowspan="2" style="width:auto; background-color: #e6e6e6;">
               Total
             </td>
             <td colspan="3" style="background-color: #e6e6e6;">
@@ -49,30 +61,30 @@
             <td colspan="3" style="background-color: #e6e6e6;">
               Price Per
             </td>
-            <td colspan="2" style="width:100px; background-color: #e6e6e6;">
+            <td colspan="2" style="background-color: #e6e6e6;">
               Price
             </td>
-            <td rowspan="2" style="width:30px; background-color: #e6e6e6;">
+            <td rowspan="2" style="width:auto; background-color: #e6e6e6;">
               %
             </td>
           </tr>
           <tr class="title-popup">
-            <td colspan="2" style="width:60px; background-color: #e6e6e6;">
+            <td colspan="2" style="width:auto; background-color: #e6e6e6;">
               Sqm
             </td>
             <td
-              style="width:100px; word-wrap:break-word; background-color: #e6e6e6;"
+              style="width:auto; word-wrap:break-word; background-color: #e6e6e6;"
             >
               Units/Keys
             </td>
-            <td colspan="2" style="width:64px; background-color: #e6e6e6;">
+            <td colspan="2" style="width:auto; background-color: #e6e6e6;">
               Sqm
             </td>
-            <td style="width:100px; background-color: #e6e6e6;">Unit/Key</td>
-            <td style="width:50px; background-color: #e6e6e6;">
+            <td style="width:auto; background-color: #e6e6e6;">Unit/Key</td>
+            <td style="width:auto; background-color: #e6e6e6;">
               Total
             </td>
-            <td style="width:50px; background-color: #e6e6e6;">
+            <td style="width:auto; background-color: #e6e6e6;">
               Per Sqm
             </td>
           </tr>
@@ -214,7 +226,7 @@
               Land Sqm
             </td>
             <td
-              style="width:100px; word-wrap:break-word; background-color: #e6e6e6;"
+              style="width:auto; word-wrap:break-word; background-color: #e6e6e6;"
             >
               Price/Buildable Sqm
             </td>
@@ -244,14 +256,16 @@
       </td>
     </tr>
     <tr>
-      <td id="address-popup" class="font-popup">Unknown address</td>
+      <td style="font-size: 9px;" id="address-popup" class="font-popup">
+        Unknown address
+      </td>
       <td>
-        <table class="font-popup" style="width:100%;">
+        <table style="font-size: 9px;" class="font-popup" style="width:100%;">
           <tr>
-            <td id="colliers-contact-popup" style="width:340px;">
+            <td id="colliers-contact-popup" style="width:600px;">
               Colliers Contact : -
             </td>
-            <td style="width:100px;" id="lastupdate-popup">Last Updated : -</td>
+            <td style="width:200px;" id="lastupdate-popup">Last Updated : -</td>
           </tr>
         </table>
       </td>

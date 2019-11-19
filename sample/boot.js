@@ -22,7 +22,7 @@ async function boot(GIS) {
 
   await setWindowVariables(map)
 
-  // $.get("assets/js/contextMenu/action/popup/config/configPopup.html", function (data) {
+  // await $.get("assets/js/contextMenu/action/popup/config/configPopup.html", function (data) {
   //   $(".page-content").append(data);
   // });
 

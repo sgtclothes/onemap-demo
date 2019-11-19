@@ -62,12 +62,24 @@ var polygonClick = function (map) {
 
         // skip the initial 'new measurement' button
         measurePolygon.viewModel.newMeasurement();
-        measurePolygon.watch("viewModel.state", function (state) {
+        measurePolygon.watch("viewModel.state", async function (state) {
             if (state == "measured") {
                 $("#hold-polygon").remove()
                 $("body").css("cursor", "default")
-                console.log(state)
+                var geometry = measurePolygon.viewModel.measurement.geometry
+                var area = measurePolygon.viewModel.measurementLabel.area
+                area = "Area : " + area
+                var point = new ESRI.Point()
+                point.x = geometry.centroid.x
+                point.y = geometry.centroid.y
+                // console.log(measurePolygon)
+                // console.log(geometry)
+                await createPolygon(geometry)
+                await createLabel(map, point, area, "label-dynamic-polygon-")
+                sortID(map, "polygons", "dynamic-polygon-")
+                registerAttributes(map, "polygons", "polygon-graphics", 0)
                 console.log(map.ObjMap)
+                measurePolygon.destroy()
             }
         });
     })

@@ -2,16 +2,20 @@ var getColliersData = async function (map, attributes) {
 
     let actionDate = attributes.action_date
     let a = new Date(actionDate);
+    var monthActionDate = a.toLocaleString('default', { month: 'long' })
+    monthActionDate = monthActionDate.substring(0, 3)
     actionDate =
-        a.getDate() + "-" + (a.getMonth() + 1) + "-" + a.getFullYear();
-    if (actionDate === "NaN-NaN-NaN") {
+        a.getDate() + " " + monthActionDate + " " + a.getFullYear();
+    if (actionDate === "NaN NaN NaN") {
         actionDate = undefined
     }
     let lastUpdate = attributes.last_update
     let b = new Date(lastUpdate);
+    var monthLastUpdate = b.toLocaleString('default', { month: 'long' })
+    monthLastUpdate = monthLastUpdate.substring(0, 3)
     lastUpdate =
-        b.getDate() + "-" + (b.getMonth() + 1) + "-" + b.getFullYear();
-    if (lastUpdate === "NaN-NaN-NaN") {
+        b.getDate() + " " + monthLastUpdate + " " + b.getFullYear();
+    if (lastUpdate === "NaN NaN NaN") {
         lastUpdate = undefined
     }
     let currency = attributes.currency
@@ -67,8 +71,15 @@ var getColliersData = async function (map, attributes) {
     let landTotalUSD = totalUSD
     if (totalIDR !== 0 && totalUSD == 0) {
         landTotalUSD = numberValidation(createFormula(totalIDR * exchangeRateIDRToUSD))
+        $("#landTotalIDR").css("font-weight", "bold")
+        $("#landTotalUSD").css("font-weight", "")
     } else if (totalIDR == 0 && totalUSD !== 0) {
         landTotalIDR = numberValidation(createFormula(totalUSD * exchangeRateUSDToIDR))
+        $("#landTotalUSD").css("font-weight", "bold")
+        $("#landTotalIDR").css("font-weight", "")
+    } else if (totalIDR !== 0 && totalUSD !== 0) {
+        $("#landTotalIDR").css("font-weight", "bold")
+        $("#landTotalUSD").css("font-weight", "")
     }
 
     //Compare two values -- land size sqm gross IDR and USD
@@ -165,8 +176,15 @@ var getColliersData = async function (map, attributes) {
     let buildingTotalUSD = 0
     if (totalIDR !== 0 && totalUSD == 0) {
         buildingTotalUSD = numberValidation(createFormula(0 * exchangeRateIDRToUSD))
+        $("#buildingTotalIDR").css("font-weight", "bold")
+        $("#buildingTotalUSD").css("font-weight", "")
     } else if (totalIDR == 0 && totalUSD !== 0) {
         buildingTotalIDR = numberValidation(createFormula(0 * exchangeRateUSDToIDR))
+        $("#buildingTotalUSD").css("font-weight", "bold")
+        $("#buildingTotalIDR").css("font-weight", "")
+    } else if (totalIDR !== 0 && totalUSD !== 0) {
+        $("#buildingTotalIDR").css("font-weight", "bold")
+        $("#buildingTotalUSD").css("font-weight", "")
     }
 
     //Compare two values -- building size sqm gross IDR and USD
@@ -345,9 +363,15 @@ var getColliersData = async function (map, attributes) {
         }
     })
     if (propertyType) {
-        $("#propertytype-popup").text(
-            "PROPERTY TYPE : " + propertyType.toUpperCase()
-        );
+        if (id) {
+            $("#propertytype-popup").text(
+                "PROPERTY TYPE : " + propertyType.toUpperCase() + " (" + id + ")"
+            );
+        } else {
+            $("#propertytype-popup").text(
+                "PROPERTY TYPE : " + propertyType.toUpperCase()
+            );
+        }
     } else {
         $("#propertytype-popup").text(
             "PROPERTY TYPE : unknown"
@@ -367,14 +391,19 @@ var getColliersData = async function (map, attributes) {
         }
     }
     if (propertyName) {
-        $("#buildingName-popup").text("Land at " + propertyName)
+        $("#buildingName-popup").text(propertyName)
     } else {
-        $("#buildingName-popup").text("Land at unknown")
+        $("#buildingName-popup").text("Unknown")
     }
     if (propertyAddress) {
         $("#address-popup").text(propertyAddress)
     } else {
         $("#address-popup").text("unknown address")
+    }
+    if (exchangeRateUSDToIDR) {
+        $("#exchange-rate-popup").text("Exchange Rate : " + delimiter(numberValidation(exchangeRateUSDToIDR)))
+    } else {
+        $("#exchange-rate-popup").text("Exchange Rate : Unknown")
     }
     if (propertyColliersContact) {
         $("#colliers-contact-popup").text("Colliers Contact : " + propertyColliersContact)

@@ -46,7 +46,6 @@ var radiusClick = function (map) {
             }
             if (event.state === "complete") {
                 area = $("#hold-circle").text()
-                console.log(area)
                 $("#hold-circle").remove()
                 await createCircle(event.graphic.geometry).then(function () {
                     sortID(map, "radius", "dynamic-buffer-")

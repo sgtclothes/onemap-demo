@@ -3,10 +3,9 @@
   z-index: 10;
   background-color: white;
   display: none;
-  width: 900px;
+  width: 719px;
   height: auto;
-  margin: auto;
-  margin-top: 20px;
+  margin: 20px auto;
   right: 0;
   left: 0;
   box-shadow: 2px 5px #888888;
@@ -14,33 +13,8 @@
   border-radius: 10px;
 }
 
-.indent-popup-pagination-200 {
-  visibility: hidden;
-  text-indent: -200px;
-  cursor: pointer;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Opera and Firefox */
-}
-
-.indent-popup-pagination-150 {
-  text-indent: -150px;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Opera and Firefox */
-}
-
-.indent-popup-pagination-100 {
-  text-indent: -100px;
-  cursor: pointer;
+.pagination-colliers {
+  width: 100px;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */

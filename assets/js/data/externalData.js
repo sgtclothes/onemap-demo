@@ -1,9 +1,11 @@
 var consumePOI = async function (map) {
-    let kTags = []
-    let layerLongName = []
-    let imageName = []
-    let tablePOI = $("#table-external-data")
-    let longestLength = 0
+    var kTags = []
+    var layerLongName = []
+    var imageName = []
+    var tableExternalData = $("#table-external-data")
+    var tableExternalDataInPopup = $("#table-config-external-data")
+    console.log(tableExternalDataInPopup)
+    var longestLength = 0
 
     await getPOI().then(function (results) {
         for (let i = 0; i < results.length; i++) {
@@ -23,7 +25,8 @@ var consumePOI = async function (map) {
 
     longestLength = checkTheLongestArray(layerLongName)
 
-    createTreeCheckBox(layerLongName, tablePOI, imageName, kTags)
+    createTreeCheckBox(layerLongName, tableExternalData, imageName, kTags)
+    createTreeCheckBox(layerLongName, tableExternalDataInPopup, imageName, kTags)
     setExpandElement($(".table-row-tree"))
     indexAllInput($(".table-row-tree"))
     neatAllInput($(".table-row-tree"))

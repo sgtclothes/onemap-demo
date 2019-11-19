@@ -1,10 +1,7 @@
 var mapViewClick = function (map) {
     map.ObjMapView.on("click", function (event) {
-        map.ObjMapView.popup.clear()
-        console.log(map.ObjMapView.popup.features)
         actionElement("#hold-driving-time", "remove")
         actionElement("#hold-driving-distance", "remove")
-        actionElement(".esri-popup", "hide")
         graphicsBehavior(map, event)
         pointTheSite(map, event)
         pointingFromNavAnalysis(map, event)

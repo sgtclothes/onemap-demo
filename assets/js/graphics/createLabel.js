@@ -28,7 +28,7 @@ var createLabel = async function (map, geometry, area, id) {
     graphicsLayer.add(graphic)
     groupLayerLabels.add(graphicsLayer)
 
-    sortID(map, "labels", "label-dynamic-buffer-")
+    sortID(map, "labels", id)
     registerAttributes(map, "labels", "label-graphics", 0)
 
     console.log(map.ObjMap)

@@ -6,7 +6,7 @@ var setWindowVariables = async function (map) {
         console.log(token)
         window.token = token
     })
-    await getRoles().then(function(roles) {
+    await getRoles().then(function (roles) {
         console.log(roles)
     })
     window.pointTheSiteEnabled = false;
@@ -73,10 +73,69 @@ var setWindowVariables = async function (map) {
     });
     //---End of Make window for featureLayer---//
 
-    //---Feature Layer for all POI ---//
+    //---Feature Layer for all External Data ---//
     window.POIFeatureLayer = new ESRI.FeatureLayer({
         url:
             "https://gis.locatorlogic.com/arcgis/rest/services/TEMP/k_target_temptest/FeatureServer/2"
     });
-    //---End of Feature Layer for all POI ---//
+    //---End of Feature Layer for all External Data ---//
+
+    //---Feature Service for all Onemap Database ---//
+    window.onemapRoles = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/11"
+    });
+    window.onemapDepartment = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/6"
+    });
+    window.onemapUsers = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/13"
+    });
+    window.onemapLayers = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/10"
+    });
+    window.onemapFields = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/7"
+    });
+    window.onemapActiveLayers = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/2"
+    });
+    window.onemapActiveFields = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/1"
+    });
+    window.onemapGraphicsLayers = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/8"
+    });
+    window.onemapSites = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/12"
+    });
+    window.onemapAnalysis = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/3"
+    });
+    window.onemapAnalysisPoints = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/4"
+    });
+    window.onemapAnalysisPolygons = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/5"
+    });
+    window.onemapGroupLayers = new ESRI.FeatureLayer({
+        url:
+            "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/9"
+    });
+
+    window.onemapAddFeatures = "/addFeatures"
+    window.onemapUpdateFeatures = "/updateFeatures"
+    window.onemapDeleteFeatures = "/deleteFeatures"
+    //---End Feature Service for all Onemap Database ---//
 }

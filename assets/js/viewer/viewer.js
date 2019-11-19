@@ -1,11 +1,19 @@
 var toggleViewer = function (toggle) {
     if (toggle == "open") {
-        actionElement(".popupFilter", "remove")
         $("#myViewer").css("width", "350px")
         $("#main").css("margin-left", "350px")
+        // if ($(".popupFilter").length > 0) {
+        //     $(".popupFilter").css("margin-left", "10px")
+        //     $(".popupFilter").css("margin-right", "10px")
+        // }
     } else if (toggle == "close") {
         $("#myViewer").css("width", "0")
         $("#main").css("margin-left", "0")
+        // if ($(".popupFilter").length > 0) {
+        //     $(".popupFilter").css("margin-left", "")
+        //     $(".popupFilter").css("margin-right", "")
+        //     $(".popupFilter").css("margin", "20px auto")
+        // }
     }
 }
 
