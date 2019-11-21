@@ -70,14 +70,18 @@ var getColliersData = async function (map, attributes) {
     let landTotalIDR = totalIDR
     let landTotalUSD = totalUSD
     if (totalIDR !== 0 && totalUSD == 0) {
-        landTotalUSD = numberValidation(createFormula(totalIDR * exchangeRateIDRToUSD))
+        landTotalUSD = numberValidation(createFormula(propertyEffectLand(propertyType, totalIDR) * exchangeRateIDRToUSD))
+        landTotalIDR = numberValidation(propertyEffectLand(propertyType, totalIDR))
         $("#landTotalIDR").css("font-weight", "bold")
         $("#landTotalUSD").css("font-weight", "")
     } else if (totalIDR == 0 && totalUSD !== 0) {
-        landTotalIDR = numberValidation(createFormula(totalUSD * exchangeRateUSDToIDR))
+        landTotalIDR = numberValidation(createFormula(propertyEffectLand(propertyType, totalUSD) * exchangeRateUSDToIDR))
+        landTotalUSD = numberValidation(propertyEffectLand(propertyType, totalUSD))
         $("#landTotalUSD").css("font-weight", "bold")
         $("#landTotalIDR").css("font-weight", "")
     } else if (totalIDR !== 0 && totalUSD !== 0) {
+        landTotalIDR = numberValidation(propertyEffectLand(propertyType, totalIDR))
+        landTotalUSD = numberValidation(propertyEffectLand(propertyType, totalUSD))
         $("#landTotalIDR").css("font-weight", "bold")
         $("#landTotalUSD").css("font-weight", "")
     }
@@ -86,38 +90,70 @@ var getColliersData = async function (map, attributes) {
     let landSizeSqmGrossIDR = 0
     let landSizeSqmGrossUSD = 0
     if (pricePerSqmGrossIDR !== 0 && pricePerSqmGrossUSD == 0) {
-        if (pricePerSqmGrossIDR !== 0 && totalIDR !== 0) {
-            landSizeSqmGrossIDR = numberValidation(createFormula(totalIDR / pricePerSqmGrossIDR))
+        if (totalIDR !== 0 && totalUSD == 0) {
+            landSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalIDR) / propertyEffectLand(propertyType, pricePerSqmGrossIDR)))
+        } else if (totalUSD !== 0 && totalIDR == 0) {
+            landSizeSqmGrossUSD = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalUSD) / propertyEffectLand(propertyType, pricePerSqmGrossUSD)))
+        } else if (totalIDR !== 0 && totalUSD !== 0) {
+            landSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalIDR) / propertyEffectLand(propertyType, pricePerSqmGrossIDR)))
         }
     } else if (pricePerSqmGrossIDR == 0 && pricePerSqmGrossUSD !== 0) {
-        if (pricePerSqmGrossUSD !== 0 && totalUSD !== 0) {
-            landSizeSqmGrossUSD = numberValidation(createFormula(totalUSD / pricePerSqmGrossUSD))
+        if (totalIDR !== 0 && totalUSD == 0) {
+            landSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalIDR) / propertyEffectLand(propertyType, pricePerSqmGrossIDR)))
+        } else if (totalUSD !== 0 && totalIDR == 0) {
+            landSizeSqmGrossUSD = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalUSD) / propertyEffectLand(propertyType, pricePerSqmGrossUSD)))
+        } else if (totalIDR !== 0 && totalUSD !== 0) {
+            landSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalIDR) / propertyEffectLand(propertyType, pricePerSqmGrossIDR)))
+        }
+    } else if (pricePerSqmGrossIDR !== 0 && pricePerSqmGrossUSD !== 0) {
+        if (totalIDR !== 0 && totalUSD == 0) {
+            landSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalIDR) / propertyEffectLand(propertyType, pricePerSqmGrossIDR)))
+        } else if (totalUSD !== 0 && totalIDR == 0) {
+            landSizeSqmGrossUSD = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalUSD) / propertyEffectLand(propertyType, pricePerSqmGrossUSD)))
+        } else if (totalIDR !== 0 && totalUSD !== 0) {
+            landSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalIDR) / propertyEffectLand(propertyType, pricePerSqmGrossIDR)))
         }
     }
 
     if (landSizeSqmGrossIDR !== 0 && landSizeSqmGrossUSD == 0) {
-        landSizeSqmGrossUSD = numberValidation(createFormula(landSizeSqmGrossIDR * exchangeRateIDRToUSD))
+        landSizeSqmGrossUSD = numberValidation(createFormula(propertyEffectLand(propertyType, landSizeSqmGrossIDR) * exchangeRateIDRToUSD))
     } else if (landSizeSqmGrossIDR == 0 && landSizeSqmGrossUSD !== 0) {
-        landSizeSqmGrossIDR = numberValidation(createFormula(landSizeSqmGrossUSD * exchangeRateUSDToIDR))
+        landSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landSizeSqmGrossUSD) * exchangeRateUSDToIDR))
     }
 
     //Compare two values -- land size sqm sganett IDR and USD
     let landSizeSqmSganettIDR = 0
     let landSizeSqmSganettUSD = 0
     if (pricePerSqmSganettIDR !== 0 && pricePerSqmSganettUSD == 0) {
-        if (pricePerSqmSganettIDR !== 0 && totalIDR !== 0) {
-            landSizeSqmSganettIDR = numberValidation(createFormula(totalIDR / pricePerSqmSganettIDR))
+        if (totalIDR !== 0 && totalUSD == 0) {
+            landSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalIDR) / propertyEffectLand(propertyType, pricePerSqmSganettIDR)))
+        } else if (totalUSD !== 0 && totalIDR == 0) {
+            landSizeSqmSganettUSD = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalUSD) / propertyEffectLand(propertyType, pricePerSqmSganettUSD)))
+        } else if (totalIDR !== 0 && totalUSD !== 0) {
+            landSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalIDR) / propertyEffectLand(propertyType, pricePerSqmSganettIDR)))
         }
     } else if (pricePerSqmSganettIDR == 0 && pricePerSqmSganettUSD !== 0) {
-        if (pricePerSqmSganettUSD !== 0 && totalUSD !== 0) {
-            landSizeSqmSganettUSD = numberValidation(createFormula(totalUSD / pricePerSqmSganettUSD))
+        if (totalIDR !== 0 && totalUSD == 0) {
+            landSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalIDR) / propertyEffectLand(propertyType, pricePerSqmSganettIDR)))
+        } else if (totalUSD !== 0 && totalIDR == 0) {
+            landSizeSqmSganettUSD = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalUSD) / propertyEffectLand(propertyType, pricePerSqmSganettUSD)))
+        } else if (totalIDR !== 0 && totalUSD !== 0) {
+            landSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalIDR) / propertyEffectLand(propertyType, pricePerSqmSganettIDR)))
+        }
+    } else if (pricePerSqmSganettIDR !== 0 && pricePerSqmSganettUSD !== 0) {
+        if (totalIDR !== 0 && totalUSD == 0) {
+            landSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalIDR) / propertyEffectLand(propertyType, pricePerSqmSganettIDR)))
+        } else if (totalUSD !== 0 && totalIDR == 0) {
+            landSizeSqmSganettUSD = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalUSD) / propertyEffectLand(propertyType, pricePerSqmSganettUSD)))
+        } else if (totalIDR !== 0 && totalUSD !== 0) {
+            landSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landTotalIDR) / propertyEffectLand(propertyType, pricePerSqmSganettIDR)))
         }
     }
 
     if (landSizeSqmSganettIDR !== 0 && landSizeSqmSganettUSD == 0) {
-        landSizeSqmSganettUSD = numberValidation(createFormula(landSizeSqmSganettIDR * exchangeRateIDRToUSD))
+        landSizeSqmSganettUSD = numberValidation(createFormula(propertyEffectLand(propertyType, landSizeSqmSganettIDR) * exchangeRateIDRToUSD))
     } else if (landSizeSqmSganettIDR == 0 && landSizeSqmSganettUSD !== 0) {
-        landSizeSqmSganettIDR = numberValidation(createFormula(landSizeSqmSganettUSD * exchangeRateUSDToIDR))
+        landSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landSizeSqmSganettUSD) * exchangeRateUSDToIDR))
     }
 
     //land units/keys
@@ -130,24 +166,34 @@ var getColliersData = async function (map, attributes) {
 
     //Compare two values -- land size price per sqm gross IDR and USD
 
-    let landPricePerSqmGrossIDR = pricePerSqmGrossIDR
-    let landPricePerSqmGrossUSD = pricePerSqmGrossUSD
+    let landPricePerSqmGrossIDR = propertyEffectLand(propertyType, pricePerSqmGrossIDR)
+    let landPricePerSqmGrossUSD = propertyEffectLand(propertyType, pricePerSqmGrossUSD)
 
     if (landPricePerSqmGrossIDR !== 0 && landPricePerSqmGrossUSD == 0) {
-        landPricePerSqmGrossUSD = numberValidation(createFormula(landPricePerSqmGrossIDR * exchangeRateIDRToUSD))
+        landPricePerSqmGrossUSD = numberValidation(createFormula(propertyEffectLand(propertyType, landPricePerSqmGrossIDR) * exchangeRateIDRToUSD))
+        landPricePerSqmGrossIDR = numberValidation(propertyEffectLand(propertyType, landPricePerSqmGrossIDR))
     } else if (landPricePerSqmGrossIDR == 0 && landPricePerSqmGrossUSD !== 0) {
-        landPricePerSqmGrossIDR = numberValidation(createFormula(landPricePerSqmGrossUSD * exchangeRateUSDToIDR))
+        landPricePerSqmGrossIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landPricePerSqmGrossUSD) * exchangeRateUSDToIDR))
+        landPricePerSqmGrossUSD = numberValidation(propertyEffectLand(propertyType, landPricePerSqmGrossUSD))
+    } else if (landPricePerSqmGrossIDR !== 0 && landPricePerSqmGrossUSD !== 0) {
+        landPricePerSqmGrossIDR = numberValidation(propertyEffectLand(propertyType, landPricePerSqmGrossIDR))
+        landPricePerSqmGrossUSD = numberValidation(propertyEffectLand(propertyType, landPricePerSqmGrossUSD))
     }
 
     //Compare two values -- land size price per sqm sganett IDR and USD
 
-    let landPricePerSqmSganettIDR = pricePerSqmSganettIDR
-    let landPricePerSqmSganettUSD = pricePerSqmSganettUSD
+    let landPricePerSqmSganettIDR = propertyEffectLand(propertyType, pricePerSqmSganettIDR)
+    let landPricePerSqmSganettUSD = propertyEffectLand(propertyType, pricePerSqmSganettUSD)
 
     if (landPricePerSqmSganettIDR !== 0 && landPricePerSqmSganettUSD == 0) {
-        landPricePerSqmSganettUSD = numberValidation(createFormula(landPricePerSqmSganettIDR * exchangeRateIDRToUSD))
+        landPricePerSqmSganettUSD = numberValidation(createFormula(propertyEffectLand(propertyType, landPricePerSqmSganettIDR) * exchangeRateIDRToUSD))
+        landPricePerSqmSganettIDR = numberValidation(propertyEffectLand(propertyType, landPricePerSqmSganettIDR))
     } else if (landPricePerSqmSganettIDR == 0 && landPricePerSqmSganettUSD !== 0) {
-        landPricePerSqmSganettIDR = numberValidation(createFormula(landPricePerSqmSganettUSD * exchangeRateUSDToIDR))
+        landPricePerSqmSganettIDR = numberValidation(createFormula(propertyEffectLand(propertyType, landPricePerSqmSganettUSD) * exchangeRateUSDToIDR))
+        landPricePerSqmSganettUSD = numberValidation(propertyEffectLand(propertyType, landPricePerSqmSganettUSD))
+    } else if (landPricePerSqmSganettIDR !== 0 && landPricePerSqmSganettUSD !== 0) {
+        landPricePerSqmSganettIDR = numberValidation(propertyEffectLand(propertyType, landPricePerSqmSganettIDR))
+        landPricePerSqmSganettUSD = numberValidation(propertyEffectLand(propertyType, landPricePerSqmSganettUSD))
     }
 
     //Land price per unit key
@@ -156,12 +202,12 @@ var getColliersData = async function (map, attributes) {
     let landPricePerUnitKeyUSD = 0
 
     //Land NJOP Price Total
-    let landNJOPPriceTotalIDR = njop
-    let landNJOPPriceTotalUSD = numberValidation(createFormula(exchangeRateIDRToUSD * njop))
+    let landNJOPPriceTotalIDR = propertyEffectLand(propertyType, njop)
+    let landNJOPPriceTotalUSD = numberValidation(createFormula(exchangeRateIDRToUSD * propertyEffectLand(propertyType, njop)))
 
     //Land NJOP Price Per Sqm
-    let landNJOPPricePerSqmIDR = njop
-    let landNJOPPricePerSqmUSD = numberValidation(createFormula(exchangeRateIDRToUSD * njop))
+    let landNJOPPricePerSqmIDR = propertyEffectLand(propertyType, njop)
+    let landNJOPPricePerSqmUSD = numberValidation(createFormula(exchangeRateIDRToUSD * propertyEffectLand(propertyType, njop)))
 
     //Land NJOP Percent
     let landNJOPPercentIDR = 0
@@ -169,20 +215,24 @@ var getColliersData = async function (map, attributes) {
 
     /********END OF LAND SIDE **********/
 
-    /********BUILDING SIDE **********/
+    /********building SIDE **********/
 
     //Compare two values -- building total IDR and USD
-    let buildingTotalIDR = 0
-    let buildingTotalUSD = 0
+    let buildingTotalIDR = totalIDR
+    let buildingTotalUSD = totalUSD
     if (totalIDR !== 0 && totalUSD == 0) {
-        buildingTotalUSD = numberValidation(createFormula(0 * exchangeRateIDRToUSD))
+        buildingTotalUSD = numberValidation(createFormula(propertyEffectBuilding(propertyType, totalIDR) * exchangeRateIDRToUSD))
+        buildingTotalIDR = numberValidation(propertyEffectBuilding(propertyType, totalIDR))
         $("#buildingTotalIDR").css("font-weight", "bold")
         $("#buildingTotalUSD").css("font-weight", "")
     } else if (totalIDR == 0 && totalUSD !== 0) {
-        buildingTotalIDR = numberValidation(createFormula(0 * exchangeRateUSDToIDR))
+        buildingTotalIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, totalUSD) * exchangeRateUSDToIDR))
+        buildingTotalUSD = numberValidation(propertyEffectBuilding(propertyType, totalUSD))
         $("#buildingTotalUSD").css("font-weight", "bold")
         $("#buildingTotalIDR").css("font-weight", "")
     } else if (totalIDR !== 0 && totalUSD !== 0) {
+        buildingTotalIDR = numberValidation(propertyEffectBuilding(propertyType, totalIDR))
+        buildingTotalUSD = numberValidation(propertyEffectBuilding(propertyType, totalUSD))
         $("#buildingTotalIDR").css("font-weight", "bold")
         $("#buildingTotalUSD").css("font-weight", "")
     }
@@ -191,38 +241,70 @@ var getColliersData = async function (map, attributes) {
     let buildingSizeSqmGrossIDR = 0
     let buildingSizeSqmGrossUSD = 0
     if (pricePerSqmGrossIDR !== 0 && pricePerSqmGrossUSD == 0) {
-        if (pricePerSqmGrossIDR !== 0 && totalIDR !== 0) {
-            buildingSizeSqmGrossIDR = numberValidation(createFormula(0 / pricePerSqmGrossIDR))
+        if (totalIDR !== 0 && totalUSD == 0) {
+            buildingSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalIDR) / propertyEffectBuilding(propertyType, pricePerSqmGrossIDR)))
+        } else if (totalUSD !== 0 && totalIDR == 0) {
+            buildingSizeSqmGrossUSD = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalUSD) / propertyEffectBuilding(propertyType, pricePerSqmGrossUSD)))
+        } else if (totalIDR !== 0 && totalUSD !== 0) {
+            buildingSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalIDR) / propertyEffectBuilding(propertyType, pricePerSqmGrossIDR)))
         }
     } else if (pricePerSqmGrossIDR == 0 && pricePerSqmGrossUSD !== 0) {
-        if (pricePerSqmGrossUSD !== 0 && totalUSD !== 0) {
-            buildingSizeSqmGrossUSD = numberValidation(createFormula(0 / pricePerSqmGrossUSD))
+        if (totalIDR !== 0 && totalUSD == 0) {
+            buildingSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalIDR) / propertyEffectBuilding(propertyType, pricePerSqmGrossIDR)))
+        } else if (totalUSD !== 0 && totalIDR == 0) {
+            buildingSizeSqmGrossUSD = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalUSD) / propertyEffectBuilding(propertyType, pricePerSqmGrossUSD)))
+        } else if (totalIDR !== 0 && totalUSD !== 0) {
+            buildingSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalIDR) / propertyEffectBuilding(propertyType, pricePerSqmGrossIDR)))
+        }
+    } else if (pricePerSqmGrossIDR !== 0 && pricePerSqmGrossUSD !== 0) {
+        if (totalIDR !== 0 && totalUSD == 0) {
+            buildingSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalIDR) / propertyEffectBuilding(propertyType, pricePerSqmGrossIDR)))
+        } else if (totalUSD !== 0 && totalIDR == 0) {
+            buildingSizeSqmGrossUSD = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalUSD) / propertyEffectBuilding(propertyType, pricePerSqmGrossUSD)))
+        } else if (totalIDR !== 0 && totalUSD !== 0) {
+            buildingSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalIDR) / propertyEffectBuilding(propertyType, pricePerSqmGrossIDR)))
         }
     }
 
     if (buildingSizeSqmGrossIDR !== 0 && buildingSizeSqmGrossUSD == 0) {
-        buildingSizeSqmGrossUSD = numberValidation(createFormula(0 * exchangeRateIDRToUSD))
+        buildingSizeSqmGrossUSD = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingSizeSqmGrossIDR) * exchangeRateIDRToUSD))
     } else if (buildingSizeSqmGrossIDR == 0 && buildingSizeSqmGrossUSD !== 0) {
-        buildingSizeSqmGrossIDR = numberValidation(createFormula(0 * exchangeRateUSDToIDR))
+        buildingSizeSqmGrossIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingSizeSqmGrossUSD) * exchangeRateUSDToIDR))
     }
 
     //Compare two values -- building size sqm sganett IDR and USD
     let buildingSizeSqmSganettIDR = 0
     let buildingSizeSqmSganettUSD = 0
     if (pricePerSqmSganettIDR !== 0 && pricePerSqmSganettUSD == 0) {
-        if (pricePerSqmSganettIDR !== 0 && totalIDR !== 0) {
-            buildingSizeSqmSganettIDR = numberValidation(createFormula(0 / pricePerSqmSganettIDR))
+        if (totalIDR !== 0 && totalUSD == 0) {
+            buildingSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalIDR) / propertyEffectBuilding(propertyType, pricePerSqmSganettIDR)))
+        } else if (totalUSD !== 0 && totalIDR == 0) {
+            buildingSizeSqmSganettUSD = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalUSD) / propertyEffectBuilding(propertyType, pricePerSqmSganettUSD)))
+        } else if (totalIDR !== 0 && totalUSD !== 0) {
+            buildingSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalIDR) / propertyEffectBuilding(propertyType, pricePerSqmSganettIDR)))
         }
     } else if (pricePerSqmSganettIDR == 0 && pricePerSqmSganettUSD !== 0) {
-        if (pricePerSqmSganettUSD !== 0 && totalUSD !== 0) {
-            buildingSizeSqmSganettUSD = numberValidation(createFormula(0 / pricePerSqmSganettUSD))
+        if (totalIDR !== 0 && totalUSD == 0) {
+            buildingSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalIDR) / propertyEffectBuilding(propertyType, pricePerSqmSganettIDR)))
+        } else if (totalUSD !== 0 && totalIDR == 0) {
+            buildingSizeSqmSganettUSD = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalUSD) / propertyEffectBuilding(propertyType, pricePerSqmSganettUSD)))
+        } else if (totalIDR !== 0 && totalUSD !== 0) {
+            buildingSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalIDR) / propertyEffectBuilding(propertyType, pricePerSqmSganettIDR)))
+        }
+    } else if (pricePerSqmSganettIDR !== 0 && pricePerSqmSganettUSD !== 0) {
+        if (totalIDR !== 0 && totalUSD == 0) {
+            buildingSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalIDR) / propertyEffectBuilding(propertyType, pricePerSqmSganettIDR)))
+        } else if (totalUSD !== 0 && totalIDR == 0) {
+            buildingSizeSqmSganettUSD = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalUSD) / propertyEffectBuilding(propertyType, pricePerSqmSganettUSD)))
+        } else if (totalIDR !== 0 && totalUSD !== 0) {
+            buildingSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingTotalIDR) / propertyEffectBuilding(propertyType, pricePerSqmSganettIDR)))
         }
     }
 
     if (buildingSizeSqmSganettIDR !== 0 && buildingSizeSqmSganettUSD == 0) {
-        buildingSizeSqmSganettUSD = numberValidation(createFormula(0 * exchangeRateIDRToUSD))
+        buildingSizeSqmSganettUSD = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingSizeSqmSganettIDR) * exchangeRateIDRToUSD))
     } else if (buildingSizeSqmSganettIDR == 0 && buildingSizeSqmSganettUSD !== 0) {
-        buildingSizeSqmSganettIDR = numberValidation(createFormula(0 * exchangeRateUSDToIDR))
+        buildingSizeSqmSganettIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingSizeSqmSganettUSD) * exchangeRateUSDToIDR))
     }
 
     //building units/keys
@@ -230,29 +312,39 @@ var getColliersData = async function (map, attributes) {
     let buildingSizeUnitKeysIDR = 0
     let buildingSizeUnitKeysUSD = 0
 
-    buildingSizeUnitKeysIDR = 0
-    buildingSizeUnitKeysUSD = 0
+    buildingSizeUnitKeysIDR = unitsKeys
+    buildingSizeUnitKeysUSD = unitsKeys
 
     //Compare two values -- building size price per sqm gross IDR and USD
 
-    let buildingPricePerSqmGrossIDR = 0
-    let buildingPricePerSqmGrossUSD = 0
+    let buildingPricePerSqmGrossIDR = propertyEffectBuilding(propertyType, pricePerSqmGrossIDR)
+    let buildingPricePerSqmGrossUSD = propertyEffectBuilding(propertyType, pricePerSqmGrossUSD)
 
     if (buildingPricePerSqmGrossIDR !== 0 && buildingPricePerSqmGrossUSD == 0) {
-        buildingPricePerSqmGrossUSD = numberValidation(createFormula(0 * exchangeRateIDRToUSD))
+        buildingPricePerSqmGrossUSD = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingPricePerSqmGrossIDR) * exchangeRateIDRToUSD))
+        buildingPricePerSqmGrossIDR = numberValidation(propertyEffectBuilding(propertyType, buildingPricePerSqmGrossIDR))
     } else if (buildingPricePerSqmGrossIDR == 0 && buildingPricePerSqmGrossUSD !== 0) {
-        buildingPricePerSqmGrossIDR = numberValidation(createFormula(0 * exchangeRateUSDToIDR))
+        buildingPricePerSqmGrossIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingPricePerSqmGrossUSD) * exchangeRateUSDToIDR))
+        buildingPricePerSqmGrossUSD = numberValidation(propertyEffectBuilding(propertyType, buildingPricePerSqmGrossUSD))
+    } else if (buildingPricePerSqmGrossIDR !== 0 && buildingPricePerSqmGrossUSD !== 0) {
+        buildingPricePerSqmGrossIDR = numberValidation(propertyEffectBuilding(propertyType, buildingPricePerSqmGrossIDR))
+        buildingPricePerSqmGrossUSD = numberValidation(propertyEffectBuilding(propertyType, buildingPricePerSqmGrossUSD))
     }
 
     //Compare two values -- building size price per sqm sganett IDR and USD
 
-    let buildingPricePerSqmSganettIDR = 0
-    let buildingPricePerSqmSganettUSD = 0
+    let buildingPricePerSqmSganettIDR = propertyEffectBuilding(propertyType, pricePerSqmSganettIDR)
+    let buildingPricePerSqmSganettUSD = propertyEffectBuilding(propertyType, pricePerSqmSganettUSD)
 
     if (buildingPricePerSqmSganettIDR !== 0 && buildingPricePerSqmSganettUSD == 0) {
-        buildingPricePerSqmSganettUSD = numberValidation(createFormula(0 * exchangeRateIDRToUSD))
+        buildingPricePerSqmSganettUSD = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingPricePerSqmSganettIDR) * exchangeRateIDRToUSD))
+        buildingPricePerSqmSganettIDR = numberValidation(propertyEffectBuilding(propertyType, buildingPricePerSqmSganettIDR))
     } else if (buildingPricePerSqmSganettIDR == 0 && buildingPricePerSqmSganettUSD !== 0) {
-        buildingPricePerSqmSganettIDR = numberValidation(createFormula(0 * exchangeRateUSDToIDR))
+        buildingPricePerSqmSganettIDR = numberValidation(createFormula(propertyEffectBuilding(propertyType, buildingPricePerSqmSganettUSD) * exchangeRateUSDToIDR))
+        buildingPricePerSqmSganettUSD = numberValidation(propertyEffectBuilding(propertyType, buildingPricePerSqmSganettUSD))
+    } else if (buildingPricePerSqmSganettIDR !== 0 && buildingPricePerSqmSganettUSD !== 0) {
+        buildingPricePerSqmSganettIDR = numberValidation(propertyEffectBuilding(propertyType, buildingPricePerSqmSganettIDR))
+        buildingPricePerSqmSganettUSD = numberValidation(propertyEffectBuilding(propertyType, buildingPricePerSqmSganettUSD))
     }
 
     //building price per unit key
@@ -261,18 +353,18 @@ var getColliersData = async function (map, attributes) {
     let buildingPricePerUnitKeyUSD = 0
 
     //building NJOP Price Total
-    let buildingNJOPPriceTotalIDR = njop
-    let buildingNJOPPriceTotalUSD = numberValidation(createFormula(exchangeRateIDRToUSD * 0))
+    let buildingNJOPPriceTotalIDR = propertyEffectBuilding(propertyType, njop)
+    let buildingNJOPPriceTotalUSD = numberValidation(createFormula(exchangeRateIDRToUSD * propertyEffectBuilding(propertyType, njop)))
 
     //building NJOP Price Per Sqm
-    let buildingNJOPPricePerSqmIDR = njop
-    let buildingNJOPPricePerSqmUSD = numberValidation(createFormula(exchangeRateIDRToUSD * 0))
+    let buildingNJOPPricePerSqmIDR = propertyEffectBuilding(propertyType, njop)
+    let buildingNJOPPricePerSqmUSD = numberValidation(createFormula(exchangeRateIDRToUSD * propertyEffectBuilding(propertyType, njop)))
 
     //building NJOP Percent
     let buildingNJOPPercentIDR = 0
     let buildingNJOPPercentUSD = 0
 
-    /********END OF BUILDING SIDE **********/
+    /********END OF building SIDE **********/
 
     /********TOTAL SIDE **********/
 
@@ -319,13 +411,8 @@ var getColliersData = async function (map, attributes) {
     /********END OF TOTAL SIDE **********/
 
     /********KLB SIDE **********/
-    let KLBTotalIDR = landTotalIDR
-    let KLBTotalUSD = landTotalUSD
-    if (KLBTotalIDR !== 0 && KLBTotalUSD == 0) {
-        KLBTotalUSD = numberValidation(createFormula(KLBTotalIDR * exchangeRateIDRToUSD));
-    } else if (KLBTotalIDR == 0 && KLBTotalUSD !== 0) {
-        KLBTotalIDR = numberValidation(createFormula(KLBTotalUSD * exchangeRateUSDToIDR));
-    }
+    let KLBTotalIDR = numberValidation(totalTotalIDR)
+    let KLBTotalUSD = numberValidation(totalTotalUSD)
 
     let KLBKLBIDR = 0;
     let KLBKLBUSD = 0;
@@ -333,13 +420,19 @@ var getColliersData = async function (map, attributes) {
         KLBKLBIDR = klb
         KLBKLBUSD = klb
     }
+
     let KLBLandSqmIDR = 0;
     let KLBLandSqmUSD = 0;
-    if (landSizeSqmGrossIDR !== null) {
+    if (landSizeSqmGrossIDR !== 0 && landSizeSqmSganettIDR == 0) {
         KLBLandSqmIDR = landSizeSqmGrossIDR
+    } else if (landSizeSqmGrossIDR == 0 && landSizeSqmSganettIDR !== 0) {
+        KLBLandSqmIDR = landSizeSqmSganettIDR
     }
-    if (landSizeSqmGrossUSD !== null) {
+
+    if (landSizeSqmGrossUSD !== 0 && landSizeSqmSganettUSD == 0) {
         KLBLandSqmUSD = landSizeSqmGrossUSD
+    } else if (landSizeSqmGrossUSD == 0 && landSizeSqmSganettUSD !== 0) {
+        KLBLandSqmUSD = landSizeSqmSganettUSD
     }
 
     let KLBBuildableSqmIDR = 0
@@ -353,6 +446,7 @@ var getColliersData = async function (map, attributes) {
         KLBBuildableSqmIDR = numberValidation(createFormula(exchangeRateUSDToIDR * KLBBuildableSqmUSD))
     }
     /********End of KLB SIDE **********/
+
     imageExists(propertyPhoto, function (exist) {
         if (exist) {
             $(".image-property").css("background-image", "url(" + propertyPhoto + ")");
@@ -428,7 +522,7 @@ var getColliersData = async function (map, attributes) {
     $("#landPricePerSqmGrossIDR").text(delimiter(landPricePerSqmGrossIDR))
     $("#landPricePerSqmGrossUSD").text(delimiter(landPricePerSqmGrossUSD))
     $("#landPricePerSqmSGAIDR").text(delimiter(landPricePerSqmSganettIDR))
-    $("#landPricePerSqmSGAUSD").text(delimiter(landSizeSqmSganettUSD))
+    $("#landPricePerSqmSGAUSD").text(delimiter(landPricePerSqmSganettUSD))
     $("#landPricePerUnitKeyIDR").text(landPricePerUnitKeyIDR)
     $("#landPricePerUnitKeyUSD").text(landPricePerUnitKeyUSD)
     $("#landNJOPPriceTotalIDR").text(delimiter(landNJOPPriceTotalIDR))
@@ -450,7 +544,7 @@ var getColliersData = async function (map, attributes) {
     $("#buildingPricePerSqmGrossIDR").text(delimiter(buildingPricePerSqmGrossIDR))
     $("#buildingPricePerSqmGrossUSD").text(delimiter(buildingPricePerSqmGrossUSD))
     $("#buildingPricePerSqmSGAIDR").text(delimiter(buildingPricePerSqmSganettIDR))
-    $("#buildingPricePerSqmSGAUSD").text(delimiter(buildingSizeSqmSganettUSD))
+    $("#buildingPricePerSqmSGAUSD").text(delimiter(buildingPricePerSqmSganettUSD))
     $("#buildingPricePerUnitKeyIDR").text(buildingPricePerUnitKeyIDR)
     $("#buildingPricePerUnitKeyUSD").text(buildingPricePerUnitKeyUSD)
     $("#buildingNJOPPriceTotalIDR").text(delimiter(buildingNJOPPriceTotalIDR))
@@ -472,7 +566,7 @@ var getColliersData = async function (map, attributes) {
     $("#totalPricePerSqmGrossIDR").text(delimiter(totalPricePerSqmGrossIDR))
     $("#totalPricePerSqmGrossUSD").text(delimiter(totalPricePerSqmGrossUSD))
     $("#totalPricePerSqmSGAIDR").text(delimiter(totalPricePerSqmSganettIDR))
-    $("#totalPricePerSqmSGAUSD").text(delimiter(totalSizeSqmSganettUSD))
+    $("#totalPricePerSqmSGAUSD").text(delimiter(totalPricePerSqmSganettUSD))
     $("#totalPricePerUnitKeyIDR").text(totalPricePerUnitKeyIDR)
     $("#totalPricePerUnitKeyUSD").text(totalPricePerUnitKeyUSD)
     $("#totalNJOPPriceTotalIDR").text(delimiter(totalNJOPPriceTotalIDR))
@@ -535,4 +629,24 @@ var addCommas = function (nStr) {
         x1 = x1.replace(rgx, '$1' + ',' + '$2');
     }
     return x1 + x2;
+}
+
+var propertyEffectLand = function (property, value) {
+    var val = 0
+    if (property.toUpperCase() == "RUKO" || property.toUpperCase() == "INDUSTRIAL/LOGISTIC" || property.toUpperCase() == "SHOPPING CENTER" || property.toUpperCase() == "HOUSE" || property.toUpperCase() == "DATA CENTER" || property.toUpperCase() == "OTHERS" || property.toUpperCase() == "HOTEL") {
+        val = value
+    } else {
+        val = 0
+    }
+    return val
+}
+
+var propertyEffectBuilding = function (property, value) {
+    var val = 0
+    if (property.toUpperCase() == "OFFICE" || property.toUpperCase() == "APARTMENT") {
+        val = value
+    } else {
+        val = 0
+    }
+    return val
 }

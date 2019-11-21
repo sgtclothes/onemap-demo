@@ -1,24 +1,20 @@
 var createPolygon = async function (geometry) {
 
-    let rings = undefined
+    let rings = []
 
-    await getProjectionPoint(JSON.stringify(geometry.rings[0]), "3857", "4326").then(function (results) {
-        rings = results
-    })
+    for (let i = 0; i < geometry.rings.length; i++) {
+        await getProjectionPoint(JSON.stringify(geometry.rings[i]), "3857", "4326").then(function (results) {
+            rings.push(results)
+        })
+    }
+
 
     var polygon = {
         type: "polygon",
         rings: rings
     };
 
-    var fillSymbol = {
-        type: "simple-fill",
-        color: [150, 150, 150, 0.2],
-        outline: {
-            color: "#7a7c80",
-            width: 2
-        }
-    };
+    var fillSymbol = defaultSymbolGraphics()
 
     var template = {}
 

@@ -192,14 +192,7 @@ var createDynamicCircle = async function (map, pointX, pointY) {
                 selector: "buffer-graphics",
                 geometry: buffer,
                 popupTemplate: template,
-                symbol: {
-                    type: "simple-fill",
-                    color: [150, 150, 150, 0.2],
-                    outline: {
-                        color: "#7a7c80",
-                        width: 2
-                    }
-                }
+                symbol: defaultSymbolGraphics()
             });
 
             labelGraphic = labelLength(edgePoint, length);

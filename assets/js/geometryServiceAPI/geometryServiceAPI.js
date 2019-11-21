@@ -60,7 +60,12 @@ var getIntersectPolygons = async function (rings1, rings2) {
         url,
         layersRequest
     ).then(function (response) {
-        results.push(response.data.geometries[0].rings[0])
+        console.log(response)
+        if (response.data.geometries[0].rings.length > 0) {
+            for (let i = 0; i < response.data.geometries[0].rings[0].length; i++) {
+                results.push(response.data.geometries[0].rings[0][i])
+            }
+        }
     });
     return results
 }
@@ -82,8 +87,10 @@ var getProjectionPoint = async function (points, inSR, outSR) {
         url,
         layersRequest
     ).then(function (response) {
-        for (let i = 0; i < response.data.geometries[0].rings[0].length; i++) {
-            projectedPoints.push(response.data.geometries[0].rings[0][i])
+        if (response.data.geometries[0].rings.length > 0) {
+            for (let i = 0; i < response.data.geometries[0].rings[0].length; i++) {
+                projectedPoints.push(response.data.geometries[0].rings[0][i])
+            }
         }
     });
     return projectedPoints

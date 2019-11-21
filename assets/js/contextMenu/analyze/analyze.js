@@ -1,22 +1,11 @@
 var radiusClick = function (map) {
     $(document).delegate("#contextmenu-radius", "click", function () {
-        // $(".image-wrapper-a").remove() //Remove context menu
-        // $("#subcontextmenum").remove()
-        // $("#subcontextmenud").remove()
-        // $("#loading-bar").show()
-        // let latitude = Number(getLocalStorage("livePointingLatitude", ""))
-        // let longitude = Number(getLocalStorage("livePointingLongitude", ""))
-        // let point = new ESRI.Point()
-        // point.longitude = longitude;
-        // point.latitude = latitude;
-        // createDynamicCircle(map, map.ObjMapView.toScreen(point).x, map.ObjMapView.toScreen(point).y)
         createInfoCircleManual(map)
-
         var area = 0
         var centerPoint = undefined
         var edgePoint = undefined
         var polylineGraphic
-        $(".image-wrapper-a").remove() //Remove context menu
+        $(".image-wrapper-a").remove()
         $("#subcontextmenum").remove()
         $("#subcontextmenud").remove()
         let latitude = Number(getLocalStorage("livePointingLatitude", ""))
@@ -87,12 +76,9 @@ var drivingtimeClick = function (map) {
 }
 
 var manualClick = function (map) {
-
     $(document).delegate("#contextmenu-manual", "click", function () {
-
         createInfoPolygonManual(map)
-
-        $(".image-wrapper-a").remove() //Remove context menu
+        $(".image-wrapper-a").remove()
         $("#subcontextmenum").remove()
         $("#subcontextmenud").remove()
         let latitude = Number(getLocalStorage("livePointingLatitude", ""))

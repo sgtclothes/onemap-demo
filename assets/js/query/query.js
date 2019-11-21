@@ -1,5 +1,6 @@
 async function queryGeometryGetAttributes(featureLayer, geometry, outFields) {
     let resultsFinal = []
+    console.log(geometry)
     for (let i = 0; i < geometry.length; i++) {
         let resultsQuery = []
         let query = new ESRI.Query();
@@ -38,7 +39,9 @@ async function queryGeometryGetRings(featureLayer, geometry, outFields) {
         query.where = "1=1"
         query.geometry = geometry[i];
         query.outFields = outFields;
+        console.log(geometry[i])
         await featureLayer.queryFeatures(query).then(function (results) {
+            console.log(results)
             for (let j = 0; j < results.features.length; j++) {
                 resultsQuery.push(results.features[j].geometry.rings[0])
             }

@@ -11,14 +11,7 @@ var createCircle = async function (geometry) {
         rings: rings
     };
 
-    var fillSymbol = {
-        type: "simple-fill",
-        color: [150, 150, 150, 0.2],
-        outline: {
-            color: "#7a7c80",
-            width: 2
-        }
-    };
+    var fillSymbol = defaultSymbolGraphics()
 
     var template = {}
 

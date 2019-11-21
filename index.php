@@ -287,7 +287,7 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td style="height:26px;">
                                         <div class="title-property">
-                                            <p><b>PROPERTY TYPE</b></p>
+                                            <p style="cursor:pointer" name="select-all-property"><b>PROPERTY TYPE</b></p>
                                         </div>
                                     </td>
                                 </tr>
@@ -358,7 +358,7 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td style="height:26px;">
                                         <div class="title-property">
-                                            <p><b>MARKETING SCHEME</b></p>
+                                            <p name="select-all-mkscheme"><b>MARKETING SCHEME</b></p>
                                         </div>
                                     </td>
                                 </tr>
@@ -418,20 +418,10 @@ if (!isset($_SESSION['auth'])) {
                                         </div>
                                     </td>
                                     <td style="height:26px; text-align:center;">
-                                        <div class="popup-require">
-                                            <input class="floatTextBoxWithRange" style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="land-min-size-meter-value" />
-                                            <span class="popuptext" id="land-popup-alert-min-meter-empty">Please input min value!</span>
-                                            <span class="popuptext" id="land-popup-alert-min-meter-valid">Please input valid min value!</span>
-                                        </div>
+                                        <input class="floatTextBoxWithRange" style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="land-min-size-meter-value" />
                                     </td>
                                     <td style="height:26px; text-align:center;">
-                                        <div class="popup-require">
-                                            <input class="floatTextBoxWithRange" style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="land-max-size-meter-value" />
-                                            <div style="z-index: 1000">
-                                                <span class="popuptext" id="land-popup-alert-max-meter-empty">Please input max value!</span>
-                                                <span class="popuptext" id="land-popup-alert-max-meter-valid">Please input valid max value!</span>
-                                            </div>
-                                        </div>
+                                        <input class="floatTextBoxWithRange" style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="land-max-size-meter-value" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -441,20 +431,10 @@ if (!isset($_SESSION['auth'])) {
                                         </div>
                                     </td>
                                     <td style="height:26px; text-align:center;">
-                                        <div class="popup-require">
-                                            <input class="floatTextBoxWithRange" style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="build-min-size-meter-value" />
-                                            <span class="popuptext" id="build-popup-alert-min-meter-empty">Please input min value!</span>
-                                            <span class="popuptext" id="build-popup-alert-min-meter-valid">Please input valid min value!</span>
-                                        </div>
+                                        <input class="floatTextBoxWithRange" style="width:67px; border-radius:10px; text-align:center;" name="popup-input-min" type="text" id="build-min-size-meter-value" />
                                     </td>
                                     <td style="height:26px; text-align:center;">
-                                        <div class="popup-require">
-                                            <input class="floatTextBoxWithRange" style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="build-max-size-meter-value" />
-                                            <div style="z-index: 1000">
-                                                <span class="popuptext" id="build-popup-alert-max-meter-empty">Please input max value!</span>
-                                                <span class="popuptext" id="build-popup-alert-max-meter-valid">Please input valid max value!</span>
-                                            </div>
-                                        </div>
+                                        <input class="floatTextBoxWithRange" style="width:67px; border-radius:10px; text-align:center;" name="popup-input-max" type="text" id="build-max-size-meter-value" />
                                     </td>
                                 </tr>
                             </table>
@@ -673,7 +653,7 @@ if (!isset($_SESSION['auth'])) {
                                 <tr>
                                     <td style="height:26px;">
                                         <div class="title-property">
-                                            <p><b>DEPARTMENT</b></p>
+                                            <p style="cursor:pointer;" name="select-all-department"><b>DEPARTMENT</b></p>
                                         </div>
                                     </td>
                                 </tr>
@@ -1390,13 +1370,14 @@ if (!isset($_SESSION['auth'])) {
     <script src="assets/js/legend/legend.js"></script>
     <!--End of legend -->
 
-    <!-- Graphics -->
-    <script src="assets/js/graphics/convertDynamicToStatic.js"></script>
-    <!-- End of Graphics -->
-
     <!-- Layer -->
     <script src="assets/js/layer/layer.js"></script>
     <!-- End of Layer -->
+
+    <!-- Style -->
+    <script src="assets/js/style/style.js"></script>
+    <!-- End of style -->
+
 
     <!-- Crypto -->
     <script src="assets/js/crypt/Barret.js"></script>

@@ -239,66 +239,66 @@ var getMarkerSymbol = function (propertyType, renderer) {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/office.png",
-            width: "20px",
-            height: "20px"
+            width: "25px",
+            height: "25px"
         };
     } else if (propertyType == "house") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/house.png",
-            width: "20px",
-            height: "20px"
+            width: "25px",
+            height: "25px"
         };
     }
     else if (propertyType == "ruko") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/ruko.png",
-            width: "20px",
-            height: "20px"
+            width: "25px",
+            height: "25px"
         };
     }
     else if (propertyType == "industrial/logistic") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/industrial.png",
-            width: "20px",
-            height: "20px"
+            width: "25px",
+            height: "25px"
         };
     } else if (propertyType == "data center") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/data-center.png",
-            width: "20px",
-            height: "20px"
+            width: "25px",
+            height: "25px"
         };
     } else if (propertyType == "shopping center") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/shopping-center.png",
-            width: "20px",
-            height: "20px"
+            width: "25px",
+            height: "25px"
         };
     } else if (propertyType == "apartment") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/apartment.png",
-            width: "20px",
-            height: "20px"
+            width: "25px",
+            height: "25px"
         };
     } else if (propertyType == "hotel") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/hotel.png",
-            width: "20px",
-            height: "20px"
+            width: "25px",
+            height: "25px"
         };
     } else if (propertyType == "others") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/others.png",
-            width: "20px",
-            height: "20px"
+            width: "25px",
+            height: "25px"
         };
     } else if (propertyType == "symbol" && renderer) {
         markerSymbol = renderer
@@ -307,8 +307,8 @@ var getMarkerSymbol = function (propertyType, renderer) {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/icons/OB-red.png",
-            width: "20px",
-            height: "20px"
+            width: "25px",
+            height: "25px"
         };
     }
 

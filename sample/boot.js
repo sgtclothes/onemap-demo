@@ -1,25 +1,20 @@
 async function boot(GIS) {
-  window.GIS = GIS //Set GIS to window to make it accessable anywhere
-  setStartLocalStorage() //Set localstorage
-  let config = new GIS.Config(); //Define Config class
-  let map = new GIS.Map(config.CenterPoint, 'gray'); //Define Map class
-  map.setBasemap(config.Basemap); //Set basemap to Topo Vector
-  map.addPrintWidget(config.PrintServiceUrl, config.Position[5]); //Adding print widget
-  map.addMeasurementWidget(); //Adding measurement widget
-  map.addLocateWidget(config.Position[5]); //Adding locate widget
-  // map.addSearchWidget(config.Position[6]); //Adding task search to map
+  window.GIS = GIS
+  setStartLocalStorage()
+  let config = new GIS.Config();
+  let map = new GIS.Map(config.CenterPoint, 'gray');
+  map.addLocateWidget("top-left");
   map.addBasemapGalleryWidget(
-    //Adding basemap gallery widget
     {
       portal: {
         url: "https://www.arcgis.com",
         useVectorBasemaps: true
       }
     },
-    config.Position[6]
+    "top-left"
   );
-  map.render(); //Map rendering
-
+  map.render();
+  await widgetCollection(map)
   await setWindowVariables(map)
 
   // await $.get("assets/js/contextMenu/action/popup/config/configPopup.html", function (data) {
@@ -35,7 +30,6 @@ async function boot(GIS) {
   // });
 
   mapViewWhenReady(map, config)
-  widgetCollection(map)
 
   document
     .getElementById("point-the-site")

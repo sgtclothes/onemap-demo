@@ -30,6 +30,4 @@ var createLabel = async function (map, geometry, area, id) {
 
     sortID(map, "labels", id)
     registerAttributes(map, "labels", "label-graphics", 0)
-
-    console.log(map.ObjMap)
 }

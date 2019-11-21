@@ -28,12 +28,14 @@ var analyzeClick = function (token) {
                             if (groupLayers[s].layers.items[i].graphics.items[j].selector == "buffer-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "polygon-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "rectangle-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "drivetime-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "drivedistance-graphics") {
                                 groupLayers[s].layers.items[i].graphics.items[j].analyzed = true
                                 geometry.push(groupLayers[s].layers.items[i].graphics.items[j].geometry_3857)
-                                await getProjectionPoint(JSON.stringify(groupLayers[s].layers.items[i].graphics.items[j].geometry.rings[0]), "4326", "3857").then(async function (res) {
-                                    await shapeRings.push(res)
-                                    await getAreaAndLengthPolygons(JSON.stringify(res)).then(async function (results) {
-                                        await shapeAreas.push(results[0][0])
+                                for (let l = 0; l < groupLayers[s].layers.items[i].graphics.items[j].geometry.rings.length; l++) {
+                                    await getProjectionPoint(JSON.stringify(groupLayers[s].layers.items[i].graphics.items[j].geometry.rings[l]), "4326", "3857").then(async function (res) {
+                                        await shapeRings.push(res)
+                                        await getAreaAndLengthPolygons(JSON.stringify(res)).then(async function (results) {
+                                            await shapeAreas.push(results[0][0])
+                                        })
                                     })
-                                })
+                                }
                             }
                         }
                     }
@@ -47,8 +49,6 @@ var analyzeClick = function (token) {
                 projectedRings.push(results)
             })
         }
-
-        console.log(projectedRings)
 
         //Setting featureLayer url for service
         let featureLayer = new ESRI.FeatureLayer(
@@ -64,11 +64,14 @@ var analyzeClick = function (token) {
             await attributes.push(results)
         })
 
+        console.log(attributes)
         await unionAttributes(attributes, token).then(function (results) {
+            console.log(results)
             resultUnion = results
         })
 
         await queryGeometryGetRings(featureLayer, geometry, "").then(async function (results) {
+            console.log(results)
             for (let i = 0; i < results.length; i++) {
                 let projectedPoints = []
                 let nonProjectedRings = []
@@ -82,6 +85,8 @@ var analyzeClick = function (token) {
                 await listProjectedPoints.push(projectedPoints)
             }
         })
+
+        console.log(listProjectedPoints)
 
         for (let i = 0; i < projectedRings.length; i++) {
             let intersectQuery = []

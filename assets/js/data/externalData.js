@@ -475,11 +475,11 @@ var record = async function (map, res, graphicsLayer, groupLayerExternalData, im
     await displayResultsGraphics(map, res, graphicsLayer, groupLayerExternalData, image)
     if (displayedLegend.length < 1) {
         displayedLegend.push(kTag)
-        await displayLegendProperty(map, "LIST DATA", res, kTag, image, index)
+        await displayLegendProperty(map, "LEGEND", res, kTag, image, index)
     } else {
         if (!displayedLegend.includes(kTag)) {
             displayedLegend.push(kTag)
-            await displayLegendProperty(map, "LIST DATA", res, kTag, image, index)
+            await displayLegendProperty(map, "LEGEND", res, kTag, image, index)
         }
     }
     checkHeightLegend()

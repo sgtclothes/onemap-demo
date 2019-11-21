@@ -18,10 +18,10 @@ var selectLayer = function (response) {
     console.log(JSON.parse(localStorage.getItem("selectedLayer")))
     let symbol = {
         type: "simple-fill",
-        color: [255, 0, 0, 0.2],
+        color: [255, 0, 0, 0.5],
         outline: {
             color: "#7a7c80",
-            width: 2
+            width: 0.5
         }
     }
     if (response.results[0].graphic.selector == "buffer-graphics" || response.results[0].graphic.selector == "polygon-graphics" || response.results[0].graphic.selector == "rectangle-graphics" || response.results[0].graphic.selector == "drivetime-graphics" || response.results[0].graphic.selector == "drivedistance-graphics") {
@@ -39,10 +39,10 @@ var selectMe = function (mouseButton, response) {
                 if (selectedLayer.includes(response.results[0].graphic.layer.id)) {
                     response.results[0].graphic.symbol = {
                         type: "simple-fill",
-                        color: [150, 150, 150, 0.2],
+                        color: [255, 0, 0, 0.5],
                         outline: {
                             color: "#7a7c80",
-                            width: 2
+                            width: 0.5
                         }
                     }
                     //Splice results from selected layer
@@ -71,10 +71,10 @@ var resetSelectedGraphics = function () {
                 if ((groupLayers[s].layers.items[i].graphics.items[j].selector == "buffer-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "polygon-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "rectangle-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "drivetime-graphics" || groupLayers[s].layers.items[i].graphics.items[j].selector == "drivedistance-graphics") && ("analyzed" in groupLayers[s].layers.items[i].graphics.items[j] == false)) {
                     groupLayers[s].layers.items[i].graphics.items[j].symbol = {
                         type: "simple-fill",
-                        color: [150, 150, 150, 0.2],
+                        color: [255, 255, 255, 0.5],
                         outline: {
                             color: "#7a7c80",
-                            width: 2
+                            width: 0.5
                         }
                     }
                 }

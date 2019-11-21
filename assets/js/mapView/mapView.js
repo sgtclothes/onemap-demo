@@ -145,6 +145,7 @@ var graphicsBehavior = function (map, event) {
                 if ("analyzed" in response.results[0].graphic) {
                     console.log("Target Analyzed")
                 } else {
+                    console.log(response)
                     getGraphicsInfo(response, map)
                 }
             } else {

@@ -76,8 +76,6 @@ var processDrivingDistance = function (map, longitude, latitude, unit, distance)
             return feature;
         });
 
-        console.log(resultGraphics)
-
         let rings = undefined
 
         await getProjectionPoint(JSON.stringify(resultGraphics[0].geometry.rings[0]), "3857", "4326").then(function (results) {
@@ -89,14 +87,7 @@ var processDrivingDistance = function (map, longitude, latitude, unit, distance)
             rings: rings
         };
 
-        var fillSymbol = {
-            type: "simple-fill",
-            color: [150, 150, 150, 0.2],
-            outline: {
-                color: "#7a7c80",
-                width: 2
-            }
-        };
+        var fillSymbol = defaultSymbolGraphics()
 
         var template = {}
 
