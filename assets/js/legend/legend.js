@@ -1,3 +1,12 @@
+$(document).delegate(".titleLegendProperty", "click", function () {
+    $(".div-tableLegendProperty").toggle()
+    if ($(".titleLegendProperty").find("i").hasClass("mi-keyboard-arrow-down")) {
+        $(".titleLegendProperty").find("i").removeClass("mi-keyboard-arrow-down").addClass("mi-keyboard-arrow-up")
+    } else {
+        $(".titleLegendProperty").find("i").removeClass("mi-keyboard-arrow-up").addClass("mi-keyboard-arrow-down")
+    }
+})
+
 var checkLegend = async function (map, table, html) {
     let tableLegend = $(table)
     if (tableLegend.length < 1) {

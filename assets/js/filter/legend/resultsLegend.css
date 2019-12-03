@@ -1,6 +1,6 @@
 .legendProperty {
   background-color: white;
-  width: 130px;
+  width: 200px;
 }
 
 .titleLegendProperty {
@@ -11,4 +11,5 @@
   margin: 0px;
   font-weight: bold;
   color: #ffffff;
+  cursor: pointer;
 }

@@ -387,7 +387,7 @@ button.active {
 }
 
 .title-property p {
-  padding-left: 0px;
+  padding-left: 10px;
 }
 
 .title-property:hover {
@@ -464,7 +464,7 @@ td.property-item {
   color: #fff;
   width: 100%;
   height: 100%;
-  background-color: #7a7c80;
+  background-color: #1a255d;
 }
 
 .title-layers-property p {

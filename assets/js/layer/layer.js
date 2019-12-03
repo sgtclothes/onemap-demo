@@ -11,7 +11,6 @@ var getItemsGroupLayer = function (layer) {
 }
 
 var getAllItemsFromGroupLayer = function (map, layerName) {
-    let results = []
     for (let i = 0; i < map.ObjMap.layers.items.length; i++) {
         if (map.ObjMap.layers.items[i].id == layerName) {
             layer = map.ObjMap.layers.items[i]

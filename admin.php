@@ -1,313 +1,403 @@
-<?php
-session_start();
-if (!isset($_SESSION['auth'])) {
-    echo "<script>alert('Login Required.'); location.href='login.php';</script>";
-}
-else {
-    include 'config/conn.php';
-    $result_array = array();
-    $resQuery = $conn->query(
-        'SELECT department FROM department where id in ('. implode(',',$_SESSION['departments']).')'
-    );
-    if ($resQuery->num_rows > 0) {
-        while($row = $resQuery->fetch_assoc()) {
-            array_push($result_array, $row['department']);
-        }
-    }
-    $data = implode(',',$result_array);
-    if ($_SESSION['role']=='Admin' || $_SESSION['role']== 'System Administrator') {
-?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Locator Logic</title>
-    <link rel="icon" href="assets/images/icons/favicon.ico">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-    <!-- global stylesheets -->
-    <!-- @fetch google fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"
-          rel="stylesheet"
-          type="text/css">
-    <link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="assets/css/icons/material/styles.css">
-    <link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/limitless.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/layout.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/components.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="assets/js/plugins/my_profile/my_profile_form.css">
-    <!-- /global stylesheets -->
+    <title>Onemap</title>
 
-    <!-- core js files -->
-    <!-- <script src="assets/js/main/jquery.min.js"></script> -->
-    <link rel="stylesheet" href="assets/css/jquery/jquery-ui-1.12.1.css">
-    <script src="assets/js/jquery-1.12.4.js"></script>
-    <script src="assets/js/jquery-1.12.1.js"></script>
-    <script src="assets/js/main/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/plugins/loaders/blockui.min.js"></script>
-    <script src="assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
-    <!-- /core js files -->
-
-    <!-- themes & template js files -->
-    <script src="assets/js/layout/default/app.js"></script>
-    <script src="assets/js/layout/default/fixed_sidebar_custom_scroll.js"></script>
-    <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
-    <script src="assets/js/plugins/tables/sorting.js"></script>
-    <script src="assets/js/plugins/forms/validation/validate.js"></script>
-    <script src="assets/js/plugins/forms/form_validation.js"></script>
-	<script src="assets/js/plugins/forms/selects/select2.min.js"></script>
-	<script src="assets/js/plugins/forms/form_select2.js"></script>
-    <!-- /themes & template js files -->
-
-    <style>
-        .add-element{
-            margin-left: 59rem;
-            margin-top: -1.7rem;
-        }
-    </style>
+    <!-- Bootstrap core CSS -->
+    <link href="admin\js\bootstrap.js" rel="stylesheet" />
+    <script src="assets\js\jquery-1.12.4.js"></script>
+    <!-- Add custom CSS here -->
+    <link href="assets\css\sb-admin.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets\css\icons\fontawesome\all.css" />
+    <!-- Page Specific CSS -->
+    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css" />
 </head>
-<body class="navbar-top">
-<!-- main navbar -->
-<div class="navbar navbar-expand-md navbar-dark fixed-top">
 
-    <!-- navbar for product-brand -->
-    <div class="navbar-brand py-0">
-        <a href="index.php" class="d-flex h-100">
-            <img style="width:145px; height:24px;" class="img-fluid my-auto h-auto" src="assets/images/icons/logo-fix.png" alt="">
-        </a>
-    </div>
-    <!-- /navbar for product brand -->
+<body>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img id="department-logo-onemap" class="img-fluid my-auto h-auto" style="width:60px; height:24px;" src="" alt="">
+                <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/logo-fix.png" alt="">
+                <a class="navbar-brand" href="admin.php">SB Admin</a>
+            </div>
 
-    <!-- navbar for mobile media -->
-    <div class="d-md-none">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
-            <i class="icon-tree5"></i>
-        </button>
-        <button class="navbar-toggler sidebar-mobile-main-toggle" type="button">
-            <i class="icon-paragraph-justify3"></i>
-        </button>
-        <!-- unfold content action button
-        <button class="navbar-toggler sidebar-mobile-component-toggle" type="button">
-            <i class="icon-unfold"></i>
-        </button>
-        -->
-    </div>
-    <!-- /navbar for mobile media -->
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                        <a href="admin.php"><i class="fa fa-address-card"></i> Roles</a>
+                    </li>
+                    <!-- <li><a href="charts.html"><i class="fa fa-bar-chart-o"></i> Charts</a></li>
+            <li><a href="tables.html"><i class="fa fa-table"></i> Tables</a></li>
+            <li><a href="forms.html"><i class="fa fa-edit"></i> Forms</a></li>
+            <li><a href="typography.html"><i class="fa fa-font"></i> Typography</a></li>
+            <li><a href="bootstrap-elements.html"><i class="fa fa-desktop"></i> Bootstrap Elements</a></li>
+            <li><a href="bootstrap-grid.html"><i class="fa fa-wrench"></i> Bootstrap Grid</a></li>
+            <li><a href="blank-page.html"><i class="fa fa-file"></i> Blank Page</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-square-o-down"></i> Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Dropdown Item</a></li>
+                <li><a href="#">Another Item</a></li>
+                <li><a href="#">Third Item</a></li>
+                <li><a href="#">Last Item</a></li>
+              </ul>
+            </li> -->
+                </ul>
 
-    <div class="collapse navbar-collapse" id="navbar-mobile">
-        <ul class="navbar-nav">
-            <!-- menu item to control main sidebar toggle -->
-            <li class="nav-item">
-                <a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block">
-                    <i class="icon-paragraph-justify3"></i>
-                </a>
-            </li>
-            <!-- /menu item to control main sidebar toggle -->
+                <ul class="nav navbar-nav navbar-right navbar-user">
+                    <li class="dropdown user-dropdown">
+                        <a id="username-admin" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+                            <!-- <div style="color:white;" id="username-admin">Unknown</div> -->
+                            <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#"><i class="fa fa-user"></i> Profile</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-envelope"></i> Inbox
+                                    <span class="badge">7</span></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-gear"></i> Settings</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#"><i class="fa fa-power-off"></i> Log Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
 
-            <!-- unfold content action button
-            <li class="nav-item">
-                <a href="#" class="navbar-nav-link sidebar-control sidebar-component-toggle d-none d-md-block">
-                    <i class="icon-transmission"></i>
-                </a>
-            </li>
-        --> 
-        </ul>
-
-        <span class="ml-md-3 mr-md-auto"></span>
-
-        <ul class="navbar-nav">
-            <!-- user menu item navbar -->
-            <li class="nav-item dropdown dropdown-user">
-                <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
-                <?php
-                $sqlphoto = "SELECT photo FROM users WHERE id=".$_SESSION['auth']['id'];
-                $queryphoto = mysqli_query($conn,$sqlphoto);
-                $photo = mysqli_fetch_array($queryphoto);
-                if ($photo['photo'] === '') {
-                    $name_user_photo = "icons-profile.png";
-                    $src = "assets/images/profile/$name_user_photo";
-                }
-                else {
-                    $name_user_photo = $photo['photo'];
-                    $src = "assets/images/profile/$name_user_photo";
-                }
-                ?>
-                <img class="user_photo" src="<?php echo $src; ?>" alt="My Photo" width="25px" style="border-radius: 50%;">&nbsp;<span><?php echo "$_SESSION[name]"; ?></span>
-                </a>
-
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal_my_profile"><i class="icon-user-plus"></i> My profile</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="index.php" class="dropdown-item"><i class="icon-cog5"></i> Dashboard</a>
-                    <a href="logout.php" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Dashboard <small>Statistics Overview</small></h1>
+                    <ol class="breadcrumb">
+                        <li class="active"><i class="fa fa-dashboard"></i> Dashboard</li>
+                    </ol>
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                            &times;
+                        </button>
+                        Welcome to SB Admin by
+                        <a class="alert-link" href="http://startbootstrap.com">Start Bootstrap</a>! Feel free to use this template for your admin needs! We are
+                        using a few different plugins to handle the dynamic tables and
+                        charts, so make sure you check out the necessary documentation
+                        links provided.
+                    </div>
                 </div>
-            </li>
-            <!-- /user menu item navbar -->
-        </ul>
-    </div>
-</div>
-<!-- /main-navbar -->
+            </div>
+            <!-- /.row -->
 
-<!-- page content -->
-<div class="page-content">
-    <!-- main sidebar -->
-    <div class="sidebar sidebar-light sidebar-main sidebar-fixed sidebar-expand-md">
-
-        <!-- sidebar mobile toggler -->
-        <div class="sidebar-mobile-toggler text-center">
-            <a href="#" class="sidebar-mobile-main-toggle">
-                <i class="icon-arrow-left8"></i>
-            </a>
-            Navigation
-            <a href="#" class="sidebar-mobile-expand">
-                <i class="icon-screen-full"></i>
-                <i class="icon-screen-normal"></i>
-            </a>
-        </div>
-        <!-- /sidebar mobile toggler -->
-
-
-        <!-- sidebar content -->
-        <div class="sidebar-content">
-
-            <!-- User menu -->
-            <div class="sidebar-user">
-                <div class="card-body">
-                    <div class="media">
-                        <div class="mr-3">
-                            <a href="#">
-                                <img src="assets/images/icons/logo-user.jpg"
-                                     width="38"
-                                     height="38"
-                                     class="rounded-circle"
-                                     alt="">
-                            </a>
-                        </div>
-
-                        <div class="media-body">
-                            <div class="media-title font-weight-semibold"><?php echo "$_SESSION[name]" ?></div>
-                            <div class="font-size-xs opacity-50">
-                                <i class="icon-office font-size-sm"></i> &nbsp;<?php echo "$data"; ?>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <i class="fa fa-comments fa-5x"></i>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <p class="announcement-heading">456</p>
+                                    <p class="announcement-text">New Mentions!</p>
+                                </div>
                             </div>
                         </div>
+                        <a href="#">
+                            <div class="panel-footer announcement-bottom">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        View Mentions
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <i class="fa fa-check fa-5x"></i>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <p class="announcement-heading">12</p>
+                                    <p class="announcement-text">To-Do Items</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer announcement-bottom">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        Complete Tasks
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <p class="announcement-heading">18</p>
+                                    <p class="announcement-text">Crawl Errors</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer announcement-bottom">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        Fix Issues
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <i class="fa fa-comments fa-5x"></i>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <p class="announcement-heading">56</p>
+                                    <p class="announcement-text">New Orders!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer announcement-bottom">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        Complete Orders
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
 
-                        <div class="ml-3 align-self-center">
-                            <a href="#" class="text-white"><i class="icon-cog3"></i></a>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <i class="fa fa-bar-chart-o"></i> Traffic Statistics: October
+                                1, 2013 - October 31, 2013
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-chart-area"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /user menu -->
+            <!-- /.row -->
 
-
-            <!-- main navigation -->
-            <div class="card card-sidebar-mobile">
-                <ul class="nav nav-sidebar" data-nav-type="accordion">
-                    <!-- Main -->
-                    <li class="nav-item-header">
-                        <div class="text-uppercase font-size-xs line-height-xs">Main</div>
-                        <i class="icon-menu" title="Main"></i>
-                    </li>
-                    <li class="nav-item">
-                        <a href="admin.php" class="nav-link">
-                            <i class="icon-users"></i>
-                            <span>Users</span>
-                        </a>
-                    </li>
-                    <!-- <li class="nav-item">
-                        <a href="admin.php?page=poi" class="nav-link">
-                            <i class="icon-location4"></i>
-                            <span>POI</span>
-                        </a>
-                    </li> -->
-                    <li class="nav-item">
-                        <a href="admin.php?page=department" class="nav-link">
-                            <i class="icon-office"></i>
-                            <span>Department</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="admin.php?page=analysis" class="nav-link">
-                            <i class="icon-stats-bars2"></i>
-                            <span>Analysis</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="admin.php?page=site" class="nav-link">
-                            <i class="icon-pin-alt"></i>
-                            <span>Site</span>
-                        </a>
-                    </li>
-                </ul>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <i class="fa fa-long-arrow-right"></i> Traffic Sources:
+                                October 1, 2013 - October 31, 2013
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-chart-donut"></div>
+                            <div class="text-right">
+                                <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <i class="fa fa-clock-o"></i> Recent Activity
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">just now</span>
+                                    <i class="fa fa-calendar"></i> Calendar updated
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">4 minutes ago</span>
+                                    <i class="fa fa-comment"></i> Commented on a post
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">23 minutes ago</span>
+                                    <i class="fa fa-truck"></i> Order 392 shipped
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">46 minutes ago</span>
+                                    <i class="fa fa-money"></i> Invoice 653 has been paid
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">1 hour ago</span>
+                                    <i class="fa fa-user"></i> A new user has been added
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">2 hours ago</span>
+                                    <i class="fa fa-check"></i> Completed task: "pick up dry
+                                    cleaning"
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">yesterday</span>
+                                    <i class="fa fa-globe"></i> Saved the world
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">two days ago</span>
+                                    <i class="fa fa-check"></i> Completed task: "fix error on
+                                    sales page"
+                                </a>
+                            </div>
+                            <div class="text-right">
+                                <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <i class="fa fa-money"></i> Recent Transactions
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped tablesorter">
+                                    <thead>
+                                        <tr>
+                                            <th>Order # <i class="fa fa-sort"></i></th>
+                                            <th>Order Date <i class="fa fa-sort"></i></th>
+                                            <th>Order Time <i class="fa fa-sort"></i></th>
+                                            <th>Amount (USD) <i class="fa fa-sort"></i></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>3326</td>
+                                            <td>10/21/2013</td>
+                                            <td>3:29 PM</td>
+                                            <td>$321.33</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3325</td>
+                                            <td>10/21/2013</td>
+                                            <td>3:20 PM</td>
+                                            <td>$234.34</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3324</td>
+                                            <td>10/21/2013</td>
+                                            <td>3:03 PM</td>
+                                            <td>$724.17</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3323</td>
+                                            <td>10/21/2013</td>
+                                            <td>3:00 PM</td>
+                                            <td>$23.71</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3322</td>
+                                            <td>10/21/2013</td>
+                                            <td>2:49 PM</td>
+                                            <td>$8345.23</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3321</td>
+                                            <td>10/21/2013</td>
+                                            <td>2:23 PM</td>
+                                            <td>$245.12</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3320</td>
+                                            <td>10/21/2013</td>
+                                            <td>2:15 PM</td>
+                                            <td>$5663.54</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3319</td>
+                                            <td>10/21/2013</td>
+                                            <td>2:13 PM</td>
+                                            <td>$943.45</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-right">
+                                <a href="#">View All Transactions
+                                    <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- /main navigation -->
-
+            <!-- /.row -->
         </div>
-        <!-- /sidebar content -->
-
+        <!-- /#page-wrapper -->
     </div>
-    <!-- /main sidebar -->
+    <!-- /#wrapper -->
 
-    <!-- main content -->
-    <div class="content-wrapper">
+    <!-- JavaScript -->
+    <script src="assets\js\jquery-1.12.4.js"></script>
+    <script src="assets\js\bootstrap.js"></script>
 
-        <!-- content page header -->
-        <div class="page-header page-header-light">
-
-            <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
-                <div class="d-flex">
-        
-        <?php
-            switch ((isset($_GET['page']) ? $_GET['page'] : '')) {
-                case 'department':
-                    include "content/department.php";
-                    break;
-
-                case 'add_department':
-                    include "content/add_department.php";
-                    break;
-                
-                case 'analysis':
-                    include "content/admin/analysis.php";
-                    break;
-
-                // case 'poi':
-                //     include "content/poi.php";
-                //     break;
-                
-                case 'add_user':
-                    include "content/add_user.php";
-                    break;
-
-                case 'site':
-                    include "content/admin/site.php";
-                    break;
-                
-                default:
-                    include "content/users.php";
-                    break;
-            }
-        ?>
-    </div>
-    <!-- /main content -->
-</div>
-</div>
-<?php
-include 'content/template/my_profile.php';
-?>
-<!-- /page-content-->
-<script src="assets/js/plugins/my_profile/myProfileLib.js"></script>
-<script src="content/template/changePassword.js"></script>
-<script src="assets/js/plugins/md5.min.js"></script>
+    <!-- Page Specific Plugins -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+    <script src="assets\js\morris\chart-data-morris.js"></script>
+    <script src="assets\js\tablesorter\jquery.tablesorter.js"></script>
+    <script src="assets\js\tablesorter\tables.js"></script>
 </body>
+
 </html>
-<?php
-    }
-    else {
-        header('location:index.php');
-    }
-}
-?>

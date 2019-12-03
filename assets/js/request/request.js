@@ -34,7 +34,6 @@ var makeEsriRequestPOST = async function (url, layersRequest) {
         url,
         layersRequest
     ).then(function (response) {
-        console.log(response)
         results = response
     });
     return results

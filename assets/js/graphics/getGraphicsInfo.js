@@ -99,4 +99,23 @@ var setPointing = function (map, points) {
     actionElement(".popupFilter", "hide")
 
     setLocalStorage("pointingHighlight", null);
+
+    if ($("#hold-radius-slider").length < 1) {
+        let div = document.createElement("DIV")
+        div.style.backgroundColor = "white"
+        div.style.borderRadius = "10px"
+        div.style.width = "auto"
+        div.style.padding = "5px"
+        div.style.height = "auto"
+        div.style.fontWeight = "bold"
+        div.id = "hold-radius-slider"
+        map.ObjMapView.ui.add(div, "bottom-left")
+        $.get("assets/js/graphics/slider/slider.html", function (data) {
+            $(div).html(data);
+        });
+    } else {
+        $("#slider-radius").val("0")
+        $("#slider-radius-results").text("Area Radius : 0 km²")
+    }
+
 }

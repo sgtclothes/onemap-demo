@@ -1,14 +1,10 @@
 var setWindowVariables = async function (map) {
-    window.token = undefined
     window.legendOverflow = false
+    window.zoomSearchLevel = 0
     window.displayedLegend = []
-    await generateToken().then(function (token) {
-        console.log(token)
-        window.token = token
-    })
-    await getRoles().then(function (roles) {
-        console.log(roles)
-    })
+    // await getRoles().then(function (roles) {
+    //     console.log(roles)
+    // })
     window.pointTheSiteEnabled = false;
     window.pointEnabled = false;
     window.currentPagePopup = 1;
@@ -47,12 +43,12 @@ var setWindowVariables = async function (map) {
     window.groupLayerLabels = new ESRI.GroupLayer({
         id: "labels"
     })
-    window.groupLayers = [groupLayerLabels, groupLayerMeasurements, groupLayerRadius, groupLayerDrivingTime, groupLayerDrivingDistance, groupLayerPoints, groupLayerPolygons, groupLayerPolylines, groupLayerRectangles, groupLayerExternalData, groupLayerProperty]
+    window.groupLayers = [groupLayerMeasurements, groupLayerRadius, groupLayerDrivingTime, groupLayerDrivingDistance, groupLayerPolygons, groupLayerPolylines, groupLayerRectangles, groupLayerExternalData, groupLayerProperty, groupLayerPoints, groupLayerLabels]
     window.groupLayerID = []
     for (let i = 0; i < groupLayers.length; i++) {
         groupLayerID[i] = groupLayers[i].id
     }
-    map.ObjMap.addMany([groupLayerLabels, groupLayerMeasurements, groupLayerRadius, groupLayerDrivingTime, groupLayerDrivingDistance, groupLayerPoints, groupLayerPolygons, groupLayerPolylines, groupLayerRectangles, groupLayerExternalData, groupLayerProperty]);
+    map.ObjMap.addMany([groupLayerMeasurements, groupLayerRadius, groupLayerDrivingTime, groupLayerDrivingDistance, groupLayerPolygons, groupLayerPolylines, groupLayerRectangles, groupLayerExternalData, groupLayerProperty, groupLayerPoints, groupLayerLabels]);
     //--- End of Make a parent grouplayer of radius and polygons---//
 
     //---Make window for featureLayer---//

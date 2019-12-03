@@ -52,22 +52,13 @@ async function queryGeometryGetRings(featureLayer, geometry, outFields) {
 }
 
 var processQuery = async function (map, featureService, where, outFields, readGeometry, geometryType) {
-    loading("show")
+    console.log(featureService)
     var query = new ESRI.Query();
     var res = undefined
     query.returnGeometry = true;
     query.outFields = outFields;
     query.outSpatialReference = map.ObjMap.spatialReference;
     if (readGeometry) {
-        // if (readGeometry.geometry.dynamic) {
-        //     if (readGeometry.geometry.dynamic == "yes") {
-        //         await convertDynamicToStatic(map, readGeometry)
-        //         query.geometry = readGeometry.geometry
-        //     }
-        // } else {
-        //     query.geometry = readGeometry.geometry
-        // }
-
         query.geometry = readGeometry.geometry
     }
     if (geometryType) {
@@ -81,5 +72,27 @@ var processQuery = async function (map, featureService, where, outFields, readGe
     await featureService.queryFeatures(query).then(function (results) {
         res = results
     })
+    return res
+}
+
+var gettingUserData = async function (f, where, outFields, token) {
+    var res = []
+    var layersRequest = {
+        query: {
+            f: f,
+            where: where,
+            outFields: outFields,
+            token: token
+        },
+        responseType: "json",
+        usePost: true
+    };
+
+    await makeEsriRequestPOST("https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/13/query", layersRequest).then(async function (results) {
+        if (results.data.features.length > 0) {
+            res = results.data.features
+        }
+    })
+
     return res
 }

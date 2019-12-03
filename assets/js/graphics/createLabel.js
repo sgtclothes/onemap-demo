@@ -15,11 +15,16 @@ var createLabel = async function (map, geometry, area, id) {
             type: "text",
             color: "black",
             text: area,
+            horizontalAlignment: "left",
+            width: "auto",
+            xoffset: -50,
+            yoffset: 10,
             font: {
-                size: 14,
+                size: 5,
                 family: "sans-serif"
             }
-        }
+        },
+        visible: false
     });
 
     var graphicsLayer = new ESRI.GraphicsLayer({

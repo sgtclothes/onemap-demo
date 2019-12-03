@@ -7,6 +7,9 @@ var createContextMenu = function (map, event, condition) {
     if (condition.includes("draw")) {
         menu.push('<div id="contextmenu-analyze-polygon"><i class="mi-bubble-chart"></i>Analyze<i class="mi-keyboard-arrow-right"></i></div>')
     }
+    if (condition.includes("remove pointing")) {
+        menu.push('<div id="contextmenu-remove-pointing"><i class="esri-icon-trash"></i>Remove Pointing</div>')
+    }
     if (condition.includes("configuration")) {
         menu.push('<div id="contextmenu-configuration"><i class="mi-format-list-bulleted"></i>Configuration</div>')
     }
@@ -24,25 +27,21 @@ var createContextMenu = function (map, event, condition) {
         strMenu += menu[i]
     }
 
-    let pointer = getLayerById(map, "pointer")
-
-    if (pointer) {
-        let imageWrapper = $('<div class="image-wrapper-a">')
-            .css({
-                "left": event.x + 'px',
-                "top": event.y + 50 + 'px'
-            })
-            .append($(
-                strMenu
-            ))
-        $('<div style="float:left" class="contextmenu-container">')
-            .css({
-                "width": "auto",
-                "height": "auto"
-            })
-            .append($(imageWrapper))
-            .appendTo(document.body);
-    }
+    let imageWrapper = $('<div class="image-wrapper-a">')
+        .css({
+            "left": event.x + 'px',
+            "top": event.y + 50 + 'px'
+        })
+        .append($(
+            strMenu
+        ))
+    $('<div style="float:left" class="contextmenu-container">')
+        .css({
+            "width": "auto",
+            "height": "auto"
+        })
+        .append($(imageWrapper))
+        .appendTo(document.body);
 
     if ($('.image-wrapper-a').length) {
         var elem = $('.image-wrapper-a'),

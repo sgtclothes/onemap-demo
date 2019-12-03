@@ -343,7 +343,7 @@ var removeFilterResults = function (map) {
     $(document).delegate("#button-filter-remove-property", "click", function () {
         //Remove all objects in map
         map.ObjMapView.graphics.removeAll();
-        setStartLocalStorage()
+        setStartLocalStorage(map)
 
         //Reset all grouplayers
         for (let i = 0; i < groupLayers.length; i++) {

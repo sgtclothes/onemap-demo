@@ -1,16 +1,3 @@
-var createDrivingTime = function (map) {
-    let latitude = Number(getLocalStorage("livePointingLatitude", 0))
-    let longitude = Number(getLocalStorage("livePointingLongitude", 0))
-
-    map.ObjMapView.goTo({
-        target: [longitude, latitude],
-        zoom: 14
-    });
-
-    fillParameterDrivingTime(map)
-    startDrivingTime(map, longitude, latitude)
-}
-
 var fillParameterDrivingTime = function (map) {
     let div = document.createElement("DIV")
     div.style.backgroundColor = "white"
@@ -25,30 +12,6 @@ var fillParameterDrivingTime = function (map) {
     $.get("assets/js/graphics/modals/createDrivingTime.html", function (data) {
         $(div).html(data);
     });
-}
-
-var startDrivingTime = function (map, longitude, latitude) {
-
-    $(document).delegate("#driving-time-div", "click", function () {
-        actionElement("#hold-driving-time", "remove")
-    })
-
-    //Fill driving distance data
-    $(document).delegate(".select-driving-mini", "change", function () {
-        if ($(this).val() == 3) {
-            $(".driving-historical-mini").show();
-        } else {
-            $(".driving-historical-mini").hide();
-        }
-    });
-
-    //Click button for validation
-    $(document).delegate(".btn-create-drive-time-mini", "click", function () {
-        let distance = $(".distance-time-mini").val()
-        let unit = $(".select-unit-time-mini").val()
-        processDrivingTime(map, longitude, latitude, unit, distance)
-    });
-
 }
 
 var processDrivingTime = function (map, longitude, latitude, unit, distance) {

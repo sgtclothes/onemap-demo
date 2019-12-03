@@ -62,7 +62,7 @@ var drivingdistanceClick = function (map) {
         $(".image-wrapper-a").remove()
         $("#subcontextmenum").remove()
         $("#subcontextmenud").remove()
-        createDrivingDistance(map)
+        fillParameterDrivingDistance(map)
     })
 }
 
@@ -71,7 +71,7 @@ var drivingtimeClick = function (map) {
         $(".image-wrapper-a").remove()
         $("#subcontextmenum").remove()
         $("#subcontextmenud").remove()
-        createDrivingTime(map)
+        fillParameterDrivingTime(map)
     })
 }
 

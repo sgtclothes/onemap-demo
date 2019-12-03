@@ -5,7 +5,31 @@ var mapViewClick = function (map) {
         graphicsBehavior(map, event)
         pointTheSite(map, event)
         pointingFromNavAnalysis(map, event)
+        getAdministration(map, event)
     })
+}
+
+var getAdministration = function (map, event) {
+    map.ObjMapView.hitTest(event).then(async function (response) {
+        await createPolygon(response.results[0].graphic.geometry)
+    })
+}
+
+var mapViewHover = function (map, region) {
+    map.ObjMapView.on("pointer-move", function (event) {
+        map.ObjMapView.hitTest(event).then(function (response) {
+            if (response.results.length > 0) {
+                if ("PROVINSI" in response.results[0].graphic.attributes || "KABKOT" in response.results[0].graphic.attributes) {
+                    $("#mapDiv").css("cursor", "pointer")
+                } else {
+                    $("#mapDiv").css("cursor", "default")
+                }
+            } else {
+                $("#mapDiv").css("cursor", "default")
+            }
+        })
+    })
+
 }
 
 var pointTheSite = function (map, event) {
@@ -142,9 +166,18 @@ var graphicsBehavior = function (map, event) {
         hoveredDraw = false
         map.ObjMapView.hitTest(point).then(function (response) {
             if (response.results.length > 0) {
+                console.log(response.results)
                 if ("analyzed" in response.results[0].graphic) {
                     console.log("Target Analyzed")
-                } else {
+                } else if ("selector" in response.results[0].graphic) {
+                    console.log("selector")
+                    getGraphicsInfo(response, map)
+                }
+                else if ("layerName" in response.results[0].graphic.attributes) {
+                    response.results = []
+                    getGraphicsInfo(response, map)
+                }
+                else {
                     console.log(response)
                     getGraphicsInfo(response, map)
                 }
@@ -182,7 +215,12 @@ var contextMenuNormal = function (response, map, event, selectedLayer) {
         if (selectedLayer.length > 0) {
             createContextMenu(map, event, condition = ["analyze", "remove"])
         } else {
-            createContextMenu(map, event, condition = ["measurement", "draw"])
+            var pointer = getLayerById(map, "pointer")
+            if (pointer == undefined) {
+                createContextMenu(map, event, condition = ["measurement", "draw"])
+            } else {
+                createContextMenu(map, event, condition = ["measurement", "draw", "remove pointing"])
+            }
         }
     }
 }
@@ -219,7 +257,6 @@ var mapViewWhenReady = function (map, config) {
 
         createSite(createSiteExpand, GIS, map);
         map.ObjMapView.ui.add(createSiteExpand, config.Position[6]);
-
         //Zoom to Jakarta
         map.ObjMapView.goTo({
             target: [106.8306808, -6.1994095],
@@ -239,4 +276,90 @@ var convertScreenPoint = function (response, map) {
         y: response.screenPoint.y
     }).longitude.toFixed(7);
     return [longitude, latitude]
+}
+
+var watchZoomLevel = function (map, provinsi, kabupaten, kecamatan, desa) {
+    ESRI.watchUtils.watch(map.ObjMapView, "zoom", function (zoom) {
+        if (zoom < 8) {
+            provinsi.visible = false
+        } else if (zoom >= 8 && zoom < 11) {
+            provinsi.visible = true
+        } else {
+            provinsi.visible = false
+        }
+
+        if (zoom < 11) {
+            kabupaten.visible = false
+        } else if (zoom >= 11 && zoom < 14) {
+            kabupaten.visible = true
+        } else {
+            kabupaten.visible = false
+        }
+
+        if (zoom < 14) {
+            kecamatan.visible = false
+        } else if (zoom >= 14 && zoom < 17) {
+            kecamatan.visible = true
+        } else {
+            kecamatan.visible = false
+        }
+
+        if (zoom < 17) {
+            desa.visible = false
+        } else if (zoom >= 17 && zoom <= 19) {
+            desa.visible = true
+        } else {
+            desa.visible = false
+        }
+
+        console.log(zoom)
+        // var labels = getAllItemsFromGroupLayer(map, "labels")
+        // var points = getAllItemsFromGroupLayer(map, "points")
+        // console.log(zoom)
+        // console.log(zoomSearchLevel)
+        // if (zoom <= zoomSearchLevel) {
+        //     for (let i = 0; i < labels.items.length; i++) {
+        //         var symbol = {
+        //             type: "text",
+        //             color: "black",
+        //             horizontalAlignment: "left",
+        //             width: "auto",
+        //             xoffset: -50,
+        //             yoffset: 10,
+        //             text: labels.items[i].graphics.items[0].symbol.text,
+        //             font: {
+        //                 size: 5,
+        //                 family: "sans-serif"
+        //             }
+        //         }
+        //         labels.items[i].graphics.items[0].symbol = symbol
+        //         labels.items[i].graphics.items[0].visible = false
+        //     }
+        //     for (let i = 0; i < points.items.length; i++) {
+        //         points.items[i].graphics.items[0].visible = false
+        //     }
+        // } else if (zoom > zoomSearchLevel) {
+        //     var difference = zoom - zoomSearchLevel
+        //     for (let i = 0; i < labels.items.length; i++) {
+        //         var symbol = {
+        //             type: "text",
+        //             color: "black",
+        //             horizontalAlignment: "left",
+        //             width: "auto",
+        //             xoffset: -50,
+        //             yoffset: 10,
+        //             text: labels.items[i].graphics.items[0].symbol.text,
+        //             font: {
+        //                 size: 5 + difference,
+        //                 family: "sans-serif"
+        //             }
+        //         }
+        //         labels.items[i].graphics.items[0].symbol = symbol
+        //         labels.items[i].graphics.items[0].visible = true
+        //     }
+        //     for (let i = 0; i < points.items.length; i++) {
+        //         points.items[i].graphics.items[0].visible = true
+        //     }
+        // }
+    });
 }

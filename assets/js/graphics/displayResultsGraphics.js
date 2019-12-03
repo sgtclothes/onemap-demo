@@ -56,6 +56,7 @@ var displayLegendProperty = async function (map, title, results, kTag, renderer,
         });
     }
     $(".titleLegendProperty").text(title)
+    $(".titleLegendProperty").append("<i class='mi-keyboard-arrow-up'></i>")
     if (results.features.length < 1) {
         $("#loading-bar").hide();
         if (renderer.hasOwnProperty("url")) {
@@ -117,12 +118,13 @@ var displayLegendProperty = async function (map, title, results, kTag, renderer,
         $(".tableLegendProperty").append("<tr style='padding-right:5px; padding-left:5px;' id=" + imgUrl[i].type_id + "-" + index + ">")
         $("#" + imgUrl[i].type_id + "-" + index).append("<td id=" + imgUrl[i].type_id + "-img-" + index + " style='padding-left:5px;'>")
         if (choice == "external data icon") {
-            $("#" + imgUrl[i].type_id + "-img-" + index).append("<img style='width:14px; height:14px;' src=" + imgUrl[i].url + ">")
+            $("#" + imgUrl[i].type_id + "-img-" + index).append("<img style='width:30px; height:30px;' src=" + imgUrl[i].url + ">")
         } else if (choice == "external data mark") {
             $("#" + imgUrl[i].type_id + "-img-" + index).append("<span style='display:inline-block; border-radius:50%; width:14px; height:14px; background-color:rgb(" + imgUrl[i].color[0] + "," + imgUrl[i].color[1] + "," + imgUrl[i].color[2] + ")' src=" + imgUrl[i].url + "></span>")
         }
-        $("#" + imgUrl[i].type_id + "-" + index).append("<td id=" + imgUrl[i].type_id + "-text-" + index + " style='font-size:9px;'>")
-        $("#" + imgUrl[i].type_id + "-text-" + index).text(imgUrl[i].name)
+        $("#" + imgUrl[i].type_id + "-" + index).append("<td id=" + imgUrl[i].type_id + "-text-" + index + " style='font-size:15px;'>")
+        var type_id_upper = imgUrl[i].name.charAt(0).toUpperCase() + imgUrl[i].name.slice(1)
+        $("#" + imgUrl[i].type_id + "-text-" + index).text(type_id_upper)
         if ($(".tableLegendProperty").find("tr").length > 4 && legendOverflow == false) {
             window.legendOverflow = true
             let height = $(".tableLegendProperty").css("height")
@@ -201,6 +203,7 @@ var displayLegendPropertyColliers = async function (map, title) {
     if (property.length > 0) {
         await checkLegend(map, ".tableLegendProperty", "assets/js/filter/legend/resultsLegend.html")
         await setTitleLegend(".titleLegendProperty", title)
+        $(".titleLegendProperty").append("<i class='mi-keyboard-arrow-up'></i>")
     }
 
     for (let i = 0; i < property.length; i++) {
@@ -221,9 +224,10 @@ var displayLegendPropertyColliers = async function (map, title) {
         imgUrl[i].type_id = punctuationFixer(punctuations, "_", imgUrl[i].type)
         $(".tableLegendProperty").append("<tr style='padding-right:5px; padding-left:5px;' id=" + imgUrl[i].type_id + "-" + index + ">")
         $("#" + imgUrl[i].type_id + "-" + index).append("<td id=" + imgUrl[i].type_id + "-img-" + index + " style='padding-left:5px;'>")
-        $("#" + imgUrl[i].type_id + "-img-" + index).append("<img style='width:14px; height:14px;' src=" + imgUrl[i].url + ">")
-        $("#" + imgUrl[i].type_id + "-" + index).append("<td id=" + imgUrl[i].type_id + "-text-" + index + " style='font-size:9px;'>")
-        $("#" + imgUrl[i].type_id + "-text-" + index).text(imgUrl[i].name)
+        $("#" + imgUrl[i].type_id + "-img-" + index).append("<img style='width:30px; height:30px;' src=" + imgUrl[i].url + ">")
+        var type_id_upper = imgUrl[i].name.charAt(0).toUpperCase() + imgUrl[i].name.slice(1)
+        $("#" + imgUrl[i].type_id + "-" + index).append("<td id=" + imgUrl[i].type_id + "-text-" + index + " style='font-size:15px;'>")
+        $("#" + imgUrl[i].type_id + "-text-" + index).text(type_id_upper)
         if ($(".tableLegendProperty").find("tr").length > 4 && legendOverflow == false) {
             window.legendOverflow = true
             let height = $(".tableLegendProperty").css("height")
@@ -239,76 +243,78 @@ var getMarkerSymbol = function (propertyType, renderer) {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/office.png",
-            width: "25px",
-            height: "25px"
+            width: "30px",
+            height: "30px"
         };
     } else if (propertyType == "house") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/house.png",
-            width: "25px",
-            height: "25px"
+            width: "30px",
+            height: "30px"
         };
     }
     else if (propertyType == "ruko") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/ruko.png",
-            width: "25px",
-            height: "25px"
+            width: "30px",
+            height: "30px"
         };
     }
     else if (propertyType == "industrial/logistic") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
-            url: "assets/images/property-icon/industrial.png",
-            width: "25px",
-            height: "25px"
+            url: "assets/images/property-icon/logistic.png",
+            width: "30px",
+            height: "30px"
         };
     } else if (propertyType == "data center") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/data-center.png",
-            width: "25px",
-            height: "25px"
+            width: "30px",
+            height: "30px"
         };
     } else if (propertyType == "shopping center") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/shopping-center.png",
-            width: "25px",
-            height: "25px"
+            width: "30px",
+            height: "30px"
         };
     } else if (propertyType == "apartment") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/apartment.png",
-            width: "25px",
-            height: "25px"
+            width: "30px",
+            height: "30px"
         };
     } else if (propertyType == "hotel") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/hotel.png",
-            width: "25px",
-            height: "25px"
+            width: "30px",
+            height: "30px"
         };
     } else if (propertyType == "others") {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
             url: "assets/images/property-icon/others.png",
-            width: "25px",
-            height: "25px"
+            width: "30px",
+            height: "30px"
         };
     } else if (propertyType == "symbol" && renderer) {
+        renderer.height = "30px"
+        renderer.width = "30px"
         markerSymbol = renderer
     }
     else {
         markerSymbol = {
             type: "picture-marker", // autocasts as new PictureMarkerSymbol()
-            url: "assets/images/icons/OB-red.png",
-            width: "25px",
-            height: "25px"
+            url: "assets/images/property-icon/others.png",
+            width: "30px",
+            height: "30px"
         };
     }
 

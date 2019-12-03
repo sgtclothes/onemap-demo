@@ -1,8 +1,7 @@
 async function boot(GIS) {
   window.GIS = GIS
-  setStartLocalStorage()
   let config = new GIS.Config();
-  let map = new GIS.Map(config.CenterPoint, 'gray');
+  let map = new GIS.Map(config.CenterPoint, 'osm');
   map.addLocateWidget("top-left");
   map.addBasemapGalleryWidget(
     {
@@ -14,8 +13,95 @@ async function boot(GIS) {
     "top-left"
   );
   map.render();
-  await widgetCollection(map)
-  await setWindowVariables(map)
+  setStartLocalStorage(map)
+  radiusSlider(map)
+  widgetCollection(map)
+  setWindowVariables(map)
+
+  // var sources = [
+  //   {
+  //     layer: new ESRI.FeatureLayer({
+  //       url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/2",
+  //       outFields: ["*"]
+  //     }),
+  //     searchFields: ["KABKOT", "PROVINSI"],
+  //     displayField: "KABKOT",
+  //     exactMatch: false,
+  //     outFields: ["*"],
+  //   }
+  // ]
+
+  // var testAutoSearch = new ESRI.Search({
+  //   view: map.ObjMapView,
+  //   sources: sources
+  // })
+
+  // testAutoSearch.search("KOTA JAKARTA BARAT")
+
+  //---- Driving Time and Driving Distance Area --- //
+
+  $(document).delegate("#modal-profile-onemap", "click", async function () {
+    await $.get("assets/html/my_profile.html", function (data) {
+      $(".page-content").append(data);
+    });
+  })
+  $(document).delegate("#driving-time-div", "click", function () {
+    actionElement("#hold-driving-time", "remove")
+  })
+  $(document).delegate(".select-driving-mini", "change", function () {
+    if ($(this).val() == 3) {
+      $(".driving-historical-mini").show();
+    } else {
+      $(".driving-historical-mini").hide();
+    }
+  });
+  $(document).delegate(".btn-create-drive-time-mini", "click", function () {
+    let distance = $(".distance-time-mini").val()
+    let unit = $(".select-unit-time-mini").val()
+    var latitude = 0
+    var longitude = 0
+    if (getLayerById(map, "pointer")) {
+      latitude = Number(getLocalStorage("livePointingLatitude", 0))
+      longitude = Number(getLocalStorage("livePointingLongitude", 0))
+    } else {
+      latitude = map.ObjMapView.center.latitude
+      longitude = map.ObjMapView.center.longitude
+    }
+    processDrivingTime(map, longitude, latitude, unit, distance)
+  });
+
+  $(document).delegate("#driving-distance-div", "click", function () {
+    actionElement("#hold-driving-distance", "remove")
+  })
+  $(document).delegate(".select-driving-distance-mini", "change", function () {
+    if ($(this).val() == 3) {
+      $(".driving-historical-mini").show();
+    } else {
+      $(".driving-historical-mini").hide();
+    }
+  });
+  $(document).delegate(".btn-create-drive-distance-mini", "click", function () {
+    let distance = $(".driving-distance-distance-mini").val()
+    let unit = $(".select-unit-distance-mini").val()
+    var latitude = 0
+    var longitude = 0
+    if (getLayerById(map, "pointer")) {
+      latitude = Number(getLocalStorage("livePointingLatitude", 0))
+      longitude = Number(getLocalStorage("livePointingLongitude", 0))
+    } else {
+      latitude = map.ObjMapView.center.latitude
+      longitude = map.ObjMapView.center.longitude
+    }
+    processDrivingDistance(map, longitude, latitude, unit, distance)
+  });
+
+  //---- End of Driving Time and Driving Distance Area --- //
+
+  createTargetPoint(map)
+
+  // $(function () {
+  //   $("#popupFilter").draggable();
+  // });
 
   // await $.get("assets/js/contextMenu/action/popup/config/configPopup.html", function (data) {
   //   $(".page-content").append(data);
@@ -61,9 +147,10 @@ async function boot(GIS) {
   createMarker(GIS, map);
   createMarkerFromSite(GIS, map);
   createMarkerFromCSV(GIS, map);
-  analysisPoi(GIS, map);
-  editAnalysis(GIS, map);
+  // analysisPoi(GIS, map);
+  // editAnalysis(GIS, map);
   // end of create instant analysis
+  console.log($("#onemap-username").text())
 
   //Define Buffers
   bufferRadius(GIS, map);
@@ -633,7 +720,168 @@ async function boot(GIS) {
     checkForChanges();
   });
 
+  var rendererProvinsi = {
+    type: "unique-value",
+    field: "PROVINSI",
+    uniqueValueInfos: []
+  }
+
+  var provinsi = new ESRI.FeatureLayer({
+    url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/3",
+    outFields: ["PROVINSI"],
+    visible: false,
+    maxScale: 0,
+    minScale: 0
+  })
+
+  var queryPROVINSI = new ESRI.Query({
+    where: "1=1",
+    outFields: "PROVINSI"
+  })
+
+  await provinsi.queryFeatures(queryPROVINSI).then(function (results) {
+    for (let i = 0; i < results.features.length; i++) {
+      var obj = {
+        value: results.features[i].attributes.PROVINSI,
+        symbol: {
+          type: 'text',
+          color: 'black',
+          haloColor: 'black',
+          text: results.features[i].attributes.PROVINSI,
+          font: {
+            size: 20,
+            weight: 'bold',
+            family: "sans-serif",
+          }
+        }
+      }
+      rendererProvinsi.uniqueValueInfos.push(obj)
+    }
+    provinsi.renderer = rendererProvinsi
+  })
+
+  var rendererKabupaten = {
+    type: "unique-value",
+    field: "KABKOT",
+    uniqueValueInfos: []
+  }
+
+  var kabupaten = new ESRI.FeatureLayer({
+    url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/2",
+    outFields: ["KABKOT"],
+    maxScale: 0,
+    minScale: 0
+  })
+
+  var queryKABUPATEN = new ESRI.Query({
+    where: "1=1",
+    outFields: "KABKOT"
+  })
+
+  await kabupaten.queryFeatures(queryKABUPATEN).then(function (results) {
+    for (let i = 0; i < results.features.length; i++) {
+      var obj = {
+        value: results.features[i].attributes.KABKOT,
+        symbol: {
+          type: 'text',
+          color: 'blue',
+          haloColor: 'blue',
+          text: results.features[i].attributes.KABKOT,
+          font: {
+            size: 10,
+            weight: 'bold',
+            family: "sans-serif",
+          }
+        }
+      }
+      rendererKabupaten.uniqueValueInfos.push(obj)
+    }
+    kabupaten.renderer = rendererKabupaten
+  })
+
+  var rendererKecamatan = {
+    type: "unique-value",
+    field: "KECAMATAN",
+    uniqueValueInfos: []
+  }
+
+  var kecamatan = new ESRI.FeatureLayer({
+    url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/1",
+    outFields: ["KECAMATAN"],
+    maxScale: 0,
+    minScale: 0
+  })
+
+  var queryKECAMATAN = new ESRI.Query({
+    where: "1=1",
+    outFields: "KECAMATAN"
+  })
+
+  await kecamatan.queryFeatures(queryKECAMATAN).then(function (results) {
+    for (let i = 0; i < results.features.length; i++) {
+      var obj = {
+        value: results.features[i].attributes.KECAMATAN,
+        symbol: {
+          type: 'text',
+          color: 'red',
+          haloColor: 'red',
+          text: results.features[i].attributes.KECAMATAN,
+          font: {
+            size: 10,
+            weight: 'bold',
+            family: "sans-serif",
+          }
+        }
+      }
+      rendererKecamatan.uniqueValueInfos.push(obj)
+    }
+    kecamatan.renderer = rendererKecamatan
+  })
+
+  var rendererDesa = {
+    type: "unique-value",
+    field: "DESA",
+    uniqueValueInfos: []
+  }
+
+  var desa = new ESRI.FeatureLayer({
+    url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/0",
+    outFields: ["DESA"],
+    maxScale: 0,
+    minScale: 0
+  })
+
+  var queryDESA = new ESRI.Query({
+    where: "1=1",
+    outFields: "DESA"
+  })
+
+  await desa.queryFeatures(queryDESA).then(function (results) {
+    for (let i = 0; i < results.features.length; i++) {
+      var obj = {
+        value: results.features[i].attributes.DESA,
+        symbol: {
+          type: 'text',
+          color: 'green',
+          haloColor: 'green',
+          text: results.features[i].attributes.DESA,
+          font: {
+            size: 10,
+            weight: 'bold',
+            family: "sans-serif",
+          }
+        }
+      }
+      rendererDesa.uniqueValueInfos.push(obj)
+    }
+    desa.renderer = rendererDesa
+  })
+
+  map.ObjMap.addMany([provinsi, kabupaten, kecamatan, desa])
+
   mapViewClick(map)
+  mapViewHover(map)
+  watchZoomLevel(map, provinsi, kabupaten, kecamatan, desa)
   createSketch(map)
 
   closeContextMenu() // Close context menu
@@ -654,6 +902,7 @@ async function boot(GIS) {
   window.hoveredDraw = false
   measurementHover(["polygon", "polyline"])
   analyzeHover(["radius", "drivingtime", "drivingdistance", "manual"])
+  removePointer(map)
   //---End of Context Menu Action---//
 
   submitFilterServices(map);
