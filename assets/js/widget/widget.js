@@ -162,132 +162,136 @@ var widgetCollection = function (map) {
 
 var searchConfig = async function (map, res, markerSymbol) {
     console.log(res)
-    var geometry = res.results[0].results[0].feature.geometry
-    var centroid = res.results[0].results[0].feature.geometry.centroid
-    var punctuations = [/\s/g, "&", "'", ".", "/"]
-    actionElement(".esri-popup", "hide")
-    await setTimeout(async function () {
-        resetSelectedGraphics(groupLayers)
-        var type = res.results[0].results[0].feature.geometry.type
-        var longitude = 0
-        var latitude = 0
-        if (type == "point") {
-            longitude = res.results[0].results[0].feature.geometry.longitude
-            latitude = res.results[0].results[0].feature.geometry.latitude
-            setPointing(map, [longitude, latitude])
-            res.target.resultGraphic.symbol = markerSymbol
-        } else if (type == "polygon") {
-            var cPoint = new ESRI.Point()
-            cPoint.x = res.results[0].results[0].feature.geometry.centroid.x
-            cPoint.y = res.results[0].results[0].feature.geometry.centroid.y
-            await getProjectionGeometryPoint(cPoint, "3857", "4326").then(function (results) {
-                longitude = results[0].x
-                latitude = results[0].y
-            })
-            await createPolygon(geometry, {
-                label: res.searchTerm,
-                field: res.results[0].source.displayField
-            }).then(function () {
-                sortID(map, "polygons", "dynamic-polygon-")
-                registerAttributes(map, "polygons", "polygon-graphics", 0)
-            })
-            await renderSearchClassification(res.searchTerm, res.results[0].source.displayField, centroid).then(async function (results) {
-                var cPoint4 = new ESRI.Point()
-                cPoint4.x = results[0][2].x;
-                cPoint4.y = results[0][2].y;
+    if (res.results[0].results.length < 1) {
+        await loading("hide")
+    } else {
+        var geometry = res.results[0].results[0].feature.geometry
+        var centroid = res.results[0].results[0].feature.geometry.centroid
+        var punctuations = [/\s/g, "&", "'", ".", "/"]
+        actionElement(".esri-popup", "hide")
+        await setTimeout(async function () {
+            resetSelectedGraphics(groupLayers)
+            var type = res.results[0].results[0].feature.geometry.type
+            var longitude = 0
+            var latitude = 0
+            if (type == "point") {
+                longitude = res.results[0].results[0].feature.geometry.longitude
+                latitude = res.results[0].results[0].feature.geometry.latitude
+                setPointing(map, [longitude, latitude])
+                res.target.resultGraphic.symbol = markerSymbol
+            } else if (type == "polygon") {
+                var cPoint = new ESRI.Point()
+                cPoint.x = res.results[0].results[0].feature.geometry.centroid.x
+                cPoint.y = res.results[0].results[0].feature.geometry.centroid.y
+                await getProjectionGeometryPoint(cPoint, "3857", "4326").then(function (results) {
+                    longitude = results[0].x
+                    latitude = results[0].y
+                })
+                await createPolygon(geometry, {
+                    label: res.searchTerm,
+                    field: res.results[0].source.displayField
+                }).then(function () {
+                    sortID(map, "polygons", "dynamic-polygon-")
+                    registerAttributes(map, "polygons", "polygon-graphics", 0)
+                })
+                await renderSearchClassification(res.searchTerm, res.results[0].source.displayField, centroid).then(async function (results) {
+                    var cPoint4 = new ESRI.Point()
+                    cPoint4.x = results[0][2].x;
+                    cPoint4.y = results[0][2].y;
 
-                var masterSymbol = {
-                    type: "simple-marker",
-                    style: "circle",
-                    color: "black",
-                    size: "6px"
-                }
-
-                for (let i = 0; i < results.length; i++) {
-                    var cPoint2 = new ESRI.Point()
-                    var cPoint3 = new ESRI.Point()
-                    cPoint2.x = results[i][4].longitude;
-                    cPoint2.y = results[i][4].latitude;
-
-                    var markerSymbol2 = {}
-
-                    if (results[i][0] == "KABUPATEN") {
-                        markerSymbol2 = {
-                            type: "simple-marker",
-                            style: "circle",
-                            color: "red",
-                            size: "6px"
-                        }
-                    } else if (results[i][0] == "KECAMATAN") {
-                        markerSymbol2 = {
-                            type: "simple-marker",
-                            style: "circle",
-                            color: "blue",
-                            size: "6px"
-                        }
+                    var masterSymbol = {
+                        type: "simple-marker",
+                        style: "circle",
+                        color: "black",
+                        size: "6px"
                     }
 
-                    await getProjectionGeometryPoint(cPoint2, "3857", "4326").then(function (res) {
-                        cPoint3.longitude = res[0]["x"]
-                        cPoint3.latitude = res[0]["y"]
-                    })
+                    for (let i = 0; i < results.length; i++) {
+                        var cPoint2 = new ESRI.Point()
+                        var cPoint3 = new ESRI.Point()
+                        cPoint2.x = results[i][4].longitude;
+                        cPoint2.y = results[i][4].latitude;
 
-                    var graphic = new ESRI.Graphic({
+                        var markerSymbol2 = {}
+
+                        if (results[i][0] == "KABUPATEN") {
+                            markerSymbol2 = {
+                                type: "simple-marker",
+                                style: "circle",
+                                color: "red",
+                                size: "6px"
+                            }
+                        } else if (results[i][0] == "KECAMATAN") {
+                            markerSymbol2 = {
+                                type: "simple-marker",
+                                style: "circle",
+                                color: "blue",
+                                size: "6px"
+                            }
+                        }
+
+                        await getProjectionGeometryPoint(cPoint2, "3857", "4326").then(function (res) {
+                            cPoint3.longitude = res[0]["x"]
+                            cPoint3.latitude = res[0]["y"]
+                        })
+
+                        var graphic = new ESRI.Graphic({
+                            attributes: {
+                                label: punctuationFixer(punctuations, "-", results[i][3])
+                            },
+                            geometry: cPoint3,
+                            symbol: markerSymbol2,
+                            visible: false
+                        })
+
+                        var graphicsLayer = new ESRI.GraphicsLayer({
+                            id: "search-point-" + results[i][0] + "-" + punctuationFixer(punctuations, "-", results[i][3])
+                        })
+
+                        graphicsLayer.add(graphic)
+                        groupLayerPoints.add(graphicsLayer)
+
+                        await createLabelSearch(map, cPoint2, results[i][3], "label-search-" + results[i][0] + "-" + punctuationFixer(punctuations, "-", results[i][3]))
+                    }
+
+                    var level = undefined
+
+                    if (results[0][0] == "KABUPATEN") {
+                        level = "PROVINSI"
+                    } else if (results[0][0] == "KECAMATAN") {
+                        level = "KABUPATEN"
+                    }
+
+                    await createLabelSearch(map, cPoint4, results[0][1], "label-search-" + level + "-" + punctuationFixer(punctuations, "-", results[0][1]))
+
+                    var masterGraphic = new ESRI.Graphic({
                         attributes: {
-                            label: punctuationFixer(punctuations, "-", results[i][3])
+                            label: punctuationFixer(punctuations, "-", results[0][1])
                         },
-                        geometry: cPoint3,
-                        symbol: markerSymbol2,
+                        geometry: cPoint4,
+                        symbol: masterSymbol,
                         visible: false
                     })
 
-                    var graphicsLayer = new ESRI.GraphicsLayer({
-                        id: "search-point-" + results[i][0] + "-" + punctuationFixer(punctuations, "-", results[i][3])
+                    var graphicsLayer2 = new ESRI.GraphicsLayer({
+                        id: "search-point-" + level + "-" + punctuationFixer(punctuations, "-", results[0][1])
                     })
 
-                    graphicsLayer.add(graphic)
-                    groupLayerPoints.add(graphicsLayer)
-
-                    await createLabelSearch(map, cPoint2, results[i][3], "label-search-" + results[i][0] + "-" + punctuationFixer(punctuations, "-", results[i][3]))
-                }
-
-                var level = undefined
-
-                if (results[0][0] == "KABUPATEN") {
-                    level = "PROVINSI"
-                } else if (results[0][0] == "KECAMATAN") {
-                    level = "KABUPATEN"
-                }
-
-                await createLabelSearch(map, cPoint4, results[0][1], "label-search-" + level + "-" + punctuationFixer(punctuations, "-", results[0][1]))
-
-                var masterGraphic = new ESRI.Graphic({
-                    attributes: {
-                        label: punctuationFixer(punctuations, "-", results[0][1])
-                    },
-                    geometry: cPoint4,
-                    symbol: masterSymbol,
-                    visible: false
+                    graphicsLayer2.add(masterGraphic)
+                    groupLayerPoints.add(graphicsLayer2)
+                    registerAttributes(map, "points", "search-point-graphics", 0)
+                    registerAttributes(map, "labels", "label-graphics", 0)
                 })
+            }
+            map.ObjMapView.goTo({
+                target: [res.results[0].results[0].extent.center.longitude, res.results[0].results[0].extent.center.latitude]
+            });
 
-                var graphicsLayer2 = new ESRI.GraphicsLayer({
-                    id: "search-point-" + level + "-" + punctuationFixer(punctuations, "-", results[0][1])
-                })
-
-                graphicsLayer2.add(masterGraphic)
-                groupLayerPoints.add(graphicsLayer2)
-                registerAttributes(map, "points", "search-point-graphics", 0)
-                registerAttributes(map, "labels", "label-graphics", 0)
-            })
-        }
-        map.ObjMapView.goTo({
-            target: [res.results[0].results[0].extent.center.longitude, res.results[0].results[0].extent.center.latitude]
-        });
-
-        zoomSearchLevel = map.ObjMapView.zoom
-        await loading("hide")
-        await res.target.clear()
-    }, 400)
+            zoomSearchLevel = map.ObjMapView.zoom
+            await loading("hide")
+            await res.target.clear()
+        }, 400)
+    }
 }
 
 var renderSearchClassification = async function (name, classification, centroid) {

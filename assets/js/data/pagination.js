@@ -1,6 +1,12 @@
 var paginationColliersPopup = async function (map, features) {
-    console.log(features)
-    await getColliersData(map, features[0].attributes)
+    var source = features[0].attributes.source
+    if (source == "vdo" || source == "vdo-ayda") {
+        console.log("VDO")
+        await getColliersDataVDO(map, features[0].attributes)
+    } else {
+        console.log("Not VDO")
+        await getColliersData(map, features[0].attributes)
+    }
     $(".popupFilter").css("display", "block")
     var records_per_page = 1;
     checkPage(features)

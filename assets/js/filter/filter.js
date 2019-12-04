@@ -84,6 +84,14 @@ var submitFilterServices = function (map) {
         //Variable to collect feature service by rules
         let featureService = []
 
+        for (let i = 0; i < property.length; i++) {
+            if (property[i] == "others") {
+                property[i] = "land"
+            }
+        }
+
+        console.log(property)
+
         // Get value of property type and we register it on "value" array
         if (property.length > 0) {
             let q = "(";
@@ -180,7 +188,7 @@ var submitFilterServices = function (map) {
         if (propertyValuation.includes("kjpprhr")) {
             propertyServiceStatusValue.push("(lower(property_status) = 'valuation' AND lower(property_service) = 'by kjpprhr')")
         }
-        if (propertySold.includes("others")) {
+        if (propertyValuation.includes("others")) {
             propertyServiceStatusValue.push("(lower(property_status) = 'valuation' AND lower(property_service) = 'by others')")
         }
 
@@ -262,6 +270,7 @@ var submitFilterServices = function (map) {
                             actionElement(".legendProperty", "remove")
                         } else {
                             await displayResultsGraphicsPropertyColliers(map, results)
+                            await displayPolygonPropertyColliers(results)
                         }
                     })
                 }
@@ -277,6 +286,7 @@ var submitFilterServices = function (map) {
                         actionElement(".legendProperty", "remove")
                     } else {
                         await displayResultsGraphicsPropertyColliers(map, results)
+                        await displayPolygonPropertyColliers(results)
                     }
                 })
                 await setTimeout(async () => {
@@ -372,4 +382,33 @@ var removeFilterResults = function (map) {
 
         console.log($("#label-radius"))
     });
+}
+
+var displayPolygonPropertyColliers = async function (results) {
+    for (let i = 0; i < results.features.length; i++) {
+        if (results.features[i].attributes.polygons !== null) {
+            var polygons = results.features[i].attributes.polygons
+            polygons = polygons.split("),")
+            for (let i = 0; i < polygons.length; i++) {
+                if (polygons[i].includes("(")) {
+                    polygons[i] = polygons[i].slice(1)
+                }
+
+                if (polygons[i].includes(")")) {
+                    polygons[i] = polygons[i].slice(0, -1)
+                }
+
+                polygons[i] = [Number(polygons[i].split(",")[1]), Number(polygons[i].split(",")[0])]
+            }
+
+            await getProjectionPoint(JSON.stringify(polygons), "4326", "3857").then(async function (res) {
+                var geometry = {
+                    rings: [res]
+                }
+                console.log(results)
+                await createPolygon(geometry, results.features[i].attributes)
+            })
+
+        }
+    }
 }

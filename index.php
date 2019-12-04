@@ -996,6 +996,7 @@
 
 <!-- Data -->
 <script src="assets/js/data/colliersData.js"></script>
+<script src="assets/js/data/colliersDataVDO.js"></script>
 <script src="assets/js/data/externalData.js"></script>
 <script src="assets/js/data/pagination.js"></script>
 <script src="assets/js/data/popup/popupFilter.js"></script>

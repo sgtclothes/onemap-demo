@@ -22,6 +22,17 @@
     <link rel="stylesheet" href="assets/css/jquery/jquery-ui-1.12.1.css">
     <script src="assets/js/jquery-1.12.4.js"></script>
     <script src="assets/js/jquery-1.12.1.js"></script>
+    <script src="assets/js/jquery.cookie.min.js"></script>
+    <script>
+        if (Cookies.get('arcgistoken')) {
+            sessionStorage.setItem("token", Cookies.get("arcgistoken"))
+        }
+        window.token = sessionStorage.getItem("token")
+        if (!token) {
+            location.replace("login.php")
+        }
+        console.log(token)
+    </script>
 
     <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
     <!-- /global stylesheets -->
@@ -44,13 +55,6 @@
     <script src="assets/js/layout/default/app.js"></script>
     <script src="https://unpkg.com/imask"></script>
     <!-- /themes & template js files -->
-
-    <script type="text/javascript">
-        let host = "<?= $dbhost ?>"
-        let user = "<?= $dbuser ?>"
-        let pass = "<?= $dbpass ?>"
-        window.created_by = "<?= $_SESSION['auth']['id'] ?>"
-    </script>
 
     <style>
         #viewDiv {
@@ -116,13 +120,27 @@
 
 <body id="main" class="navbar-top sidebar-main-hidden backbody">
     <!-- main navbar -->
-    <div class="navbar navbar-expand-md navbar-dark bg-indigo fixed-top">
+    <div class="navbar navbar-expand-md navbar-dark bg-theme fixed-top">
 
         <!-- navbar for product-brand -->
         <div class="navbar-brand py-0">
             <a href="index.php" class="d-flex h-100">
+                <img id="department-logo-onemap" class="img-fluid my-auto h-auto" style="width:60px; height:24px;" src="" alt="">
                 <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/logo-fix.png" alt="">
             </a>
+            <script>
+                var departments = sessionStorage.getItem("departments")
+                var logoDep = $("#department-logo-onemap")
+                console.log(departments)
+                var img = new Image();
+                img.onload = function() {
+                    $(logoDep).attr("src", "assets/images/department_logo/" + departments + ".png")
+                };
+                img.onerror = function() {
+                    $(logoDep).remove()
+                };
+                img.src = "assets/images/department_logo/" + departments + ".png";
+            </script>
         </div>
         <!-- /navbar for product brand -->
 
@@ -139,29 +157,23 @@
 
         <div class="collapse navbar-collapse" id="navbar-mobile">
             <ul class="navbar-nav">
-                <!-- analysis menu item navbar -->
-                <!-- Dashboard Tab -->
-                <li>
-                    <a id="ref-dashboard" class="navbar-nav-link">
-                        <i class="mi-dashboard"></i> Dashboard
+                <li class="nav-item">
+                    <a id="viewer-nav" href="#" class="navbar-nav-link">
+                        <i class="mi-dashboard"></i>Dashboard
                     </a>
                 </li>
-                <!-- End of Dashboard Tab -->
-                <!-- Project Tab -->
-                <li>
-                    <a href="#menu-project" class="navbar-nav-link">
-                        <i class="mi-assignment"></i> Project
+
+                <li class="nav-item">
+                    <a id="viewer-nav" href="#" class="navbar-nav-link">
+                        <i class="mi-assignment"></i>Project
                     </a>
                 </li>
-                <!-- End of Project Tab -->
-                <!-- Sites Tab -->
-                <li>
-                    <a href="#menu-sites" class="navbar-nav-link">
-                        <i class="mi-location-city"></i> Sites
+
+                <li class="nav-item">
+                    <a id="viewer-nav" href="#" class="navbar-nav-link">
+                        <i class="mi-location-city"></i>Sites
                     </a>
                 </li>
-                <!-- End of Sites Tab -->
-                <!-- /analysis menu item navbar -->
             </ul>
 
             <span class="ml-md-3 mr-md-auto"></span>
@@ -170,30 +182,24 @@
                 <!-- user menu item navbar -->
                 <li class="nav-item dropdown dropdown-user">
                     <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
-                        <?php
-                        $sqlphoto = "SELECT photo FROM users WHERE id=" . $_SESSION['auth']['id'];
-                        $queryphoto = mysqli_query($conn, $sqlphoto);
-                        $photo = mysqli_fetch_array($queryphoto);
-                        if ($photo['photo'] === '') {
-                            $name_user_photo = "icons-profile.png";
-                            $src = "assets/images/profile/$name_user_photo";
-                        } else {
-                            $name_user_photo = $photo['photo'];
-                            $src = "assets/images/profile/$name_user_photo";
-                        }
-                        ?>
-                        <img class="user_photo" src="<?php echo $src; ?>" alt="My Photo" width="25px" style="border-radius: 50%;">&nbsp;<span><?php echo "$_SESSION[name]"; ?></span>
+                        <img src="assets/images/profile/icons-profile.png" id="user-photo-onemap" class="user_photo" alt="My Photo" width="25px" style="border-radius: 50%;">&nbsp;<span id="username-onemap">Anonymous</span>
                     </a>
-
+                    <script>
+                        var id = sessionStorage.getItem("id")
+                        var img = new Image();
+                        img.onload = function() {
+                            $("#user-photo-onemap").attr("src", "assets/images/profile/user_id_" + id + "/user_id_" + id + ".png")
+                        };
+                        img.onerror = function() {
+                            $("#user-photo-onemap").attr("src", "assets/images/profile/icons-profile.png")
+                        };
+                        img.src = "assets/images/profile/user_id_" + id + "/user_id_" + id + ".png";
+                        $("#username-onemap").text(sessionStorage.getItem("username"))
+                    </script>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal_my_profile"><i class="icon-user-plus"></i> My profile</a>
+                        <!-- <a href="#" id="modal-profile-onemap" class="dropdown-item" data-toggle="modal" data-target="#modal_my_profile"><i class="icon-user-plus"></i> My profile</a> -->
                         <div class="dropdown-divider"></div>
-                        <?php
-                        if ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'System Administrator') {
-                            echo "<a href=\"admin.php\" class=\"dropdown-item\"><i class=\"icon-cog5\"></i> Admin</a>";
-                        }
-                        ?>
-                        <a id="logout" href="logout.php" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
+                        <a id="logout" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
                     </div>
                 </li>
                 <!-- /user menu item navbar -->
@@ -510,6 +516,11 @@
     }
 
     switchProperty()
+
+    $(".bg-theme").css("background-color", sessionStorage.getItem("colorTheme"))
+    $(".title-property").css("background-color", sessionStorage.getItem("colorTheme"))
+    $(".title-size-min-max").css("background-color", sessionStorage.getItem("colorTheme"))
 </script>
+<script src="assets/logout.js"></script>
 
 </html>
