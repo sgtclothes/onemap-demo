@@ -160,7 +160,7 @@ var getColliersDataVDO = async function (map, attributes) {
         for (let i = 0; i < arrVDO.length; i++) {
             if (arrVDO[i][0] == "Land") {
                 landTotalIDR = arrVDO[i][1].attributes.total_idr
-                landTotalUSD = numberValidation(landTotalIDR * exchangeRateIDRToUSD)
+                landTotalUSD = numberValidation(landTotalIDR / exchangeRateUSDToIDR)
                 if (Number(numberValidation(arrVDO[i][1].attributes.sqm_gross)) !== 0) {
                     landSizeSqmGrossIDR = Number(numberValidation(arrVDO[i][1].attributes.sqm_gross))
                 } else {
@@ -499,6 +499,8 @@ var getColliersDataVDO = async function (map, attributes) {
 
     }
 
+    console.log("Exchange Rate : " + exchangeRateIDRToUSD)
+
     /********TOTAL SIDE **********/
 
     //Compare two values -- total total IDR and USD
@@ -517,9 +519,12 @@ var getColliersDataVDO = async function (map, attributes) {
     totalSizeUnitKeysIDR = landSizeUnitKeysIDR + buildingSizeUnitKeysIDR
     totalSizeUnitKeysUSD = landSizeUnitKeysUSD + buildingSizeUnitKeysUSD
 
+    landPricePerSqmGrossIDR = Number(landPricePerSqmGrossIDR)
+    landPricePerSqmGrossUSD = Number(landPricePerSqmGrossUSD)
+
     //Compare two values -- total size price per sqm gross IDR and USD
-    totalPricePerSqmGrossIDR = landPricePerSqmGrossIDR + buildingPricePerSqmGrossIDR
-    totalPricePerSqmGrossUSD = landPricePerSqmGrossUSD + buildingPricePerSqmGrossUSD
+    totalPricePerSqmGrossIDR = Number(landPricePerSqmGrossIDR) + Number(buildingPricePerSqmGrossIDR)
+    totalPricePerSqmGrossUSD = Number(landPricePerSqmGrossUSD) + Number(buildingPricePerSqmGrossUSD)
 
     //Compare two values -- total size price per sqm sganett IDR and USD
     totalPricePerSqmSganettIDR = landPricePerSqmSganettIDR + buildingPricePerSqmSganettIDR
