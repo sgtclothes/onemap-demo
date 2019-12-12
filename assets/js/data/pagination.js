@@ -15,12 +15,24 @@ var paginationColliersPopup = async function (map, features) {
     $("#btn-previous-popup").click(function () {
         prevPage(currentPagePopup, records_per_page, features)
         checkPage(features)
-        getColliersData(map, features[currentPagePopup - 1].attributes)
+        if (features[currentPagePopup - 1].attributes.source == "vdo" || features[currentPagePopup - 1].attributes.source == "vdo-ayda") {
+            console.log("VDO")
+            getColliersDataVDO(map, features[currentPagePopup - 1].attributes)
+        } else {
+            console.log("Not VDO")
+            getColliersData(map, features[currentPagePopup - 1].attributes)
+        }
     })
     $("#btn-next-popup").click(function () {
         nextPage(currentPagePopup, records_per_page, features)
         checkPage(features)
-        getColliersData(map, features[currentPagePopup - 1].attributes)
+        if (features[currentPagePopup - 1].attributes.source == "vdo" || features[currentPagePopup - 1].attributes.source == "vdo-ayda") {
+            console.log("VDO")
+            getColliersDataVDO(map, features[currentPagePopup - 1].attributes)
+        } else {
+            console.log("Not VDO")
+            getColliersData(map, features[currentPagePopup - 1].attributes)
+        }
     })
 
 }

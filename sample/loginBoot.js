@@ -115,3 +115,11 @@ var validateUsername = function (username) {
         return (false)
     } else return true
 }
+
+var getUrlVars = function () {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+        vars[key] = value;
+    });
+    return vars;
+}

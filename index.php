@@ -23,6 +23,8 @@
     <link href="assets/js/plugins/tree/tree_analysis.css" rel="stylesheet" type="text/css" />
     <link href="assets/js/plugins/tree/checkboxes.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="assets/css/jquery/jquery-ui-1.12.1.css">
+    <link rel="stylesheet" href="assets/js/sweetalert2/sweetalert2.css">
+    <script src="assets/js/sweetalert2/sweetalert2.js"></script>
     <script src="assets/js/jquery-1.12.4.js"></script>
     <script src="assets/js/jquery-1.12.1.js"></script>
     <script src="assets/js/jquery.cookie.min.js"></script>
@@ -92,7 +94,7 @@
         <!-- navbar for product-brand -->
         <div class="navbar-brand py-0">
             <a href="index.php" class="d-flex h-100">
-                <img id="department-logo-onemap" class="img-fluid my-auto h-auto" style="width:60px; height:24px;" src="" alt="">
+                <img id="department-logo-onemap" class="img-fluid my-auto h-auto" style="width:50px; height:20px;" src="" alt="">
                 <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/logo-fix.png" alt="">
             </a>
             <script>
@@ -143,6 +145,8 @@
                         <a id="instant-analysis" href="#" class="dropdown-item">Select Sites</a>
                         <a style="display:none;" id="myModal" href="#" class="dropdown-item">Drag and Drop CSV</a>
                         <a id="site-analysis" href="#" class="dropdown-item">Sites List</a>
+                        <a id="geohash" href="#" class="dropdown-item">Single Geohash</a>
+                        <a id="single-pie" href="#" class="dropdown-item">Single Pie</a>
                     </div>
                 </li>
 
@@ -308,8 +312,8 @@
                                 </td>
                                 <td>
                                     <div>
-                                        <input class="styled" type="checkbox" name="select-property" id="property-others" value="others">
-                                        <label for="property-others"><span></span>Others</label>
+                                        <input class="styled" type="checkbox" name="select-property" id="property-land" value="land">
+                                        <label for="property-land"><span></span>Land</label>
                                     </div>
                                 </td>
                                 <td>
@@ -393,7 +397,7 @@
                             <tr>
                                 <td style="height:26px; width:90px;">
                                     <div style="width:100%">
-                                        <p>Build Sqm</p>
+                                        <p>Building Sqm</p>
                                     </div>
                                 </td>
                                 <td style="height:26px; text-align:center;">
@@ -456,119 +460,137 @@
                         </table>
                         <table class="table-property">
                             <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="sub-property-status property-status-items">
-                                        <input id="checkbox-property-for-sale" class="property-for-sale styled" type="checkbox" name="property-for-sale">
-                                        <label for="checkbox-property-for-sale"><span></span>
-                                            <b>Property For Sale</b>
-                                        </label>
-                                    </div>
+                                <td valign="top">
+                                    <table class="table-property-2">
+                                        <tr>
+                                            <td>
+                                                <div style="margin-top:2px;" class="sub-property-status property-status-items">
+                                                    <input id="checkbox-property-for-sale" class="property-for-sale styled" type="checkbox" name="property-for-sale">
+                                                    <label for="checkbox-property-for-sale"><span></span>
+                                                        <b>Property For Sale</b>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
+                                                    <input id="checkbox-property-for-sale-listing" class="property-for-sale-listing styled" type="checkbox" name="sub-property-for-sale" value="listing">
+                                                    <label for="checkbox-property-for-sale-listing"><span></span>
+                                                        By Colliers - Listing
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
+                                                    <input id="checkbox-property-for-sale-available" class="property-for-sale-available styled" type="checkbox" name="sub-property-for-sale" value="available">
+                                                    <label for="checkbox-property-for-sale-available"><span></span>
+                                                        By Colliers - Available
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
+                                                    <input id="checkbox-property-for-sale-others" class="property-for-sale-others styled" type="checkbox" name="sub-property-for-sale" value="others">
+                                                    <label for="checkbox-property-for-sale-others"><span></span>
+                                                        By Others
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
+                                                    <input id="checkbox-property-for-sale-npl-ayda" class="property-for-sale-npl-ayda styled" type="checkbox" name="sub-property-for-sale" value="npl-ayda">
+                                                    <label for="checkbox-property-for-sale-npl-ayda"><span></span>
+                                                        Property NPL/AYDA
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </td>
-                            </tr>
-                            <tr>
                                 <td>
-                                    <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
-                                        <input id="checkbox-property-for-sale-listing" class="property-for-sale-listing styled" type="checkbox" name="sub-property-for-sale" value="listing">
-                                        <label for="checkbox-property-for-sale-listing"><span></span>
-                                            By Colliers - Listing
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
-                                        <input id="checkbox-property-for-sale-available" class="property-for-sale-available styled" type="checkbox" name="sub-property-for-sale" value="available">
-                                        <label for="checkbox-property-for-sale-available"><span></span>
-                                            By Colliers - Available
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
-                                        <input id="checkbox-property-for-sale-others" class="property-for-sale-others styled" type="checkbox" name="sub-property-for-sale" value="others">
-                                        <label for="checkbox-property-for-sale-others"><span></span>
-                                            By Others
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="table-property">
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox-circle">
-                                        <input id="checkbox-property-sold" class="property-sold styled" type="checkbox" name="property-sold">
-                                        <label for="checkbox-property-sold"><span></span>
-                                            <b>Property Sold</b>
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
-                                        <input id="checkbox-property-sold-by-colliers" class="property-sold-by-colliers styled" type="checkbox" name="sub-property-sold" value="colliers">
-                                        <label for="checkbox-property-sold-by-colliers"><span></span>
-                                            By Colliers
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
-                                        <input id="checkbox-property-sold-by-others" class="property-sold-by-others styled" type="checkbox" name="sub-property-sold" value="others">
-                                        <label for="checkbox-property-sold-by-others"><span></span>
-                                            By Others
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="table-property">
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox-circle">
-                                        <input id="checkbox-property-valuation" class="property-valuation styled" type="checkbox" name="property-valuation">
-                                        <label for="checkbox-property-valuation"><span></span>
-                                            <b>Property Valuation</b>
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                        <input id="checkbox-property-valuation-by-kjpprhr" class="property-valuation-by-kjpprhr styled" type="checkbox" name="sub-property-valuation" value="kjpprhr">
-                                        <label for="checkbox-property-valuation-by-kjpprhr"><span></span>
-                                            By KJPP RHR
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                        <input id="checkbox-property-valuation-by-others" class="property-valuation-by-others styled" type="checkbox" name="sub-property-valuation" value="others">
-                                        <label for="checkbox-property-valuation-by-others"><span></span>
-                                            By Others
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="table-property">
-                            <tr>
-                                <td>
-                                    <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
-                                        <input id="checkbox-property-advisory-work" class="property-advisory-work styled" type="checkbox" name="property-advisory-work">
-                                        <label for="checkbox-property-advisory-work"><span></span>
-                                            <b>Property Advisory Work</b>
-                                        </label>
-                                    </div>
+                                    <table class="table-property-2">
+                                        <tr>
+                                            <td>
+                                                <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox-circle">
+                                                    <input id="checkbox-property-sold" class="property-sold styled" type="checkbox" name="property-sold">
+                                                    <label for="checkbox-property-sold"><span></span>
+                                                        <b>Property Sold</b>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
+                                                    <input id="checkbox-property-sold-by-colliers" class="property-sold-by-colliers styled" type="checkbox" name="sub-property-sold" value="colliers">
+                                                    <label for="checkbox-property-sold-by-colliers"><span></span>
+                                                        By Colliers
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox-circle">
+                                                    <input id="checkbox-property-sold-by-others" class="property-sold-by-others styled" type="checkbox" name="sub-property-sold" value="others">
+                                                    <label for="checkbox-property-sold-by-others"><span></span>
+                                                        By Others
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="table-property-2">
+                                        <tr>
+                                            <td>
+                                                <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox-circle">
+                                                    <input id="checkbox-property-valuation" class="property-valuation styled" type="checkbox" name="property-valuation">
+                                                    <label for="checkbox-property-valuation"><span></span>
+                                                        <b>Property Valuation</b>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                                    <input id="checkbox-property-valuation-by-kjpprhr" class="property-valuation-by-kjpprhr styled" type="checkbox" name="sub-property-valuation" value="kjpprhr">
+                                                    <label for="checkbox-property-valuation-by-kjpprhr"><span></span>
+                                                        By KJPP RHR
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="margin-top:2px; padding-left:25px;" class="property-status-items checkbox checkbox-circle checkbox-info">
+                                                    <input id="checkbox-property-valuation-by-others" class="property-valuation-by-others styled" type="checkbox" name="sub-property-valuation" value="others">
+                                                    <label for="checkbox-property-valuation-by-others"><span></span>
+                                                        By Others
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="table-property-2">
+                                        <tr>
+                                            <td>
+                                                <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
+                                                    <input id="checkbox-property-advisory-work" class="property-advisory-work styled" type="checkbox" name="property-advisory-work">
+                                                    <label for="checkbox-property-advisory-work"><span></span>
+                                                        <b>Property Advisory Work</b>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </td>
                             </tr>
                         </table>
@@ -578,7 +600,7 @@
                                     <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
                                         <input id="checkbox-project" class="property-project styled" type="checkbox" name="property-project">
                                         <label for="checkbox-project"><span></span>
-                                            <b>Project/Facilities/Property Management</b>
+                                            <b>Project Management</b>
                                         </label>
                                     </div>
                                 </td>
@@ -588,9 +610,21 @@
                             <tr>
                                 <td>
                                     <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
-                                        <input id="checkbox-property-npl-ayda" class="property-npl-ayda styled" type="checkbox" name="property-npl-ayda">
-                                        <label for="checkbox-property-npl-ayda"><span></span>
-                                            <b>Property NPL/AYDA</b>
+                                        <input id="checkbox-facilities" class="property-facilities styled" type="checkbox" name="property-facilities">
+                                        <label for="checkbox-facilities"><span></span>
+                                            <b>Facilities Management</b>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-property">
+                            <tr>
+                                <td>
+                                    <div style="margin-top:2px;" class="sub-property-status property-status-items checkbox checkbox-circle checkbox-info">
+                                        <input id="checkbox-property" class="property-property styled" type="checkbox" name="property-property">
+                                        <label for="checkbox-property"><span></span>
+                                            <b>Property Management</b>
                                         </label>
                                     </div>
                                 </td>
@@ -704,7 +738,7 @@
                             <tr>
                                 <td>
                                     <div class="button-filter-property" id="button-filter-property">
-                                        <button style="width:80px; height:30px; float:right; background-color: #7a7c80; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary">
+                                        <button style="width:80px; height:30px; float:right; background-color: #7a7c80; padding:0px; border-radius: 10px;" type="button" class="btn btn-primary btn-find">
                                             <i class="mi-search"></i> Find</button>
                                     </div>
                                     <div class="button-filter-property button-remove-filter" id="button-filter-remove-property">
@@ -1086,6 +1120,16 @@
 <script src="assets/js/window/window.js"></script>
 <!-- End of Window -->
 
+<!-- Geohash -->
+<script src="assets/js/geohash/geohash.js"></script>
+<link rel="stylesheet" href="assets/js/geohash/inputGeohash.css">
+<!-- End of Geohash -->
+
+<!-- Single Pie -->
+<script src="assets/js/singlePie/singlePie.js"></script>
+<link rel="stylesheet" href="assets/js/singlePie/singlePie.css">
+<!-- End of Single Pie -->
+
 <!-- Target -->
 <script src="assets/js/target/target.js"></script>
 <script src="assets/js/target/resizeSensor.js"></script>
@@ -1104,6 +1148,7 @@
     $(".bg-theme").css("background-color", sessionStorage.getItem("colorTheme"))
     $(".title-property").css("background-color", sessionStorage.getItem("colorTheme"))
     $(".title-size-min-max").css("background-color", sessionStorage.getItem("colorTheme"))
+    $(".btn-find").css("background-color", sessionStorage.getItem("colorTheme"))
 </script>
 
 

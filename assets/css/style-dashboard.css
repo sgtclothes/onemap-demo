@@ -17,15 +17,15 @@ html {
 }
 
 .full-width {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   width: 100%;
   text-align: center;
 }
 
-tr,
+/* tr,
 td {
   border: 1px solid black;
-}
+} */
 
 .custom-mi-size {
   font-size: 50px;

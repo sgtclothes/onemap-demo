@@ -173,6 +173,7 @@ var displayResultsGraphicsPropertyColliers = async function (map, results) {
                 popupTemplate: template
             });
             graphicsLayer.add(g);
+            // map.ObjMapView.graphics.add(g)
         }
         await sortID(map, "colliers-property", "colliers-property-")
         await registerAttributes(map, "colliers-property", "colliers-property-attr", "*")
@@ -185,9 +186,6 @@ var displayLegendPropertyColliers = async function (map, title) {
 
     for (let i = 0; i < layer.length; i++) {
         for (let j = 0; j < layer[i].graphics.items.length; j++) {
-            if (layer[i].graphics.items[j].attributes.property_type.toLowerCase() == "land" || layer[i].graphics.items[j].attributes.property_type.toLowerCase() == "land, industrial/logistic" || layer[i].graphics.items[j].attributes.property_type.toLowerCase() == " " || layer[i].graphics.items[j].attributes.property_type.toLowerCase() == "land, office") {
-                layer[i].graphics.items[j].attributes.property_type = "others"
-            }
             property.push({
                 type: layer[i].graphics.items[j].attributes.property_type.toLowerCase()
             })
@@ -195,6 +193,8 @@ var displayLegendPropertyColliers = async function (map, title) {
     }
 
     property = removeDuplicates(property, "type")
+
+    console.log(property)
 
     var imgUrl = []
     var obj = {}

@@ -9,6 +9,7 @@
 	<script src="assets/js/jquery-1.12.1.js"></script>
 	<script src="assets/js/jquery.cookie.min.js"></script>
 	<script>
+		// console.log(getUrlVars()['q'])
 		if (Cookies.get('username') && Cookies.get('password')) {
 			window.location.replace("index.php")
 		} else {

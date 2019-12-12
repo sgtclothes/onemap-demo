@@ -13,7 +13,15 @@ var makeEsriRequest = async function (url, layersRequest) {
         layersRequest
     ).then(function (response) {
         results = response
-    });
+    }).catch(function (err) {
+        if (err) {
+            Swal.fire(
+                'Error',
+                'Geohash not found!',
+                'error'
+            )
+        }
+    })
     return results
 }
 

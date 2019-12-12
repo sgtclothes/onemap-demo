@@ -2,6 +2,7 @@ var setWindowVariables = async function (map) {
     window.legendOverflow = false
     window.zoomSearchLevel = 0
     window.displayedLegend = []
+    window.searchGraphics = undefined
     // await getRoles().then(function (roles) {
     //     console.log(roles)
     // })

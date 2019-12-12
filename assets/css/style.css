@@ -411,6 +411,12 @@ button.active {
   font-size: 11px;
 }
 
+.table-property-2 {
+  width: 165px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 11px;
+}
+
 tr.table-property {
   font-family: "Open Sans", sans-serif;
   font-size: 11px;

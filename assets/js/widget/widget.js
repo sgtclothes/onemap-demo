@@ -79,18 +79,19 @@ var widgetCollection = function (map) {
     ];
 
     //This is search widget in filter viewer
-    var search = new ESRI.Search(
-        {
-            view: map.ObjMapView,
-            sources: sources
-        },
+    var search = new ESRI.Search({
+        view: map.ObjMapView,
+        sources: sources,
+        popupEnabled: false
+    },
         "search-widget-property"
     );
 
     //This is search widget in the map view
     var searchWidget = new ESRI.Search({
         view: map.ObjMapView,
-        sources: sources
+        sources: sources,
+        popupEnabled: false,
     });
 
     //Adding search widget to map view
@@ -111,10 +112,12 @@ var widgetCollection = function (map) {
 
     search.on("search-start", function (event) {
         loading("show")
+        console.log(event)
     })
 
     searchWidget.on("search-start", function () {
         loading("show")
+        console.log(event)
     })
 
     search.on("search-complete", async function (res) {
@@ -125,39 +128,55 @@ var widgetCollection = function (map) {
     searchWidget.on("search-complete", async function (res) {
         search.activeSourceIndex = -1
         searchConfig(map, res, markerSymbol)
+        // var symbol = {
+        //     color: [255, 0, 0, 0.3],
+        //     style: "solid",
+        //     type: "simple-fill",
+        //     outline: {
+        //         type: "simple-line",
+        //         style: "solid",
+        //         width: 1,
+        //         color: "white"
+        //     }
+        // }
+        // setTimeout(function () {
+        //     res.target.resultGraphic.symbol = symbol
+        //     searchGraphics = res.target.resultGraphic
+        //     console.log(map.ObjMapView)
+        // }, 1000)
     })
 
-    map.ObjMapView.on("click", function (event) {
-        map.ObjMapView.hitTest(event).then(function (response) {
-            for (let i = 0; i < response.results.length; i++) {
-                if (response.results[i].graphic.selector == "search-point-graphics") {
-                    var layer = getLayerById(map, "polygons")
-                    if (response.results[i].graphic.layer.id.split("-")[2] == "PROVINSI") {
-                        search.activeSourceIndex = 3
-                    } else if (response.results[i].graphic.layer.id.split("-")[2] == "KABUPATEN") {
-                        search.activeSourceIndex = 2
-                    }
-                    for (let j = 0; j < layer.layers.items.length; j++) {
-                        if (response.results[i].graphic.attributes.label !== punctuationFixer(punctuations, "-", layer.layers.items[j].graphics.items[0].attributes.label)) {
-                            var splitter = response.results[i].graphic.attributes.label.split("-")
-                            var key = ""
-                            for (let k = 0; k < splitter.length; k++) {
-                                key += splitter[k]
-                                if (k + 1 !== undefined) {
-                                    key += " "
-                                }
-                            }
-                            search.search(key)
-                        } else {
-                            map.ObjMapView.goTo({
-                                target: [layer.layers.items[j].graphics.items[0].geometry.centroid.longitude, layer.layers.items[j].graphics.items[0].geometry.centroid.latitude]
-                            });
-                        }
-                    }
-                }
-            }
-        })
-    })
+    // map.ObjMapView.on("click", function (event) {
+    //     map.ObjMapView.hitTest(event).then(function (response) {
+    //         for (let i = 0; i < response.results.length; i++) {
+    //             if (response.results[i].graphic.selector == "search-point-graphics") {
+    //                 var layer = getLayerById(map, "polygons")
+    //                 if (response.results[i].graphic.layer.id.split("-")[2] == "PROVINSI") {
+    //                     search.activeSourceIndex = 3
+    //                 } else if (response.results[i].graphic.layer.id.split("-")[2] == "KABUPATEN") {
+    //                     search.activeSourceIndex = 2
+    //                 }
+    //                 for (let j = 0; j < layer.layers.items.length; j++) {
+    //                     if (response.results[i].graphic.attributes.label !== punctuationFixer(punctuations, "-", layer.layers.items[j].graphics.items[0].attributes.label)) {
+    //                         var splitter = response.results[i].graphic.attributes.label.split("-")
+    //                         var key = ""
+    //                         for (let k = 0; k < splitter.length; k++) {
+    //                             key += splitter[k]
+    //                             if (k + 1 !== undefined) {
+    //                                 key += " "
+    //                             }
+    //                         }
+    //                         search.search(key)
+    //                     } else {
+    //                         map.ObjMapView.goTo({
+    //                             target: [layer.layers.items[j].graphics.items[0].geometry.centroid.longitude, layer.layers.items[j].graphics.items[0].geometry.centroid.latitude]
+    //                         });
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     })
+    // })
 }
 
 var searchConfig = async function (map, res, markerSymbol) {
@@ -321,6 +340,19 @@ var renderSearchClassification = async function (name, classification, centroid)
                     }
                 })
                 res.push(["KECAMATAN", name, centroid, KECAMATAN, polygon.geometry.centroid])
+            }
+        })
+    } else if (classification == "KECAMATAN") {
+        await makeEsriRequest("https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/1/query?where=" + classification + "= '" + name + "' &outFields=KECAMATAN,KAB_KOT,PROVINSI,DESA&returnGeometry=true&returnExtentsOnly=true&inSR=3857&outSR=3857").then(function (results) {
+            for (let i = 0; i < results.data.features.length; i++) {
+                var DESA = results.data.features[i].attributes.DESA
+                var polygon = new ESRI.Graphic({
+                    geometry: {
+                        type: "polygon",
+                        rings: results.data.features[i].geometry.rings
+                    }
+                })
+                res.push(["DESA", name, centroid, DESA, polygon.geometry.centroid])
             }
         })
     }

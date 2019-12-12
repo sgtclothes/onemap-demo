@@ -5,7 +5,7 @@ var mapViewClick = function (map) {
         graphicsBehavior(map, event)
         pointTheSite(map, event)
         pointingFromNavAnalysis(map, event)
-        getAdministration(map, event)
+        // getAdministration(map, event)
     })
 }
 

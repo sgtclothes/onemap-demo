@@ -79,7 +79,7 @@
                 container: "viewDiv",
                 map: map,
                 zoom: 4,
-                center: [118, -3.8]
+                center: [-118.71511, 34.09042] // longitude, latitude
             });
 
             let query = new Query();
@@ -97,10 +97,6 @@
             var featureLayerHouse = new FeatureLayer({
                 url: "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/2"
             })
-
-            // var landExisting = new FeatureLayer({
-            //     url: 
-            // })
 
             // function setCount(callback) {
             //     featureLayerOffice.queryFeatures(query).then(function(results) {
@@ -129,7 +125,7 @@
         <!-- navbar for product-brand -->
         <div class="navbar-brand py-0">
             <a href="index.php" class="d-flex h-100">
-                <img id="department-logo-onemap" class="img-fluid my-auto h-auto" style="width:50px; height:20px;" src="" alt="">
+                <img id="department-logo-onemap" class="img-fluid my-auto h-auto" style="width:60px; height:24px;" src="" alt="">
                 <img class="img-fluid my-auto h-auto" style="width:145px; height:24px;" src="assets/images/icons/logo-fix.png" alt="">
             </a>
             <script>
@@ -216,10 +212,10 @@
             <table class="full-width">
                 <tr>
                     <td>
-                        <table class="head-point">
+                        <table style="background-color:#1b1c75;">
                             <tr>
                                 <td style="width:50px;">
-                                    <img style="margin:2px;" src="assets\images\dashboard\check.png" width="50">
+                                    <img src="assets\images\dashboard\check.png" width="50">
                                 </td>
                                 <td>
                                     <table style="color:white; margin-right:5px;">
@@ -227,7 +223,6 @@
                                             <td id="bar-result-1" style="text-align:right; width:200px;"></td>
                                         </tr>
                                         <tr>
-                                            <td id="count-bar1">1000</td>
                                             <td id="bar1" style="text-align:right; width:200px;"></td>
                                             <td>
                                                 <div class="dropdown-custom">▼
@@ -242,7 +237,7 @@
                         </table>
                     </td>
                     <td style="text-align:center;">
-                        <table style="margin:auto;" class="head-point">
+                        <table style="margin:auto; background-color:#1b1c75;">
                             <tr>
                                 <td style="width:50px;">
                                     <img src="assets\images\dashboard\graph.png" width="50">
@@ -253,7 +248,6 @@
                                             <td id="bar-result-2" style="text-align:right; width:200px;"></td>
                                         </tr>
                                         <tr>
-                                            <td id="count-bar2">5</td>
                                             <td id="bar2" style="text-align:right; width:200px;"></td>
                                             <td>
                                                 <div class="dropdown-custom">▼
@@ -268,7 +262,7 @@
                         </table>
                     </td>
                     <td style="float:right;">
-                        <table class="head-point">
+                        <table style="background-color:#1b1c75;">
                             <tr>
                                 <td style="width:50px;">
                                     <img src="assets\images\dashboard\exclamation.png" width="50">
@@ -279,7 +273,6 @@
                                             <td id="bar-result-3" style="text-align:right; width:200px;"></td>
                                         </tr>
                                         <tr>
-                                            <td id="count-bar3">10</td>
                                             <td id="bar3" style="text-align:right; width:200px;"></td>
                                             <td>
                                                 <div class="dropdown-custom">▼
@@ -297,43 +290,80 @@
             </table>
             <table style="margin-top:10px; width:100%;height:20%;">
                 <tr>
-                    <td>
-                        <!-- <p class="title-pr">NEWS FEED</p> -->
-                        <table style="width:100%;height:100%;">
+                    <td style="width:450px; height:250px;">
+                        <div id="viewDiv"></div>
+                    </td>
+                    <td style="width:20px;"></td>
+                    <td valign="top">
+                        <table style="text-align:center; font-size:12px; font-weight:bold; height:100%;" class="table-striped full-width">
                             <tr>
-                                <td style="width:100px; margin:0; padding:0px;" valign="top">
-                                    <table class="table-striped" style="margin-right:20px; font-size:12px; height:100%; text-align:center;">
-                                        <tr>
-                                            <td colspan="2">System</td>
-                                            <td>Activities</td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="mi-notifications"></i></td>
-                                            <td>You have 4 pending tasks!</td>
-                                            <td>Just Now</td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="mi-notifications"></i></td>
-                                            <td>New Version v1.4 just launched!</td>
-                                            <td>20 Mins</td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="mi-trending-down"></i></td>
-                                            <td>Database server #12 overloaded. Please fix the issue</td>
-                                            <td>24 Mins</td>
-                                        </tr>
-                                    </table>
-                                </td>
+                                <td colspan="5" style="height:50px;">PROGRESS OVERVIEW</td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;"></td>
+                                <td>Registration</td>
+                                <td>Complete Document</td>
+                                <td>Survey</td>
+                                <td>Approved/Rejected</td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;">COCO</td>
+                                <td>100</td>
+                                <td>50</td>
+                                <td>25</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;">CODO</td>
+                                <td>200</td>
+                                <td>100</td>
+                                <td>10</td>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px;">DODO</td>
+                                <td>300</td>
+                                <td>30</td>
+                                <td>25</td>
+                                <td>1</td>
                             </tr>
                         </table>
                     </td>
-                    <td style="width:70%; height:400px;">
-                        <div id="viewDiv"></div>
+                </tr>
+            </table>
+            <p class="title-pr">FEEDS</p>
+            <table style="margin-top:10px; width:100%;height:20%;">
+                <tr>
+                    <td style="width:450px; margin:0; padding:0px;" valign="top">
+                        <table class="full-width" style="font-size:12px; height:100%;">
+                            <tr>
+                                <td colspan="2">System</td>
+                                <td>Activities</td>
+                            </tr>
+                            <tr>
+                                <td><i class="mi-notifications"></i></td>
+                                <td>You have 4 pending tasks!</td>
+                                <td>Just Now</td>
+                            </tr>
+                            <tr>
+                                <td><i class="mi-notifications"></i></td>
+                                <td>New Version v1.4 just launched!</td>
+                                <td>20 Mins</td>
+                            </tr>
+                            <tr>
+                                <td><i class="mi-trending-down"></i></td>
+                                <td>Database server #12 overloaded. Please fix the issue</td>
+                                <td>24 Mins</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <div id="datepicker"></div>
                     </td>
                 </tr>
             </table>
         </div>
-        <!-- <div id="menu-sites">
+        <div id="menu-sites">
             <p class="title-pr">SITE</p>
             <ul style="margin:0; padding:0;" class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#tab-overview">Overview</a></li>
@@ -413,11 +443,11 @@
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </body>
 <script>
-    window.selectedProperty = ["Land Existing", "On Progress", "Request"]
+    window.selectedProperty = ["Count Property Sold", "Count Office", "Count House"]
     $(function() {
         $("#datepicker").datepicker();
     });
@@ -431,10 +461,16 @@
 
     function switchProperty() {
         let propertyList = [
-            "Land Existing",
-            "On Progress",
-            "Request",
-            "Competitor"
+            "Count Property Sold",
+            "Count Office",
+            "Count Industrial",
+            "Count Data Center",
+            "Count Ruko",
+            "Count Shopping Center",
+            "Count Others",
+            "Count Apartment",
+            "Count House",
+            "Count Hotel"
         ]
 
         for (let i = 0; i < selectedProperty.length; i++) {
@@ -462,20 +498,8 @@
 
         $(document).delegate(".dropdown-a", "click", function() {
             let tr = $(this).parents("tr")[0]
-            let td = $(tr).children()[1]
-            let tdCount = $(tr).children()[0]
+            let td = $(tr).children()[0]
             let prevText = $(td).text()
-            let count = 0
-            if ($(this).text() == "Land Existing") {
-                count = 1000
-            } else if ($(this).text() == "On Progress") {
-                count = 5
-            } else if ($(this).text() == "Request") {
-                count = 10
-            } else if ($(this).text() == "Competitor") {
-                count = 200
-            }
-            $(tdCount).text(count)
             $(td).text($(this).text())
 
             if (selectedProperty.includes(prevText)) {
@@ -494,7 +518,7 @@
     switchProperty()
 
     $(".bg-theme").css("background-color", sessionStorage.getItem("colorTheme"))
-    $(".head-point").css("background-color", sessionStorage.getItem("colorTheme"))
+    $(".title-property").css("background-color", sessionStorage.getItem("colorTheme"))
     $(".title-size-min-max").css("background-color", sessionStorage.getItem("colorTheme"))
 </script>
 <script src="assets/logout.js"></script>

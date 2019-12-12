@@ -728,64 +728,64 @@ var getColliersDataVDO = async function (map, attributes) {
     $("#loading-bar").hide()
 }
 
-var numberValidation = function (number) {
-    if (number !== null) {
-        if (number % 1 != 0) {
-            number = Number(Number(number).toFixed(2))
-        } else if (/\s/.test(number)) {
-            number = Number(number)
-        }
-    } else {
-        number = 0
-    }
-    return number
-}
+// var numberValidation = function (number) {
+//     if (number !== null) {
+//         if (number % 1 != 0) {
+//             number = Number(Number(number).toFixed(2))
+//         } else if (/\s/.test(number)) {
+//             number = Number(number)
+//         }
+//     } else {
+//         number = 0
+//     }
+//     return number
+// }
 
-var createFormula = function (formula) {
-    if (isFinite(formula)) {
-        return formula
-    } else {
-        return 0
-    }
-}
+// var createFormula = function (formula) {
+//     if (isFinite(formula)) {
+//         return formula
+//     } else {
+//         return 0
+//     }
+// }
 
-var delimiter = function (number) {
-    if (!Number.isInteger(number)) {
-        number = addCommas(Number(number).toFixed(2))
-    } else {
-        number = addCommas(number.toString())
-    }
-    return number
-}
+// var delimiter = function (number) {
+//     if (!Number.isInteger(number)) {
+//         number = addCommas(Number(number).toFixed(2))
+//     } else {
+//         number = addCommas(number.toString())
+//     }
+//     return number
+// }
 
-var addCommas = function (nStr) {
-    nStr += '';
-    var x = nStr.split('.');
-    var x1 = x[0];
-    var x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-    return x1 + x2;
-}
+// var addCommas = function (nStr) {
+//     nStr += '';
+//     var x = nStr.split('.');
+//     var x1 = x[0];
+//     var x2 = x.length > 1 ? '.' + x[1] : '';
+//     var rgx = /(\d+)(\d{3})/;
+//     while (rgx.test(x1)) {
+//         x1 = x1.replace(rgx, '$1' + ',' + '$2');
+//     }
+//     return x1 + x2;
+// }
 
-var propertyEffectLand = function (property, value) {
-    var val = 0
-    if (property.toUpperCase() == "RUKO" || property.toUpperCase() == "INDUSTRIAL/LOGISTIC" || property.toUpperCase() == "SHOPPING CENTER" || property.toUpperCase() == "HOUSE" || property.toUpperCase() == "DATA CENTER" || property.toUpperCase() == "OTHERS" || property.toUpperCase() == "HOTEL") {
-        val = value
-    } else {
-        val = 0
-    }
-    return val
-}
+// var propertyEffectLand = function (property, value) {
+//     var val = 0
+//     if (property.toUpperCase() == "RUKO" || property.toUpperCase() == "INDUSTRIAL/LOGISTIC" || property.toUpperCase() == "SHOPPING CENTER" || property.toUpperCase() == "HOUSE" || property.toUpperCase() == "DATA CENTER" || property.toUpperCase() == "OTHERS" || property.toUpperCase() == "HOTEL") {
+//         val = value
+//     } else {
+//         val = 0
+//     }
+//     return val
+// }
 
-var propertyEffectBuilding = function (property, value) {
-    var val = 0
-    if (property.toUpperCase() == "OFFICE" || property.toUpperCase() == "APARTMENT") {
-        val = value
-    } else {
-        val = 0
-    }
-    return val
-}
+// var propertyEffectBuilding = function (property, value) {
+//     var val = 0
+//     if (property.toUpperCase() == "OFFICE" || property.toUpperCase() == "APARTMENT") {
+//         val = value
+//     } else {
+//         val = 0
+//     }
+//     return val
+// }

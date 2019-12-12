@@ -84,12 +84,6 @@ var submitFilterServices = function (map) {
         //Variable to collect feature service by rules
         let featureService = []
 
-        for (let i = 0; i < property.length; i++) {
-            if (property[i] == "others") {
-                property[i] = "land"
-            }
-        }
-
         console.log(property)
 
         // Get value of property type and we register it on "value" array
@@ -232,7 +226,7 @@ var submitFilterServices = function (map) {
             //Get feature service
             featureService.push(colliersPropertyStaging)
 
-            let propertyList = ["office", "house", "ruko", "industrial/logistic", "data center", "shopping center", "apartment", "hotel", "others"]
+            let propertyList = ["office", "house", "ruko", "industrial/logistic", "data center", "shopping center", "apartment", "hotel", "land"]
             let propertyListPunc = []
 
             let punctuations = [/\s/g, "&", "'", ".", "/"]
@@ -295,6 +289,23 @@ var submitFilterServices = function (map) {
                 }, 10000);
                 checkHeightLegend()
             }
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Filter finished!'
+            })
         }
 
     });
@@ -313,6 +324,7 @@ var checkGraphicsExist = function (map) {
     let geometryDrivingDistance = []
     let geometryRectangles = []
     let geometryUnions = []
+    let geometrySearch = []
 
     getItemsGroupLayer(radius).forEach(ele => {
         if (ele.selector == "buffer-graphics") {
@@ -345,7 +357,11 @@ var checkGraphicsExist = function (map) {
         }
     });
 
-    geometryUnions = geometryRadius.concat(geometryPolygons, geometryDrivingTime, geometryDrivingDistance, geometryRectangles)
+    if (searchGraphics !== undefined) {
+        geometrySearch.push(searchGraphics)
+    }
+
+    geometryUnions = geometryRadius.concat(geometrySearch, geometryPolygons, geometryDrivingTime, geometryDrivingDistance, geometryRectangles)
     return geometryUnions
 }
 

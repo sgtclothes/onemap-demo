@@ -2,6 +2,9 @@ async function boot(GIS) {
   window.GIS = GIS
   let config = new GIS.Config();
   let map = new GIS.Map(config.CenterPoint, 'osm');
+  EsriConfig.request.corsEnabledServers
+    .push("mts0.google.com", "mts1.google.com", "mts2.google.com",
+      "mts3.google.com");
   map.addLocateWidget("top-left");
   map.addBasemapGalleryWidget(
     {
@@ -17,6 +20,28 @@ async function boot(GIS) {
   radiusSlider(map)
   widgetCollection(map)
   setWindowVariables(map)
+
+  // var portalItem = new ESRI.PortalItem({
+  //   access: "public",
+  //   thumbnailUrl: "https://www.arcgis.com/sharing/rest/content/items/86de95d4e0244cba80f0fa2c9403a7b2/info/thumbnail/tempimagery.jpg?f=json"
+  // })
+
+  var googleHybrid = new ESRI.Basemap({
+    baseLayers: [
+      new ESRI.WebTileLayer({
+        urlTemplate: "https://mts{subDomain}.google.com/vt/lyrs=y@186112443&hl=x-local&src=app&x={col}&y={row}&z={level}&s=Galile",
+        subDomains: ["0", "1", "2", "3"],
+        copyright: "Google Maps"
+      })
+    ],
+    // portalItem: portalItem,
+    title: "Google Hybrid",
+    id: "googlehybrid",
+    thumbnailUrl:
+      "https://www.arcgis.com/sharing/rest/content/items/86de95d4e0244cba80f0fa2c9403a7b2/info/thumbnail/tempimagery.jpg?f=json"
+  });
+
+  map.ObjMap.basemap = googleHybrid
 
   // var sources = [
   //   {
@@ -720,168 +745,168 @@ async function boot(GIS) {
     checkForChanges();
   });
 
-  var rendererProvinsi = {
-    type: "unique-value",
-    field: "PROVINSI",
-    uniqueValueInfos: []
-  }
+  // var rendererProvinsi = {
+  //   type: "unique-value",
+  //   field: "PROVINSI",
+  //   uniqueValueInfos: []
+  // }
 
-  var provinsi = new ESRI.FeatureLayer({
-    url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/3",
-    outFields: ["PROVINSI"],
-    visible: false,
-    maxScale: 0,
-    minScale: 0
-  })
+  // var provinsi = new ESRI.FeatureLayer({
+  //   url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/3",
+  //   outFields: ["PROVINSI"],
+  //   visible: false,
+  //   maxScale: 0,
+  //   minScale: 0
+  // })
 
-  var queryPROVINSI = new ESRI.Query({
-    where: "1=1",
-    outFields: "PROVINSI"
-  })
+  // var queryPROVINSI = new ESRI.Query({
+  //   where: "1=1",
+  //   outFields: "PROVINSI"
+  // })
 
-  await provinsi.queryFeatures(queryPROVINSI).then(function (results) {
-    for (let i = 0; i < results.features.length; i++) {
-      var obj = {
-        value: results.features[i].attributes.PROVINSI,
-        symbol: {
-          type: 'text',
-          color: 'black',
-          haloColor: 'black',
-          text: results.features[i].attributes.PROVINSI,
-          font: {
-            size: 20,
-            weight: 'bold',
-            family: "sans-serif",
-          }
-        }
-      }
-      rendererProvinsi.uniqueValueInfos.push(obj)
-    }
-    provinsi.renderer = rendererProvinsi
-  })
+  // await provinsi.queryFeatures(queryPROVINSI).then(function (results) {
+  //   for (let i = 0; i < results.features.length; i++) {
+  //     var obj = {
+  //       value: results.features[i].attributes.PROVINSI,
+  //       symbol: {
+  //         type: 'text',
+  //         color: 'black',
+  //         haloColor: 'black',
+  //         text: results.features[i].attributes.PROVINSI,
+  //         font: {
+  //           size: 20,
+  //           weight: 'bold',
+  //           family: "sans-serif",
+  //         }
+  //       }
+  //     }
+  //     rendererProvinsi.uniqueValueInfos.push(obj)
+  //   }
+  //   provinsi.renderer = rendererProvinsi
+  // })
 
-  var rendererKabupaten = {
-    type: "unique-value",
-    field: "KABKOT",
-    uniqueValueInfos: []
-  }
+  // var rendererKabupaten = {
+  //   type: "unique-value",
+  //   field: "KABKOT",
+  //   uniqueValueInfos: []
+  // }
 
-  var kabupaten = new ESRI.FeatureLayer({
-    url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/2",
-    outFields: ["KABKOT"],
-    maxScale: 0,
-    minScale: 0
-  })
+  // var kabupaten = new ESRI.FeatureLayer({
+  //   url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/2",
+  //   outFields: ["KABKOT"],
+  //   maxScale: 0,
+  //   minScale: 0
+  // })
 
-  var queryKABUPATEN = new ESRI.Query({
-    where: "1=1",
-    outFields: "KABKOT"
-  })
+  // var queryKABUPATEN = new ESRI.Query({
+  //   where: "1=1",
+  //   outFields: "KABKOT"
+  // })
 
-  await kabupaten.queryFeatures(queryKABUPATEN).then(function (results) {
-    for (let i = 0; i < results.features.length; i++) {
-      var obj = {
-        value: results.features[i].attributes.KABKOT,
-        symbol: {
-          type: 'text',
-          color: 'blue',
-          haloColor: 'blue',
-          text: results.features[i].attributes.KABKOT,
-          font: {
-            size: 10,
-            weight: 'bold',
-            family: "sans-serif",
-          }
-        }
-      }
-      rendererKabupaten.uniqueValueInfos.push(obj)
-    }
-    kabupaten.renderer = rendererKabupaten
-  })
+  // await kabupaten.queryFeatures(queryKABUPATEN).then(function (results) {
+  //   for (let i = 0; i < results.features.length; i++) {
+  //     var obj = {
+  //       value: results.features[i].attributes.KABKOT,
+  //       symbol: {
+  //         type: 'text',
+  //         color: 'blue',
+  //         haloColor: 'blue',
+  //         text: results.features[i].attributes.KABKOT,
+  //         font: {
+  //           size: 10,
+  //           weight: 'bold',
+  //           family: "sans-serif",
+  //         }
+  //       }
+  //     }
+  //     rendererKabupaten.uniqueValueInfos.push(obj)
+  //   }
+  //   kabupaten.renderer = rendererKabupaten
+  // })
 
-  var rendererKecamatan = {
-    type: "unique-value",
-    field: "KECAMATAN",
-    uniqueValueInfos: []
-  }
+  // var rendererKecamatan = {
+  //   type: "unique-value",
+  //   field: "KECAMATAN",
+  //   uniqueValueInfos: []
+  // }
 
-  var kecamatan = new ESRI.FeatureLayer({
-    url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/1",
-    outFields: ["KECAMATAN"],
-    maxScale: 0,
-    minScale: 0
-  })
+  // var kecamatan = new ESRI.FeatureLayer({
+  //   url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/1",
+  //   outFields: ["KECAMATAN"],
+  //   maxScale: 0,
+  //   minScale: 0
+  // })
 
-  var queryKECAMATAN = new ESRI.Query({
-    where: "1=1",
-    outFields: "KECAMATAN"
-  })
+  // var queryKECAMATAN = new ESRI.Query({
+  //   where: "1=1",
+  //   outFields: "KECAMATAN"
+  // })
 
-  await kecamatan.queryFeatures(queryKECAMATAN).then(function (results) {
-    for (let i = 0; i < results.features.length; i++) {
-      var obj = {
-        value: results.features[i].attributes.KECAMATAN,
-        symbol: {
-          type: 'text',
-          color: 'red',
-          haloColor: 'red',
-          text: results.features[i].attributes.KECAMATAN,
-          font: {
-            size: 10,
-            weight: 'bold',
-            family: "sans-serif",
-          }
-        }
-      }
-      rendererKecamatan.uniqueValueInfos.push(obj)
-    }
-    kecamatan.renderer = rendererKecamatan
-  })
+  // await kecamatan.queryFeatures(queryKECAMATAN).then(function (results) {
+  //   for (let i = 0; i < results.features.length; i++) {
+  //     var obj = {
+  //       value: results.features[i].attributes.KECAMATAN,
+  //       symbol: {
+  //         type: 'text',
+  //         color: 'red',
+  //         haloColor: 'red',
+  //         text: results.features[i].attributes.KECAMATAN,
+  //         font: {
+  //           size: 10,
+  //           weight: 'bold',
+  //           family: "sans-serif",
+  //         }
+  //       }
+  //     }
+  //     rendererKecamatan.uniqueValueInfos.push(obj)
+  //   }
+  //   kecamatan.renderer = rendererKecamatan
+  // })
 
-  var rendererDesa = {
-    type: "unique-value",
-    field: "DESA",
-    uniqueValueInfos: []
-  }
+  // var rendererDesa = {
+  //   type: "unique-value",
+  //   field: "DESA",
+  //   uniqueValueInfos: []
+  // }
 
-  var desa = new ESRI.FeatureLayer({
-    url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/0",
-    outFields: ["DESA"],
-    maxScale: 0,
-    minScale: 0
-  })
+  // var desa = new ESRI.FeatureLayer({
+  //   url: "https://gis.locatorlogic.com/arcgis/rest/services/LLS/LLS_2019/MapServer/0",
+  //   outFields: ["DESA"],
+  //   maxScale: 0,
+  //   minScale: 0
+  // })
 
-  var queryDESA = new ESRI.Query({
-    where: "1=1",
-    outFields: "DESA"
-  })
+  // var queryDESA = new ESRI.Query({
+  //   where: "1=1",
+  //   outFields: "DESA"
+  // })
 
-  await desa.queryFeatures(queryDESA).then(function (results) {
-    for (let i = 0; i < results.features.length; i++) {
-      var obj = {
-        value: results.features[i].attributes.DESA,
-        symbol: {
-          type: 'text',
-          color: 'green',
-          haloColor: 'green',
-          text: results.features[i].attributes.DESA,
-          font: {
-            size: 10,
-            weight: 'bold',
-            family: "sans-serif",
-          }
-        }
-      }
-      rendererDesa.uniqueValueInfos.push(obj)
-    }
-    desa.renderer = rendererDesa
-  })
+  // await desa.queryFeatures(queryDESA).then(function (results) {
+  //   for (let i = 0; i < results.features.length; i++) {
+  //     var obj = {
+  //       value: results.features[i].attributes.DESA,
+  //       symbol: {
+  //         type: 'text',
+  //         color: 'green',
+  //         haloColor: 'green',
+  //         text: results.features[i].attributes.DESA,
+  //         font: {
+  //           size: 10,
+  //           weight: 'bold',
+  //           family: "sans-serif",
+  //         }
+  //       }
+  //     }
+  //     rendererDesa.uniqueValueInfos.push(obj)
+  //   }
+  //   desa.renderer = rendererDesa
+  // })
 
-  map.ObjMap.addMany([provinsi, kabupaten, kecamatan, desa])
+  // map.ObjMap.addMany([provinsi, kabupaten, kecamatan, desa])
 
   mapViewClick(map)
   mapViewHover(map)
-  watchZoomLevel(map, provinsi, kabupaten, kecamatan, desa)
+  // watchZoomLevel(map, provinsi, kabupaten, kecamatan, desa)
   createSketch(map)
 
   closeContextMenu() // Close context menu
@@ -1096,4 +1121,6 @@ async function boot(GIS) {
   document.getElementById("logout").addEventListener("click", function () {
     localStorage.clear();
   });
+
+  console.log(map.ObjMap)
 }
