@@ -1,0 +1,247 @@
+<style>
+  .input-add-features {
+    width: 50%;
+  }
+</style>
+<div
+  class="modal fade"
+  id="modal-features"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal-features"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-features">Add Features</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table
+          style="width:100%; text-align: center; font-size:10px; margin-top:20px;"
+        >
+          <tr>
+            <td>
+              Longitude
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                id="key-longitude-colliers"
+                style="text-align: center;"
+                type="text"
+                class="input-add-features"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Latitude
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                id="key-latitude-colliers"
+                style="text-align: center;"
+                type="text"
+                class="input-add-features"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Property Type
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <select
+                style="height:26px; font-size:11px; padding: 0px; margin:0px;"
+                name="key-property-type-colliers"
+                id="key-property-type-colliers"
+                class="input-add-features"
+              >
+                <option value="office">Office</option>
+                <option value="House">House</option>
+                <option value="ruko">Ruko</option>
+                <option value="apartment">Apartment</option>
+                <option value="industrial-logistic">Industrial/Logistic</option>
+                <option value="shopping-center">Shopping Center</option>
+                <option value="data-center">Data Center</option>
+                <option value="land">Land</option>
+                <option value="hotel">Hotel</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Property Address
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                id="key-property-address-colliers"
+                style="text-align: center;"
+                type="text"
+                class="input-add-features"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Action Date
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                id="key-action-date-colliers"
+                style="text-align: center;"
+                type="text"
+                class="input-add-features"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Exchange Rate
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                id="key-exchange-rate-colliers"
+                style="text-align: center;"
+                type="text"
+                class="input-add-features floatTextBox"
+                value="13985.0008949347"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Total IDR
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                id="key-total-idr-colliers"
+                style="text-align: center;"
+                type="text"
+                class="input-add-features floatTextBox"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Total USD
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                id="key-total-usd-colliers"
+                style="text-align: center;"
+                type="text"
+                class="input-add-features floatTextBox"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Currency
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <select
+                style="height:26px; font-size:11px; padding: 0px; margin:0px;"
+                name="key-currency-colliers"
+                id="key-currency-colliers"
+                class="input-add-features"
+              >
+                <option value="IDR">IDR</option>
+                <option value="USD">USD</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Price per SQM IDR
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                id="key-ppsqm-idr-colliers"
+                style="text-align: center;"
+                type="text"
+                class="input-add-features floatTextBox"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Price per SQM USD
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                id="key-ppsqm-usd-colliers"
+                style="text-align: center;"
+                type="text"
+                class="input-add-features floatTextBox"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Size SQM
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                id="key-ssqm-colliers"
+                style="text-align: center;"
+                type="text"
+                class="input-add-features floatTextBox"
+              />
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary btn-submit-add-features"
+          data-dismiss="modal"
+        >
+          Add Features
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(".btn-submit-add-features").css(
+    "background-color",
+    sessionStorage.getItem("colorTheme")
+  );
+</script>

@@ -100,8 +100,6 @@ var widgetCollection = function (map) {
         index: 1
     });
 
-
-    //
     search.on("search-focus", function () {
         search.allSources.items[0].name = "WORLD by Point"
     })

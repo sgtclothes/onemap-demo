@@ -63,70 +63,28 @@
             height: 100%;
             width: 100%;
         }
+
+        ul.list-group.list-group-striped li:nth-of-type(odd) {
+            background: #e9e9f0;
+        }
+
+        ul.list-group.list-group-striped li:nth-of-type(even) {
+            background: #d7dbd8;
+        }
+
+        ul.list-group.list-group-hover li:hover {
+            background: #f7f7f7;
+        }
     </style>
 
     <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/4.12/"></script>
-
-    <script>
-        require(["esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/tasks/support/Query"], function(Map, MapView, FeatureLayer, Query) {
-
-            var map = new Map({
-                basemap: "streets"
-            });
-
-            var view = new MapView({
-                container: "viewDiv",
-                map: map,
-                zoom: 4,
-                center: [118, -3.8]
-            });
-
-            let query = new Query();
-            query.returnCountOnly = "true"
-            query.where = "1=1"
-
-            var featureLayerSold = new FeatureLayer({
-                url: "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/0"
-            })
-
-            var featureLayerOffice = new FeatureLayer({
-                url: "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/1"
-            })
-
-            var featureLayerHouse = new FeatureLayer({
-                url: "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K/MapServer/2"
-            })
-
-            // var landExisting = new FeatureLayer({
-            //     url: 
-            // })
-
-            // function setCount(callback) {
-            //     featureLayerOffice.queryFeatures(query).then(function(results) {
-            //         window.countOffice = results.features.length
-            //     }).then(featureLayerHouse.queryFeatures(query).then(function(results) {
-            //         window.countHouse = results.features.length
-            //     })).then(featureLayerSold.queryFeatures(query).then(function(results) {
-            //         window.countSold = results.features.length
-            //     }))
-            //     callback()
-            // }
-
-            // setCount(function() {
-            //     $("#property-sold-count").text(countSold)
-            //     $("#property-sale-office").text(countOffice)
-            //     $("#property-sale-house").text(countHouse)
-            // })
-        });
-    </script>
+    <script type="module" src="library/library.js"></script>
+    <script src="sample/dashboardBoot.js"></script>
 </head>
 
-<body id="main" class="navbar-top sidebar-main-hidden backbody">
-    <!-- main navbar -->
+<body id="main" class="navbar-top backbody">
     <div class="navbar navbar-expand-md navbar-dark bg-theme fixed-top">
-
-        <!-- navbar for product-brand -->
         <div class="navbar-brand py-0">
             <a href="index.php" class="d-flex h-100">
                 <img id="department-logo-onemap" class="img-fluid my-auto h-auto" style="width:50px; height:20px;" src="" alt="">
@@ -146,9 +104,7 @@
                 img.src = "assets/images/department_logo/" + departments + ".png";
             </script>
         </div>
-        <!-- /navbar for product brand -->
 
-        <!-- navbar for mobile media -->
         <div class="d-md-none">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
                 <i class="icon-tree5"></i>
@@ -157,7 +113,6 @@
                 <i class="icon-paragraph-justify3"></i>
             </button>
         </div>
-        <!-- /navbar for mobile media -->
 
         <div class="collapse navbar-collapse" id="navbar-mobile">
             <ul class="navbar-nav">
@@ -212,93 +167,142 @@
     </div>
     <div class="backbody">
         <div id="menu-dashboard">
-            <p class="title-pr">DASHBOARD</p>
-            <table class="full-width">
+            <div class="mb-3 mt-3">
+                <div class="no-gutters row">
+                    <div class="col-sm-6 col-md-4 col-xl-4">
+                        <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
+                            <div class="icon-wrapper rounded-circle">
+                                <div class="icon-wrapper-bg opacity-10 bg-warning"></div>
+                                <i class="lnr-laptop-phone text-dark opacity-8"></i>
+                            </div>
+                            <div class="widget-chart-content bg-theme">
+                                <table class="table text-white">
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <img src="assets\images\dashboard\01_Land existing.png" width="50" height="50">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="widget-subheading">Land Existing</div>
+                                            <div class="widget-numbers">500</div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown-custom">▼
+                                                <div class="dropdown-content-custom">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="divider m-0 d-md-none d-sm-block"></div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-xl-4">
+                        <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
+                            <div class="icon-wrapper rounded-circle">
+                                <div class="icon-wrapper-bg opacity-9 bg-danger"></div>
+                                <i class="lnr-graduation-hat text-white"></i>
+                            </div>
+                            <div class="widget-chart-content bg-theme">
+                                <table class="table text-white">
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <img src="assets\images\dashboard\02_on progress.png" width="50" height="50">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="widget-subheading">On Progress</div>
+                                            <div class="widget-numbers">200</div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown-custom">▼
+                                                <div class="dropdown-content-custom">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="divider m-0 d-md-none d-sm-block"></div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-xl-4">
+                        <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
+                            <div class="icon-wrapper rounded-circle">
+                                <div class="icon-wrapper-bg opacity-9 bg-success"></div>
+                                <i class="lnr-apartment text-white"></i>
+                            </div>
+                            <div class="widget-chart-content bg-theme">
+                                <table class="table text-white">
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <img src="assets\images\dashboard\03_request.png" width="50" height="50">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="widget-subheading">Request</div>
+                                            <div class="widget-numbers">200</div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown-custom">▼
+                                                <div class="dropdown-content-custom">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height:200px;" class="row">
+                <div style="height:300px;" class="col-md-6 overflow-auto border">
+                    <h4>Latest News</h4>
+                    <ul class="timeline">
+                        <li>
+                            <a target="_blank" href="https://www.totoprayogo.com/#">Pending Task</a>
+                            <a href="#" class="float-right">21 November, 2019</a>
+                            <p>You have 4 pending tasks!</p>
+                        </li>
+                        <li>
+                            <a href="#">Update Property</a>
+                            <a href="#" class="float-right">24 November, 2019</a>
+                            <p>sigit.sasongko just updated property property_type house with objectid = 4</p>
+                        </li>
+                        <li>
+                            <a href="#">Add Property</a>
+                            <a href="#" class="float-right">1 December, 2019</a>
+                            <p>sigit.sasongko just add new property!</p>
+                        </li>
+                        <li>
+                            <a href="#">Add Property</a>
+                            <a href="#" class="float-right">1 December, 2019</a>
+                            <p>sigit.sasongko just add new property!</p>
+                        </li>
+                        <li>
+                            <a href="#">Add Property</a>
+                            <a href="#" class="float-right">1 December, 2019</a>
+                            <p>sigit.sasongko just add new property!</p>
+                        </li>
+                        <li>
+                            <a href="#">Add Property</a>
+                            <a href="#" class="float-right">1 December, 2019</a>
+                            <p>didit.priyono just add new property!</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <div id="viewDiv"></div>
+                </div>
+            </div>
+            <!-- <table style="margin-top:10px; width:100%;height:20%;">
                 <tr>
                     <td>
-                        <table class="head-point">
-                            <tr>
-                                <td style="width:50px;">
-                                    <img style="margin:2px;" src="assets\images\dashboard\check.png" width="50">
-                                </td>
-                                <td>
-                                    <table style="color:white; margin-right:5px;">
-                                        <tr>
-                                            <td id="bar-result-1" style="text-align:right; width:200px;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td id="count-bar1">1000</td>
-                                            <td id="bar1" style="text-align:right; width:200px;"></td>
-                                            <td>
-                                                <div class="dropdown-custom">▼
-                                                    <div class="dropdown-content-custom">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td style="text-align:center;">
-                        <table style="margin:auto;" class="head-point">
-                            <tr>
-                                <td style="width:50px;">
-                                    <img src="assets\images\dashboard\graph.png" width="50">
-                                </td>
-                                <td>
-                                    <table style="color:white; margin-right:5px;">
-                                        <tr>
-                                            <td id="bar-result-2" style="text-align:right; width:200px;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td id="count-bar2">5</td>
-                                            <td id="bar2" style="text-align:right; width:200px;"></td>
-                                            <td>
-                                                <div class="dropdown-custom">▼
-                                                    <div class="dropdown-content-custom">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td style="float:right;">
-                        <table class="head-point">
-                            <tr>
-                                <td style="width:50px;">
-                                    <img src="assets\images\dashboard\exclamation.png" width="50">
-                                </td>
-                                <td>
-                                    <table style="color:white; margin-right:5px;">
-                                        <tr>
-                                            <td id="bar-result-3" style="text-align:right; width:200px;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td id="count-bar3">10</td>
-                                            <td id="bar3" style="text-align:right; width:200px;"></td>
-                                            <td>
-                                                <div class="dropdown-custom">▼
-                                                    <div class="dropdown-content-custom">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-            <table style="margin-top:10px; width:100%;height:20%;">
-                <tr>
-                    <td>
-                        <!-- <p class="title-pr">NEWS FEED</p> -->
                         <table style="width:100%;height:100%;">
                             <tr>
                                 <td style="width:100px; margin:0; padding:0px;" valign="top">
@@ -331,7 +335,7 @@
                         <div id="viewDiv"></div>
                     </td>
                 </tr>
-            </table>
+            </table> -->
         </div>
         <!-- <div id="menu-sites">
             <p class="title-pr">SITE</p>
@@ -417,82 +421,6 @@
     </div>
 </body>
 <script>
-    window.selectedProperty = ["Land Existing", "On Progress", "Request"]
-    $(function() {
-        $("#datepicker").datepicker();
-    });
-    $(document).ready(function() {
-        $('#ref-dashboard').click(function() {
-            $('html, body').animate({
-                scrollTop: $("#menu-dashboard").offset().top - 100
-            }, 0);
-        });
-    });
-
-    function switchProperty() {
-        let propertyList = [
-            "Land Existing",
-            "On Progress",
-            "Request",
-            "Competitor"
-        ]
-
-        for (let i = 0; i < selectedProperty.length; i++) {
-            $("#bar" + (i + 1)).text(selectedProperty[i])
-            if (propertyList.includes(selectedProperty[i])) {
-                let index = propertyList.indexOf(selectedProperty[i])
-                propertyList.splice(index, 1)
-            }
-        }
-
-        $(".dropdown-custom").hover(
-            function() {
-                for (let i = 0; i < propertyList.length; i++) {
-                    let a = $("<a>")
-                    $(a).text(propertyList[i])
-                    $(a).attr("href", "#")
-                    $(a).attr("class", "dropdown-a")
-                    $(".dropdown-content-custom").append(a)
-                }
-            },
-            function() {
-                $(".dropdown-content-custom").empty()
-            }
-        )
-
-        $(document).delegate(".dropdown-a", "click", function() {
-            let tr = $(this).parents("tr")[0]
-            let td = $(tr).children()[1]
-            let tdCount = $(tr).children()[0]
-            let prevText = $(td).text()
-            let count = 0
-            if ($(this).text() == "Land Existing") {
-                count = 1000
-            } else if ($(this).text() == "On Progress") {
-                count = 5
-            } else if ($(this).text() == "Request") {
-                count = 10
-            } else if ($(this).text() == "Competitor") {
-                count = 200
-            }
-            $(tdCount).text(count)
-            $(td).text($(this).text())
-
-            if (selectedProperty.includes(prevText)) {
-                let indexSelectedProperty = selectedProperty.indexOf(prevText)
-                selectedProperty.splice(indexSelectedProperty, 1)
-                selectedProperty.push($(td).text())
-
-                let indexPropertyList = propertyList.indexOf($(td).text())
-                propertyList.splice(indexPropertyList, 1)
-                propertyList.push(prevText)
-            }
-            $(".dropdown-content-custom").empty()
-        })
-    }
-
-    switchProperty()
-
     $(".bg-theme").css("background-color", sessionStorage.getItem("colorTheme"))
     $(".head-point").css("background-color", sessionStorage.getItem("colorTheme"))
     $(".title-size-min-max").css("background-color", sessionStorage.getItem("colorTheme"))

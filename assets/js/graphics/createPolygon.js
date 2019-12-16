@@ -35,6 +35,8 @@ var createPolygon = async function (geometry, attributes) {
         });
     }
 
+    console.log(polygonGraphic)
+
     var graphicsLayer = new ESRI.GraphicsLayer()
     graphicsLayer.add(polygonGraphic)
     groupLayerPolygons.add(graphicsLayer)

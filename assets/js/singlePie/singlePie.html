@@ -1,75 +1,194 @@
-<!-- Input Geohash -->
-<div class="popup-single-pie">
-  <div
-    style="display: block; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4);"
-    id="modal-input-single-pie"
-  >
-    <div
-      class="input-single-pie"
-      style="background-color: white;  overflow-y: auto; border-radius:10px; padding: 10px; box-shadow: 5px 10px #888888; margin-left:30%; margin-top:15%; width:500px; height:280px;"
-    >
-      <table class="header-input-single-pie">
-        <tr>
-          <td>
-            <div style="text-indent: 70px;">
-              GET SINGLE PIE
-            </div>
-          </td>
-          <td>
-            <div
-              id="close-input-single-pie"
-              style="font-size:20px; font-weight:bold; float:right; padding-right:10px;"
-            >
-              X
-            </div>
-          </td>
-        </tr>
-      </table>
-
-      <table
-        style="width:100%; text-align: center; font-size:20px; margin-top:20px;"
+<style>
+  .input-add-features {
+    width: 50%;
+  }
+</style>
+<div
+  class="modal fade"
+  id="modal-single-pie"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal-single-pie"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-single-pie">GET SINGLE PIE</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form
+        class="form-submit-single-pie"
+        action="#"
+        onsubmit="submitSinglePie(this.submited)"
       >
-        <tr>
-          <td>
-            Input Longitude
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input
-              id="key-longitude-single-pie"
-              style="text-align: center;"
-              type="text"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Input Latitude
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input
-              id="key-latitude-single-pie"
-              style="text-align: center;"
-              type="text"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button
-              style="margin-top: 10px; width:100px; height:50px; font-size:15px; background-color: #7a7c80; padding:0px; border-radius: 10px;"
-              type="button"
-              class="btn btn-primary btn-submit-single-pie"
-            >
-              SUBMIT
-            </button>
-          </td>
-        </tr>
-      </table>
+        <div class="modal-body">
+          <table
+            style="width:100%; text-align: center; font-size:10px; margin-top:20px;"
+          >
+            <tr>
+              <td colspan="2">
+                Longitude
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input
+                  id="key-longitude-single-pie"
+                  style="text-align: center;"
+                  type="text"
+                  value="106.8325748"
+                  class="input-add-features"
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                Latitude
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input
+                  id="key-latitude-single-pie"
+                  style="text-align: center;"
+                  type="text"
+                  value="-6.227184"
+                  class="input-add-features"
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                Angle
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input
+                  id="key-angle-single-pie"
+                  style="text-align: center;"
+                  type="text"
+                  value="45"
+                  class="input-add-features"
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                Apperture
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input
+                  id="key-apperture-single-pie"
+                  style="text-align: center;"
+                  type="text"
+                  value="30"
+                  class="input-add-features"
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                Radius
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input
+                  id="key-radius-single-pie"
+                  style="text-align: center;"
+                  type="text"
+                  value="50"
+                  class="input-add-features"
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                Output Delimiter
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input
+                  id="key-output-delimiter-single-pie"
+                  style="text-align: center;"
+                  type="text"
+                  value=","
+                  class="input-add-features"
+                  required
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                Role
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input
+                  id="key-role-single-pie"
+                  style="text-align: center;"
+                  type="text"
+                  value="XL"
+                  class="input-add-features"
+                  required
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button
+            type="submit"
+            onclick="this.form.submited=this.value;"
+            class="btn btn-primary btn-submit-zip-single-pie"
+            value="zip"
+          >
+            Get Zip File
+          </button>
+          <button
+            type="submit"
+            onclick="this.form.submited=this.value;"
+            class="btn btn-primary btn-submit-opslayer-single-pie"
+            value="opslayer"
+          >
+            Get Ops Layer
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
-<!-- End of Input Geohash -->
+<script>
+  $(".form-submit-single-pie").submit(function(e) {
+    e.preventDefault();
+  });
+  $(".btn-submit-zip-single-pie").css(
+    "background-color",
+    sessionStorage.getItem("colorTheme")
+  );
+  $(".btn-submit-opslayer-single-pie").css(
+    "background-color",
+    sessionStorage.getItem("colorTheme")
+  );
+</script>

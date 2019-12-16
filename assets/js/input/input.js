@@ -30,8 +30,8 @@ var inputFilter = function () {
     $("#intTextBox").inputFilter(function (value) {
         return /^-?\d*$/.test(value);
     });
-    $("#floatTextBox").inputFilter(function (value) {
-        return /^-?\d*[.,]?\d*$/.test(value);
+    $(".floatTextBox").inputFilter(function (value) {
+        return /^-?\d*[.]?\d*$/.test(value);
     });
     $(".floatTextBoxWithRange").inputFilter(function (value) {
         return /^-?\d*[.]?\d*$/.test(value) && (value === "" || parseFloat(value) > 0);

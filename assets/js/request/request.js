@@ -17,7 +17,7 @@ var makeEsriRequest = async function (url, layersRequest) {
         if (err) {
             Swal.fire(
                 'Error',
-                'Geohash not found!',
+                'Request not found!',
                 'error'
             )
         }

@@ -1,4 +1,4 @@
-var processSinglePie = async function (url, param, delimiter) {
+var processSinglePieZipFile = async function (url, longitude, latitude, angle, apperture, radius, outputDelimiter, role) {
     loading("show")
     var params = {
         "longitude": longitude,
@@ -6,15 +6,16 @@ var processSinglePie = async function (url, param, delimiter) {
         "angle": angle,
         "apperture": apperture,
         "radius": radius,
-        "outputDelimiter": delimiter,
+        "outputDelimiter": outputDelimiter,
         "role": role
     }
 
     var gp = new ESRI.Geoprocessor(url)
     await gp.submitJob(params).then(function (jobInfo) {
         var jobid = jobInfo.jobId;
-        makeEsriRequest("http://192.168.5.14/arcgis/rest/services/GP/singlePie/GPServer/Model/jobs" + jobid + "/results/zipFileOutput").then(function (res) {
+        makeEsriRequest("http://192.168.5.14/arcgis/rest/services/GP/singlePie/GPServer/Model/jobs/" + jobid + "/results/zipFileOutput").then(function (res) {
             if (res !== undefined) {
+                console.log(res)
                 window.open(res.data.value.url, '_blank')
             }
         })
@@ -22,28 +23,70 @@ var processSinglePie = async function (url, param, delimiter) {
     loading("hide")
 }
 
-$(document).delegate("#single-pie", "click", async function () {
-    await $.get("assets/js/singlePie/singlePie.html", function (data) {
-        $(".page-content").append(data);
-        $(".header-input-single-pie").css("background-color", sessionStorage.getItem("colorTheme"))
-        $(".btn-submit-single-pie").css("background-color", sessionStorage.getItem("colorTheme"))
-    });
+var processSinglePieOpsLayer = async function (url, longitude, latitude, angle, apperture, radius, outputDelimiter, role) {
+    loading("show")
+    var params = {
+        "longitude": longitude,
+        "latitude": latitude,
+        "angle": angle,
+        "apperture": apperture,
+        "radius": radius,
+        "outputDelimiter": outputDelimiter,
+        "role": role,
+        "env:outSR": 3857
+    }
 
-})
-
-$(document).delegate("#close-input-single-pie", "click", function () {
-    $(".popup-single-pie").remove()
-})
-
-$(document).delegate(".btn-submit-single-pie", "click", async function () {
-    var geoKey = $("#key-geohash").val()
-    var geoKeyDelimiter = $("#key-geohash-delimiter").val()
-    await processGeohash("http://192.168.5.14/arcgis/rest/services/GP/singleGeohash/GPServer/Model", geoKey, geoKeyDelimiter).then().catch(function (err) {
-        Swal.fire(
-            'Error',
-            'Connection Timeout!',
-            'warning'
-        )
-        loading("hide")
+    var gp = new ESRI.Geoprocessor(url)
+    await gp.submitJob(params).then(function (jobInfo) {
+        var jobid = jobInfo.jobId;
+        makeEsriRequest("http://192.168.5.14/arcgis/rest/services/GP/singlePie/GPServer/Model/jobs/" + jobid + "/results/opsLayer").then(function (res) {
+            if (res.data.value.features.length < 1) {
+                Swal.fire(
+                    'Error',
+                    'Layer not found!',
+                    'warning'
+                )
+            } else {
+                createPolygon(res.data.value.features[0].geometry, res.data.value.features[0].attributes).then(function () {
+                    sortID(map, "polygons", "dynamic-polygon-")
+                    registerAttributes(map, "polygons", "polygon-graphics", 0)
+                })
+                map.ObjMapView.goTo({
+                    target: [106.83288792851816, -6.226981965999922],
+                    zoom: 18
+                })
+            }
+        })
     })
-})
+    loading("hide")
+}
+
+var submitSinglePie = async function (mode) {
+    $("#modal-single-pie").modal("hide")
+    var longitude = $("#key-longitude-single-pie").val()
+    var latitude = $("#key-latitude-single-pie").val()
+    var angle = $("#key-angle-single-pie").val()
+    var apperture = $("#key-apperture-single-pie").val()
+    var radius = $("#key-radius-single-pie").val()
+    var outputDelimiter = $("#key-output-delimiter-single-pie").val()
+    var role = $("#key-role-single-pie").val()
+    if (mode == "zip") {
+        await processSinglePieZipFile("http://192.168.5.14/arcgis/rest/services/GP/singlePie/GPServer/Model", longitude, latitude, angle, apperture, radius, outputDelimiter, role).then().catch(function (err) {
+            Swal.fire(
+                'Error',
+                'Connection Timeout!',
+                'warning'
+            )
+            loading("hide")
+        })
+    } else if (mode == "opslayer") {
+        await processSinglePieOpsLayer("http://192.168.5.14/arcgis/rest/services/GP/singlePie/GPServer/Model", longitude, latitude, angle, apperture, radius, outputDelimiter, role).then().catch(function (err) {
+            Swal.fire(
+                'Error',
+                'Connection Timeout!',
+                'warning'
+            )
+            loading("hide")
+        })
+    }
+}

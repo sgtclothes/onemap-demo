@@ -131,8 +131,8 @@ var setWindowVariables = async function (map) {
             "https://gis.locatorlogic.com/arcgis/rest/services/ONEMAP/onemap/FeatureServer/9"
     });
 
-    window.onemapAddFeatures = "/addFeatures"
-    window.onemapUpdateFeatures = "/updateFeatures"
-    window.onemapDeleteFeatures = "/deleteFeatures"
+    window.addFeatures = "/addFeatures"
+    window.updateFeatures = "/updateFeatures"
+    window.deleteFeatures = "/deleteFeatures"
     //---End Feature Service for all Onemap Database ---//
 }

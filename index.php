@@ -10,24 +10,26 @@
     <!-- global stylesheets -->
     <!-- @fetch google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <!-- /@fetch google fonts -->
     <link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="assets/css/icons/material/styles.css">
-    <link rel="stylesheet" href="assets/css/icons/fontawesome/all.css">
+    <link href="assets/css/icons/material/styles.css" rel="stylesheet">
+    <link href="assets/css/icons/fontawesome/all.css" rel="stylesheet">
     <link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="assets/css/limitless.css" rel="stylesheet" type="text/css">
     <link href="assets/css/layout.css" rel="stylesheet" type="text/css">
     <link href="assets/css/components.css" rel="stylesheet" type="text/css">
     <link href="assets/css/colors.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
-    <!-- <link href="assets/colors/jsColor.css" rel="stylesheet" type="text/css" /> -->
-    <link href="assets/js/plugins/tree/tree_analysis.css" rel="stylesheet" type="text/css" />
-    <link href="assets/js/plugins/tree/checkboxes.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="assets/css/jquery/jquery-ui-1.12.1.css">
-    <link rel="stylesheet" href="assets/js/sweetalert2/sweetalert2.css">
+    <link href="assets/css/awesome-bootstrap-checkbox.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/fontawesome-5.0.1-all.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/jquery/jquery-ui-1.12.1.css" rel="stylesheet">
+    <link href="assets/js/sweetalert2/sweetalert2.css">
     <script src="assets/js/sweetalert2/sweetalert2.js"></script>
     <script src="assets/js/jquery-1.12.4.js"></script>
     <script src="assets/js/jquery-1.12.1.js"></script>
     <script src="assets/js/jquery.cookie.min.js"></script>
+    <script src="assets/js/jquery.blockUI.js"></script>
+    <script src="assets/js/main/bootstrap.bundle.min.js"></script>
     <script>
         if (Cookies.get('arcgistoken')) {
             sessionStorage.setItem("token", Cookies.get("arcgistoken"))
@@ -38,28 +40,7 @@
         }
         console.log(token)
     </script>
-    <link href="assets/js/plugins/collapsible/style.css" rel="stylesheet" type="text/css" />
     <!-- /global stylesheets -->
-
-    <!-- Adding other css -->
-    <link rel="stylesheet" href="assets/css/section/awesome-bootstrap-checkbox.css" type="text/css" />
-    <link href="assets/css/section/fontawesome-5.0.1-all.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="assets/js/plugins/my_profile/my_profile_form.css">
-
-    <script src="assets/js/main/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/plugins/loaders/blockui.min.js"></script>
-    <script src="assets/js/plugins/ui/perfect_scrollbar.min.js"></script>
-    <!-- /core js files -->
-
-    <!-- themes & template js files -->
-    <script src="assets/js/plugins/tables/datatables/datatables.js"></script>
-    <script src="assets/js/plugins/forms/checkboxes/form_checkboxes_radios.js"></script>
-
-    <script src="assets/js/layout/default/app.js"></script>
-    <script src="https://unpkg.com/imask"></script>
-    <!-- /themes & template js files -->
-
     <style>
         #mapDiv {
             height: 100%;
@@ -80,18 +61,29 @@
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">
     <script src="https://js.arcgis.com/4.11/"></script>
-    <script type="module" src="lib/lib.js"></script>
+    <script type="module" src="library/library.js"></script>
     <script src="sample/boot.js"></script>
-    <!-- <script src="content/analysis/dataAnalysis.js"></script> -->
-    <script src="content/template/instant_analysis/buffers.js"></script>
-    <script src="content/template/instant_analysis/drivetimeDistance.js"></script>
-    <script src="content/template/instant_analysis/drivetime.js"></script>
+    <!-- Load other HTML -->
+    <script>
+        $(function() {
+            $.get("assets/js/geohash/inputGeohash.html", function(data) {
+                $("#includedContent").append(data);
+            });
+            $.get("assets/js/singlePie/singlePie.html", function(data) {
+                $("#includedContent").append(data);
+            });
+            $.get("assets/js/features/features.html", function(data) {
+                $("#includedContent").append(data);
+            });
+        });
+    </script>
+    <!-- End of Load other HTML -->
 </head>
 
 <body id="main" class="navbar-top sidebar-main-hidden">
+    <div id="includedContent"></div>
     <div class="navbar navbar-expand-md navbar-dark bg-theme fixed-top">
 
-        <!-- navbar for product-brand -->
         <div class="navbar-brand py-0">
             <a href="index.php" class="d-flex h-100">
                 <img id="department-logo-onemap" class="img-fluid my-auto h-auto" style="width:50px; height:20px;" src="" alt="">
@@ -111,47 +103,35 @@
                 img.src = "assets/images/department_logo/" + departments + ".png";
             </script>
         </div>
-        <!-- /navbar for product brand -->
 
-        <!-- navbar for mobile media -->
         <div class="d-md-none">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
-                <i class="icon-tree5"></i>
-            </button>
-            <button class="navbar-toggler sidebar-mobile-main-toggle" type="button">
                 <i class="icon-paragraph-justify3"></i>
             </button>
         </div>
-        <!-- /navbar for mobile media -->
 
         <div class="collapse navbar-collapse" id="navbar-mobile">
             <ul class="navbar-nav">
-                <!-- analysis menu item navbar -->
-                <!-- Sidenav layers -->
+
                 <li class="nav-item">
                     <a id="viewer-nav" href="#" class="navbar-nav-link">
                         <i class="icon-list-unordered mr-2"></i>Layers
                     </a>
                 </li>
-                <!-- End of Sidenav layer -->
-                <!-- Sidenav analysis -->
 
                 <li class="nav-item dropdown">
                     <a href="#" class="navbar-nav-link dropdown-toggle legitRipple" data-toggle="dropdown">
                         <i class="icon-stats-bars2 mr-2"></i>Analysis
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-left">
+                    <div class="bg-theme dropdown-menu dropdown-menu-left">
                         <a id="instant-analysis" href="#" class="dropdown-item">Select Sites</a>
                         <a style="display:none;" id="myModal" href="#" class="dropdown-item">Drag and Drop CSV</a>
                         <a id="site-analysis" href="#" class="dropdown-item">Sites List</a>
-                        <a id="geohash" href="#" class="dropdown-item">Single Geohash</a>
-                        <a id="single-pie" href="#" class="dropdown-item">Single Pie</a>
+                        <a id="geohash" href="#" data-toggle="modal" data-target="#modal-geohash" class="dropdown-item">Single Geohash</a>
+                        <a id="single-pie" href="#" data-toggle="modal" data-target="#modal-single-pie" class="dropdown-item">Single Pie</a>
                     </div>
                 </li>
-
-                <!-- End of Sidenav analysis -->
-                <!-- Dashboard Menu -->
 
                 <li class="nav-item">
                     <a id="menu-dashboard" href="dashboard.php" class="navbar-nav-link">
@@ -159,8 +139,12 @@
                     </a>
                 </li>
 
-                <!-- End of Dashboard Menu -->
-                <!-- /analysis menu item navbar -->
+                <li class="nav-item">
+                    <a id="menu-input-data" data-toggle="modal" data-target="#modal-features" href="#" class="navbar-nav-link">
+                        <i class="mi-input"></i> Input Data
+                    </a>
+                </li>
+
             </ul>
 
             <span class="ml-md-3 mr-md-auto"></span>
@@ -183,10 +167,10 @@
                         img.src = "assets/images/profile/user_id_" + id + "/user_id_" + id + ".png";
                         $("#username-onemap").text(sessionStorage.getItem("username"))
                     </script>
-                    <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-menu dropdown-menu-right bg-theme">
                         <!-- <a href="#" id="modal-profile-onemap" class="dropdown-item" data-toggle="modal" data-target="#modal_my_profile"><i class="icon-user-plus"></i> My profile</a> -->
                         <div class="dropdown-divider"></div>
-                        <a id="logout" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
+                        <a id="logout" class="dropdown-item bg-theme"><i class="icon-switch2"></i> Logout</a>
                     </div>
                 </li>
                 <!-- /user menu item navbar -->
@@ -881,7 +865,6 @@
                 <p style="padding: 20px 8px 0px 90px;" class="title">
                 </p>
                 <div id="tbl-analysis-div" class="table-responsive tbl">
-                    <?php include "content/analysis/site_analysis.php"; ?>
                 </div>
             </div>
         </div>
@@ -918,16 +901,15 @@
                 <label style="align:right; margin:-5px;" class="message"></label>
             </div>
             <div class="card-body">
-                <?php include 'content/create_site.php' ?>
             </div>
         </div>
         <!-- End of Form Create Site -->
 
         <div class="content-wrapper" id="contentAnalysisDiv">
             <div id="mapDiv" class="mapDiv"></div>
-            <div class="table_list_services"><?php include "content/table_list_services.html"; ?></div>
-            <div id="analysisDiv" style="display:none;"><?php include "content/analysis/results_table.html"; ?></div>
-            <div id="instantAnalysisDiv" style="display:none;"><?php include "content/analysis/results_table_instant.html"; ?></div>
+            <div class="table_list_services"></div>
+            <div id="analysisDiv" style="display:none;"></div>
+            <div id="instantAnalysisDiv" style="display:none;"></div>
         </div>
     </div>
     <div style="display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.4); align-self: center; justify-content: center;" id="dragdrop-modal">
@@ -962,7 +944,6 @@
             <input type="submit" value="Submit">
         </form>
     </div>
-    <script type="text/javascript" src="assets/js/plugins/collapsible/collapsible.js"></script>
     <script type="text/javascript" src="content/template/instant_analysis/formInstantAnalysis.js"></script>
     <script>
         var toggler = document.getElementsByClassName("caret");
@@ -1122,13 +1103,15 @@
 
 <!-- Geohash -->
 <script src="assets/js/geohash/geohash.js"></script>
-<link rel="stylesheet" href="assets/js/geohash/inputGeohash.css">
 <!-- End of Geohash -->
 
 <!-- Single Pie -->
 <script src="assets/js/singlePie/singlePie.js"></script>
-<link rel="stylesheet" href="assets/js/singlePie/singlePie.css">
 <!-- End of Single Pie -->
+
+<!-- Features -->
+<script src="assets/js/features/features.js"></script>
+<!-- End of Features -->
 
 <!-- Target -->
 <script src="assets/js/target/target.js"></script>
@@ -1138,13 +1121,6 @@
 <script src="assets/logout.js"></script>
 
 <script>
-    $(document).ready(function() {
-        $('#datatable-sorting').dataTable({
-            "bLengthChange": false,
-            "bFilter": true,
-            "pageLength": 5
-        });
-    });
     $(".bg-theme").css("background-color", sessionStorage.getItem("colorTheme"))
     $(".title-property").css("background-color", sessionStorage.getItem("colorTheme"))
     $(".title-size-min-max").css("background-color", sessionStorage.getItem("colorTheme"))

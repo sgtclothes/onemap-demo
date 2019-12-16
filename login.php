@@ -19,7 +19,7 @@
 	<link rel="icon" type="image/png" href="assets\images\icons\onemap-no-title.png" />
 	<link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/themes/light/main.css">
 	<script src="https://js.arcgis.com/4.11/"></script>
-	<script type="module" src="lib/lib.js"></script>
+	<script type="module" src="library/library.js"></script>
 	<script src="sample/loginBoot.js"></script>
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">

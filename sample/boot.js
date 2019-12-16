@@ -1,7 +1,7 @@
 async function boot(GIS) {
   window.GIS = GIS
   let config = new GIS.Config();
-  let map = new GIS.Map(config.CenterPoint, 'osm');
+  window.map = new GIS.Map(config.CenterPoint, 'osm');
   EsriConfig.request.corsEnabledServers
     .push("mts0.google.com", "mts1.google.com", "mts2.google.com",
       "mts3.google.com");
@@ -20,11 +20,6 @@ async function boot(GIS) {
   radiusSlider(map)
   widgetCollection(map)
   setWindowVariables(map)
-
-  // var portalItem = new ESRI.PortalItem({
-  //   access: "public",
-  //   thumbnailUrl: "https://www.arcgis.com/sharing/rest/content/items/86de95d4e0244cba80f0fa2c9403a7b2/info/thumbnail/tempimagery.jpg?f=json"
-  // })
 
   var googleHybrid = new ESRI.Basemap({
     baseLayers: [
@@ -123,6 +118,7 @@ async function boot(GIS) {
   //---- End of Driving Time and Driving Distance Area --- //
 
   createTargetPoint(map)
+  inputFeatures(map)
 
   // $(function () {
   //   $("#popupFilter").draggable();
@@ -142,27 +138,27 @@ async function boot(GIS) {
 
   mapViewWhenReady(map, config)
 
-  document
-    .getElementById("point-the-site")
-    .addEventListener("click", function () {
-      pointTheSiteEnabled = true;
-      document
-        .getElementById("mapDiv")
-        .setAttribute("style", "cursor:crosshair;");
+  // document
+  //   .getElementById("point-the-site")
+  //   .addEventListener("click", function () {
+  //     pointTheSiteEnabled = true;
+  //     document
+  //       .getElementById("mapDiv")
+  //       .setAttribute("style", "cursor:crosshair;");
 
-      document
-        .getElementById("create-site-div")
-        .setAttribute(
-          "style",
-          "background: rgba(255, 255, 255, 0.8) none repeat scroll 0% 0%; display:none; width: 500px;"
-        );
+  //     document
+  //       .getElementById("create-site-div")
+  //       .setAttribute(
+  //         "style",
+  //         "background: rgba(255, 255, 255, 0.8) none repeat scroll 0% 0%; display:none; width: 500px;"
+  //       );
 
-      if (pointTheSiteEnabled == false) {
-        document
-          .getElementById("mapDiv")
-          .setAttribute("style", "cursor:default;");
-      }
-    });
+  //     if (pointTheSiteEnabled == false) {
+  //       document
+  //         .getElementById("mapDiv")
+  //         .setAttribute("style", "cursor:default;");
+  //     }
+  //   });
 
   map.ObjMapView.popup.actionsMenuEnabled = false;
   // map.ObjMapView.popup.featureNavigationEnabled = false;
@@ -176,12 +172,6 @@ async function boot(GIS) {
   // editAnalysis(GIS, map);
   // end of create instant analysis
   console.log($("#onemap-username").text())
-
-  //Define Buffers
-  bufferRadius(GIS, map);
-  driveTime(GIS, map);
-  driveTimeDistance(GIS, map);
-  saveAnalysis(map);
 
   document.getElementById("closebtn").addEventListener("click", function () {
     document.getElementById("mySidenav").style.width = "0";
@@ -701,6 +691,14 @@ async function boot(GIS) {
       }
       return date;
     }
+  });
+
+  $(function () {
+    $("#key-action-date-colliers").datepicker({
+      defaultDate: "+1w",
+      changeMonth: true,
+      changeYear: true
+    });
   });
 
   // ESRI.watchUtils.watch(map.ObjMapView, "zoom", function () {
