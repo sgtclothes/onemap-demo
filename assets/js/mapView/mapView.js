@@ -241,7 +241,7 @@ var mapViewPointerMove = function (map, key) {
     }
 }
 
-var mapViewWhenReady = function (map, config) {
+var mapViewWhenReady = function (map) {
     // Create a site
     map.ObjMapView.when(function () {
         let createSiteDiv = document.getElementById("create-site-div");
@@ -256,7 +256,7 @@ var mapViewWhenReady = function (map, config) {
         });
 
         createSite(createSiteExpand, GIS, map);
-        map.ObjMapView.ui.add(createSiteExpand, config.Position[6]);
+        map.ObjMapView.ui.add(createSiteExpand, "top-right");
         //Zoom to Jakarta
         map.ObjMapView.goTo({
             target: [106.8306808, -6.1994095],
@@ -311,55 +311,6 @@ var watchZoomLevel = function (map, provinsi, kabupaten, kecamatan, desa) {
         } else {
             desa.visible = false
         }
-
         console.log(zoom)
-        // var labels = getAllItemsFromGroupLayer(map, "labels")
-        // var points = getAllItemsFromGroupLayer(map, "points")
-        // console.log(zoom)
-        // console.log(zoomSearchLevel)
-        // if (zoom <= zoomSearchLevel) {
-        //     for (let i = 0; i < labels.items.length; i++) {
-        //         var symbol = {
-        //             type: "text",
-        //             color: "black",
-        //             horizontalAlignment: "left",
-        //             width: "auto",
-        //             xoffset: -50,
-        //             yoffset: 10,
-        //             text: labels.items[i].graphics.items[0].symbol.text,
-        //             font: {
-        //                 size: 5,
-        //                 family: "sans-serif"
-        //             }
-        //         }
-        //         labels.items[i].graphics.items[0].symbol = symbol
-        //         labels.items[i].graphics.items[0].visible = false
-        //     }
-        //     for (let i = 0; i < points.items.length; i++) {
-        //         points.items[i].graphics.items[0].visible = false
-        //     }
-        // } else if (zoom > zoomSearchLevel) {
-        //     var difference = zoom - zoomSearchLevel
-        //     for (let i = 0; i < labels.items.length; i++) {
-        //         var symbol = {
-        //             type: "text",
-        //             color: "black",
-        //             horizontalAlignment: "left",
-        //             width: "auto",
-        //             xoffset: -50,
-        //             yoffset: 10,
-        //             text: labels.items[i].graphics.items[0].symbol.text,
-        //             font: {
-        //                 size: 5 + difference,
-        //                 family: "sans-serif"
-        //             }
-        //         }
-        //         labels.items[i].graphics.items[0].symbol = symbol
-        //         labels.items[i].graphics.items[0].visible = true
-        //     }
-        //     for (let i = 0; i < points.items.length; i++) {
-        //         points.items[i].graphics.items[0].visible = true
-        //     }
-        // }
     });
 }

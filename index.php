@@ -981,7 +981,9 @@
 <!--End of loading -->
 
 <!-- Widget -->
-<script src="assets/js/widget/widget.js"></script>
+<script src="assets/js/widget/search.js"></script>
+<script src="assets/js/widget/basemapGallery.js"></script>
+<script src="assets/js/widget/locate.js"></script>
 <!-- End of widget -->
 
 <!-- Legend -->

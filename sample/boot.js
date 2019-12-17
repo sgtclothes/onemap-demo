@@ -1,21 +1,24 @@
 async function boot(GIS) {
   window.GIS = GIS
-  let config = new GIS.Config();
-  window.map = new GIS.Map(config.CenterPoint, 'osm');
+  window.map = new GIS.Map([118, -3.8], 'osm');
   EsriConfig.request.corsEnabledServers
     .push("mts0.google.com", "mts1.google.com", "mts2.google.com",
       "mts3.google.com");
   map.addLocateWidget("top-left");
-  map.addBasemapGalleryWidget(
-    {
-      portal: {
-        url: "https://www.arcgis.com",
-        useVectorBasemaps: true
-      }
-    },
-    "top-left"
-  );
   map.render();
+  window.map2 = new ESRI.Map({
+    basemap: 'osm'
+  })
+  window.mapView2 = new ESRI.MapView({
+    map: map2,
+    container: 'mapDiv'
+  })
+
+  mapView2.when(function () {
+    addBasemaps()
+    addLocate()
+  })
+
   setStartLocalStorage(map)
   radiusSlider(map)
   widgetCollection(map)
@@ -136,7 +139,7 @@ async function boot(GIS) {
   //   $(".page-content").append(data);
   // });
 
-  mapViewWhenReady(map, config)
+  mapViewWhenReady(map)
 
   // document
   //   .getElementById("point-the-site")

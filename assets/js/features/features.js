@@ -12,79 +12,38 @@ var inputFeatures = function (map) {
         var ppsqmIDR = $("#key-ppsqm-idr-colliers").val()
         var ppsqmUSD = $("#key-ppsqm-usd-colliers").val()
         var ssqm = $("#key-ssqm-colliers").val()
-        // var layersRequest = {
-        //     query: {
-        //         f: "json",
-        //         "addResults": [
-        //             {
-        //                 "geometry": { "x": longitude, "y": latitude },
-        //                 "attributes": {
-        //                     "property_type": propertyType,
-        //                     "property_address": propertyAddress,
-        //                     "exchange_rate": exchangeRate,
-        //                     "action_date": actionDate,
-        //                     "currency": currency,
-        //                     "total_idr": totalIDR,
-        //                     "total_usd": totalUSD,
-        //                     "price_per_sqm_gross_idr": ppsqmIDR,
-        //                     "price_per_sqm_gross_usd": ppsqmUSD,
-        //                     "sqm_gross": ssqm
-        //                 }
-        //             }
-        //         ]
-        //     },
-        //     responseType: "json",
-        //     usePost: true
-        // }
 
-        console.log(token)
+        var url = "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K_staging/FeatureServer/0" + addFeatures;
 
-        var layersRequest = {
-            f: "json",
-            adds: [
-                {
-                    "geometry": { "x": longitude, "y": latitude },
-                    "attributes": {
-                        "property_type": propertyType,
-                        "property_address": propertyAddress,
-                        "exchange_rate": exchangeRate,
-                        "action_date": actionDate,
-                        "currency": currency,
-                        "total_idr": totalIDR,
-                        "total_usd": totalUSD,
-                        "price_per_sqm_gross_idr": ppsqmIDR,
-                        "price_per_sqm_gross_usd": ppsqmUSD,
-                        "sqm_gross": ssqm
-                    }
-                }
-            ]
-        }
+        var feature = {
+            "geometry": { "x": longitude, "y": latitude },
+            "attributes": {
+                "property_type": propertyType,
+                "property_address": propertyAddress,
+                "exchange_rate": exchangeRate,
+                "action_date": actionDate,
+                "currency": currency,
+                "total_idr": totalIDR,
+                "total_usd": totalUSD,
+                "price_per_sqm_gross_idr": ppsqmIDR,
+                "price_per_sqm_gross_usd": ppsqmUSD,
+                "sqm_gross": ssqm
+            },
+            "spatialReference": {
+                "wkid": "4326"
+            }
+        };
 
-        console.log("https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K_staging/FeatureServer/0" + addFeatures)
-        makeEsriRequestPOST("https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K_staging/FeatureServer/0" + addFeatures, layersRequest).then(function (results) {
-            console.log(results)
+        $.post(url, {
+            features: JSON.stringify([feature]),
+            f: "json"
         })
-        // EsriRequest({
-        //     url: "https://gis.locatorlogic.com/arcgis/rest/services/COLLIERS/colliersOneMap_K_staging/FeatureServer/0" + addFeatures,
-        //     "adds": [
-        //         {
-        //             "geometry": { "x": longitude, "y": latitude },
-        //             "attributes": {
-        //                 "property_type": propertyType,
-        //                 "property_address": propertyAddress,
-        //                 "exchange_rate": exchangeRate,
-        //                 "action_date": actionDate,
-        //                 "currency": currency,
-        //                 "total_idr": totalIDR,
-        //                 "total_usd": totalUSD,
-        //                 "price_per_sqm_gross_idr": ppsqmIDR,
-        //                 "price_per_sqm_gross_usd": ppsqmUSD,
-        //                 "sqm_gross": ssqm
-        //             }
-        //         }
-        //     ],
-        //     "usePost": true
-        // })
+            .done(function (results) {
+                console.log(results);
+            })
+            .fail(function (error) {
+                console.log(error);
+            });
     })
 }
 
