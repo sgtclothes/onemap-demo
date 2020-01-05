@@ -1,16 +1,16 @@
-<div class="driving-distance-div">
+<div class="driving-distance">
   <div class="form-group">
-    <table style="width: 100%">
-      <tr>
-        <td><label style="text-align:center;">Driving Distance</label></td>
-        <td>
-          <label id="driving-distance-div" style="float:right; cursor:pointer;"
-            >X</label
-          >
-        </td>
-      </tr>
-    </table>
-
+    <div style="display: inline-block; width:100%;">
+      <select
+        style="height: 26px; width: 100%; padding: 0px; margin: 0px;"
+        name="analyze"
+        class="analyze-polygon"
+      >
+        <option value="driving-distance">Driving Distance</option>
+        <option value="driving-time">Driving Time</option>
+        <option value="buffer">Buffer</option>
+      </select>
+    </div>
     <select
       class="select-driving-distance-mini form-control"
       required
@@ -28,7 +28,7 @@
       <label>Distance</label>
       <input
         type="text"
-        class="driving-distance-distance-mini form-control floatTextBoxWithRange"
+        class="distance-distance-mini form-control floatTextBoxWithRange"
         required
         name="distance"
       />
@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <div class="text-right">
+  <div class="text-center">
     <button
       type="button"
       class="btn btn-primary btn-create-drive-distance-mini"

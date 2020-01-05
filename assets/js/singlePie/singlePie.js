@@ -13,7 +13,7 @@ var processSinglePieZipFile = async function (url, longitude, latitude, angle, a
     var gp = new ESRI.Geoprocessor(url)
     await gp.submitJob(params).then(function (jobInfo) {
         var jobid = jobInfo.jobId;
-        makeEsriRequest("http://203.153.98.250/arcgis/rest/services/GP/singlePie/GPServer/Model/jobs/" + jobid + "/results/zipFileOutput").then(function (res) {
+        makeEsriRequest("http://192.168.5.14/arcgis/rest/services/GP/singlePie/GPServer/Model/jobs/" + jobid + "/results/zipFileOutput").then(function (res) {
             if (res !== undefined) {
                 console.log(res)
                 window.open(res.data.value.url, '_blank')
@@ -39,7 +39,7 @@ var processSinglePieOpsLayer = async function (url, longitude, latitude, angle, 
     var gp = new ESRI.Geoprocessor(url)
     await gp.submitJob(params).then(function (jobInfo) {
         var jobid = jobInfo.jobId;
-        makeEsriRequest("http://203.153.98.250/arcgis/rest/services/GP/singlePie/GPServer/Model/jobs/" + jobid + "/results/opsLayer").then(function (res) {
+        makeEsriRequest("http://192.168.5.14/arcgis/rest/services/GP/singlePie/GPServer/Model/jobs/" + jobid + "/results/opsLayer").then(function (res) {
             if (res.data.value.features.length < 1) {
                 Swal.fire(
                     'Error',
@@ -71,7 +71,7 @@ var submitSinglePie = async function (mode) {
     var outputDelimiter = $("#key-output-delimiter-single-pie").val()
     var role = $("#key-role-single-pie").val()
     if (mode == "zip") {
-        await processSinglePieZipFile("http://203.153.98.250/arcgis/rest/services/GP/singlePie/GPServer/Model", longitude, latitude, angle, apperture, radius, outputDelimiter, role).then().catch(function (err) {
+        await processSinglePieZipFile("http://192.168.5.14/arcgis/rest/services/GP/singlePie/GPServer/Model", longitude, latitude, angle, apperture, radius, outputDelimiter, role).then().catch(function (err) {
             Swal.fire(
                 'Error',
                 'Connection Timeout!',
@@ -80,7 +80,7 @@ var submitSinglePie = async function (mode) {
             loading("hide")
         })
     } else if (mode == "opslayer") {
-        await processSinglePieOpsLayer("http://203.153.98.250/arcgis/rest/services/GP/singlePie/GPServer/Model", longitude, latitude, angle, apperture, radius, outputDelimiter, role).then().catch(function (err) {
+        await processSinglePieOpsLayer("http://192.168.5.14/arcgis/rest/services/GP/singlePie/GPServer/Model", longitude, latitude, angle, apperture, radius, outputDelimiter, role).then().catch(function (err) {
             Swal.fire(
                 'Error',
                 'Connection Timeout!',

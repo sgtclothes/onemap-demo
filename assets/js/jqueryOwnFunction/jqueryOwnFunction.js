@@ -1,3 +1,4 @@
+// $(document).tooltip();
 var actionElement = function (element, action) {
     if (action == "hide") {
         $(element).hide()

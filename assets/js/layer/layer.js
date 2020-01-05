@@ -44,3 +44,169 @@ var getNestedLayerById = function (map, id, nested_id) {
     }
     return layer
 }
+
+var getLayerViewById = function (id) {
+    var layer = undefined
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].id == id) {
+            layer = mapView.graphics.items[i]
+        }
+    }
+    return layer
+}
+
+var getLayerViewBySelector = function (selector) {
+    var layer = []
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].selector == selector) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    return layer
+}
+
+var getLayerViewByReference = function (reference) {
+    var layer = []
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].reference == reference) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    return layer
+}
+
+var getLayerViewByTypeReference = function (reference) {
+    var layer = []
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].reference.split("-")[0] == reference) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    return layer
+}
+
+var getLayerViewByGraphicsTypeAndTypeReference = function (gType, reference) {
+    var layer = []
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].gType == gType && mapView.graphics.items[i].reference.split("-")[0] == reference) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    return layer
+}
+
+var getLayerViewByName = function (name) {
+    var layer = []
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].name == name) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    return layer
+}
+
+var getLayerViewByGraphicsType = function (gType) {
+    var layer = []
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].gType == gType) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    return layer
+}
+
+var getLayerViewByGroup = function (group) {
+    var layer = []
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].group == group) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    return layer
+}
+
+var getLayerViewByGraphicsTypeAndName = function (gType, name) {
+    var layer = []
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].gType == gType && mapView.graphics.items[i].name == name) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    return layer
+}
+
+var getLayerViewByGraphicsTypeAndId = function (gType, id) {
+    var layer = []
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].gType == gType && mapView.graphics.items[i].id == id) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    return layer
+}
+
+var getLayerViewByGraphicsTypeAndSelector = function (gType, selector) {
+    var layer = []
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].gType == gType && mapView.graphics.items[i].selector == selector) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    return layer
+}
+
+var getLayerViewByGraphicsTypeAndReference = function (gType, reference) {
+    var layer = []
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].gType == gType && mapView.graphics.items[i].reference == reference) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    return layer
+}
+
+var getLayerViewIndexByReference = function (reference) {
+    var layer = []
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].reference == reference) {
+            layer.push(i)
+        }
+    }
+    return layer
+}
+
+var countLayerByGraphicsType = function (gType) {
+    var layer = []
+    var count = 0
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].gType == gType) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    count = layer.length
+    return count
+}
+
+var countLayerBySelector = function (selector) {
+    var layer = []
+    var count = 0
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].selector == selector) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    count = layer.length
+    return count
+}
+
+var countLayerByReference = function (reference) {
+    var layer = []
+    var count = 0
+    for (let i = 0; i < mapView.graphics.items.length; i++) {
+        if (mapView.graphics.items[i].reference == reference) {
+            layer.push(mapView.graphics.items[i])
+        }
+    }
+    count = layer.length
+    return count
+}

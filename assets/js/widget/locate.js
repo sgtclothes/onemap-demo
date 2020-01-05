@@ -1,7 +1,10 @@
 function addLocate() {
+
+    //Add new locate object 
     var locate = new ESRI.Locate({
-        view: mapView2
+        view: mapView
     })
 
-    mapView2.ui.add(locate, "top-left")
+    //Add locate object to mapView
+    mapView.ui.add(locate, "top-left")
 }

@@ -13,3 +13,17 @@ var convertToCamelCase = function (str) {
 var createFormula = function (formula) {
     return formula
 }
+
+function limitString(string, limit, replace) {
+    var length = string.length
+    var newStr = ""
+    if (length > limit) {
+        for (let i = 0; i < limit; i++) {
+            newStr += string[i]
+        }
+        newStr += replace
+    } else {
+        newStr = string
+    }
+    return newStr
+}

@@ -1,4 +1,4 @@
-var fillParameterDrivingDistance = function (map) {
+function fillParameterDrivingDistance() {
     let div = document.createElement("DIV")
     div.style.backgroundColor = "white"
     div.style.borderRadius = "10px"
@@ -7,16 +7,14 @@ var fillParameterDrivingDistance = function (map) {
     div.style.height = "auto"
     div.style.fontWeight = "bold"
     div.id = "hold-driving-distance"
-    div.innerHTML = "Start create polygon"
-    map.ObjMapView.ui.add(div, "bottom-left")
+    div.className = "screen-component-map"
+    mapView.ui.add(div, "bottom-left")
     $.get("assets/js/graphics/modals/createDrivingDistance.html", function (data) {
         $(div).html(data);
     });
 }
 
-var processDrivingDistance = function (map, longitude, latitude, unit, distance) {
-
-    $("#loading-bar").show()
+function processDrivingDistance(longitude, latitude, unit, distance) {
 
     let gp = new ESRI.Geoprocessor({
         url: "http://tig.co.id/ags/rest/services/GP/DriveTime32223232/GPServer/DriveTime3"
@@ -31,45 +29,32 @@ var processDrivingDistance = function (map, longitude, latitude, unit, distance)
         'B_Values': distance
     }
 
-    gp.execute(driveDistanceParams).then(async function (result) {
+    gp.execute(driveDistanceParams).then(function (result) {
         let resultValue = result.results[0].value;
         let resultFeatures = resultValue.features;
         let resultGraphics = resultFeatures.map(function (feature) {
             feature.symbol = fillSymbol;
             return feature;
         });
-
-        let rings = undefined
-
-        await getProjectionPoint(JSON.stringify(resultGraphics[0].geometry.rings[0]), "3857", "4326").then(function (results) {
-            rings = results
-        })
-
-        var polygon = {
-            type: "polygon",
-            rings: rings
-        };
-
-        var fillSymbol = defaultSymbolGraphics()
-
-        var template = {}
-
-        var polygonGraphic = new ESRI.Graphic({
-            geometry: polygon,
-            geometry_3857: resultGraphics[0].geometry,
-            symbol: fillSymbol,
-            popupTemplate: template
-        });
-
-        var graphicsLayer = new ESRI.GraphicsLayer({
-            id: "drive-distance-"
-        })
-        graphicsLayer.add(polygonGraphic)
-        groupLayerDrivingDistance.add(graphicsLayer)
-        sortID(map, "driving-distance", "drive-distance-")
-        registerAttributes(map, "driving-distance", "drivedistance-graphics", 0)
-        console.log(map.ObjMap)
-        $("#loading-bar").hide()
-        $("#hold-driving-distance").remove()
+        console.log(resultGraphics)
     });
 }
+
+$(document).delegate(".select-driving-distance-mini", "change", function () {
+    inputFilter()
+    if ($(this).val() == "3") {
+        $(".driving-historical-mini").show()
+    } else {
+        $(".driving-historical-mini").hide()
+    }
+})
+
+$(document).delegate(".btn-create-drive-distance-mini", "click", function () {
+    var distance = $(".distance-distance-mini").val()
+    var unit = $(".select-unit-distance-mini").val()
+    processDrivingTime(mapView.extent.center.longitude, mapView.extent.center.latitude, unit, distance)
+})
+
+$(document).delegate("#close-driving-distance", "click", function () {
+    $(".driving-distance").remove()
+})

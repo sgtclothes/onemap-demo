@@ -1,14 +1,14 @@
-var createSketch = function (map) {
-    var graphicsLayer = new ESRI.GraphicsLayer()
-    window.sketch = new ESRI.Sketch({
+var createSketch = function () {
+    window.graphicsLayer = new ESRI.GraphicsLayer()
+    window.sketch = new ESRI.SketchViewModel({
         layer: graphicsLayer,
-        view: map.ObjMapView,
-        updateOnGraphicClick: false,
+        view: mapView,
+        updateOnGraphicClick: true,
         defaultUpdateOptions: {
-            enableRotation: false,
-            enableScaling: false,
-            multipleSelectionEnabled: false,
-            preserveAspectRatio: false,
+            enableRotation: true,
+            enableScaling: true,
+            multipleSelectionEnabled: true,
+            preserveAspectRatio: true,
             toggleToolOnClick: false
         }
     });

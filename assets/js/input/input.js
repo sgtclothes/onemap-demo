@@ -3,7 +3,7 @@ var inputFilter = function () {
     (function ($) {
         $.fn.inputFilter = function (inputFilter) {
             return this.on(
-                "input keydown keyup mousedown mouseup select contextmenu drop",
+                "input keydown keyup mousedown mouseup select contextmenu drop div",
                 function () {
                     if (inputFilter(this.value)) {
                         this.oldValue = this.value;
@@ -52,4 +52,32 @@ var inputFilter = function () {
         return /^[0-9a-f]*$/i.test(value);
     });
 
+}
+
+function isNumberKey(txt, evt) {
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode == 46) {
+        if (txt.indexOf('.') === -1) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        if (charCode > 31 &&
+            (charCode < 48 || charCode > 57))
+            return false;
+    }
+    return true;
+}
+
+function check_charcount(content_id, max, e) {
+    if (e.which != 8 && $("#" + content_id).text().length > max) {
+        e.preventDefault();
+    }
+}
+
+function check_charcountClass(content_id, max, e) {
+    if (e.which != 8 && $(content_id).text().length > max) {
+        e.preventDefault();
+    }
 }

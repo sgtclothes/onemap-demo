@@ -1,0 +1,22 @@
+.contextmenu,
+#subcontextmenum,
+#subcontextmenud {
+  position: absolute;
+  border: 1px solid;
+  box-shadow: 5px 10px #888888;
+  background-color: white;
+  width: 150px;
+  height: auto;
+  padding: 5px;
+}
+
+.contextmenu div {
+  margin-bottom: 5px;
+}
+
+.contextmenu div:hover,
+#subcontextmenum div:hover,
+#subcontextmenud div:hover {
+  background-color: #0f0f0f;
+  cursor: default;
+}

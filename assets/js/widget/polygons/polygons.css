@@ -1,0 +1,13 @@
+.item-graphic {
+  display: inline-block;
+}
+
+.item-graphic-border {
+  padding-left: 10px;
+  border: 1px solid black;
+}
+
+.item-graphic:hover {
+  cursor: pointer;
+  color: blue;
+}

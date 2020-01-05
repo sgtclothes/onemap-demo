@@ -871,26 +871,3 @@ td {
 .button-create-buffer {
   display: none;
 }
-
-.image-wrapper-a,
-#subcontextmenum,
-#subcontextmenud {
-  position: absolute;
-  border: 1px solid;
-  box-shadow: 5px 10px #888888;
-  background-color: white;
-  width: 150px;
-  height: auto;
-  padding: 5px;
-}
-
-.image-wrapper-a div {
-  margin-bottom: 5px;
-}
-
-.image-wrapper-a div:hover,
-#subcontextmenum div:hover,
-#subcontextmenud div:hover {
-  background-color: #f0f2fa;
-  cursor: default;
-}

@@ -1,38 +1,48 @@
-var createLabel = async function (map, geometry, area, id) {
+var createLabel = function (graphic, selector, name, text, reference) {
 
-    var rings = undefined
+    var point = new ESRI.Point()
+    var countSelector = countLayerBySelector(selector)
+    var countReference = countLayerBySelector(reference) - 1
 
-    await getProjectionGeometryPoint(geometry, "3857", "4326").then(function (results) {
-        rings = results
-    })
+    if (checkOrderNumbersId(getLayerViewByGraphicsTypeAndSelector("text", selector)).length > 0) {
+        countSelector = checkOrderNumbersId(getLayerViewByGraphicsTypeAndSelector("text", selector))[0]
+    }
+    if (checkOrderNumbersReference(getLayerViewByGraphicsTypeAndTypeReference("text", reference)).length > 0) {
+        countReference = checkOrderNumbersReference(getLayerViewByGraphicsTypeAndTypeReference("text", reference))[0]
+    }
 
-    geometry.longitude = rings[0]["x"]
-    geometry.latitude = rings[0]["y"]
+    console.log(countSelector)
+    console.log(countReference)
 
-    var graphic = new ESRI.Graphic({
-        geometry: geometry,
+    if (reference == "buffer" || reference == "search" || reference == "polygon") {
+        point.latitude = graphic.centroid.latitude
+        point.longitude = graphic.centroid.longitude
+    } else if (reference == "marker") {
+        point.latitude = graphic.latitude
+        point.longitude = graphic.longitude
+    } else if (reference == "polyline") {
+        point.latitude = graphic.extent.center.latitude
+        point.longitude = graphic.extent.center.longitude
+    }
+
+    var labelGraphic = new ESRI.Graphic({
+        geometry: point,
+        group: "text",
+        gType: "text",
+        reference: reference + "-" + countReference,
+        selector: selector,
+        name: name,
+        id: selector + "-" + countSelector,
         symbol: {
             type: "text",
             color: "black",
-            text: area,
-            horizontalAlignment: "left",
-            width: "auto",
-            xoffset: -50,
-            yoffset: 10,
+            text: text,
             font: {
-                size: 5,
+                size: 10,
                 family: "sans-serif"
             }
-        },
-        visible: false
+        }
     });
 
-    var graphicsLayer = new ESRI.GraphicsLayer({
-        id: id
-    })
-    graphicsLayer.add(graphic)
-    groupLayerLabels.add(graphicsLayer)
-
-    sortID(map, "labels", id)
-    registerAttributes(map, "labels", "label-graphics", 0)
+    mapView.graphics.add(labelGraphic)
 }

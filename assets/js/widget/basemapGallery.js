@@ -1,4 +1,12 @@
-function addBasemaps() {
+function addNewBasemaps() {
+    //CORS Enabling for google basemaps
+    EsriConfig.request.corsEnabledServers
+        .push("mts0.google.com", "mts1.google.com", "mts2.google.com",
+            "mts3.google.com");
+
+    //Create empty array for collecting custom basemaps
+    var basemaps = []
+
     var googleHybrid = new ESRI.Basemap({
         baseLayers: [
             new ESRI.WebTileLayer({
@@ -83,8 +91,17 @@ function addBasemaps() {
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqCar2msY8b_GhiX2tOhpu0tNjSK8WCIo_rKL6Z9ir64Ero7bO&s"
     });
 
-    var bg = new ESRI.BasemapGallery({
-        view: mapView2,
+    //Push custom basemaps to variable basemaps
+    basemaps.push(googleHybrid, googleSatellite, googleStreetView, googleTerrain, googleTraffic, googleTransit)
+    //Return
+    return basemaps
+}
+
+function addBasemapGallery() {
+
+    //Add new object basemapGallery
+    var basemapGallery = new ESRI.BasemapGallery({
+        view: mapView,
         source: {
             portal: {
                 url: "https://www.arcgis.com",
@@ -93,15 +110,24 @@ function addBasemaps() {
         }
     })
 
-    bg.source.basemaps.items.push(googleHybrid, googleSatellite, googleStreetView, googleTerrain, googleTraffic, googleTransit)
+    //Get new custom basemaps
+    var basemaps = addNewBasemaps()
 
-    var bgExpand = new ESRI.Expand({
-        view: mapView2,
-        content: bg,
+    //Push each basemaps to the basemapGallery sources
+    for (let i = 0; i < basemaps.length; i++) {
+        basemapGallery.source.basemaps.items.push(basemaps[i])
+    }
+
+    //Insert basemapGallery to expand div
+    var basemapGalleryExpand = new ESRI.Expand({
+        view: mapView,
+        content: basemapGallery,
         collapseIconClass: "esri-icon-close"
     });
 
-    map2.basemap = googleHybrid
+    //Set starting basemap to mapView
+    map.basemap = basemaps[0]
 
-    mapView2.ui.add(bgExpand, "top-left")
+    //Add basemapGallery with its expand div
+    mapView.ui.add(basemapGalleryExpand, "top-left")
 }

@@ -1,0 +1,28 @@
+.graphicsList {
+  width: 200px;
+}
+
+.title-graphics {
+  color: white;
+  padding-left: 5px;
+}
+
+#current-point,
+#layers,
+#markers {
+  width: auto;
+  padding-left: 10px;
+}
+
+.remove-item,
+.visible-item,
+.edit-item {
+  font-size: 20px;
+  float: right;
+}
+
+.remove-item:hover,
+.visible-item:hover,
+.edit-item:hover {
+  cursor: pointer;
+}

@@ -142,7 +142,7 @@ var getExternalDataGraphics = function (map, res) {
     return res
 }
 
-var setPointing = function (map, points) {
+var setPointings = function (map, points) {
 
     var longitude = points[0]
     var latitude = points[1]

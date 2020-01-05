@@ -1,4 +1,4 @@
-var fillParameterDrivingTime = function (map) {
+function fillParameterDrivingTime() {
     let div = document.createElement("DIV")
     div.style.backgroundColor = "white"
     div.style.borderRadius = "10px"
@@ -7,16 +7,14 @@ var fillParameterDrivingTime = function (map) {
     div.style.height = "auto"
     div.style.fontWeight = "bold"
     div.id = "hold-driving-time"
-    div.innerHTML = "Start create polygon"
-    map.ObjMapView.ui.add(div, "bottom-left")
+    div.className = "screen-component-map"
+    mapView.ui.add(div, "bottom-left")
     $.get("assets/js/graphics/modals/createDrivingTime.html", function (data) {
         $(div).html(data);
     });
 }
 
-var processDrivingTime = function (map, longitude, latitude, unit, distance) {
-
-    $("#loading-bar").show()
+function processDrivingTime(longitude, latitude, unit, distance) {
 
     let gp = new ESRI.Geoprocessor({
         url: "http://tig.co.id/ags/rest/services/GP/DriveTime32223232/GPServer/DriveTime3"
@@ -31,44 +29,32 @@ var processDrivingTime = function (map, longitude, latitude, unit, distance) {
         'B_Values': distance
     }
 
-    gp.execute(driveTimeParams).then(async function (result) {
+    gp.execute(driveTimeParams).then(function (result) {
         let resultValue = result.results[0].value;
         let resultFeatures = resultValue.features;
         let resultGraphics = resultFeatures.map(function (feature) {
             feature.symbol = fillSymbol;
             return feature;
         });
-
-        let rings = undefined
-
-        await getProjectionPoint(JSON.stringify(resultGraphics[0].geometry.rings[0]), "3857", "4326").then(function (results) {
-            rings = results
-        })
-
-        var polygon = {
-            type: "polygon",
-            rings: rings
-        };
-
-        var fillSymbol = defaultSymbolGraphics()
-
-        var template = {}
-
-        var polygonGraphic = new ESRI.Graphic({
-            geometry: polygon,
-            geometry_3857: resultGraphics[0].geometry,
-            symbol: fillSymbol,
-            popupTemplate: template
-        });
-
-        var graphicsLayer = new ESRI.GraphicsLayer({
-            id: "drive-time-"
-        })
-        graphicsLayer.add(polygonGraphic)
-        groupLayerDrivingTime.add(graphicsLayer)
-        sortID(map, "driving-time", "drive-time-")
-        registerAttributes(map, "driving-time", "drivetime-graphics", 0)
-        $("#loading-bar").hide()
-        $("#hold-driving-time").remove()
+        console.log(resultGraphics)
     });
 }
+
+$(document).delegate(".select-driving-mini", "change", function () {
+    inputFilter()
+    if ($(this).val() == "3") {
+        $(".driving-historical-mini").show()
+    } else {
+        $(".driving-historical-mini").hide()
+    }
+})
+
+$(document).delegate(".btn-create-drive-time-mini", "click", function () {
+    var distance = $(".distance-time-mini").val()
+    var unit = $(".select-unit-time-mini").val()
+    processDrivingTime(mapView.extent.center.longitude, mapView.extent.center.latitude, unit, distance)
+})
+
+$(document).delegate("#close-driving-time", "click", function () {
+    $(".driving-time").remove()
+})

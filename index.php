@@ -66,6 +66,9 @@
     <!-- Load other HTML -->
     <script>
         $(function() {
+            $.get("assets/js/widget/marker/fillDataMarker.html", function(data) {
+                $("#includedContent").append(data);
+            });
             $.get("assets/js/geohash/inputGeohash.html", function(data) {
                 $("#includedContent").append(data);
             });
@@ -700,24 +703,6 @@
                                 </td>
                             </tr>
                         </table>
-                        <!-- <table class="table-property">
-                                <tr>
-                                    <td style="height:26px;">
-                                        <div class="title-property">
-                                            <p><b>BUFFER</b></p>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <table class="table-property">
-                                <tr>
-                                    <td>Set Radius</td>
-                                    <td>
-                                        <input id="buffer-radius" type="range" min="1" max="100" value="0">
-                                    </td>
-                                    <td id="buffer-radius-value"></td>
-                                </tr>
-                            </table> -->
                         <table class="table-property button-filter-table">
                             <tr>
                                 <td>
@@ -743,111 +728,6 @@
                             </tr>
                         </table>
                     </li>
-                    <!-- <li style="display:none">
-                            <div style="margin-top:2px;" class="property-status-items checkbox checkbox-circle checkbox-info">
-                                <input id="checkbox-colliers-property" class="styled" type="checkbox" value="colliers-property">
-                                <label for="checkbox-colliers-property"><span></span>
-                                    Colliers Property
-                                </label>
-                            </div>
-                            <ul id="colliers-custom-data-user">
-                                <li style="margin-left:20px; display:none" class="tree-custom-data-locatorlogic" value="Locator Logic">
-                                    <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                    <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                                    <label for="custom-data-master-select-all-poi" class="label-custom-data">Locator Logic</label>
-                                    <ul id="custom-data-user">
-                                        <li class="tree-database" style="display:none">
-                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                            <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                                            <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                            <div id="locatorlogic-user-database"></div>
-                                        </li>
-                                        <li class="tree-localstorage" style="display:none">
-                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                            <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                                            <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                            <div id="locatorlogic-user-localstorage"></div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li style="margin-left:20px; display:none" class="tree-custom-data-residential" value="Residential">
-                                    <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                    <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                                    <label for="custom-data-master-select-all-poi" class="label-custom-data">Residential</label>
-                                    <ul id="custom-data-user">
-                                        <li class="tree-database" style="display:none">
-                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                            <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                                            <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                            <div id="residential-user-database"></div>
-                                        </li>
-                                        <li class="tree-localstorage" style="display:none">
-                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                            <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                                            <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                            <div id="residential-user-localstorage"></div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li style="margin-left:20px; display:none" class="tree-custom-data-office" value="Office">
-                                    <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                    <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                                    <label for="custom-data-master-select-all-poi" class="label-custom-data">Office</label>
-                                    <ul id="custom-data-user">
-                                        <li class="tree-database" style="display:none">
-                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                            <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                                            <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                            <div id="office-user-database"></div>
-                                        </li>
-                                        <li class="tree-localstorage" style="display:none">
-                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                            <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                                            <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                            <div id="office-user-localstorage"></div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li style="margin-left:20px; display:none" class="tree-custom-data-industrial" value="Industrial">
-                                    <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                    <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                                    <label for="custom-data-master-select-all-poi" class="label-custom-data">Industrial</label>
-                                    <ul id="custom-data-user">
-                                        <li class="tree-database" style="display:none">
-                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                            <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                                            <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                            <div id="industrial-user-database"></div>
-                                        </li>
-                                        <li class="tree-localstorage" style="display:none">
-                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                            <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                                            <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                            <div id="industrial-user-localstorage"></div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li style="margin-left:20px; display:none" class="tree-custom-data-investment" value="Investment">
-                                    <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                    <input type="checkbox" name="custom-data-master-select-all-poi" class="custom-data-master-select-all-poi">
-                                    <label for="custom-data-master-select-all-poi" class="label-custom-data">Investment & Advisory</label>
-                                    <ul id="custom-data-user">
-                                        <li class="tree-database" style="display:none">
-                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                            <input type="checkbox" name="database-master-select-all-poi" class="database-master-select-all-poi">
-                                            <label for="database-master-select-all-poi" class="label-database">Database</label>
-                                            <div id="investment-user-database"></div>
-                                        </li>
-                                        <li class="tree-localstorage" style="display:none">
-                                            <i style="margin-top:-5px;" class="mi-play-arrow rotate i-tree"></i>
-                                            <input type="checkbox" name="localstorage-master-select-all-poi" class="localstorage-master-select-all-poi">
-                                            <label for="localstorage-master-select-all-poi" class="label-localstorage">Web Storage</label>
-                                            <div id="investment-user-localstorage"></div>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li> -->
                     <li>
                         <table style="display:none;" class="table-property" id="table-external-data"></table>
                     </li>
@@ -980,10 +860,22 @@
 <script src="assets/js/loading/loading.js"></script>
 <!--End of loading -->
 
+<!-- Target -->
+<script src="assets/js/target/target.js"></script>
+<script src="assets/js/target/resizeSensor.js"></script>
+<!-- End of Target -->
+
 <!-- Widget -->
 <script src="assets/js/widget/search.js"></script>
 <script src="assets/js/widget/basemapGallery.js"></script>
 <script src="assets/js/widget/locate.js"></script>
+<script src="assets/js/widget/pointing.js"></script>
+<link rel="stylesheet" href="assets/js/widget/pointing/pointing.css">
+<script src="assets/js/widget/clear.js"></script>
+<script src="assets/js/widget/graphicsList.js"></script>
+<link rel="stylesheet" href="assets/js/widget/graphicsList/graphicsList.css">
+<link rel="stylesheet" href="assets/js/widget/polygons/polygons.css">
+<script src="assets/js/widget/search.js"></script>
 <!-- End of widget -->
 
 <!-- Legend -->
@@ -997,6 +889,10 @@
 <!-- Style -->
 <script src="assets/js/style/style.js"></script>
 <!-- End of style -->
+
+<!-- String -->
+<script src="assets/js/strings/string.js"></script>
+<!-- End of String -->
 
 <!-- Jquery own function -->
 <script src="assets/js/jqueryOwnFunction/jqueryOwnFunction.js"></script>
@@ -1033,8 +929,6 @@
 <!-- End of LocalStorage -->
 
 <!-- Graphics -->
-<link rel="stylesheet" href="assets/js/graphics/slider/slider.css">
-<script src="assets/js/graphics/slider/slider.js"></script>
 <script src="assets/js/graphics/selectGraphics.js"></script>
 <script src="assets/js/graphics/displayResultsGraphics.js"></script>
 <script src="assets/js/graphics/removeGraphics.js"></script>
@@ -1043,12 +937,15 @@
 <script src="assets/js/graphics/createDrivingTime.js"></script>
 <script src="assets/js/graphics/createDrivingDistance.js"></script>
 <script src="assets/js/graphics/createPoint.js"></script>
+<script src="assets/js/graphics/createMark.js"></script>
 <script src="assets/js/graphics/createPolygon.js"></script>
+<script src="assets/js/graphics/createPolyline.js"></script>
 <script src="assets/js/graphics/createRectangle.js"></script>
 <script src="assets/js/graphics/createSketch.js"></script>
 <script src="assets/js/graphics/createLabel.js"></script>
 <script src="assets/js/graphics/createLabelSearch.js"></script>
 <script src="assets/js/graphics/getGraphicsInfo.js"></script>
+<script src="assets/js/graphics/pointing/pointing.js"></script>
 <!-- End of Graphics -->
 
 <!-- Roles -->
@@ -1060,20 +957,29 @@
 <!-- End of Registers for layer -->
 
 <!-- Map Action -->
-<script src="assets/js/mapView/mapView.js"></script>
+<script src="assets/js/mapView/click.js"></script>
+<script src="assets/js/mapView/when.js"></script>
 <!-- End of Map Action -->
 
+<!-- Locator Logic -->
 <!-- Context Menu Action -->
-<script src="assets/js/contextMenu/contextMenu.js"></script>
-<script src="assets/js/contextMenu/removePointer.js"></script>
-<script src="assets/js/contextMenu/action/action.js"></script>
-<script src="assets/js/contextMenu/analyze/analyze.js"></script>
-<link rel="stylesheet" href="assets/js/contextMenu/action/popup/result/viewPopupAnalyzed.css">
-<link rel="stylesheet" href="assets/js/contextMenu/action/popup/result/subViewPopupAnalyzed.css">
-<link rel="stylesheet" href="assets/js/contextMenu/action/popup/config/configPopup.css">
-<script src="assets/js/contextMenu/measurement/measurement.js"></script>
-<script src="assets/js/contextMenu/hover/hover.js"></script>
+<script src="assets/js/locatorlogic/contextMenu/contextMenu.js"></script>
+<script src="assets/js/locatorlogic/contextMenu/click.js"></script>
+<link rel="stylesheet" href="assets/js/locatorlogic/contextMenu/contextMenu.css">
+<script src="assets/js/locatorlogic/contextMenu/removePointer.js"></script>
+<script src="assets/js/locatorlogic/contextMenu/action/action.js"></script>
+<script src="assets/js/locatorlogic/contextMenu/analyze/analyze.js"></script>
+<link rel="stylesheet" href="assets/js/locatorlogic/contextMenu/action/popup/result/viewPopupAnalyzed.css">
+<link rel="stylesheet" href="assets/js/locatorlogic/contextMenu/action/popup/result/subViewPopupAnalyzed.css">
+<link rel="stylesheet" href="assets/js/locatorlogic/contextMenu/action/popup/config/configPopup.css">
+<script src="assets/js/locatorlogic/contextMenu/measurement/measurement.js"></script>
 <!-- End of Context Menu Action -->
+<!-- End Of Locator Logic -->
+
+<!-- Colliers -->
+<link rel="stylesheet" href="assets/js/colliers/slider/slider.css">
+<script src="assets/js/colliers/slider/slider.js"></script>
+<!-- End Of Colliers -->
 
 <!-- Geometry Services -->
 <script src="assets/js/geometryServiceAPI/geometryServiceAPI.js"></script>
@@ -1115,10 +1021,9 @@
 <script src="assets/js/features/features.js"></script>
 <!-- End of Features -->
 
-<!-- Target -->
-<script src="assets/js/target/target.js"></script>
-<script src="assets/js/target/resizeSensor.js"></script>
-<!-- End of Target -->
+<!-- Departments -->
+<script src="assets/js/colliers/colliers.js"></script>
+<!-- End Of Departments -->
 
 <script src="assets/logout.js"></script>
 

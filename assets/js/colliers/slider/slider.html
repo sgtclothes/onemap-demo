@@ -1,0 +1,60 @@
+<div>
+  <div style="display: inline-block; width:100%;">
+    <select style="height: 26px; width: 100%; padding: 0px; margin: 0px;" name="analyze" class="analyze-polygon">
+      <option value="buffer">Buffer</option>
+      <option value="driving-time">Driving Time</option>
+      <option value="driving-distance">Driving Distance</option>
+    </select>
+  </div>
+  <div class="text-center">
+    <div style="display: inline-block;">Name :</div>
+    <div
+      contenteditable="true"
+      id="name-buffer"
+      style="display: inline-block;"
+    >buffer</div>
+  </div>
+  <div class="text-center">
+    <div
+      contenteditable="true"
+      class="live-long"
+      style="display: inline-block;"
+    ></div>
+    <div style="display: inline-block;">,</div>
+    <div
+      contenteditable="true"
+      class="live-lat"
+      style="display: inline-block;"
+    ></div>
+  </div>
+  <div class="text-center">
+    <div style="display: inline-block;">
+      Radius :
+    </div>
+    <div
+      id="slider-buffer-radius"
+      style="display: inline-block;"
+      contenteditable="true"
+      class="text-center"
+    >0</div>
+    <div style="display: inline-block;" class="text-center">km</div>
+  </div>
+  <div class="text-center">
+    <div style="display: inline-block;">
+      Area :
+    </div>
+    <div
+      id="slider-buffer-area"
+      style="display: inline-block;"
+      contenteditable="true"
+      class="text-center"
+    >0</div>
+    <div style="display: inline-block;" class="text-center">km²</div>
+  </div>
+  <div>
+    <input style="width: 200px;" id="slider-radius" type="range" min="0" max="100" value="0" />
+    <button id="slider-radius-submit" type="button" class="btn btn-primary">
+      OK
+    </button>
+  </div>
+</div>

@@ -97,9 +97,9 @@ var getProjectionPoint = async function (points, inSR, outSR) {
 }
 
 var getProjectionGeometryPoint = async function (points, inSR, outSR) {
-    var projectedPoints = []
+    var results = undefined
     var url = "https://gis.locatorlogic.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/project"
-    var layersRequest = {
+    var data = {
         query: {
             f: "json",
             inSR: inSR,
@@ -109,11 +109,15 @@ var getProjectionGeometryPoint = async function (points, inSR, outSR) {
         responseType: "json",
         usePost: true
     };
+
     await EsriRequest(
         url,
-        layersRequest
+        data
     ).then(function (response) {
-        projectedPoints.push(response.data.geometries[0])
-    });
-    return projectedPoints
+        results = response
+    }).catch(function (err) {
+        results = undefined
+    })
+
+    return results
 }
